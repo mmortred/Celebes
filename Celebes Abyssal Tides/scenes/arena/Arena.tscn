@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://dq75c3ikmm4s4"]
 
-[ext_resource type="PackedScene" uid="uid://bt6wpnhu2gy5r" path="res://scenes/arena/CoralBarrier.tscn" id="1_or6f2"]
+[ext_resource type="PackedScene" uid="uid://bckjlcrn7sobi" path="res://scenes/arena/CoralBarrier.tscn" id="1_or6f2"]
 [ext_resource type="Texture2D" uid="uid://4q335xxs2p" path="res://icon.svg" id="2_dm0lm"]
-[ext_resource type="PackedScene" uid="uid://d1w5ccem33kle" path="res://scenes/player/Player.tscn" id="3_dm0lm"]
+[ext_resource type="PackedScene" uid="uid://b15bynslw4646" path="res://scenes/player/Player.tscn" id="3_dm0lm"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_etbs0"]
 texture = ExtResource("2_dm0lm")

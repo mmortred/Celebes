@@ -1,5 +1,7 @@
 Celebes Abbysal Tides
 
+Filler.txt files are only fillers inside empty folders so that Git will track and push them to GitHub. Ma delete tu
+
 Controls:
 "WASD" : Move Character
 "SpaceBar" : Dash
