@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://d1w5ccem33kle"]
+
+[ext_resource type="Script" uid="uid://bigahcgeobwf2" path="res://scripts/player/player.gd" id="1_8afob"]
+[ext_resource type="Texture2D" uid="uid://4q335xxs2p" path="res://icon.svg" id="2_dovo2"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cmd4b"]
+
+[node name="Player" type="CharacterBody2D" unique_id=447082359]
+input_pickable = true
+script = ExtResource("1_8afob")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=152483321]
+texture = ExtResource("2_dovo2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1509811323]
+shape = SubResource("CapsuleShape2D_cmd4b")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=281208494]
