@@ -1,8 +1,9 @@
 [gd_scene format=3 uid="uid://dq75c3ikmm4s4"]
 
+[ext_resource type="Script" uid="uid://bqs6dbi2lcvsa" path="res://scripts/arena/arena.gd" id="1_etbs0"]
 [ext_resource type="PackedScene" uid="uid://bckjlcrn7sobi" path="res://scenes/arena/CoralBarrier.tscn" id="1_or6f2"]
 [ext_resource type="Texture2D" uid="uid://4q335xxs2p" path="res://icon.svg" id="2_dm0lm"]
-[ext_resource type="PackedScene" uid="uid://b15bynslw4646" path="res://scenes/player/Player.tscn" id="3_dm0lm"]
+[ext_resource type="PackedScene" uid="uid://b15bynslw4646" path="res://scenes/player/player.tscn" id="3_dm0lm"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_etbs0"]
 texture = ExtResource("2_dm0lm")
@@ -79,6 +80,7 @@ sources/2 = SubResource("TileSetAtlasSource_etbs0")
 radius = 69.53
 
 [node name="Arena" type="Node2D" unique_id=1139679987]
+script = ExtResource("1_etbs0")
 
 [node name="CoralBarriers" type="Node2D" parent="." unique_id=1833884914]
 
@@ -96,7 +98,7 @@ tile_set = SubResource("TileSet_dkjyk")
 [node name="ClamSpawner" type="Area2D" parent="." unique_id=448138373]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ClamSpawner" unique_id=1275876508]
-position = Vector2(-94, -5)
+position = Vector2(-9, -44)
 shape = SubResource("CircleShape2D_ma018")
 
 [node name="TeamLeftSpawns" type="Node2D" parent="." unique_id=634953856]
@@ -116,4 +118,4 @@ shape = SubResource("CircleShape2D_ma018")
 [node name="SpawnPointR3" type="Marker2D" parent="TeamRightSpawns" unique_id=395792289]
 
 [node name="Player" parent="." unique_id=447082359 instance=ExtResource("3_dm0lm")]
-position = Vector2(253, 0)
+position = Vector2(109, -39)
