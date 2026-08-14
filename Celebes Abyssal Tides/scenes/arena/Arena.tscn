@@ -1,0 +1,119 @@
+[gd_scene format=3 uid="uid://dq75c3ikmm4s4"]
+
+[ext_resource type="PackedScene" uid="uid://bt6wpnhu2gy5r" path="res://scenes/arena/CoralBarrier.tscn" id="1_or6f2"]
+[ext_resource type="Texture2D" uid="uid://4q335xxs2p" path="res://icon.svg" id="2_dm0lm"]
+[ext_resource type="PackedScene" uid="uid://d1w5ccem33kle" path="res://scenes/player/Player.tscn" id="3_dm0lm"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_etbs0"]
+texture = ExtResource("2_dm0lm")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+7:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+6:1/0 = 0
+7:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+6:2/0 = 0
+7:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+4:3/0 = 0
+5:3/0 = 0
+6:3/0 = 0
+7:3/0 = 0
+0:4/0 = 0
+1:4/0 = 0
+2:4/0 = 0
+3:4/0 = 0
+4:4/0 = 0
+5:4/0 = 0
+6:4/0 = 0
+7:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+2:5/0 = 0
+3:5/0 = 0
+4:5/0 = 0
+5:5/0 = 0
+6:5/0 = 0
+7:5/0 = 0
+0:6/0 = 0
+1:6/0 = 0
+2:6/0 = 0
+3:6/0 = 0
+4:6/0 = 0
+5:6/0 = 0
+6:6/0 = 0
+7:6/0 = 0
+0:7/0 = 0
+1:7/0 = 0
+2:7/0 = 0
+3:7/0 = 0
+4:7/0 = 0
+5:7/0 = 0
+6:7/0 = 0
+7:7/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_dkjyk"]
+physics_layer_0/collision_layer = 1
+sources/2 = SubResource("TileSetAtlasSource_etbs0")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ma018"]
+radius = 69.53
+
+[node name="Arena" type="Node2D" unique_id=1139679987]
+
+[node name="CoralBarriers" type="Node2D" parent="." unique_id=1833884914]
+
+[node name="CoralBarriers1" parent="CoralBarriers" unique_id=290683446 instance=ExtResource("1_or6f2")]
+
+[node name="CoralBarriers2" parent="CoralBarriers" unique_id=653520355 instance=ExtResource("1_or6f2")]
+
+[node name="TileMap" type="TileMapLayer" parent="." unique_id=646402075]
+tile_set = SubResource("TileSet_dkjyk")
+
+[node name="DropZone1" type="Marker2D" parent="." unique_id=662891314]
+
+[node name="DropZone2" type="Marker2D" parent="." unique_id=644607118]
+
+[node name="ClamSpawner" type="Area2D" parent="." unique_id=448138373]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ClamSpawner" unique_id=1275876508]
+position = Vector2(-94, -5)
+shape = SubResource("CircleShape2D_ma018")
+
+[node name="TeamLeftSpawns" type="Node2D" parent="." unique_id=634953856]
+
+[node name="SpawnPointL1" type="Marker2D" parent="TeamLeftSpawns" unique_id=72071672]
+
+[node name="SpawnPointL2" type="Marker2D" parent="TeamLeftSpawns" unique_id=218424880]
+
+[node name="SpawnPointL3" type="Marker2D" parent="TeamLeftSpawns" unique_id=994713935]
+
+[node name="TeamRightSpawns" type="Node2D" parent="." unique_id=1545679681]
+
+[node name="SpawnPointR1" type="Marker2D" parent="TeamRightSpawns" unique_id=1301084053]
+
+[node name="SpawnPointR2" type="Marker2D" parent="TeamRightSpawns" unique_id=1247256835]
+
+[node name="SpawnPointR3" type="Marker2D" parent="TeamRightSpawns" unique_id=395792289]
+
+[node name="Player" parent="." unique_id=447082359 instance=ExtResource("3_dm0lm")]
+position = Vector2(253, 0)
