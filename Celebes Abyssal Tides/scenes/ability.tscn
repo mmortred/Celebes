@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cmn5fybdajq1w"]
+
+[ext_resource type="Script" uid="uid://h1uqpuqc2dyw" path="res://scripts/abilities/ability.gd" id="1_bjqj0"]
+
+[node name="AbilityComponent" type="Node" unique_id=1787946402]
+script = ExtResource("1_bjqj0")
