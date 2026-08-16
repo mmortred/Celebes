@@ -7,6 +7,8 @@
 [ext_resource type="Script" uid="uid://bv4bqssapcd8f" path="res://scripts/abilities/bubble_strike.gd" id="5_p47bc"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cmd4b"]
+radius = 29.0
+height = 58.0
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_lvxji"]
 properties/0/path = NodePath(".:position")
@@ -18,9 +20,11 @@ input_pickable = true
 script = ExtResource("1_8afob")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=152483321]
+position = Vector2(0, -46)
 texture = ExtResource("2_dovo2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1509811323]
+position = Vector2(0, -17)
 shape = SubResource("CapsuleShape2D_cmd4b")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=281208494]
@@ -39,9 +43,10 @@ script = ExtResource("4_lvxji")
 replication_config = SubResource("SceneReplicationConfig_lvxji")
 
 [node name="Label" type="Label" parent="." unique_id=443958224]
-offset_left = -19.0
-offset_top = -91.0
-offset_right = 21.0
-offset_bottom = -68.0
-text = "ID: 1"
+offset_left = -138.0
+offset_top = -142.0
+offset_right = 139.0
+offset_bottom = -119.0
+text = "ID:"
 horizontal_alignment = 1
+vertical_alignment = 1

@@ -14,8 +14,9 @@ extends CharacterBody2D
 @onready var ultimate_ability: Node = $UltAbility
 @onready var label: Label = $Label
 
-var kelp_tile_count = 0 #important for overlapping kelp tiles if meron
-var is_in_kelp = false
+#kelp stuff
+var kelp_tile_count = 0
+var is_hidden_in_kelp = false
 var is_revealed_from_attack = false
 
 var print_timer = 0.0 #This is for the console to avoid print spam
@@ -68,11 +69,13 @@ func _physics_process(delta):
 	else:
 		print_timer = 0.0 #Reset when no key is pressed.
 	
-	# Ability controls
+	## Ability Controls
 	if Input.is_action_just_pressed("primary"):
 		primary_ability.request_use.rpc()
+		reveal_from_attack()
 	if Input.is_action_just_pressed("ultimate"):
 		ultimate_ability.request_use.rpc()
+		reveal_from_attack()
 
 	# Start a dash
 	if Input.is_action_just_pressed("dash"):
@@ -100,6 +103,7 @@ func start_dash():
 	is_dashing = true
 	dash_timer = dash_duration
 	dash_cooldown_timer = dash_cooldown
+	reveal_from_attack()
 	print("Dash started!")
 
 func dash_player(delta):
@@ -122,11 +126,21 @@ func exit_kelp():
 func _update_kelp_state():
 	var should_be_hidden = kelp_tile_count > 0 and not is_revealed_from_attack
 	if is_multiplayer_authority():
-		set_kelp_visibility.rpc(should_be_hidden)
+		set_kelp_state.rpc(should_be_hidden)
 
 @rpc("any_peer", "call_local")
-func set_kelp_visibility(hidden: bool):
-	modulate.a = 0.2 if hidden else 1.0
+func set_kelp_state(hidden: bool):
+	is_hidden_in_kelp = hidden
+	_apply_visibility()
+
+func _apply_visibility():
+	if is_hidden_in_kelp:
+		if is_multiplayer_authority():
+			modulate.a = 0.4
+		else:
+			modulate.a = 0.0
+	else:
+		modulate.a = 1.0
 
 func reveal_from_attack():
 	is_revealed_from_attack = true
@@ -134,3 +148,7 @@ func reveal_from_attack():
 	await get_tree().create_timer(1.5).timeout
 	is_revealed_from_attack = false
 	_update_kelp_state()
+
+@rpc("any_peer", "call_local")
+func set_kelp_visibility(hidden: bool):
+	modulate.a = 0.2 if hidden else 1.0

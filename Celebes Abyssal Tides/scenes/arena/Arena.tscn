@@ -144,30 +144,3 @@ y_sort_enabled = true
 
 [node name="Node2D2" parent="KelpZones" unique_id=1081455485 instance=ExtResource("4_etbs0")]
 position = Vector2(116, 9)
-
-[node name="Node2D3" parent="KelpZones" unique_id=1682156138 instance=ExtResource("4_etbs0")]
-position = Vector2(64, -47)
-
-[node name="Node2D4" parent="KelpZones" unique_id=823736953 instance=ExtResource("4_etbs0")]
-position = Vector2(2, -1)
-
-[node name="Node2D5" parent="KelpZones" unique_id=837038475 instance=ExtResource("4_etbs0")]
-position = Vector2(-50, -57)
-
-[node name="Node2D6" parent="KelpZones" unique_id=1848441080 instance=ExtResource("4_etbs0")]
-position = Vector2(78, -100)
-
-[node name="Node2D7" parent="KelpZones" unique_id=31305056 instance=ExtResource("4_etbs0")]
-position = Vector2(26, -156)
-
-[node name="Node2D8" parent="KelpZones" unique_id=808688828 instance=ExtResource("4_etbs0")]
-position = Vector2(18, 80)
-
-[node name="Node2D9" parent="KelpZones" unique_id=1093059534 instance=ExtResource("4_etbs0")]
-position = Vector2(-34, 24)
-
-[node name="Node2D10" parent="KelpZones" unique_id=587768260 instance=ExtResource("4_etbs0")]
-position = Vector2(202, -65)
-
-[node name="Node2D11" parent="KelpZones" unique_id=1003456076 instance=ExtResource("4_etbs0")]
-position = Vector2(150, -121)

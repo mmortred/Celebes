@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://c4jafmsek2qnb"]
 
 [ext_resource type="Script" uid="uid://cvggllxgwtja2" path="res://scripts/arena/kelp_area.gd" id="1_6t4s1"]
-[ext_resource type="Texture2D" uid="uid://c62rc8vco77ew" path="res://celebes-placeholder/Var3.PNG" id="1_cjvj2"]
+[ext_resource type="Texture2D" uid="uid://c62rc8vco77ew" path="res://placeholder_assets/Var3.PNG" id="1_cjvj2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cjvj2"]
 size = Vector2(137.5, 153)
