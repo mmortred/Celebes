@@ -81,6 +81,7 @@ radius = 69.53
 
 [node name="Arena" type="Node2D" unique_id=1139679987]
 y_sort_enabled = true
+position = Vector2(29, -64)
 script = ExtResource("1_etbs0")
 
 [node name="CoralBarriers" type="Node2D" parent="." unique_id=1833884914]
@@ -144,3 +145,5 @@ y_sort_enabled = true
 
 [node name="Node2D2" parent="KelpZones" unique_id=1081455485 instance=ExtResource("4_etbs0")]
 position = Vector2(116, 9)
+[node name="Player" parent="." unique_id=447082359 instance=ExtResource("3_dm0lm")]
+position = Vector2(94, 42)
