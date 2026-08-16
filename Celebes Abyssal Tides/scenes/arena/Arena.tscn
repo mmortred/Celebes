@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://dq75c3ikmm4s4"]
 
+[ext_resource type="PackedScene" uid="uid://<b15bynslw4646>" path="res://scenes/player/player.tscn" id="3_dm0lm"]
 [ext_resource type="Script" uid="uid://bqs6dbi2lcvsa" path="res://scripts/arena/arena.gd" id="1_etbs0"]
 [ext_resource type="PackedScene" uid="uid://bckjlcrn7sobi" path="res://scenes/arena/CoralBarrier.tscn" id="1_or6f2"]
 [ext_resource type="Texture2D" uid="uid://4q335xxs2p" path="res://icon.svg" id="2_dm0lm"]
