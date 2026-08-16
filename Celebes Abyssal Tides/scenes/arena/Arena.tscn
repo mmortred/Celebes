@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://bqs6dbi2lcvsa" path="res://scripts/arena/arena.gd" id="1_etbs0"]
 [ext_resource type="PackedScene" uid="uid://bckjlcrn7sobi" path="res://scenes/arena/CoralBarrier.tscn" id="1_or6f2"]
 [ext_resource type="Texture2D" uid="uid://4q335xxs2p" path="res://icon.svg" id="2_dm0lm"]
-[ext_resource type="PackedScene" uid="uid://b15bynslw4646" path="res://scenes/player/player.tscn" id="3_dm0lm"]
+[ext_resource type="PackedScene" uid="uid://c4jafmsek2qnb" path="res://scenes/arena/KelpTest.tscn" id="4_etbs0"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_etbs0"]
 texture = ExtResource("2_dm0lm")
@@ -80,42 +80,94 @@ sources/2 = SubResource("TileSetAtlasSource_etbs0")
 radius = 69.53
 
 [node name="Arena" type="Node2D" unique_id=1139679987]
+y_sort_enabled = true
 script = ExtResource("1_etbs0")
 
 [node name="CoralBarriers" type="Node2D" parent="." unique_id=1833884914]
+position = Vector2(2, -131)
 
 [node name="CoralBarriers1" parent="CoralBarriers" unique_id=290683446 instance=ExtResource("1_or6f2")]
+position = Vector2(-479, 160)
 
 [node name="CoralBarriers2" parent="CoralBarriers" unique_id=653520355 instance=ExtResource("1_or6f2")]
+position = Vector2(664, 152)
 
 [node name="TileMap" type="TileMapLayer" parent="." unique_id=646402075]
 tile_set = SubResource("TileSet_dkjyk")
 
 [node name="DropZone1" type="Marker2D" parent="." unique_id=662891314]
+position = Vector2(220, -43)
 
 [node name="DropZone2" type="Marker2D" parent="." unique_id=644607118]
+position = Vector2(-105, -37)
 
 [node name="ClamSpawner" type="Area2D" parent="." unique_id=448138373]
+position = Vector2(70, 152)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ClamSpawner" unique_id=1275876508]
-position = Vector2(-9, -44)
+position = Vector2(-4, 52)
 shape = SubResource("CircleShape2D_ma018")
 
 [node name="TeamLeftSpawns" type="Node2D" parent="." unique_id=634953856]
+position = Vector2(-125, 165)
 
 [node name="SpawnPointL1" type="Marker2D" parent="TeamLeftSpawns" unique_id=72071672]
+position = Vector2(-91, 62)
 
 [node name="SpawnPointL2" type="Marker2D" parent="TeamLeftSpawns" unique_id=218424880]
+position = Vector2(-132, 132)
 
 [node name="SpawnPointL3" type="Marker2D" parent="TeamLeftSpawns" unique_id=994713935]
+position = Vector2(-12, -70)
 
 [node name="TeamRightSpawns" type="Node2D" parent="." unique_id=1545679681]
+position = Vector2(-340, 0)
 
 [node name="SpawnPointR1" type="Marker2D" parent="TeamRightSpawns" unique_id=1301084053]
+position = Vector2(6, 107)
 
 [node name="SpawnPointR2" type="Marker2D" parent="TeamRightSpawns" unique_id=1247256835]
+position = Vector2(848, -30)
 
 [node name="SpawnPointR3" type="Marker2D" parent="TeamRightSpawns" unique_id=395792289]
+position = Vector2(167, -25)
 
-[node name="Player" parent="." unique_id=447082359 instance=ExtResource("3_dm0lm")]
-position = Vector2(109, -39)
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=669030823]
+_spawnable_scenes = PackedStringArray("uid://b15bynslw4646")
+spawn_path = NodePath("../Players")
+
+[node name="Players" type="Node2D" parent="." unique_id=608096496]
+y_sort_enabled = true
+
+[node name="KelpZones" type="Node2D" parent="." unique_id=1153053186]
+y_sort_enabled = true
+
+[node name="Node2D2" parent="KelpZones" unique_id=1081455485 instance=ExtResource("4_etbs0")]
+position = Vector2(116, 9)
+
+[node name="Node2D3" parent="KelpZones" unique_id=1682156138 instance=ExtResource("4_etbs0")]
+position = Vector2(64, -47)
+
+[node name="Node2D4" parent="KelpZones" unique_id=823736953 instance=ExtResource("4_etbs0")]
+position = Vector2(2, -1)
+
+[node name="Node2D5" parent="KelpZones" unique_id=837038475 instance=ExtResource("4_etbs0")]
+position = Vector2(-50, -57)
+
+[node name="Node2D6" parent="KelpZones" unique_id=1848441080 instance=ExtResource("4_etbs0")]
+position = Vector2(78, -100)
+
+[node name="Node2D7" parent="KelpZones" unique_id=31305056 instance=ExtResource("4_etbs0")]
+position = Vector2(26, -156)
+
+[node name="Node2D8" parent="KelpZones" unique_id=808688828 instance=ExtResource("4_etbs0")]
+position = Vector2(18, 80)
+
+[node name="Node2D9" parent="KelpZones" unique_id=1093059534 instance=ExtResource("4_etbs0")]
+position = Vector2(-34, 24)
+
+[node name="Node2D10" parent="KelpZones" unique_id=587768260 instance=ExtResource("4_etbs0")]
+position = Vector2(202, -65)
+
+[node name="Node2D11" parent="KelpZones" unique_id=1003456076 instance=ExtResource("4_etbs0")]
+position = Vector2(150, -121)
