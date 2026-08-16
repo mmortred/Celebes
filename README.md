@@ -3,9 +3,10 @@ Celebes Abbysal Tides
 Filler.txt files are only fillers inside empty folders so that Git will track and push them to GitHub. Ma delete tu
 
 Controls:
-"WASD" : Move Character
-"SpaceBar" : Dash
-
+"WASD"        : Move Character
+"SpaceBar"    : Dash
+"E"           : Primary
+"R"           : Ult
 
 Development Progress:
 STAGE 1: Top-Down Player Movement + Universal Dash
@@ -43,7 +44,7 @@ Stage 4 (incomplete): Ability System
 	*added Primary and Ultimate attack nodes to player.gd. These will hold the ability scripts.
 	*added also E and R for Primary and Ult respectively
 
-	add other abilities for character kits
+//add other abilities for character kits
 
 Stage 5: Kelp Zones
 	Scene: Kelptest.tscn -> root Node2D
