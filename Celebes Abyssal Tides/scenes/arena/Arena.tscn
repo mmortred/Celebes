@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://bqs6dbi2lcvsa" path="res://scripts/arena/arena.gd" id="1_etbs0"]
 [ext_resource type="PackedScene" uid="uid://bckjlcrn7sobi" path="res://scenes/arena/CoralBarrier.tscn" id="1_or6f2"]
 [ext_resource type="Texture2D" uid="uid://4q335xxs2p" path="res://icon.svg" id="2_dm0lm"]
-[ext_resource type="PackedScene" uid="uid://b15bynslw4646" path="res://scenes/player/player.tscn" id="3_dm0lm"]
+[ext_resource type="PackedScene" uid="uid://c4jafmsek2qnb" path="res://scenes/arena/KelpTest.tscn" id="4_etbs0"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_etbs0"]
 texture = ExtResource("2_dm0lm")
@@ -80,6 +80,7 @@ sources/2 = SubResource("TileSetAtlasSource_etbs0")
 radius = 69.53
 
 [node name="Arena" type="Node2D" unique_id=1139679987]
+y_sort_enabled = true
 position = Vector2(29, -64)
 script = ExtResource("1_etbs0")
 
@@ -132,5 +133,17 @@ position = Vector2(848, -30)
 [node name="SpawnPointR3" type="Marker2D" parent="TeamRightSpawns" unique_id=395792289]
 position = Vector2(167, -25)
 
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=669030823]
+_spawnable_scenes = PackedStringArray("uid://b15bynslw4646")
+spawn_path = NodePath("../Players")
+
+[node name="Players" type="Node2D" parent="." unique_id=608096496]
+y_sort_enabled = true
+
+[node name="KelpZones" type="Node2D" parent="." unique_id=1153053186]
+y_sort_enabled = true
+
+[node name="Node2D2" parent="KelpZones" unique_id=1081455485 instance=ExtResource("4_etbs0")]
+position = Vector2(116, 9)
 [node name="Player" parent="." unique_id=447082359 instance=ExtResource("3_dm0lm")]
 position = Vector2(94, 42)

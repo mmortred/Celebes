@@ -3,20 +3,50 @@
 [ext_resource type="Script" uid="uid://bigahcgeobwf2" path="res://scripts/player/player.gd" id="1_8afob"]
 [ext_resource type="Texture2D" uid="uid://4q335xxs2p" path="res://icon.svg" id="2_dovo2"]
 [ext_resource type="Script" uid="uid://dnqea0iwk7vao" path="res://scripts/components/health_component.gd" id="3_gmlin"]
+[ext_resource type="Script" uid="uid://cwn7gqg6ww0m" path="res://scripts/abilities/spear_thrust.gd" id="4_lvxji"]
+[ext_resource type="Script" uid="uid://bv4bqssapcd8f" path="res://scripts/abilities/bubble_strike.gd" id="5_p47bc"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cmd4b"]
+radius = 29.0
+height = 58.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_lvxji"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
 
 [node name="Player" type="CharacterBody2D" unique_id=447082359]
 input_pickable = true
 script = ExtResource("1_8afob")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=152483321]
+position = Vector2(0, -46)
 texture = ExtResource("2_dovo2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1509811323]
+position = Vector2(0, -17)
 shape = SubResource("CapsuleShape2D_cmd4b")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=281208494]
+position_smoothing_enabled = true
 
 [node name="HealthComponent" type="Node" parent="." unique_id=1331527619]
 script = ExtResource("3_gmlin")
+
+[node name="PrimaryAbility" type="Node" parent="." unique_id=1242958706]
+script = ExtResource("5_p47bc")
+
+[node name="UltAbility" type="Node" parent="." unique_id=1288726131]
+script = ExtResource("4_lvxji")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=809591080]
+replication_config = SubResource("SceneReplicationConfig_lvxji")
+
+[node name="Label" type="Label" parent="." unique_id=443958224]
+offset_left = -138.0
+offset_top = -142.0
+offset_right = 139.0
+offset_bottom = -119.0
+text = "ID:"
+horizontal_alignment = 1
+vertical_alignment = 1
