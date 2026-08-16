@@ -34,4 +34,21 @@ Stage 3: Arena and CoralBarriers
 
 	Scripts: *arena.gd attached to *Arena.tscn (randomized team spawner logic)
 		 *coral_barrier.gd attached to *CoralBarrier.tscn (barrier HP & destruction)
-		 
+
+Stage 4 (incomplete): Ability System 
+	Scene: ability.tscn -> root Node
+		-empty
+	Scripts: ability.gd -> base class for abilities
+			bubblestrike.gd; spearthrust.gd -> sample abilities inheriting from abilitiesbase; for now just prints
+	*added Primary and Ultimate attack nodes to player.gd. These will hold the ability scripts.
+	*added also E and R for Primary and Ult respectively
+
+	add other abilities for character kits
+
+Stage 5: Kelp Zones
+	Scene: Kelptest.tscn -> root Node2D
+		-Sprite2D
+		-Area2D
+		-kelp_area.gd attached -> calls functions if player has kelp functions
+	Script: kelp_area.gd
+			player.gd -> added functions for kelp hiding and showing. player will be briefly revealed when dashing or attacking
