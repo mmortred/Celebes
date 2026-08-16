@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://bdwfal4cg4y1s"]
+
+[ext_resource type="Script" uid="uid://xmjxdywnhhvh" path="res://scripts/components/lobby.gd" id="1_o1atq"]
+
+[node name="Lobby" type="Control" unique_id=1128363944]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_o1atq")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=297816887]
+layout_mode = 0
+offset_left = 524.0
+offset_top = 293.0
+offset_right = 634.0
+offset_bottom = 351.0
+
+[node name="HostButton" type="Button" parent="VBoxContainer" unique_id=102918217]
+layout_mode = 2
+text = "HOST GAME"
+
+[node name="IPLineEdit" type="LineEdit" parent="VBoxContainer" unique_id=876100968]
+layout_mode = 2
+text = "Input IP here"
+alignment = 1
+expand_to_text_length = true
+emoji_menu_enabled = false
+
+[node name="JoinButton" type="Button" parent="VBoxContainer" unique_id=1411873755]
+layout_mode = 2
+text = "JOIN GAME"

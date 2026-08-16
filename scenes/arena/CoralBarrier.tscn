@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://bckjlcrn7sobi"]
+
+[ext_resource type="Script" uid="uid://cfdnjajs8whh8" path="res://scripts/arena/coral_barrier.gd" id="1_e0adr"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1e16l"]
+
+[node name="CoralBarrier" type="StaticBody2D" unique_id=1839399453]
+script = ExtResource("1_e0adr")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=364438695]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1378960614]
+shape = SubResource("CircleShape2D_1e16l")
