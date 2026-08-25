@@ -42,7 +42,15 @@ Stage 4 (incomplete): Ability System
 	Scripts: ability.gd -> base class for abilities
 			bubblestrike.gd; spearthrust.gd -> sample abilities inheriting from abilitiesbase; for now just prints
 	*added Primary and Ultimate attack nodes to player.gd. These will hold the ability scripts.
-	*added also E and R for Primary and Ult respectively
+	*added also E and R for Primary and Ult, respectively.
+	
+	Multiplayer system (incomplete):
+		To use: 
+		Go to Debug -> multiple instances -> add 2 instances
+		Run lobby.tscn
+		On one instance click Host Game
+		On the other, enter nothing in the IP field and press Join Game
+		
 
 //add other abilities for character kits
 
@@ -53,3 +61,5 @@ Stage 5: Kelp Zones
 		-kelp_area.gd attached -> calls functions if player has kelp functions
 	Script: kelp_area.gd
 			player.gd -> added functions for kelp hiding and showing. player will be briefly revealed when dashing or attacking
+
+	
