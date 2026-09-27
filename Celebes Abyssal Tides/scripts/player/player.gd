@@ -28,6 +28,7 @@ var dash_cooldown_timer = 0.0
 
 func _enter_tree():
 	set_multiplayer_authority(int(str(name)))
+	add_to_group("players")
 
 func _ready():
 	label.text = "Player " + str(name)          # testing player ids
@@ -126,7 +127,15 @@ func exit_kelp():
 func _update_kelp_state():
 	var should_be_hidden = kelp_tile_count > 0 and not is_revealed_from_attack
 	if is_multiplayer_authority():
+		is_hidden_in_kelp = should_be_hidden
 		set_kelp_state.rpc(should_be_hidden)
+		_apply_visibility()  # update own screen
+		_refresh_other_players_visibility()
+
+func _refresh_other_players_visibility():
+	for player in get_tree().get_nodes_in_group("players"):
+		if player != self:
+			player._apply_visibility()
 
 @rpc("any_peer", "call_local")
 func set_kelp_state(hidden: bool):
@@ -134,13 +143,27 @@ func set_kelp_state(hidden: bool):
 	_apply_visibility()
 
 func _apply_visibility():
-	if is_hidden_in_kelp:
-		if is_multiplayer_authority():
-			modulate.a = 0.4
-		else:
-			modulate.a = 0.0
-	else:
+	print(name, " - authority: ", is_multiplayer_authority(), " - hidden: ", is_hidden_in_kelp)
+	if not is_hidden_in_kelp:
 		modulate.a = 1.0
+		return
+
+	if is_multiplayer_authority():
+		modulate.a = 0.4  # you can always see urself 
+		return
+
+	#checl if enemy is also in kelp
+	var local_player = _get_local_player()
+	if local_player and local_player.is_hidden_in_kelp:
+		modulate.a = 0.6  # visible to all in kelp
+	else:
+		modulate.a = 0.0  # fully invisible to anyone not in kelp
+
+func _get_local_player() -> Node:
+	for player in get_tree().get_nodes_in_group("players"):
+		if player.is_multiplayer_authority():
+			return player
+	return null
 
 func reveal_from_attack():
 	is_revealed_from_attack = true
