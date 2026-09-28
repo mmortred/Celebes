@@ -1,4 +1,4 @@
-extends AbilityBase
+extends ability_base
 class_name SpearThrust
 
 ## Just a sample ability

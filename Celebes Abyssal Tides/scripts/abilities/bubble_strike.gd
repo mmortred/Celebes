@@ -1,4 +1,4 @@
-extends AbilityBase
+extends ability_base
 class_name BubbleStrike
 
 ## Just a sample ability
