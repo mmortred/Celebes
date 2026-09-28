@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Celebes: Abyssal Tides"
-run/main_scene="uid://d1w5ccem33kle"
+run/main_scene="uid://bdwfal4cg4y1s"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 

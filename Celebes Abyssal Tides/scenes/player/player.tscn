@@ -1,11 +1,60 @@
 [gd_scene format=3 uid="uid://b15bynslw4646"]
 
-
 [ext_resource type="Script" uid="uid://bigahcgeobwf2" path="res://scripts/player/player.gd" id="1_8afob"]
-[ext_resource type="Texture2D" uid="uid://4q335xxs2p" path="res://icon.svg" id="2_dovo2"]
+[ext_resource type="Texture2D" uid="uid://ceor2skk4r7o" path="res://assets/sprite/Spear_guy_idle.png" id="2_p47bc"]
 [ext_resource type="Script" uid="uid://dnqea0iwk7vao" path="res://scripts/components/health_component.gd" id="3_gmlin"]
 [ext_resource type="Script" uid="uid://cwn7gqg6ww0m" path="res://scripts/abilities/spear_thrust.gd" id="4_lvxji"]
 [ext_resource type="Script" uid="uid://bv4bqssapcd8f" path="res://scripts/abilities/bubble_strike.gd" id="5_p47bc"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_75vfm"]
+atlas = ExtResource("2_p47bc")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0owmy"]
+atlas = ExtResource("2_p47bc")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qek5x"]
+atlas = ExtResource("2_p47bc")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5gtgg"]
+atlas = ExtResource("2_p47bc")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h17s1"]
+atlas = ExtResource("2_p47bc")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_je7p5"]
+atlas = ExtResource("2_p47bc")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1e16l"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_75vfm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0owmy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qek5x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5gtgg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h17s1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_je7p5")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cmd4b"]
 radius = 29.0
@@ -20,9 +69,10 @@ properties/0/replication_mode = 1
 input_pickable = true
 script = ExtResource("1_8afob")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=152483321]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=55903766]
 position = Vector2(0, -46)
-texture = ExtResource("2_dovo2")
+sprite_frames = SubResource("SpriteFrames_1e16l")
+frame_progress = 0.83563524
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1509811323]
 position = Vector2(0, -17)
