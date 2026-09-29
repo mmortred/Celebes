@@ -27,6 +27,23 @@ window/stretch/aspect="expand"
 [file_customization]
 
 folder_colors={
+"res://Celebes Abyssal Tides/assets/": "red",
+"res://Celebes Abyssal Tides/assets/audio/": "pink",
+"res://Celebes Abyssal Tides/assets/placeholder_assets/": "pink",
+"res://Celebes Abyssal Tides/assets/sprite/": "pink",
+"res://Celebes Abyssal Tides/scenes/": "red",
+"res://Celebes Abyssal Tides/scenes/arena/": "pink",
+"res://Celebes Abyssal Tides/scenes/player/": "pink",
+"res://Celebes Abyssal Tides/scenes/ui/": "pink",
+"res://Celebes Abyssal Tides/scenes/ui/lobby/": "pink",
+"res://Celebes Abyssal Tides/scenes/ui/menus/": "pink",
+"res://Celebes Abyssal Tides/scripts/": "red",
+"res://Celebes Abyssal Tides/scripts/abilities/": "pink",
+"res://Celebes Abyssal Tides/scripts/ai/": "pink",
+"res://Celebes Abyssal Tides/scripts/arena/": "pink",
+"res://Celebes Abyssal Tides/scripts/components/": "pink",
+"res://Celebes Abyssal Tides/scripts/player/": "pink",
+"res://Celebes Abyssal Tides/scripts/ui/": "pink",
 "res://assets/": "yellow",
 "res://scenes/": "red",
 "res://scripts/": "orange"
