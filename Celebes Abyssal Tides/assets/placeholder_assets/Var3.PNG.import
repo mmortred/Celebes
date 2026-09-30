@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://67fivlx11px4"
-path="res://.godot/imported/Spear_guy_idle.png-77de9adbc267587d91068ada4f141bc5.ctex"
+uid="uid://c62rc8vco77ew"
+path="res://.godot/imported/Var3.PNG-f2b350a39017420230d1543dfd96b65d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Celebes Abyssal Tides/assets/sprite/Spear_guy_idle.png"
-dest_files=["res://.godot/imported/Spear_guy_idle.png-77de9adbc267587d91068ada4f141bc5.ctex"]
+source_file="res://Celebes Abyssal Tides/assets/placeholder_assets/Var3.PNG"
+dest_files=["res://.godot/imported/Var3.PNG-f2b350a39017420230d1543dfd96b65d.ctex"]
 
 [params]
 
