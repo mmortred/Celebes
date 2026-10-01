@@ -27,10 +27,10 @@ stretch_mode = 6
 
 [node name="HostIpLabel" type="Label" parent="." unique_id=781583060]
 layout_mode = 0
-offset_left = 950.0
-offset_top = 56.0
-offset_right = 1101.0
-offset_bottom = 105.0
+offset_left = 553.0
+offset_top = 242.0
+offset_right = 704.0
+offset_bottom = 291.0
 text = "IP HERE: 192.168....
 "
 
@@ -46,16 +46,148 @@ offset_bottom = 225.0
 grow_vertical = 2
 
 [node name="SeaNomadSlot_0" parent="SeaNomads" unique_id=1825958047 instance=ExtResource("3_30ddx")]
-layout_mode = 0
+custom_minimum_size = Vector2(0, 0)
+layout_mode = 1
 offset_transform_enabled = true
-offset_transform_position = Vector2(40, 60)
 
 [node name="SeaNomadSlot_1" parent="SeaNomads" unique_id=793245042 instance=ExtResource("3_30ddx")]
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -76.0
+offset_right = 64.0
+offset_bottom = 76.0
+grow_horizontal = 2
+grow_vertical = 2
 offset_transform_enabled = true
-offset_transform_position = Vector2(160, 220)
 
 [node name="SeaNomadSlot_2" parent="SeaNomads" unique_id=1383350232 instance=ExtResource("3_30ddx")]
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -128.0
+offset_top = -152.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 0
+grow_vertical = 0
 offset_transform_enabled = true
-offset_transform_position = Vector2(280, 380)
+
+[node name="HostIpLabel" type="Label" parent="SeaNomads" unique_id=875486305]
+layout_mode = 0
+offset_left = 10.0
+offset_top = -34.0
+offset_right = 161.0
+offset_bottom = 15.0
+text = "SEA NOMADS"
+
+[node name="GarbageMonsters" type="Control" parent="." unique_id=279967888]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -490.0
+offset_top = -225.0
+offset_right = -40.0
+offset_bottom = 225.0
+grow_horizontal = 0
+grow_vertical = 2
+offset_transform_enabled = true
+
+[node name="MonsterSlot_3" parent="GarbageMonsters" unique_id=1920034226 instance=ExtResource("3_30ddx")]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -128.0
+offset_right = 0.0
+grow_horizontal = 0
+offset_transform_position = Vector2(-168, 300)
+
+[node name="MonsterSlot_4" parent="GarbageMonsters" unique_id=2004339222 instance=ExtResource("3_30ddx")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -76.0
+offset_right = 64.0
+offset_bottom = 76.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MonsterSlot_5" parent="GarbageMonsters" unique_id=1901112381 instance=ExtResource("3_30ddx")]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -152.0
+offset_bottom = 0.0
+grow_vertical = 0
+
+[node name="HostIpLabel" type="Label" parent="GarbageMonsters" unique_id=1841578905]
+layout_mode = 0
+offset_left = 313.0
+offset_top = -25.0
+offset_right = 464.0
+offset_bottom = 24.0
+text = "Garbage Monsters"
+
+[node name="GarbageMonsters" type="Control" parent="GarbageMonsters" unique_id=1186500017]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -748.0
+offset_top = -296.0
+offset_right = -452.0
+offset_bottom = -147.0
+grow_horizontal = 0
+grow_vertical = 2
+offset_transform_enabled = true
+
+[node name="Spectator_6" parent="GarbageMonsters/GarbageMonsters" unique_id=1425215736 instance=ExtResource("3_30ddx")]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -76.0
+offset_bottom = 76.0
+grow_vertical = 2
+offset_transform_position = Vector2(-168, 300)
+
+[node name="Spectator_7" parent="GarbageMonsters/GarbageMonsters" unique_id=2078271514 instance=ExtResource("3_30ddx")]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -76.0
+offset_right = 0.0
+offset_bottom = 76.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="HostIpLabel" type="Label" parent="GarbageMonsters/GarbageMonsters" unique_id=856661508]
+layout_mode = 0
+offset_left = 110.0
+offset_top = -28.0
+offset_right = 261.0
+offset_bottom = 21.0
+text = "Spectators
+"
