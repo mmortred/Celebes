@@ -1,64 +1,64 @@
 [gd_scene format=3 uid="uid://b15bynslw4646"]
 
-[ext_resource type="Script" uid="uid://bigahcgeobwf2" path="res://scripts/player/player.gd" id="1_8afob"]
-[ext_resource type="Texture2D" uid="uid://ceor2skk4r7o" path="res://assets/sprite/Spear_guy_idle.png" id="2_p47bc"]
-[ext_resource type="Script" uid="uid://dnqea0iwk7vao" path="res://scripts/components/health_component.gd" id="3_gmlin"]
-[ext_resource type="Script" uid="uid://cwn7gqg6ww0m" path="res://scripts/abilities/spear_thrust.gd" id="4_lvxji"]
-[ext_resource type="Script" uid="uid://bv4bqssapcd8f" path="res://scripts/abilities/bubble_strike.gd" id="5_p47bc"]
+[ext_resource type="Script" uid="uid://bigahcgeobwf2" path="res://Celebes Abyssal Tides/scripts/player/player.gd" id="1_8afob"]
+[ext_resource type="Texture2D" uid="uid://67fivlx11px4" path="res://Celebes Abyssal Tides/assets/sprite/Spear_guy_idle.png" id="2_pek5f"]
+[ext_resource type="Script" uid="uid://dnqea0iwk7vao" path="res://Celebes Abyssal Tides/scripts/components/health_component.gd" id="3_gmlin"]
+[ext_resource type="Script" uid="uid://cwn7gqg6ww0m" path="res://Celebes Abyssal Tides/scripts/abilities/spear_thrust.gd" id="4_lvxji"]
+[ext_resource type="Script" uid="uid://bv4bqssapcd8f" path="res://Celebes Abyssal Tides/scripts/abilities/bubble_strike.gd" id="5_p47bc"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_75vfm"]
-atlas = ExtResource("2_p47bc")
+[sub_resource type="AtlasTexture" id="AtlasTexture_wnllx"]
+atlas = ExtResource("2_pek5f")
 region = Rect2(0, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_0owmy"]
-atlas = ExtResource("2_p47bc")
+[sub_resource type="AtlasTexture" id="AtlasTexture_mb2se"]
+atlas = ExtResource("2_pek5f")
 region = Rect2(64, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_qek5x"]
-atlas = ExtResource("2_p47bc")
+[sub_resource type="AtlasTexture" id="AtlasTexture_xc8wo"]
+atlas = ExtResource("2_pek5f")
 region = Rect2(128, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_5gtgg"]
-atlas = ExtResource("2_p47bc")
+[sub_resource type="AtlasTexture" id="AtlasTexture_j7bn5"]
+atlas = ExtResource("2_pek5f")
 region = Rect2(192, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_h17s1"]
-atlas = ExtResource("2_p47bc")
+[sub_resource type="AtlasTexture" id="AtlasTexture_4u0qi"]
+atlas = ExtResource("2_pek5f")
 region = Rect2(256, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_je7p5"]
-atlas = ExtResource("2_p47bc")
+[sub_resource type="AtlasTexture" id="AtlasTexture_g5n5p"]
+atlas = ExtResource("2_pek5f")
 region = Rect2(320, 0, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_1e16l"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_75vfm")
+"texture": SubResource("AtlasTexture_wnllx")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_0owmy")
+"texture": SubResource("AtlasTexture_mb2se")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_qek5x")
+"texture": SubResource("AtlasTexture_xc8wo")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_5gtgg")
+"texture": SubResource("AtlasTexture_j7bn5")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_h17s1")
+"texture": SubResource("AtlasTexture_4u0qi")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_je7p5")
+"texture": SubResource("AtlasTexture_g5n5p")
 }],
 "loop": 1,
-"name": &"default",
+"name": &"idle",
 "speed": 5.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cmd4b"]
-radius = 29.0
-height = 58.0
+radius = 18.0
+height = 54.0
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_lvxji"]
 properties/0/path = NodePath(".:position")
@@ -71,11 +71,13 @@ script = ExtResource("1_8afob")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=55903766]
 position = Vector2(0, -46)
+scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_1e16l")
-frame_progress = 0.83563524
+animation = &"idle"
+frame_progress = 0.30870613
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1509811323]
-position = Vector2(0, -17)
+position = Vector2(1, -32)
 shape = SubResource("CapsuleShape2D_cmd4b")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=281208494]

@@ -1,0 +1,11 @@
+[gd_resource type="StyleBoxTexture" format=3 uid="uid://dx3wrf3a2xr4x"]
+
+[ext_resource type="Texture2D" uid="uid://cu425j3wn4tgb" path="res://Celebes Abyssal Tides/assets/ui/button_container.png" id="1_rcrsn"]
+
+[resource]
+content_margin_left = 10.0
+texture = ExtResource("1_rcrsn")
+texture_margin_left = 6.0
+texture_margin_top = 6.0
+texture_margin_right = 6.0
+texture_margin_bottom = 6.0
