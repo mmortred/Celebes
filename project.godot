@@ -11,13 +11,15 @@ config_version=5
 [application]
 
 config/name="Celebes: Abyssal Tides"
-run/main_scene="uid://d1w5ccem33kle"
+run/main_scene="uid://ctmc4egsqdujy"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
-NetworkManager="*uid://duy81673qy326"
+NetworkManager="*uid://c3sy10grmln1y"
+LobbyManager="*uid://frlfieqjp4ui"
+GameManager="*uid://b66bnmevg2nnn"
 
 [display]
 
