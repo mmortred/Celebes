@@ -23,6 +23,8 @@ GameManager="*uid://b66bnmevg2nnn"
 
 [display]
 
+window/size/viewport_width=1280
+window/size/viewport_height=720
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
@@ -35,6 +37,7 @@ folder_colors={
 "res://Celebes Abyssal Tides/assets/sprite/": "pink",
 "res://Celebes Abyssal Tides/scenes/": "red",
 "res://Celebes Abyssal Tides/scenes/arena/": "pink",
+"res://Celebes Abyssal Tides/scenes/helper/": "pink",
 "res://Celebes Abyssal Tides/scenes/player/": "pink",
 "res://Celebes Abyssal Tides/scenes/ui/": "pink",
 "res://Celebes Abyssal Tides/scenes/ui/lobby/": "pink",
@@ -49,6 +52,34 @@ folder_colors={
 "res://assets/": "yellow",
 "res://scenes/": "red",
 "res://scripts/": "orange"
+}
+
+[importer_defaults]
+
+texture={
+"compress/channel_pack": 0,
+"compress/hdr_compression": 1,
+"compress/high_quality": false,
+"compress/lossy_quality": 0.7,
+"compress/mode": 0,
+"compress/normal_map": 0,
+"compress/rdo_quality_loss": 0.0,
+"compress/uastc_level": 0,
+"detect_3d/compress_to": 0,
+"mipmaps/generate": false,
+"mipmaps/limit": -1,
+"process/channel_remap/alpha": 3,
+"process/channel_remap/blue": 2,
+"process/channel_remap/green": 1,
+"process/channel_remap/red": 0,
+"process/fix_alpha_border": true,
+"process/hdr_as_srgb": false,
+"process/hdr_clamp_exposure": false,
+"process/normal_map_invert_y": false,
+"process/premult_alpha": false,
+"process/size_limit": 0,
+"roughness/mode": 0,
+"roughness/src_normal": ""
 }
 
 [input]
@@ -99,4 +130,5 @@ ultimate={
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 rendering_device/driver.windows="d3d12"

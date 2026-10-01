@@ -1,30 +1,61 @@
 [gd_scene format=3 uid="uid://bdwfal4cg4y1s"]
 
-[ext_resource type="Script" uid="uid://xmjxdywnhhvh" path="res://scripts/ui/pvp_lobby.gd" id="1_o1atq"]
+[ext_resource type="PackedScene" uid="uid://bl2vxk2ip5e4i" path="res://Celebes Abyssal Tides/scenes/helper/transition.tscn" id="1_aqggm"]
+[ext_resource type="Texture2D" uid="uid://cpwu2hd0g0hbt" path="res://Celebes Abyssal Tides/assets/placeholder_assets/LobbyUI.jpg" id="2_30ddx"]
+[ext_resource type="PackedScene" uid="uid://dpj7htbrdpdwd" path="res://Celebes Abyssal Tides/scenes/ui/lobby/PlayerSlot.tscn" id="3_30ddx"]
 
-[node name="Lobby" type="Control" unique_id=1128363944]
+[node name="PvPLobby" type="Control" unique_id=1337713557]
 layout_mode = 3
 anchors_preset = 0
-script = ExtResource("1_o1atq")
+offset_right = 1280.0
+offset_bottom = 720.0
+metadata/_edit_horizontal_guides_ = [271.0]
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=297816887]
+[node name="Transition" parent="." unique_id=937295659 instance=ExtResource("1_aqggm")]
 layout_mode = 0
-offset_left = 524.0
-offset_top = 293.0
-offset_right = 634.0
-offset_bottom = 351.0
+offset_right = 1280.0
+offset_bottom = 720.0
 
-[node name="HostButton" type="Button" parent="VBoxContainer" unique_id=102918217]
-layout_mode = 2
-text = "HOST GAME"
+[node name="LobbyBackground" type="TextureRect" parent="." unique_id=2030640700]
+texture_filter = 1
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+texture = ExtResource("2_30ddx")
+expand_mode = 1
+stretch_mode = 6
 
-[node name="IPLineEdit" type="LineEdit" parent="VBoxContainer" unique_id=876100968]
-layout_mode = 2
-text = "Input IP here"
-alignment = 1
-expand_to_text_length = true
-emoji_menu_enabled = false
+[node name="HostIpLabel" type="Label" parent="." unique_id=781583060]
+layout_mode = 0
+offset_left = 950.0
+offset_top = 56.0
+offset_right = 1101.0
+offset_bottom = 105.0
+text = "IP HERE: 192.168....
+"
 
-[node name="JoinButton" type="Button" parent="VBoxContainer" unique_id=1411873755]
-layout_mode = 2
-text = "JOIN GAME"
+[node name="SeaNomads" type="Control" parent="." unique_id=1048434385]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 40.0
+offset_top = -225.0
+offset_right = 490.0
+offset_bottom = 225.0
+grow_vertical = 2
+
+[node name="SeaNomadSlot_0" parent="SeaNomads" unique_id=1825958047 instance=ExtResource("3_30ddx")]
+layout_mode = 0
+offset_transform_enabled = true
+offset_transform_position = Vector2(40, 60)
+
+[node name="SeaNomadSlot_1" parent="SeaNomads" unique_id=793245042 instance=ExtResource("3_30ddx")]
+layout_mode = 0
+offset_transform_enabled = true
+offset_transform_position = Vector2(160, 220)
+
+[node name="SeaNomadSlot_2" parent="SeaNomads" unique_id=1383350232 instance=ExtResource("3_30ddx")]
+layout_mode = 0
+offset_transform_enabled = true
+offset_transform_position = Vector2(280, 380)
