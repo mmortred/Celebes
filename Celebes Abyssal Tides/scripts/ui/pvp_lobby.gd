@@ -8,11 +8,11 @@ func _ready():
 
 func _on_host_pressed():
 	NetworkManager.host_game()
-	get_tree().change_scene_to_file("res://scenes/arena/Arena.tscn")
+	get_tree().change_scene_to_file("res://Celebes Abyssal Tides/scenes/arena/Arena.tscn")
 
 func _on_join_pressed():
 	var ip = ip_line_edit.text.strip_edges()
 	if ip == "":
 		ip = "127.0.0.1"  #change later
 	NetworkManager.join_game(ip)
-	get_tree().change_scene_to_file("res://scenes/arena/Arena.tscn")
+	get_tree().change_scene_to_file("res://Celebes Abyssal Tides/scenes/arena/Arena.tscn")

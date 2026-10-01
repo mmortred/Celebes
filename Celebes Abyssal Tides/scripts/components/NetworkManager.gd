@@ -1,7 +1,7 @@
 extends Node
 
 const PORT = 7777
-@onready var player_scene = preload("res://scenes/player/player.tscn")
+@onready var player_scene = preload("res://Celebes Abyssal Tides/scenes/player/player.tscn")
 
 func _ready(): ##remove later, just for quick LAN testing
 	multiplayer.peer_connected.connect(func(id): print("Peer connected: ", id))
