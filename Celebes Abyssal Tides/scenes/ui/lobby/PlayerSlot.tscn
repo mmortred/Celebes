@@ -1,11 +1,12 @@
 [gd_scene format=3 uid="uid://dpj7htbrdpdwd"]
 
 [ext_resource type="Texture2D" uid="uid://ba8fs8w5nn2qj" path="res://Celebes Abyssal Tides/assets/placeholder_assets/Border All 1.png" id="1_amo1t"]
+[ext_resource type="Script" uid="uid://n0qe4nwffgbl" path="res://Celebes Abyssal Tides/scripts/player/PlayerSlot.gd" id="1_d0pkr"]
 [ext_resource type="Texture2D" uid="uid://cyayr78uqwe6" path="res://Celebes Abyssal Tides/assets/placeholder_assets/Var1.PNG" id="2_d0pkr"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cmd4b"]
 atlas = ExtResource("1_amo1t")
-region = Rect2(0, 0, 64, 64)
+region = Rect2(65, 128.73431, 61, 62.232254)
 
 [node name="Slot 0" type="Button" unique_id=1825958047]
 custom_minimum_size = Vector2(128, 152)
@@ -19,6 +20,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_d0pkr")
 
 [node name="BorderFrame" type="TextureRect" parent="SlotLayout" unique_id=1980536163]
 clip_children = 2

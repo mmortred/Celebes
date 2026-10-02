@@ -1,41 +1,36 @@
 extends Node
 
-signal peer_joined(peer_id)
-signal peer_left(peer_id)
-signal connected_to_server
-signal connection_failed
-signal server_disconnected
+const PORT = 7777
+@onready var player_scene = preload("res://Celebes Abyssal Tides/scenes/player/player.tscn")
 
-const GAME_PORT = 7777
+func _ready(): ##remove later, just for quick LAN testing
+	multiplayer.peer_connected.connect(func(id): print("Peer connected: ", id))
+	multiplayer.peer_disconnected.connect(func(id): print("Peer disconnected: ", id))
+	multiplayer.peer_connected.connect(_on_peer_connected)
 
-var peer: ENetMultiplayerPeer
-var is_host := false
+func _on_peer_connected(id):
+	if not multiplayer.is_server():
+		return  # only the server ever spawns players
+	if not get_tree().current_scene.get_node("Players").has_node("1"):
+		_spawn_player(1)
+	_spawn_player(id)
 
 func host_game():
-	peer = ENetMultiplayerPeer.new()
-
-	var error = peer.create_server(GAME_PORT, 7)
-
-	if error != OK:
-		print("Failed to host.")
-		return
-
+	var peer = ENetMultiplayerPeer.new()
+	peer.create_server(PORT)
 	multiplayer.multiplayer_peer = peer
-	is_host = true
+	print("Hosting on port ", PORT)
 
-func join_game(ip_address: String):
-	peer = ENetMultiplayerPeer.new()
-
-	var error = peer.create_client(ip_address, GAME_PORT)
-
-	if error != OK:
-		print("Failed to connect.")
-		return
-
+func join_game(ip: String):
+	var peer = ENetMultiplayerPeer.new()
+	peer.create_client(ip, PORT)
 	multiplayer.multiplayer_peer = peer
-	is_host = false
+	print("Joining ", ip)
 
-func disconnect_game():
-	multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()
-	peer = null
-	is_host = false
+func _spawn_player(id):
+	if not multiplayer.is_server():
+		return
+	var player = player_scene.instantiate()
+	player.name = str(id)
+	var players_container = get_tree().current_scene.get_node("Players")
+	players_container.add_child(player)
