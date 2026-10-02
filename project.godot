@@ -19,6 +19,7 @@ config/icon="uid://67fivlx11px4"
 [autoload]
 
 NetworkManager="*uid://c28ydyiqt5vhw"
+LobbyManager="*uid://bj861vcypoban"
 
 [display]
 
