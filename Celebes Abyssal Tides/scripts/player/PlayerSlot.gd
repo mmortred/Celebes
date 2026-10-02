@@ -1,4 +1,4 @@
-extends Button
+extends Control
 
 var occupant_peer_id: int = -1
 

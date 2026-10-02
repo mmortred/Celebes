@@ -55,8 +55,8 @@ _data = {
 
 [node name="transition" type="ColorRect" unique_id=1400214234]
 texture_filter = 1
-offset_right = 1152.0
-offset_bottom = 653.0
+offset_right = 1277.0
+offset_bottom = 715.0
 offset_transform_enabled = true
 color = Color(0, 0, 0, 1)
 

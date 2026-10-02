@@ -1,6 +1,0 @@
-res://scenes/ui/HUD/PvPLobby.tscn
-res://scenes/ui/lobby/PvPLobby.tscn
-res://scripts/abilities/ability_base.gd
-res://scripts/abilities/bubble_strike.gd
-res://scripts/abilities/spear_thrust.gd
-res://scripts/autoload/filler.txt

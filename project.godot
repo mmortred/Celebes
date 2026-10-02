@@ -13,7 +13,12 @@ config_version=5
 config/name="Celebes: Abyssal Tides"
 run/main_scene="uid://ctmc4egsqdujy"
 config/features=PackedStringArray("4.7", "Forward Plus")
-config/icon="res://icon.svg"
+boot_splash/show_image=false
+config/icon="uid://67fivlx11px4"
+
+[autoload]
+
+NetworkManager="*uid://c28ydyiqt5vhw"
 
 [display]
 

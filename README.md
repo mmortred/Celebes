@@ -38,14 +38,14 @@
 
 * **Scenes:**
   * `Arena.tscn` -> root `Node2D` (`Arena`)
-    * `TileMap`
-    * `CoralBarriers` (holds instanced `CoralBarrier.tscn` nodes)
-    * `ClamSpawner` (`Area2D` with `CircleShape2D`)
-    * `DropZone1` & `DropZone2` (`Marker2D` team scoring zones)
-    * `TeamLeftSpawns` & `TeamRightSpawns` (holds `Marker2D` spawn points)
+	* `TileMap`
+	* `CoralBarriers` (holds instanced `CoralBarrier.tscn` nodes)
+	* `ClamSpawner` (`Area2D` with `CircleShape2D`)
+	* `DropZone1` & `DropZone2` (`Marker2D` team scoring zones)
+	* `TeamLeftSpawns` & `TeamRightSpawns` (holds `Marker2D` spawn points)
   * `CoralBarrier.tscn` (`CoralBarrier`)
-    * `Sprite2D`
-    * `CollisionShape2D`
+	* `Sprite2D`
+	* `CollisionShape2D`
 * **Scripts:**
   * `arena.gd` attached to `Arena.tscn` *(randomized team spawner logic)*
   * `coral_barrier.gd` attached to `CoralBarrier.tscn` *(barrier HP & destruction)*
