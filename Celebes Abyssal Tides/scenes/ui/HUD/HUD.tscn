@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://4qkn8vdmjonf"]
+
+[ext_resource type="Script" uid="uid://xmjxdywnhhvh" path="res://Celebes Abyssal Tides/scripts/ui/pvp_lobbyOLD.gd" id="1_5bjl6"]
+
+[node name="Lobby" type="Control" unique_id=1128363944]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_5bjl6")

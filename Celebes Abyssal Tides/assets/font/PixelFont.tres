@@ -1,0 +1,11 @@
+[gd_resource type="LabelSettings" format=3 uid="uid://cq5ia27rk75m"]
+
+[ext_resource type="FontFile" uid="uid://c13xubmjd3yfi" path="res://Celebes Abyssal Tides/assets/font/monogram.ttf" id="1_c6wxh"]
+
+[resource]
+paragraph_spacing = -6.0
+font = ExtResource("1_c6wxh")
+font_size = 25
+font_color = Color(0.87, 0.87, 0.87, 1)
+outline_size = 4
+outline_color = Color(0.012617188, 0.012617188, 0.012617188, 1)

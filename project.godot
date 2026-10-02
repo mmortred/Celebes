@@ -11,38 +11,35 @@ config_version=5
 [application]
 
 config/name="Celebes: Abyssal Tides"
-run/main_scene="uid://d1w5ccem33kle"
+run/main_scene="uid://ctmc4egsqdujy"
 config/features=PackedStringArray("4.7", "Forward Plus")
 boot_splash/show_image=false
+config/icon="uid://67fivlx11px4"
 
 [autoload]
 
-NetworkManager="*uid://duy81673qy326"
+NetworkManager="*uid://c28ydyiqt5vhw"
 
 [display]
 
-window/size/viewport_width=640
-window/size/viewport_height=360
-window/size/window_width_override=1280
-window/size/window_height_override=720
-window/stretch/mode="viewport"
-window/stretch/scale_mode="integer"
-
-[editor]
-
-movie_writer/movie_file="C:/Users/Niro/Videos/CELEBES_TEST.mp4"
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
 
 [file_customization]
 
 folder_colors={
 "res://Celebes Abyssal Tides/assets/": "red",
+"res://Celebes Abyssal Tides/assets/Buttons Pixel Animation Pack/": "pink",
+"res://Celebes Abyssal Tides/assets/Lobby/": "pink",
 "res://Celebes Abyssal Tides/assets/audio/": "pink",
-"res://Celebes Abyssal Tides/assets/fonts/": "pink",
+"res://Celebes Abyssal Tides/assets/font/": "pink",
 "res://Celebes Abyssal Tides/assets/placeholder_assets/": "pink",
 "res://Celebes Abyssal Tides/assets/sprite/": "pink",
-"res://Celebes Abyssal Tides/assets/ui/": "pink",
 "res://Celebes Abyssal Tides/scenes/": "red",
 "res://Celebes Abyssal Tides/scenes/arena/": "pink",
+"res://Celebes Abyssal Tides/scenes/helper/": "pink",
 "res://Celebes Abyssal Tides/scenes/player/": "pink",
 "res://Celebes Abyssal Tides/scenes/ui/": "pink",
 "res://Celebes Abyssal Tides/scenes/ui/lobby/": "pink",
@@ -57,6 +54,34 @@ folder_colors={
 "res://assets/": "yellow",
 "res://scenes/": "red",
 "res://scripts/": "orange"
+}
+
+[importer_defaults]
+
+texture={
+"compress/channel_pack": 0,
+"compress/hdr_compression": 1,
+"compress/high_quality": false,
+"compress/lossy_quality": 0.7,
+"compress/mode": 0,
+"compress/normal_map": 0,
+"compress/rdo_quality_loss": 0.0,
+"compress/uastc_level": 0,
+"detect_3d/compress_to": 0,
+"mipmaps/generate": false,
+"mipmaps/limit": -1,
+"process/channel_remap/alpha": 3,
+"process/channel_remap/blue": 2,
+"process/channel_remap/green": 1,
+"process/channel_remap/red": 0,
+"process/fix_alpha_border": true,
+"process/hdr_as_srgb": false,
+"process/hdr_clamp_exposure": false,
+"process/normal_map_invert_y": false,
+"process/premult_alpha": false,
+"process/size_limit": 0,
+"roughness/mode": 0,
+"roughness/src_normal": ""
 }
 
 [input]
@@ -109,5 +134,3 @@ ultimate={
 
 textures/canvas_textures/default_texture_filter=0
 rendering_device/driver.windows="d3d12"
-2d/snap/snap_2d_transforms_to_pixel=true
-2d/snap/snap_2d_vertices_to_pixel=true

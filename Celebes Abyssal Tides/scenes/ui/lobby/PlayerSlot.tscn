@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://dpj7htbrdpdwd"]
+
+[ext_resource type="Texture2D" uid="uid://ba8fs8w5nn2qj" path="res://Celebes Abyssal Tides/assets/placeholder_assets/Border All 1.png" id="1_amo1t"]
+[ext_resource type="Script" uid="uid://n0qe4nwffgbl" path="res://Celebes Abyssal Tides/scripts/player/PlayerSlot.gd" id="1_d0pkr"]
+[ext_resource type="Texture2D" uid="uid://cyayr78uqwe6" path="res://Celebes Abyssal Tides/assets/placeholder_assets/Var1.PNG" id="2_d0pkr"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cmd4b"]
+atlas = ExtResource("1_amo1t")
+region = Rect2(65, 128.73431, 61, 62.232254)
+
+[node name="Slot 0" type="Button" unique_id=1825958047]
+custom_minimum_size = Vector2(128, 152)
+offset_right = 128.0
+offset_bottom = 152.0
+
+[node name="SlotLayout" type="VBoxContainer" parent="." unique_id=242626914]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_d0pkr")
+
+[node name="BorderFrame" type="TextureRect" parent="SlotLayout" unique_id=1980536163]
+clip_children = 2
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+texture = SubResource("AtlasTexture_cmd4b")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="PlayerIcon" type="TextureRect" parent="SlotLayout/BorderFrame" unique_id=1661062610]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = 12.0
+offset_right = -12.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+texture = ExtResource("2_d0pkr")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="PlayerNameLabel" type="Label" parent="SlotLayout" unique_id=1586119026]
+layout_mode = 2
+offset_transform_enabled = true
+horizontal_alignment = 1
+text_overrun_behavior = 5
