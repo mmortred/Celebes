@@ -221,10 +221,16 @@ func host_closed_lobby() -> void:
 # HOST -> EVERYONE (including the host): "Game is starting."
 @rpc("authority", "call_local", "reliable")
 func open_character_select() -> void:
-	# TODO: Load Character Select here
-	# Later, replace the print below with something like:
-	# get_tree().change_scene_to_file("res://scenes/ui/menus/CharacterSelect.tscn")
-	print("Would load Character Select now")
+	# Preserve this peer's lobby team before this scene is freed.
+	var my_peer_id := multiplayer.get_unique_id()
+	var my_slot := find_slot_of_peer(my_peer_id)
+	var team := "spectator"
+	if my_slot >= 0 and my_slot <= 2:
+		team = "sea"
+	elif my_slot >= 3 and my_slot <= 5:
+		team = "garbage"
+	NetworkManager.set_meta("character_select_team", team)
+	get_tree().change_scene_to_file("res://Celebes Abyssal Tides/scenes/ui/menus/CharacterSelect.tscn")
 
 
 # INPUT / BUTTONS
