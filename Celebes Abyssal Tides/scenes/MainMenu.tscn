@@ -4,6 +4,7 @@
 [ext_resource type="FontFile" uid="uid://xlnojau3gqwv" path="res://Celebes Abyssal Tides/assets/fonts/PixelifySans-VariableFont_wght.ttf" id="1_420ly"]
 [ext_resource type="Script" uid="uid://c2nh5yvcl4w7m" path="res://Celebes Abyssal Tides/scripts/ui/menu_buttons.gd" id="1_xtshi"]
 [ext_resource type="StyleBox" uid="uid://dx3wrf3a2xr4x" path="res://Celebes Abyssal Tides/scripts/ui/main_menu_button.tres" id="2_0j5kp"]
+[ext_resource type="Texture2D" uid="uid://cpwu2hd0g0hbt" path="res://Celebes Abyssal Tides/assets/placeholder_assets/LobbyUI.jpg" id="2_1bmiw"]
 [ext_resource type="Texture2D" uid="uid://cu425j3wn4tgb" path="res://Celebes Abyssal Tides/assets/ui/button_container.png" id="3_1mkmo"]
 [ext_resource type="Shader" uid="uid://b3ssdl33tb0d6" path="res://Celebes Abyssal Tides/scenes/glow_shader.gdshader" id="5_auvfh"]
 [ext_resource type="Texture2D" uid="uid://bvbkcwhu3hy6v" path="res://Celebes Abyssal Tides/assets/ui/play_icon.png" id="7_20om1"]
@@ -11,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://ckooy4w18424o" path="res://Celebes Abyssal Tides/assets/ui/quit_icon.png" id="9_ivm5w"]
 [ext_resource type="Texture2D" uid="uid://cutl8vj7tu62n" path="res://Celebes Abyssal Tides/assets/ui/join_icon.png" id="10_ivm5w"]
 [ext_resource type="Texture2D" uid="uid://dejd3sgxrrh6q" path="res://Celebes Abyssal Tides/assets/ui/back_icon.png" id="11_l1d2i"]
+[ext_resource type="Environment" uid="uid://1kcy00nbgb55" path="res://Celebes Abyssal Tides/scripts/ui/environment_preset.tres" id="12_l1d2i"]
 
 [sub_resource type="Gradient" id="Gradient_ivm5w"]
 colors = PackedColorArray(0, 0.023529412, 0.078431375, 1, 0, 0.32300004, 0.38, 1)
@@ -37,6 +39,8 @@ texture_margin_bottom = 6.0
 modulate_color = Color(0.20930003, 0.91, 0.91, 1)
 
 [sub_resource type="Theme" id="Theme_xtshi"]
+Button/font_sizes/font_size = 16
+Button/fonts/font = ExtResource("1_420ly")
 Button/styles/hover = SubResource("StyleBoxTexture_1ww84")
 Button/styles/normal = ExtResource("2_0j5kp")
 Button/styles/pressed = ExtResource("2_0j5kp")
@@ -235,15 +239,6 @@ _data = {
 &"pvp_hover": SubResource("Animation_xtshi")
 }
 
-[sub_resource type="Environment" id="Environment_ylcck"]
-background_mode = 3
-tonemap_mode = 3
-glow_enabled = true
-glow_intensity = 0.55
-glow_strength = 1.5
-glow_mix = 0.0
-glow_bloom = 0.2
-
 [node name="MainMenu" type="Control" unique_id=1472725565]
 layout_mode = 3
 anchors_preset = 15
@@ -253,44 +248,51 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_xtshi")
 
+[node name="LobbyUi" type="Sprite2D" parent="." unique_id=268528012]
+texture_filter = 1
+position = Vector2(313.20123, 176.49998)
+scale = Vector2(0.27669263, 0.2766927)
+texture = ExtResource("2_1bmiw")
+
 [node name="ColorRect" type="TextureRect" parent="." unique_id=800633959]
+self_modulate = Color(1, 1, 1, 0.42745098)
 layout_mode = 0
-offset_left = -209.0
+offset_left = -95.0
 offset_top = -68.0
-offset_right = 981.35913
+offset_right = 700.0
 offset_bottom = 410.0
 texture = SubResource("GradientTexture2D_ylcck")
 
-[node name="LogoCenterContainer" type="CenterContainer" parent="." unique_id=935404640]
-layout_mode = 0
-offset_right = 301.0
-offset_bottom = 207.0
-
-[node name="TextureRect" type="TextureRect" parent="LogoCenterContainer" unique_id=846911785]
+[node name="TextureRect" type="TextureRect" parent="." unique_id=846911785]
+self_modulate = Color(0.9337864, 7.7608867, 7.7608867, 1)
 texture_filter = 1
-layout_mode = 2
+layout_mode = 0
+offset_left = 27.0
+offset_top = 34.0
+offset_right = 274.0
+offset_bottom = 173.0
 texture = ExtResource("1_1mkmo")
 
 [node name="ColorRect2" type="ColorRect" parent="." unique_id=807783963]
 texture_filter = 1
 material = SubResource("ShaderMaterial_0j5kp")
 layout_mode = 0
+offset_left = -21.0
 offset_top = -69.0
-offset_right = 640.0
-offset_bottom = 362.0
+offset_right = 663.0
+offset_bottom = 381.0
 mouse_filter = 2
 
 [node name="PVPButton" type="Button" parent="." unique_id=972503034]
 texture_filter = 1
 custom_minimum_size = Vector2(200, 25)
+custom_maximum_size = Vector2(200, 30)
 layout_mode = 0
 offset_left = 54.0
 offset_top = 198.0
-offset_right = 254.00052
-offset_bottom = 229.0
+offset_right = 254.0
+offset_bottom = 228.0
 theme = SubResource("Theme_xtshi")
-theme_override_fonts/font = ExtResource("1_420ly")
-theme_override_font_sizes/font_size = 15
 toggle_mode = true
 text = "PVP"
 icon = ExtResource("7_20om1")
@@ -299,14 +301,13 @@ alignment = 0
 [node name="OptionsButton" type="Button" parent="." unique_id=687566894]
 texture_filter = 1
 custom_minimum_size = Vector2(200, 25)
+custom_maximum_size = Vector2(200, 30)
 layout_mode = 0
 offset_left = 54.0
 offset_top = 235.0
 offset_right = 254.0
-offset_bottom = 266.0
+offset_bottom = 265.0
 theme = SubResource("Theme_xtshi")
-theme_override_fonts/font = ExtResource("1_420ly")
-theme_override_font_sizes/font_size = 15
 text = "OPTIONS"
 icon = ExtResource("8_4vxo6")
 alignment = 0
@@ -314,14 +315,13 @@ alignment = 0
 [node name="QuitButton" type="Button" parent="." unique_id=262144679]
 texture_filter = 1
 custom_minimum_size = Vector2(200, 25)
+custom_maximum_size = Vector2(200, 30)
 layout_mode = 0
 offset_left = 54.0
 offset_top = 272.0
 offset_right = 254.0
-offset_bottom = 303.0
+offset_bottom = 302.0
 theme = SubResource("Theme_xtshi")
-theme_override_fonts/font = ExtResource("1_420ly")
-theme_override_font_sizes/font_size = 15
 text = "QUIT"
 icon = ExtResource("9_ivm5w")
 alignment = 0
@@ -329,14 +329,13 @@ alignment = 0
 [node name="HostButton" type="Button" parent="." unique_id=58447293]
 texture_filter = 1
 custom_minimum_size = Vector2(200, 25)
+custom_maximum_size = Vector2(200, 30)
 layout_mode = 0
 offset_left = -256.0
 offset_top = 198.0
 offset_right = -56.0
-offset_bottom = 229.0
+offset_bottom = 228.0
 theme = SubResource("Theme_xtshi")
-theme_override_fonts/font = ExtResource("1_420ly")
-theme_override_font_sizes/font_size = 15
 text = "HOST"
 icon = ExtResource("7_20om1")
 alignment = 0
@@ -344,14 +343,13 @@ alignment = 0
 [node name="JoinButton" type="Button" parent="." unique_id=398998141]
 texture_filter = 1
 custom_minimum_size = Vector2(200, 25)
+custom_maximum_size = Vector2(200, 30)
 layout_mode = 0
 offset_left = -256.0
 offset_top = 235.0
 offset_right = -56.0
-offset_bottom = 266.0
+offset_bottom = 265.0
 theme = SubResource("Theme_xtshi")
-theme_override_fonts/font = ExtResource("1_420ly")
-theme_override_font_sizes/font_size = 15
 text = "JOIN"
 icon = ExtResource("10_ivm5w")
 alignment = 0
@@ -378,14 +376,13 @@ caret_blink = true
 [node name="BackButton" type="Button" parent="." unique_id=679030118]
 texture_filter = 1
 custom_minimum_size = Vector2(200, 25)
+custom_maximum_size = Vector2(200, 30)
 layout_mode = 0
 offset_left = -256.0
 offset_top = 272.0
 offset_right = -56.0
-offset_bottom = 303.00003
+offset_bottom = 302.0
 theme = SubResource("Theme_xtshi")
-theme_override_fonts/font = ExtResource("1_420ly")
-theme_override_font_sizes/font_size = 15
 text = "BACK"
 icon = ExtResource("11_l1d2i")
 alignment = 0
@@ -416,7 +413,26 @@ libraries/ = SubResource("AnimationLibrary_0j5kp")
 speed_scale = 1.2
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1546504004]
-environment = SubResource("Environment_ylcck")
+environment = ExtResource("12_l1d2i")
+
+[node name="Label" type="Label" parent="." unique_id=1744113015]
+modulate = Color(0.8410412, 0.96024394, 0.96024394, 1)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -69.0
+offset_top = -23.0
+grow_horizontal = 0
+grow_vertical = 0
+offset_transform_enabled = true
+offset_transform_position = Vector2(-10, 0)
+theme_override_fonts/font = ExtResource("1_420ly")
+theme_override_font_sizes/font_size = 10
+text = "made by ewn ko"
+horizontal_alignment = 2
 
 [connection signal="pressed" from="PVPButton" to="." method="_on_pvp_button_pressed"]
 [connection signal="mouse_exited" from="OptionsButton" to="VBoxContainer" method="_on_button_mouse_exited_pvp"]

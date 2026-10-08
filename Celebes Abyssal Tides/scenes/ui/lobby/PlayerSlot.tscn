@@ -51,5 +51,6 @@ stretch_mode = 6
 [node name="PlayerNameLabel" type="Label" parent="SlotLayout" unique_id=1586119026]
 layout_mode = 2
 offset_transform_enabled = true
+text = "SPEAR FISHER"
 horizontal_alignment = 1
 text_overrun_behavior = 5

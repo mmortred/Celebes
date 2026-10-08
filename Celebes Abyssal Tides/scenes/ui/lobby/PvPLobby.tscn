@@ -13,6 +13,16 @@
 [ext_resource type="Texture2D" uid="uid://cpy5o1oc37fir" path="res://Celebes Abyssal Tides/assets/Lobby/back/343px/back03.png" id="9_tlccx"]
 [ext_resource type="Texture2D" uid="uid://uw20m8v8sp03" path="res://Celebes Abyssal Tides/assets/Lobby/ReadyButton - Edited.png" id="10_tpxpr"]
 [ext_resource type="Texture2D" uid="uid://br57t4ph51nw" path="res://Celebes Abyssal Tides/assets/Lobby/back/343px/back02.png" id="10_x7sd8"]
+[ext_resource type="Environment" uid="uid://1kcy00nbgb55" path="res://Celebes Abyssal Tides/scripts/ui/environment_preset.tres" id="14_ynjfo"]
+[ext_resource type="Shader" uid="uid://b3ssdl33tb0d6" path="res://Celebes Abyssal Tides/scenes/glow_shader.gdshader" id="15_s3ov6"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0y71p"]
+shader = ExtResource("15_s3ov6")
+shader_parameter/wave_speed = 0.3390000161025
+shader_parameter/wave_strength = 0.0030000001425
+shader_parameter/wave_frequency = 30.0000013775
+shader_parameter/tint_color = Color(0.1, 0.3, 0.4, 0.15)
+shader_parameter/tint_strength = 1.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3oaqy"]
 resource_name = "Sea nomad Banner"
@@ -1465,17 +1475,33 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 1280.0
 offset_bottom = 720.0
+scale = Vector2(0.5, 0.5)
 script = ExtResource("1_tpxpr")
 metadata/_edit_horizontal_guides_ = [271.0]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1080176912]
+environment = ExtResource("14_ynjfo")
 
 [node name="LobbyBackground" type="TextureRect" parent="." unique_id=2030640700]
 texture_filter = 1
 layout_mode = 0
-offset_right = 1280.0
-offset_bottom = 720.0
+offset_left = -28.0
+offset_top = -34.0
+offset_right = 1310.0
+offset_bottom = 740.0
 texture = ExtResource("2_30ddx")
 expand_mode = 1
 stretch_mode = 6
+
+[node name="ColorRect2" type="ColorRect" parent="." unique_id=1068044036]
+texture_filter = 1
+material = SubResource("ShaderMaterial_0y71p")
+layout_mode = 0
+offset_left = -128.0
+offset_top = -69.0
+offset_right = 1370.0
+offset_bottom = 818.0
+mouse_filter = 2
 
 [node name="SeaNomads" type="Control" parent="." unique_id=1048434385]
 layout_mode = 1

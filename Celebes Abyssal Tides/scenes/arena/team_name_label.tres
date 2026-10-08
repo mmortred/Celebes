@@ -1,0 +1,11 @@
+[gd_resource type="LabelSettings" format=3 uid="uid://421nwjdmkwc2"]
+
+[ext_resource type="FontFile" uid="uid://dut8dh40h3c3v" path="res://Celebes Abyssal Tides/assets/fonts/Jersey10-Regular.ttf" id="1_e71m0"]
+
+[resource]
+font = ExtResource("1_e71m0")
+font_size = 18
+font_color = Color(0.95686275, 0.9843137, 0.9843137, 1)
+shadow_size = 6
+shadow_color = Color(0.019607844, 0.03529412, 0.11372549, 1)
+shadow_offset = Vector2(0, 0)

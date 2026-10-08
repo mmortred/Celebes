@@ -19,13 +19,15 @@ config/icon="uid://67fivlx11px4"
 [autoload]
 
 NetworkManager="*uid://c28ydyiqt5vhw"
+GameManager="*uid://b66bnmevg2nnn"
 
 [display]
 
-window/size/viewport_width=1280
-window/size/viewport_height=720
+window/size/viewport_width=640
+window/size/viewport_height=360
+window/size/window_width_override=1280
+window/size/window_height_override=720
 window/stretch/mode="canvas_items"
-window/stretch/aspect="expand"
 
 [file_customization]
 

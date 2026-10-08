@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://drpci78bgmsgy"]
+
+[ext_resource type="Script" uid="uid://dbttbwtceroky" path="res://Celebes Abyssal Tides/scenes/arena/pearl.gd" id="1_71n4g"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ylcck"]
+radius = 16.0
+
+[node name="Pearl" type="Node2D" unique_id=1702686417]
+script = ExtResource("1_71n4g")
+
+[node name="CollectArea" type="Area2D" parent="." unique_id=170324139]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollectArea" unique_id=848175438]
+shape = SubResource("CircleShape2D_ylcck")
+debug_color = Color(1, 0.60038817, 0.70000815, 0.42000002)
+
+[node name="PearlSprite" type="Sprite2D" parent="." unique_id=709353693]
