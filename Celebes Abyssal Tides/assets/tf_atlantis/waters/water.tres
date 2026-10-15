@@ -1,0 +1,29 @@
+[gd_resource type="TileSet" format=3 uid="uid://p7ky6w7mniy"]
+
+[ext_resource type="Texture2D" uid="uid://jabjdcu6adf0" path="res://Celebes Abyssal Tides/assets/tf_atlantis/waters/waters/Slightly wavy.PNG" id="1_wfbrc"]
+[ext_resource type="Texture2D" uid="uid://cb1mr5ydtjkw" path="res://Celebes Abyssal Tides/assets/tf_atlantis/waters/waters/Waterfill.PNG" id="2_i1f6n"]
+[ext_resource type="Texture2D" uid="uid://b2cuhwtbl06fs" path="res://Celebes Abyssal Tides/assets/tf_atlantis/waters/waters/WaterRising.PNG" id="3_aaogp"]
+[ext_resource type="Texture2D" uid="uid://ddtqasfn3fpef" path="res://Celebes Abyssal Tides/assets/tf_atlantis/waters/waters/WaterTop.PNG" id="4_6xng2"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nxbw5"]
+texture = ExtResource("1_wfbrc")
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_r5w6n"]
+texture = ExtResource("2_i1f6n")
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pa77d"]
+texture = ExtResource("3_aaogp")
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_jf40m"]
+texture = ExtResource("4_6xng2")
+0:0/0 = 0
+
+[resource]
+navigation_layer_0/layers = 2
+sources/0 = SubResource("TileSetAtlasSource_nxbw5")
+sources/1 = SubResource("TileSetAtlasSource_r5w6n")
+sources/2 = SubResource("TileSetAtlasSource_pa77d")
+sources/3 = SubResource("TileSetAtlasSource_jf40m")
