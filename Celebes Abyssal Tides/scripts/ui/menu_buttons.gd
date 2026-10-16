@@ -34,9 +34,10 @@ func _on_ip_input_text_submitted(new_text: String) -> void:
 	if ip == "":
 		ip = "127.0.0.1"  #change later
 	NetworkManager.join_game(ip)
-	get_tree().change_scene_to_file("res://Celebes Abyssal Tides/scenes/arena/Arena.tscn")
-
+	get_tree().change_scene_to_file("res://Celebes Abyssal Tides/scenes/ui/lobby/PvPLobby.tscn")
 
 func _on_host_button_pressed() -> void:
+	print("HOST BUTTON CLICKED")
 	NetworkManager.host_game()
-	get_tree().change_scene_to_file("res://Celebes Abyssal Tides/scenes/arena/Arena.tscn")
+	get_tree().change_scene_to_file("res://Celebes Abyssal Tides/scenes/ui/lobby/PvPLobby.tscn")
+	

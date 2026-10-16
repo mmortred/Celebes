@@ -221,7 +221,7 @@ func host_closed_lobby() -> void:
 # HOST -> EVERYONE (including the host): "Game is starting."
 @rpc("authority", "call_local", "reliable")
 func open_character_select() -> void:
-	# Preserve this peer's lobby team before this scene is freed.
+	# Preserve this peer's lobby slot/team before the lobby scene is freed.
 	var my_peer_id := multiplayer.get_unique_id()
 	var my_slot := find_slot_of_peer(my_peer_id)
 	var team := "spectator"
@@ -229,7 +229,9 @@ func open_character_select() -> void:
 		team = "sea"
 	elif my_slot >= 3 and my_slot <= 5:
 		team = "garbage"
+	NetworkManager.set_meta("character_select_slot", my_slot)
 	NetworkManager.set_meta("character_select_team", team)
+	CharacterSelectManager.reset_local()
 	get_tree().change_scene_to_file("res://Celebes Abyssal Tides/scenes/ui/menus/CharacterSelect.tscn")
 
 
