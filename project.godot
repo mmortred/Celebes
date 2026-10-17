@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Celebes: Abyssal Tides"
-run/main_scene="uid://ctmc4egsqdujy"
+run/main_scene="uid://bmugwn0cily8y"
 config/features=PackedStringArray("4.7", "Forward Plus")
 boot_splash/show_image=false
 config/icon="uid://67fivlx11px4"
@@ -20,6 +20,7 @@ config/icon="uid://67fivlx11px4"
 
 NetworkManager="*uid://c28ydyiqt5vhw"
 GameManager="*uid://b66bnmevg2nnn"
+CharacterSelectManager="*res://Celebes Abyssal Tides/scripts/autoload/CharacterSelectManager.gd"
 
 [display]
 
