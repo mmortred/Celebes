@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://6mlaxv2ue7mk"
-path="res://.godot/imported/OtherColars.png-b92e8062ccfe3f717eb06f056a615d47.ctex"
+uid="uid://ccvgqkq6vwfyd"
+path="res://.godot/imported/NormalWalls.png-e191c9b80459b3210ee94f37becd6798.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Celebes Abyssal Tides/assets/tf_atlantis/RPGMAKER-100/OtherColars.png"
-dest_files=["res://.godot/imported/OtherColars.png-b92e8062ccfe3f717eb06f056a615d47.ctex"]
+source_file="res://Celebes Abyssal Tides/assets/tf_atlantis/32bit/NormalWalls.png"
+dest_files=["res://.godot/imported/NormalWalls.png-e191c9b80459b3210ee94f37becd6798.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dj0r5ufuk73dx"
-path="res://.godot/imported/tf_A5_atlantisA.png-a333a59efe0af7e7109ee3cb5ccb24ea.ctex"
+uid="uid://cg0bysupfxvxn"
+path="res://.godot/imported/NormalAssets.png-a9d610c8e032d84ea357510db80ef7c6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Celebes Abyssal Tides/assets/tf_atlantis/RPGMAKERVX/tf_A5_atlantisA.png"
-dest_files=["res://.godot/imported/tf_A5_atlantisA.png-a333a59efe0af7e7109ee3cb5ccb24ea.ctex"]
+source_file="res://Celebes Abyssal Tides/assets/tf_atlantis/32bit/NormalAssets.png"
+dest_files=["res://.godot/imported/NormalAssets.png-a9d610c8e032d84ea357510db80ef7c6.ctex"]
 
 [params]
 

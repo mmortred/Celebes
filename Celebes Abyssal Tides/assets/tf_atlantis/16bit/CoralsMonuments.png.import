@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cx3k5jlfbmvj5"
-path="res://.godot/imported/tf_B_atlantisA.png-48ee4b491cf0c8f8e36ae8bf71d020db.ctex"
+uid="uid://ub572kg4gg6d"
+path="res://.godot/imported/CoralsMonuments.png-25c221b043d364e2285e53c2494776a0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Celebes Abyssal Tides/assets/tf_atlantis/RPGMAKERMV/tf_B_atlantisA.png"
-dest_files=["res://.godot/imported/tf_B_atlantisA.png-48ee4b491cf0c8f8e36ae8bf71d020db.ctex"]
+source_file="res://Celebes Abyssal Tides/assets/tf_atlantis/16bit/CoralsMonuments.png"
+dest_files=["res://.godot/imported/CoralsMonuments.png-25c221b043d364e2285e53c2494776a0.ctex"]
 
 [params]
 

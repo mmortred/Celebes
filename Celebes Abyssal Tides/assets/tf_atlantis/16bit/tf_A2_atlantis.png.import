@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ctx4x5pmlnxn5"
-path="res://.godot/imported/itch_cover.png-50631b908eb7d65e0c6aeece745c4c06.ctex"
+uid="uid://bxaf8gvi1f14o"
+path="res://.godot/imported/tf_A2_atlantis.png-9cf42632705532aba6df1bf3b90536ea.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Celebes Abyssal Tides/assets/tf_atlantis/promo/itch_cover.png"
-dest_files=["res://.godot/imported/itch_cover.png-50631b908eb7d65e0c6aeece745c4c06.ctex"]
+source_file="res://Celebes Abyssal Tides/assets/tf_atlantis/16bit/tf_A2_atlantis.png"
+dest_files=["res://.godot/imported/tf_A2_atlantis.png-9cf42632705532aba6df1bf3b90536ea.ctex"]
 
 [params]
 

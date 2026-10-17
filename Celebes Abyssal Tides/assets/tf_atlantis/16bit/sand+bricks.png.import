@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bxaf8gvi1f14o"
-path="res://.godot/imported/tf_A2_atlantis.png-4138a0dd922bb3c33066f9ead598818d.ctex"
+uid="uid://djhhba0lobe88"
+path="res://.godot/imported/sand+bricks.png-72d5dd241b0e2b233019bfb6be11ab30.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Celebes Abyssal Tides/assets/tf_atlantis/RPGMAKER-100/tf_A2_atlantis.png"
-dest_files=["res://.godot/imported/tf_A2_atlantis.png-4138a0dd922bb3c33066f9ead598818d.ctex"]
+source_file="res://Celebes Abyssal Tides/assets/tf_atlantis/16bit/sand+bricks.png"
+dest_files=["res://.godot/imported/sand+bricks.png-72d5dd241b0e2b233019bfb6be11ab30.ctex"]
 
 [params]
 

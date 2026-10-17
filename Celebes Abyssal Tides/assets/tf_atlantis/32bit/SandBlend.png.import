@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b1osk4xp7551l"
-path="res://.godot/imported/char_bubbles.png-139af4324be7674de44c17f897fff501.ctex"
+uid="uid://bife108tsc8ae"
+path="res://.godot/imported/SandBlend.png-d2a7d1585389a8238b1f9e4820634633.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Celebes Abyssal Tides/assets/tf_atlantis/RPGMAKER-100/char_bubbles.png"
-dest_files=["res://.godot/imported/char_bubbles.png-139af4324be7674de44c17f897fff501.ctex"]
+source_file="res://Celebes Abyssal Tides/assets/tf_atlantis/32bit/SandBlend.png"
+dest_files=["res://.godot/imported/SandBlend.png-d2a7d1585389a8238b1f9e4820634633.ctex"]
 
 [params]
 

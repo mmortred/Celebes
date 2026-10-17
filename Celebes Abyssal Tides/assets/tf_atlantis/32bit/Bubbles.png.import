@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dgk84w0xfwnpd"
-path="res://.godot/imported/modfied2.png-e545b62ec17f2ceaa924b8e6b951d1ef.ctex"
+uid="uid://b6rkttu8rpj5c"
+path="res://.godot/imported/Bubbles.png-fc415aa4bf56f18dc39ba1aed367173b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Celebes Abyssal Tides/assets/tf_atlantis/modfied2.png"
-dest_files=["res://.godot/imported/modfied2.png-e545b62ec17f2ceaa924b8e6b951d1ef.ctex"]
+source_file="res://Celebes Abyssal Tides/assets/tf_atlantis/32bit/Bubbles.png"
+dest_files=["res://.godot/imported/Bubbles.png-fc415aa4bf56f18dc39ba1aed367173b.ctex"]
 
 [params]
 
