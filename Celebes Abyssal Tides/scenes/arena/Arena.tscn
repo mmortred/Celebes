@@ -2,7 +2,11 @@
 
 [ext_resource type="Script" uid="uid://bqs6dbi2lcvsa" path="res://Celebes Abyssal Tides/scripts/arena/arena.gd" id="1_etbs0"]
 [ext_resource type="PackedScene" uid="uid://bckjlcrn7sobi" path="res://Celebes Abyssal Tides/scenes/arena/CoralBarrier.tscn" id="1_or6f2"]
+[ext_resource type="Texture2D" uid="uid://dldja27rnnhoi" path="res://Celebes Abyssal Tides/assets/placeholder_assets/0e37590b-5926-4163-a787-7ecaf4d6c59e.jpg" id="2_m27uh"]
 [ext_resource type="PackedScene" uid="uid://c4jafmsek2qnb" path="res://Celebes Abyssal Tides/scenes/arena/KelpZone.tscn" id="4_etbs0"]
+[ext_resource type="PackedScene" uid="uid://djgqv3e6r7654" path="res://Celebes Abyssal Tides/scenes/ui/HUD/ArenaHUD.tscn" id="4_yd33n"]
+[ext_resource type="Environment" uid="uid://1kcy00nbgb55" path="res://Celebes Abyssal Tides/scripts/ui/environment_preset.tres" id="5_1qlvi"]
+[ext_resource type="Texture2D" uid="uid://67fivlx11px4" path="res://Celebes Abyssal Tides/assets/sprite/Spear_guy_idle.png" id="7_7wik6"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ma018"]
 radius = 69.53
@@ -11,8 +15,18 @@ radius = 69.53
 y_sort_enabled = true
 script = ExtResource("1_etbs0")
 
+[node name="ArenaHUD" parent="." unique_id=875958759 instance=ExtResource("4_yd33n")]
+top_level = true
+offset_bottom = 64.0
+
+[node name="0e37590b59264163A7877Ecaf4d6c59e" type="Sprite2D" parent="." unique_id=997734012]
+self_modulate = Color(1, 1, 1, 0.29500002)
+z_index = -9
+position = Vector2(336, 208)
+texture = ExtResource("2_m27uh")
+
 [node name="CoralBarriers" type="Node2D" parent="." unique_id=1833884914]
-position = Vector2(2, -131)
+position = Vector2(1022, -301)
 
 [node name="CoralBarriers1" parent="CoralBarriers" unique_id=290683446 instance=ExtResource("1_or6f2")]
 position = Vector2(-479, 160)
@@ -29,14 +43,14 @@ position = Vector2(220, -43)
 position = Vector2(-105, -37)
 
 [node name="ClamSpawner" type="Area2D" parent="." unique_id=448138373]
-position = Vector2(70, 152)
+position = Vector2(1114, -131)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ClamSpawner" unique_id=1275876508]
 position = Vector2(-4, 52)
 shape = SubResource("CircleShape2D_ma018")
 
 [node name="TeamLeftSpawns" type="Node2D" parent="." unique_id=634953856]
-position = Vector2(-125, 165)
+position = Vector2(1057, 202)
 
 [node name="SpawnPointL1" type="Marker2D" parent="TeamLeftSpawns" unique_id=72071672]
 position = Vector2(-91, 62)
@@ -48,7 +62,7 @@ position = Vector2(-132, 132)
 position = Vector2(-12, -70)
 
 [node name="TeamRightSpawns" type="Node2D" parent="." unique_id=1545679681]
-position = Vector2(-340, 0)
+position = Vector2(874, -7)
 
 [node name="SpawnPointR1" type="Marker2D" parent="TeamRightSpawns" unique_id=1301084053]
 position = Vector2(6, 107)
@@ -68,18 +82,28 @@ y_sort_enabled = true
 
 [node name="KelpZones" type="Node2D" parent="." unique_id=1153053186]
 y_sort_enabled = true
+position = Vector2(842, -45)
+scale = Vector2(0.3, 0.3)
 
 [node name="Node2D2" parent="KelpZones" unique_id=1081455485 instance=ExtResource("4_etbs0")]
-position = Vector2(116, 9)
+position = Vector2(-2380, 656.6667)
 
 [node name="Node2D3" parent="KelpZones" unique_id=867056034 instance=ExtResource("4_etbs0")]
-position = Vector2(116, 9)
+position = Vector2(-1819.9999, 896.6666)
 
 [node name="Node2D4" parent="KelpZones" unique_id=1009943771 instance=ExtResource("4_etbs0")]
-position = Vector2(48, 120)
+position = Vector2(-1660, 496.66666)
 
 [node name="Node2D5" parent="KelpZones" unique_id=1395564312 instance=ExtResource("4_etbs0")]
-position = Vector2(210, 82)
+position = Vector2(-1420, 1056.6666)
 
 [node name="Node2D6" parent="KelpZones" unique_id=1110100220 instance=ExtResource("4_etbs0")]
-position = Vector2(-94, -109)
+position = Vector2(-1740, 816.6666)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=196224355]
+environment = ExtResource("5_1qlvi")
+
+[node name="SpearGuyIdle" type="Sprite2D" parent="." unique_id=410879026]
+visible = false
+position = Vector2(368, 216)
+texture = ExtResource("7_7wik6")
