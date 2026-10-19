@@ -7,12 +7,22 @@ extends CharacterBody2D
 @export var dash_duration = 0.15
 @export var dash_cooldown = 2.0
 @export var player_index = 0
+@export var attack_damage = 10.0 #+
+@export var swing_hit_frames = {"top_swing": 2, "bottom_swing": 2, "right_swing": 3, "left_swing": 3} #+ SWING frame where each swing's hit lands (count from 0)
+@export var attack_offset = 24.0 #+ how far in front of the player the hitbox sits
+@export var body_center = Vector2(0, -32) #+ SWING middle of the body, the hitbox is placed around this
+@export var respawn_time = 3.0 #+ seconds dead before respawning
 
 ##Private
 @onready var camera = $Camera2D
 @onready var primary_ability: Node = $PrimaryAbility
 @onready var ultimate_ability: Node = $UltAbility
 @onready var label: Label = $Label
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D #+
+@onready var attack_range: Area2D = $AttackRange #+
+@onready var health = $HealthComponent #+
+@onready var death_dust = get_node_or_null("DeathDust") #+ optional particles, null if you didn't add it
+
 
 #kelp stuff
 var kelp_tile_count = 0
@@ -26,18 +36,52 @@ var is_dashing = false
 var dash_timer = 0.0
 var dash_cooldown_timer = 0.0
 
+#animatioon stuff so others can see the animation
+@export var anim_name = "walk_down" #+ NEW exported so it shows in the synchronizer picker
+@export var anim_flip = false #+ NEW exported
+@export var anim_frozen = true #+ NEW exported. true = standing still, hold the current frame
+var is_swinging = false #+
+var hit_tween = null #+ so rapid hits restart the flash instead of stacking
+var is_dead = false #+
+
 func _enter_tree():
-	set_multiplayer_authority(int(str(name)))
+	var id = str(name).to_int() #+
+	if id == 0: #+ name isn't a peer id (scene run alone), so use offline id 1
+		id = 1 #+
+	set_multiplayer_authority(id) #+
 	add_to_group("players")
 
 func _ready():
+	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING #+ NEW top-down: no "floor", so you can't ride other players
 	label.text = "Player " + str(name)          # testing player ids
 	camera.enabled = is_multiplayer_authority() # only enable camera for the owning client
+	sprite.sprite_frames.set_animation_loop("top_swing", false) #+ swings must play once
+	sprite.sprite_frames.set_animation_loop("bottom_swing", false) #+
+	sprite.sprite_frames.set_animation_loop("right_swing", false) #+ swings must play once
+	sprite.sprite_frames.set_animation_loop("left_swing", false) #+
+	sprite.frame_changed.connect(_on_frame_changed) #+ used to time the hit to a frame
+	health.knocked_out.connect(_on_knocked_out) #+ react when HP hits 0
+	sprite.play(anim_name) #+
+	if is_multiplayer_authority(): #+ only MY player connects to MY screen's HUD
+		var hud = get_tree().get_first_node_in_group("hud") #+
+		if hud: #+
+			hud.set_player(self) #+
+
+func _process(_delta): #+ runs on every peer, plays whatever the owner set
+	sprite.flip_h = anim_flip #+
+	if sprite.animation != anim_name: #+
+		sprite.play(anim_name) #+
+	if anim_frozen: #+
+		sprite.pause() #+ standing still: freeze on the current frame
+	elif not sprite.is_playing() and sprite.sprite_frames.get_animation_loop(anim_name): #+
+		sprite.play() #+ started moving again: resume the paused walk
 
 func _physics_process(delta):
 	if not is_multiplayer_authority():
 		return  # non-owners skip input AND physics entirely — position comes from sync instead
-
+	if is_dead: #+ dead players can't move, attack, or dash
+		return #+
+	
 	# Reduce the dash cooldown every frame.
 	if dash_cooldown_timer > 0:
 		dash_cooldown_timer -= delta
@@ -58,7 +102,7 @@ func _physics_process(delta):
 
 		if print_timer <= 0:
 			if move_direction.y < 0:
-				print("UP")
+				print("up")
 			elif move_direction.y > 0:
 				print("DOWN")
 			elif move_direction.x < 0:
@@ -70,6 +114,11 @@ func _physics_process(delta):
 	else:
 		print_timer = 0.0 #Reset when no key is pressed.
 	
+	## Basic Attack #+
+	if Input.is_action_just_pressed("basic_attack"): #+ right click
+		start_swing() #+
+		reveal_from_attack() #+
+
 	## Ability Controls
 	if Input.is_action_just_pressed("primary"):
 		primary_ability.request_use.rpc()
@@ -94,9 +143,127 @@ func _physics_process(delta):
 	# Apply the movement and collision.
 	move_and_slide()
 
+	update_animation() #+
+
 ##Movement
 func move_player():
 	velocity = move_direction * move_speed
+
+##Animation #+
+func update_animation(): #+
+	if is_swinging: #+
+		return #+ let the swing finish first
+
+	anim_frozen = move_direction == Vector2.ZERO #+ no input = hold the frame
+
+	# facing_direction = last direction moved, so standing still keeps that direction #+
+	if abs(facing_direction.x) > abs(facing_direction.y): #+
+		anim_name = "walk_right" #+
+		anim_flip = facing_direction.x < 0 #+ flip walk_right for left
+	elif facing_direction.y < 0: #+
+		anim_name = "walk_up" #+
+		anim_flip = false #+
+	else: #+
+		anim_name = "walk_down" #+
+		anim_flip = false #+
+
+func start_swing(): #+
+	if is_swinging: #+
+		return #+
+	is_swinging = true #+
+	anim_frozen = false #+ swings always play, even when standing still
+	var swing_dir = get_swing_direction() #+ SWING snap facing to up/down/left/right
+	attack_range.position = body_center + swing_dir * attack_offset #+ SWING hitbox in front of you
+	attack_range.rotation = 0.0 if swing_dir.x != 0 else PI / 2 #+ SWING tall box for left/right, lay it flat for up/down
+	if swing_dir == Vector2.UP: #+ SWING
+		anim_name = "top_swing" #+
+	elif swing_dir == Vector2.DOWN: #+ SWING
+		anim_name = "bottom_swing" #+
+	elif swing_dir == Vector2.RIGHT: #+ SWING
+		anim_name = "right_swing" #+ SWING
+	else: #+ SWING
+		anim_name = "left_swing" #+ SWING
+	anim_flip = false #+ SWING every direction has its own art now, so never flip
+
+	# End the swing after the animation's length, instead of waiting for a signal #+ NEW
+	var frames = sprite.sprite_frames #+ NEW
+	var swing_length = frames.get_frame_count(anim_name) / frames.get_animation_speed(anim_name) #+ NEW frames ÷ FPS = seconds
+	await get_tree().create_timer(swing_length).timeout #+ NEW
+	is_swinging = false #+ NEW
+
+func get_swing_direction() -> Vector2: #+ SWING same rule as update_animation, so the swing matches the walk direction
+	if abs(facing_direction.x) > abs(facing_direction.y): #+ SWING
+		return Vector2.RIGHT if facing_direction.x > 0 else Vector2.LEFT #+ SWING
+	return Vector2.UP if facing_direction.y < 0 else Vector2.DOWN #+ SWING
+
+##Combat #+
+func _on_frame_changed(): #+
+	if not is_multiplayer_authority(): #+ only the attacker checks for hits
+		return #+
+	if is_dead or not is_swinging: #+
+		return #+
+	if sprite.frame != swing_hit_frames.get(str(sprite.animation), 2): #+ SWING each swing has its own hit frame (2 if missing)
+		return #+
+	for area in attack_range.get_overlapping_areas(): #+ only HurtBoxes, thanks to layer 3
+		var target = area.get_parent() #+
+		if target == self: #+ don't hit yourself
+			continue #+
+		if target.has_method("receive_hit"): #+
+			target.receive_hit.rpc(attack_damage, str(name)) #+ send my name so the victim knows who hit them
+
+@rpc("any_peer", "call_local") #+ any_peer: the attacker isn't this player's owner
+func receive_hit(amount, attacker_name): #+
+	if is_dead: #+ no flash on a corpse
+		return #+
+	var attacker = null #+
+	for player in get_tree().get_nodes_in_group("players"): #+ turn the name back into the player node
+		if str(player.name) == attacker_name: #+
+			attacker = player #+
+	health.take_damage(amount, attacker) #+
+	if not is_dead: #+ the killing hit starts the fade instead of a flash
+		flash_hit() #+
+
+func flash_hit(): #+
+	if hit_tween: #+
+		hit_tween.kill() #+ stop the previous flash if hit again quickly
+	sprite.self_modulate = Color(1, 0.3, 0.3) #+ red tint
+	hit_tween = create_tween() #+
+	hit_tween.tween_property(sprite, "self_modulate", Color.WHITE, 0.2) #+ fade back to normal over 0.2s
+
+##Death and Respawn #+
+func _on_knocked_out(): #+ runs on every peer, because take_damage runs on every peer
+	is_dead = true #+
+	is_swinging = false #+
+	is_dashing = false #+
+	velocity = Vector2.ZERO #+
+	label.visible = false #+
+	if hit_tween: #+
+		hit_tween.kill() #+ don't let the red flash fight the fade
+	sprite.self_modulate = Color.WHITE #+
+	var fade = create_tween() #+
+	fade.tween_property(sprite, "self_modulate:a", 0.0, 0.6) #+ fade away like dust
+	if death_dust: #+
+		death_dust.restart() #+ puff of dust particles
+
+	if is_multiplayer_authority(): #+ only the owner decides when and where to respawn
+		await get_tree().create_timer(respawn_time).timeout #+
+		respawn.rpc(pick_spawn_point()) #+
+
+func pick_spawn_point() -> Vector2: #+
+	var spawns = get_tree().current_scene.find_child("TeamLeftSpawns") #+
+	if spawns == null or spawns.get_child_count() == 0: #+
+		print("No TeamLeftSpawns found, respawning in place") #+
+		return global_position #+
+	var spawn = spawns.get_child(randi() % spawns.get_child_count()) #+ random spawn point
+	return spawn.global_position #+
+
+@rpc("authority", "call_local") #+ only the owner can respawn itself
+func respawn(spawn_position: Vector2): #+
+	global_position = spawn_position #+
+	health.reset_full() #+
+	sprite.self_modulate = Color.WHITE #+ visible again
+	label.visible = true #+
+	is_dead = false #+
 
 
 ##Dash Logic
