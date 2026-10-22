@@ -6,7 +6,7 @@ signal pollution_finished
 signal title_shown
 
 @export_file("*.tscn") var next_scene := "res://Celebes Abyssal Tides/scenes/MainMenu.tscn"
-@export var calm_time := 4.0 # seconds of peaceful sea before pollution
+@export var calm_time := 2.0 # seconds of peaceful sea before pollution
 @export var calm_zoom := 1.2 # slow push-in on the fish during the calm
 @export var fade_time := 0.8 # each half of the fade into next_scene
 @export var pollution_time := 8.0 # how long the wave takes to cover the screen
@@ -21,7 +21,7 @@ signal title_shown
 @onready var camera: Camera2D = $Camera2D
 @onready var logo: Control = $Title/Logo
 @onready var press_start: Control = $Title/PressStart
-@onready var serpent: Node2D = $Surface/Serpent
+@onready var serpent: Node2D = $Surface/Leviathan/Serpent
 
 var timeline: Tween
 var title_tween: Tween
@@ -67,8 +67,8 @@ func _start_pollution():
 
 func _show_title():
 	at_title = true
-	# the serpent only shows up once the camera has stopped
-	serpent.reveal()
+	# the leviathan passes under the surface once, after the camera has stopped
+	serpent.swim_past()
 	title_tween = create_tween()
 	title_tween.tween_property(logo, "modulate:a", 1.0, 1.5)
 	title_tween.tween_property(press_start, "modulate:a", 1.0, 0.5)
@@ -120,7 +120,7 @@ func _finish():
 	set_process_unhandled_input(false)
 	if title_tween:
 		title_tween.kill()
-	serpent.set_process(false) # hold still during the fade
+	serpent.process_mode = Node.PROCESS_MODE_DISABLED # hold still during the fade
 
 	var layer := CanvasLayer.new()
 	layer.layer = 100

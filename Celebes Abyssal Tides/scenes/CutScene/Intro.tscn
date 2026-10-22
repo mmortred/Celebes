@@ -13,6 +13,8 @@
 [ext_resource type="Texture2D" uid="uid://46k1sy0llpyh" path="res://Celebes Abyssal Tides/assets/ui/celebes_logo.png" id="11_logo"]
 [ext_resource type="FontFile" uid="uid://xlnojau3gqwv" path="res://Celebes Abyssal Tides/assets/fonts/PixelifySans-VariableFont_wght.ttf" id="12_font"]
 [ext_resource type="Script" uid="uid://bewx2n8o7rnml" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_serpent.gd" id="13_serpent"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/water_tile.png" id="14_water"]
+[ext_resource type="Shader" path="res://Celebes Abyssal Tides/scenes/CutScene/water_texture.gdshader" id="15_watertex"]
 
 [sub_resource type="Gradient" id="Gradient_sky"]
 offsets = PackedFloat32Array(0, 0.6, 1)
@@ -31,10 +33,15 @@ gradient = SubResource("Gradient_column")
 width = 16
 fill_to = Vector2(0, 1)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_water"]
+shader = ExtResource("15_watertex")
+shader_parameter/water = ExtResource("14_water")
+shader_parameter/rect_size = Vector2(800, 182)
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_surf"]
 shader = ExtResource("9_surf")
-shader_parameter/water_color = Color(0.11, 0.22, 0.3, 1)
-shader_parameter/crest_color = Color(0.45, 0.65, 0.8, 1)
+shader_parameter/water_color = Color(0.18, 0.34, 0.62, 1)
+shader_parameter/crest_color = Color(0.34, 0.53, 0.86, 1)
 shader_parameter/wave_height = 0.25
 shader_parameter/pixel_grid = Vector2(400, 16)
 
@@ -139,14 +146,13 @@ scale_amount_min = 2.0
 scale_amount_max = 5.0
 color = Color(2, 2, 2, 0.35)
 
-[node name="WaterColumn" type="TextureRect" parent="Surface" unique_id=840397673]
+[node name="WaterColumn" type="ColorRect" parent="Surface" unique_id=840397673]
+material = SubResource("ShaderMaterial_water")
 offset_left = -80.0
 offset_top = -178.0
 offset_right = 720.0
 offset_bottom = 4.0
 mouse_filter = 2
-texture = SubResource("GradientTexture2D_column")
-expand_mode = 1
 
 [node name="Waves" type="ColorRect" parent="Surface" unique_id=1578699614]
 material = SubResource("ShaderMaterial_surf")
@@ -156,8 +162,10 @@ offset_right = 720.0
 offset_bottom = -170.0
 mouse_filter = 2
 
-[node name="Serpent" type="Node2D" parent="Surface" unique_id=972723732]
-modulate = Color(0.78, 0.92, 1, 1)
+[node name="Leviathan" type="CanvasGroup" parent="Surface"]
+self_modulate = Color(1, 1, 1, 0.72)
+
+[node name="Serpent" type="Node2D" parent="Surface/Leviathan" unique_id=972723732]
 position = Vector2(0, -360)
 script = ExtResource("13_serpent")
 
