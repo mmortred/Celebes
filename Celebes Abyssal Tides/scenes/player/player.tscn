@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://cwn7gqg6ww0m" path="res://Celebes Abyssal Tides/scripts/abilities/spear_thrust.gd" id="4_lvxji"]
 [ext_resource type="Script" uid="uid://bv4bqssapcd8f" path="res://Celebes Abyssal Tides/scripts/abilities/bubble_strike.gd" id="5_p47bc"]
 [ext_resource type="Texture2D" uid="uid://b1yc0rg23tuye" path="res://Celebes Abyssal Tides/assets/sprite/PearlClaimTileset.png" id="6_pearl"]
+[ext_resource type="Script" path="res://Celebes Abyssal Tides/scripts/player/launch_fx.gd" id="7_launch"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cmd4b"]
 radius = 18.0
@@ -32,7 +33,7 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ma018"]
 size = Vector2(32, 61)
 
-[node name="Player" type="CharacterBody2D" unique_id=447082359]
+[node name="Player2" type="CharacterBody2D" unique_id=447082359]
 input_pickable = true
 script = ExtResource("1_8afob")
 
@@ -40,7 +41,7 @@ script = ExtResource("1_8afob")
 texture_filter = 1
 position = Vector2(0, -46)
 scale = Vector2(1.5, 1.5)
-animation = &"bottom_swing"
+animation = &""
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1509811323]
 visible = false
@@ -108,3 +109,6 @@ scale = Vector2(1.5, 1.5)
 texture = ExtResource("6_pearl")
 region_enabled = true
 region_rect = Rect2(32, 0, 32, 32)
+
+[node name="LaunchFX" type="Node2D" parent="." unique_id=1564738291]
+script = ExtResource("7_launch")

@@ -8,11 +8,14 @@
 [node name="AnimatedSprite2D" parent="." index="0" unique_id=55903766]
 sprite_frames = ExtResource("2_gqejy")
 animation = &"walk_right"
-frame = 5
-frame_progress = 0.36747524
+frame_progress = 0.89066607
 
 [node name="CollisionShape2D" parent="." index="1" unique_id=1509811323]
 visible = true
 
 [node name="HurtBox" parent="." index="10" unique_id=857489502]
 visible = true
+
+[node name="PearlIndicator" parent="." index="11" unique_id=1928374651]
+visible = true
+position = Vector2(32, -88)

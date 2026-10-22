@@ -473,7 +473,7 @@ height = 80.0
 [node name="AnimatedSprite2D" parent="." index="0" unique_id=55903766]
 sprite_frames = SubResource("SpriteFrames_iauuq")
 animation = &"walk_left"
-frame_progress = 0.4896688
+frame_progress = 0.8194636
 
 [node name="CollisionShape2D" parent="." index="1" unique_id=1509811323]
 visible = true

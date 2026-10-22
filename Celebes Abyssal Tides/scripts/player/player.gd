@@ -12,6 +12,8 @@ extends CharacterBody2D
 @export var attack_offset = 24.0 #+ how far in front of the player the hitbox sits
 @export var body_center = Vector2(0, -32) #+ SWING middle of the body, the hitbox is placed around this
 @export var respawn_time = 3.0 #+ seconds dead before respawning
+@export var hit_slow_percent = 0.10 #+ SLOW getting hit cuts walk speed by this much
+@export var hit_slow_duration = 0.5 #+ SLOW seconds the slow lasts, another hit restarts it
 
 ##Private
 @onready var camera = $Camera2D
@@ -23,6 +25,7 @@ extends CharacterBody2D
 @onready var health = $HealthComponent #+
 @onready var death_dust = get_node_or_null("DeathDust") #+ optional particles, null if you didn't add it
 @onready var pearl_indicator: Sprite2D = $PearlIndicator #+ PEARL icon above the head
+@onready var launch_fx = $LaunchFX #+ LAUNCH dash effect, code lives in launch_fx.gd
 
 
 #kelp stuff
@@ -36,6 +39,7 @@ var facing_direction = Vector2.DOWN
 var is_dashing = false
 var dash_timer = 0.0
 var dash_cooldown_timer = 0.0
+var slow_timer = 0.0 #+ SLOW time left on the hit slow
 
 #animatioon stuff so others can see the animation
 @export var anim_name = "walk_down" #+ NEW exported so it shows in the synchronizer picker
@@ -63,6 +67,7 @@ func _ready():
 	sprite.frame_changed.connect(_on_frame_changed) #+ used to time the hit to a frame
 	health.knocked_out.connect(_on_knocked_out) #+ react when HP hits 0
 	sprite.play(anim_name) #+
+	pearl_indicator.visible = has_pearl #+ PEARL hidden at spawn even if left visible in the editor
 	if is_multiplayer_authority(): #+ only MY player connects to MY screen's HUD
 		var hud = get_tree().get_first_node_in_group("hud") #+
 		if hud: #+
@@ -85,6 +90,8 @@ func _physics_process(delta):
 	# Reduce the dash cooldown every frame.
 	if dash_cooldown_timer > 0:
 		dash_cooldown_timer -= delta
+	if slow_timer > 0: #+ SLOW
+		slow_timer -= delta #+
 
 	# Get movement from the Input Map.
 	move_direction = Input.get_vector(
@@ -147,7 +154,10 @@ func _physics_process(delta):
 
 ##Movement
 func move_player():
-	velocity = move_direction * move_speed
+	var speed = move_speed #+ SLOW
+	if slow_timer > 0: #+ SLOW
+		speed *= 1.0 - hit_slow_percent #+ 10% slower while slowed
+	velocity = move_direction * speed #+
 
 ##Animation #+
 func update_animation(): #+
@@ -218,6 +228,7 @@ func receive_hit(amount, attacker_name): #+
 	health.take_damage(amount, attacker) #+
 	if not is_dead: #+ the killing hit starts the fade instead of a flash
 		flash_hit() #+
+		slow_timer = hit_slow_duration #+ SLOW refresh, not stack: 2 quick hits = still 0.5s
 
 func flash_hit(): #+
 	if hit_tween: #+
@@ -268,6 +279,7 @@ func respawn(spawn_position: Vector2): #+
 	health.reset_full() #+
 	sprite.self_modulate = Color.WHITE #+ visible again
 	label.visible = true #+
+	slow_timer = 0.0 #+ SLOW don't come back slowed from a hit taken before dying
 	is_dead = false #+
 
 
@@ -277,6 +289,7 @@ func start_dash():
 	dash_timer = dash_duration
 	dash_cooldown_timer = dash_cooldown
 	reveal_from_attack()
+	play_launch_fx.rpc(facing_direction) #+ LAUNCH show the effect on every screen
 	print("Dash started!")
 
 func dash_player(delta):
@@ -286,6 +299,11 @@ func dash_player(delta):
 	if dash_timer <= 0:
 		is_dashing = false
 		print("Dash ended.")
+
+##Launch FX #+
+@rpc("authority", "call_local") #+ LAUNCH only the owner can trigger it, runs on every peer
+func play_launch_fx(direction: Vector2): #+
+	launch_fx.play(direction, dash_duration) #+
 
 ##Kelp Logic
 func enter_kelp():
