@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://chn10rh2ekm3x"]
+
+[ext_resource type="PackedScene" uid="uid://b15bynslw4646" path="res://Celebes Abyssal Tides/scenes/player/player.tscn" id="1_gqejy"]
+[ext_resource type="SpriteFrames" uid="uid://cyv5dwrlhuf16" path="res://Celebes Abyssal Tides/scenes/player/SeaNomad/bugis.tres" id="2_gqejy"]
+
+[node name="Player" unique_id=447082359 instance=ExtResource("1_gqejy")]
+
+[node name="AnimatedSprite2D" parent="." index="0" unique_id=55903766]
+sprite_frames = ExtResource("2_gqejy")
+animation = &"walk_right"
+frame = 5
+frame_progress = 0.36747524
+
+[node name="CollisionShape2D" parent="." index="1" unique_id=1509811323]
+visible = true
+
+[node name="HurtBox" parent="." index="10" unique_id=857489502]
+visible = true

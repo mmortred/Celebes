@@ -1,6 +1,7 @@
 [gd_resource type="TileSet" format=3 uid="uid://bry6kww383koi"]
 
 [ext_resource type="Texture2D" uid="uid://dj0r5ufuk73dx" path="res://Celebes Abyssal Tides/assets/tf_atlantis/32bit/blueishWalls.png" id="1_7u8de"]
+[ext_resource type="Texture2D" uid="uid://85cmyalr8d2x" path="res://Celebes Abyssal Tides/assets/tf_atlantis/no background.png" id="1_qqmtl"]
 [ext_resource type="Texture2D" uid="uid://budhfest1cx2g" path="res://Celebes Abyssal Tides/assets/tf_atlantis/32bit/BlueishAssets.png" id="2_qqmtl"]
 [ext_resource type="Texture2D" uid="uid://bife108tsc8ae" path="res://Celebes Abyssal Tides/assets/tf_atlantis/32bit/SandBlend.png" id="3_r5kqi"]
 [ext_resource type="Texture2D" uid="uid://ccvgqkq6vwfyd" path="res://Celebes Abyssal Tides/assets/tf_atlantis/32bit/NormalWalls.png" id="4_smy8r"]
@@ -24,6 +25,20 @@ tile_data = PackedInt32Array(131072, 720902, 1, 131073, 720902, 1, 196609, 65536
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_r5kqi"]
 tile_data = PackedInt32Array(0, 851974, 3, 65536, 720902, 1, 131072, 458759, 3, 393216, 131079, 5, 458752, 131079, 5, 524288, 131079, 5, 589824, 458759, 2, 1, 655366, 0, 65537, 458759, 3, 131073, 131079, 6, 196609, 131079, 7, 262145, 131079, 7, 327681, 131079, 8, 589825, 7, 6, 2, 458759, 3, 65538, 131079, 6, 131074, 131079, 7, 196610, 131079, 7, 262146, 131079, 8, 458754, 720902, 0, 3, 131079, 6, 65539, 131079, 7, 131075, 131079, 7, 196611, 131079, 8, 458755, 655366, 0, 524291, 720902, 2, 4, 393223, 2)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_r5kqi"]
+texture = ExtResource("1_qqmtl")
+texture_region_size = Vector2i(32, 32)
+3:33/0 = 0
+2:33/0 = 0
+1:33/0 = 0
+3:32/0 = 0
+3:31/0 = 0
+3:30/0 = 0
+2:31/0 = 0
+1:31/0 = 0
+1:32/0 = 0
+2:32/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fegc3"]
 texture = ExtResource("1_7u8de")
@@ -813,6 +828,7 @@ sources/8 = SubResource("TileSetAtlasSource_n1ary")
 sources/9 = SubResource("TileSetAtlasSource_hsyw0")
 sources/10 = SubResource("TileSetAtlasSource_fegc3")
 sources/11 = SubResource("TileSetAtlasSource_thkvw")
+sources/0 = SubResource("TileSetAtlasSource_r5kqi")
 pattern_0 = SubResource("TileMapPattern_jf40m")
 pattern_1 = SubResource("TileMapPattern_kog2b")
 pattern_2 = SubResource("TileMapPattern_i4r0m")
