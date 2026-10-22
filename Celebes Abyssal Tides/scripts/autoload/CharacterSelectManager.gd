@@ -16,6 +16,7 @@ func reset_local() -> void:
 	locked.clear()
 	loading_started = false
 	loading_peers.clear()
+	set_meta("peer_slots", {})
 	state_changed.emit()
 
 func request_character(character_id: int) -> void:
@@ -52,11 +53,9 @@ func is_locked(peer_id: int) -> bool:
 	return bool(locked.get(peer_id, false))
 
 func _slot_for_peer(peer_id: int) -> int:
-	# Each peer stores its lobby slot before CharacterSelect loads. The host also
-	# receives client slots through selection requests, so validation includes team.
-	if peer_id == multiplayer.get_unique_id():
-		return int(NetworkManager.get_meta("character_select_slot", -1))
-	# Host keeps a peer->slot map supplied as clients enter Character Select.
+	# The host's authoritative LobbyManager is the source of truth.
+	if multiplayer.multiplayer_peer != null and multiplayer.is_server():
+		return LobbyManager.find_slot_by_peer(peer_id)
 	var peer_slots: Dictionary = get_meta("peer_slots", {})
 	return int(peer_slots.get(peer_id, -1))
 
@@ -69,7 +68,10 @@ func register_my_slot(slot: int) -> void:
 		register_slot_rpc.rpc_id(1, slot)
 
 func _host_register_slot(peer_id: int, slot: int) -> void:
-	if slot < 0 or slot > 7:
+	if slot < 0 or slot >= LobbyManager.MAX_PLAYERS:
+		return
+	# Never trust a client-supplied slot: validate against host lobby ownership.
+	if multiplayer.is_server() and LobbyManager.find_slot_by_peer(peer_id) != slot:
 		return
 	var peer_slots: Dictionary = get_meta("peer_slots", {})
 	peer_slots[peer_id] = slot
@@ -102,15 +104,18 @@ func _host_try_select(peer_id: int, character_id: int) -> void:
 	if not valid_team:
 		_reject(peer_id, "That character belongs to the other team.")
 		return
-	var owner := character_owner(character_id)
-	if owner != 0 and owner != peer_id:
-		_reject(peer_id, "Character already taken by Player %s." % owner)
+	var current_owner := character_owner(character_id)
+	if current_owner != 0 and current_owner != peer_id:
+		_reject(peer_id, "Character already taken by Player %s." % current_owner)
 		return
 	selections[peer_id] = character_id
 	locked[peer_id] = false
 	_sync_state()
 
 func _host_set_ready(peer_id: int, value: bool) -> void:
+	if _slot_for_peer(peer_id) < 0 or _slot_for_peer(peer_id) >= 6:
+		_reject(peer_id, "You are not assigned to an active player slot.")
+		return
 	if value and selected_by(peer_id) < 0:
 		_reject(peer_id, "Select a character first.")
 		return
@@ -152,7 +157,7 @@ func _check_all_ready() -> void:
 	for id in peers:
 		var slot := _slot_for_peer(id)
 		if slot < 0:
-			return # Wait until every connected peer has registered its slot.
+			return # Wait until every connected peer has an assigned slot.
 		if slot >= 6:
 			continue # Spectator.
 		active_count += 1
@@ -161,6 +166,7 @@ func _check_all_ready() -> void:
 	if active_count == 0:
 		return
 	loading_started = true
+	loading_peers.clear()
 	begin_loading.rpc()
 
 @rpc("authority", "call_local", "reliable")
@@ -185,12 +191,17 @@ func loading_ready_rpc() -> void:
 		_record_loading_ready(multiplayer.get_remote_sender_id())
 
 func _record_loading_ready(id: int) -> void:
+	if not loading_started or multiplayer.multiplayer_peer == null or not multiplayer.is_server():
+		return
+	if id != multiplayer.get_unique_id() and id not in multiplayer.get_peers():
+		return
 	loading_peers[id] = true
 	for peer in multiplayer.get_peers():
 		if not loading_peers.has(peer):
 			return
 	if not loading_peers.has(multiplayer.get_unique_id()):
 		return
+	loading_started = false # Avoid sending the arena transition more than once.
 	enter_arena.rpc()
 
 @rpc("authority", "call_local", "reliable")

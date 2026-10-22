@@ -49,6 +49,9 @@ func start_match() -> void:
 
 
 func _process(delta: float) -> void:
+	if multiplayer.multiplayer_peer == null:
+		return
+
 	if not multiplayer.is_server() or not match_active:
 		return
 

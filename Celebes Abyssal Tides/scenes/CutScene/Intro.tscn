@@ -666,6 +666,20 @@ text = "PRESS START"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Credit" type="Label" parent="Title"]
+offset_top = 282.0
+offset_right = 640.0
+offset_bottom = 298.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.77, 0.93, 0.95, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.1, 0.08, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("12_font")
+theme_override_font_sizes/font_size = 12
+text = "Made by maKate Studios"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="SpeedLines" type="CanvasLayer" parent="."]
 layer = 5
 

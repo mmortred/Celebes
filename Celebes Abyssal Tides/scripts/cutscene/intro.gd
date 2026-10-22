@@ -23,6 +23,7 @@ signal title_shown
 @onready var camera: Camera2D = $Camera2D
 @onready var logo: Control = $Title/Logo
 @onready var press_start: Control = $Title/PressStart
+@onready var credit: Control = $Title/Credit
 @onready var serpent: Node2D = $Surface/Leviathan/Serpent
 @onready var speed_lines: ColorRect = $SpeedLines/Lines
 
@@ -34,6 +35,7 @@ var at_title := false
 func _ready():
 	logo.modulate.a = 0.0
 	press_start.modulate.a = 0.0
+	credit.modulate.a = 0.0
 
 	timeline = create_tween()
 	timeline.tween_property(camera, "zoom", Vector2.ONE * calm_zoom, calm_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
@@ -79,6 +81,8 @@ func _show_title():
 	title_tween = create_tween()
 	title_tween.tween_property(logo, "modulate:a", 1.0, 1.5)
 	title_tween.tween_property(press_start, "modulate:a", 1.0, 0.5)
+	# studio credit sits under PRESS START and stays put while it blinks
+	title_tween.tween_property(credit, "modulate:a", 1.0, 0.5)
 	title_tween.tween_callback(_blink_press_start)
 	title_shown.emit()
 

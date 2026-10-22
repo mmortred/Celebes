@@ -29,6 +29,8 @@ var all_slots: Array = []
 # A slot number that is NOT in this dictionary is empty.
 # Only the host edits this. Clients just receive a copy from the host.
 var slots: Dictionary = {}
+# Host-authoritative display names, keyed by multiplayer peer ID.
+var player_names: Dictionary = {}
 
 
 # SETUP
@@ -38,15 +40,21 @@ func _ready() -> void:
 	connect_slot_clicks()
 	setup_role_ui()
 
+	if multiplayer.multiplayer_peer == null:
+		push_warning("PvP Lobby opened without a network connection")
+		return
+
 	if multiplayer.is_server():
 		# HOST: put myself in the first slot and listen for players leaving.
 		multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 		assign_peer_to_first_free_slot(HOST_PEER_ID)
+		player_names[HOST_PEER_ID] = PlayerProfile.username
+		PlayerProfile.username_changed.connect(_on_local_username_changed)
 		update_slot_labels()
 	else:
 		# CLIENT: listen for the host disappearing, then ask the host for a slot.
 		multiplayer.server_disconnected.connect(_on_server_disconnected)
-		request_join.rpc_id(HOST_PEER_ID)
+		request_join.rpc_id(HOST_PEER_ID, PlayerProfile.username)
 
 
 # Fill all_slots with the real slot nodes found inside the slot containers.
@@ -136,7 +144,7 @@ func assign_peer_to_first_free_slot(peer_id: int) -> void:
 
 
 func get_player_name(peer_id: int) -> String:
-	return "Player " + str(peer_id)
+	return str(player_names.get(peer_id, "Player " + str(peer_id)))
 
 
 # Redraw every slot's name label from the slots dictionary.
@@ -152,7 +160,11 @@ func update_slot_labels() -> void:
 # HOST-ONLY LOGIC (only ever runs on the host)
 # Send the slots dictionary to all clients, then redraw on the host too.
 func host_send_slots_to_everyone() -> void:
-	sync_all_slots.rpc(slots)  # goes to clients only (it is "call_remote")
+	if multiplayer.multiplayer_peer == null or not multiplayer.is_server():
+		return
+	# Keep the persistent lobby manager authoritative for character-select validation.
+	LobbyManager.apply_host_snapshot(slots, player_names)
+	sync_all_slots.rpc(slots, player_names)  # host sends slots and names
 	update_slot_labels()       # the host updates its own screen here
 
 
@@ -177,17 +189,19 @@ func _on_peer_disconnected(peer_id: int) -> void:
 	var slot_number = find_slot_of_peer(peer_id)
 	if slot_number != -1:
 		slots.erase(slot_number)
+	player_names.erase(peer_id)
 	host_send_slots_to_everyone()
 
 
 # RPCs (functions that are called over the network)
 # CLIENT -> HOST: "I just loaded the lobby, please give me a slot."
 @rpc("any_peer", "call_remote", "reliable")
-func request_join() -> void:
+func request_join(requested_name: String) -> void:
 	if not multiplayer.is_server():
 		return
 	var peer_id = multiplayer.get_remote_sender_id()  # who sent this call
 	assign_peer_to_first_free_slot(peer_id)
+	player_names[peer_id] = PlayerProfile.sanitize(requested_name)
 	host_send_slots_to_everyone()
 
 
@@ -202,12 +216,15 @@ func request_slot_change(new_slot: int) -> void:
 
 # HOST -> CLIENTS: "Here is the current list of who is in which slot."
 @rpc("authority", "call_remote", "reliable")
-func sync_all_slots(new_slots: Dictionary) -> void:
+func sync_all_slots(new_slots: Dictionary, new_names: Dictionary) -> void:
 	# Rebuild the dictionary from scratch and force every key (slot number)
 	# and value (peer id) to be an int, in case they arrive as another type.
 	slots.clear()
 	for key in new_slots:
 		slots[int(key)] = int(new_slots[key])
+	player_names.clear()
+	for key in new_names:
+		player_names[int(key)] = str(new_names[key])
 	update_slot_labels()
 
 
@@ -220,10 +237,11 @@ func host_closed_lobby() -> void:
 
 # HOST -> EVERYONE (including the host): "Game is starting."
 @rpc("authority", "call_local", "reliable")
-func open_character_select() -> void:
-	# Preserve this peer's lobby slot/team before the lobby scene is freed.
+func open_character_select(authoritative_slots: Dictionary) -> void:
+	# Receive the slot map as part of the same reliable transition RPC.
+	# Do not rely on a separate lobby update arriving first.
 	var my_peer_id := multiplayer.get_unique_id()
-	var my_slot := find_slot_of_peer(my_peer_id)
+	var my_slot := int(authoritative_slots.get(my_peer_id, -1))
 	var team := "spectator"
 	if my_slot >= 0 and my_slot <= 2:
 		team = "sea"
@@ -232,8 +250,15 @@ func open_character_select() -> void:
 	NetworkManager.set_meta("character_select_slot", my_slot)
 	NetworkManager.set_meta("character_select_team", team)
 	CharacterSelectManager.reset_local()
+	CharacterSelectManager.set_meta("peer_slots", authoritative_slots.duplicate(true))
 	get_tree().change_scene_to_file("res://Celebes Abyssal Tides/scenes/ui/menus/CharacterSelect.tscn")
 
+
+func _peer_slot_map() -> Dictionary:
+	var result: Dictionary = {}
+	for slot_number in slots:
+		result[int(slots[slot_number])] = int(slot_number)
+	return result
 
 # INPUT / BUTTONS
 
@@ -256,17 +281,47 @@ func _on_slot_gui_input(event: InputEvent, slot_number: int) -> void:
 
 
 func _on_start_button_pressed() -> void:
-	open_character_select.rpc()
+	if not multiplayer.is_server():
+		return
+	if slots.size() < 2:
+		push_warning("Need at least two players before starting.")
+		return
+	# The map and scene transition travel together in one reliable RPC.
+	open_character_select.rpc(_peer_slot_map())
 
 
 func _on_ready_button_pressed() -> void:
-	# TODO: Tell the host this player is ready
-	print("Ready pressed")
+	_request_lobby_ready(true)
 
 
 func _on_unready_button_pressed() -> void:
-	# TODO: Tell the host this player is no longer ready
-	print("Unready pressed")
+	_request_lobby_ready(false)
+
+
+func _request_lobby_ready(value: bool) -> void:
+	if multiplayer.multiplayer_peer == null:
+		return
+	if multiplayer.is_server():
+		_host_set_lobby_ready(HOST_PEER_ID, value)
+	else:
+		request_lobby_ready.rpc_id(HOST_PEER_ID, value)
+
+
+@rpc("any_peer", "call_remote", "reliable")
+func request_lobby_ready(value: bool) -> void:
+	if multiplayer.is_server():
+		_host_set_lobby_ready(multiplayer.get_remote_sender_id(), value)
+
+
+func _host_set_lobby_ready(peer_id: int, value: bool) -> void:
+	var index := find_slot_of_peer(peer_id)
+	if index < 0:
+		return
+	if LobbyManager.find_slot_by_peer(peer_id) == -1:
+		LobbyManager.set_slot_player(index, peer_id, get_player_name(peer_id))
+	LobbyManager.slots[index]["ready"] = value
+	LobbyManager.sync_lobby()
+	print("Lobby ready: peer %s -> %s" % [peer_id, value])
 
 
 func _on_back_button_pressed() -> void:
@@ -281,6 +336,7 @@ func _on_back_button_pressed() -> void:
 
 # The client's built-in signal: the connection to the host was lost.
 func _on_server_disconnected() -> void:
+	disconnect_from_network()
 	go_to_main_menu()
 
 
@@ -305,4 +361,11 @@ func go_to_main_menu() -> void:
 	# TODO: Load Main Menu here
 	# Later, replace the print below with something like:
 	# get_tree().change_scene_to_file("res://scenes/ui/menus/MainMenu.tscn")
-	print("Would load Main Menu now")
+	get_tree().change_scene_to_file("res://Celebes Abyssal Tides/scenes/MainMenu.tscn")
+
+func _on_local_username_changed(new_name: String) -> void:
+	if multiplayer.multiplayer_peer == null:
+		return
+	if multiplayer.is_server():
+		player_names[HOST_PEER_ID] = PlayerProfile.sanitize(new_name)
+		host_send_slots_to_everyone()

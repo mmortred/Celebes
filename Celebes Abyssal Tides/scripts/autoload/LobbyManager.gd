@@ -27,15 +27,33 @@ func find_slot_by_peer(peer_id: int) -> int:
 	return -1
 
 func set_slot_player(index: int, peer_id: int, player_name: String = "") -> void:
-	if not multiplayer.is_server() or index < 0 or index >= MAX_PLAYERS:
+	if multiplayer.multiplayer_peer == null or not multiplayer.is_server():
 		return
+	if index < 0 or index >= MAX_PLAYERS or peer_id <= 0:
+		return
+	if slots.size() != MAX_PLAYERS:
+		reset_lobby()
 	var old_index := find_slot_by_peer(peer_id)
 	if old_index != -1 and old_index != index:
 		clear_slot(old_index)
-	slots[index]["peer_id"] = peer_id
-	slots[index]["player_name"] = player_name
-	slots[index]["ready"] = false
-	slots[index]["character_id"] = -1
+	slots[index] = {"peer_id": peer_id, "player_name": player_name, "team_id": get_default_team_for_slot(index), "character_id": -1, "ready": false}
+	sync_lobby()
+
+func apply_host_snapshot(assigned_slots: Dictionary, names: Dictionary) -> void:
+	if multiplayer.multiplayer_peer == null or not multiplayer.is_server():
+		return
+	var previous: Dictionary = {}
+	for slot in slots:
+		var id := int(slot.get("peer_id", 0))
+		if id > 0:
+			previous[id] = bool(slot.get("ready", false))
+	reset_lobby()
+	for index in assigned_slots:
+		var slot_index := int(index)
+		var id := int(assigned_slots[index])
+		if slot_index < 0 or slot_index >= MAX_PLAYERS or id <= 0:
+			continue
+		slots[slot_index] = {"peer_id": id, "player_name": str(names.get(id, "Player " + str(id))), "team_id": get_default_team_for_slot(slot_index), "character_id": -1, "ready": bool(previous.get(id, false))}
 	sync_lobby()
 
 func clear_slot(index: int) -> void:
@@ -78,8 +96,7 @@ func can_start_match() -> bool:
 func sync_lobby() -> void:
 	if not multiplayer.is_server():
 		return
-	_receive_lobby(slots)
-	_receive_lobby.rpc(slots)
+	_receive_lobby.rpc(slots.duplicate(true))
 
 @rpc("authority", "call_remote", "reliable")
 func _receive_lobby(new_slots: Array) -> void:

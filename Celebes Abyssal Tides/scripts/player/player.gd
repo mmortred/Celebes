@@ -328,8 +328,8 @@ func _refresh_other_players_visibility():
 			player._apply_visibility()
 
 @rpc("any_peer", "call_local")
-func set_kelp_state(hidden: bool):
-	is_hidden_in_kelp = hidden
+func set_kelp_state(is_concealed: bool):
+	is_hidden_in_kelp = is_concealed
 	_apply_visibility()
 
 func _apply_visibility():
@@ -363,5 +363,5 @@ func reveal_from_attack():
 	_update_kelp_state()
 
 @rpc("any_peer", "call_local")
-func set_kelp_visibility(hidden: bool):
-	modulate.a = 0.2 if hidden else 1.0
+func set_kelp_visibility(is_concealed: bool):
+	modulate.a = 0.2 if is_concealed else 1.0
