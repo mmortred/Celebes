@@ -41,6 +41,7 @@ folder_colors={
 "res://Celebes Abyssal Tides/assets/placeholder_assets/": "pink",
 "res://Celebes Abyssal Tides/assets/sprite/": "pink",
 "res://Celebes Abyssal Tides/scenes/": "red",
+"res://Celebes Abyssal Tides/scenes/CutScene/": "pink",
 "res://Celebes Abyssal Tides/scenes/arena/": "pink",
 "res://Celebes Abyssal Tides/scenes/helper/": "pink",
 "res://Celebes Abyssal Tides/scenes/player/": "pink",
