@@ -1,6 +1,6 @@
 extends Node2D
 ## Launch effect with no art needed: squash/stretch, afterimages and a bubble puff, all made in code.
-## Lives as a child of the player. The player's play_launch_fx rpc calls play() on every peer.
+## The player's play_launch_fx rpc calls play() on every peer.
 
 @export var ghost_count = 5 # afterimages left behind during a dash
 @export var ghost_color = Color(0.6, 0.95, 1.0, 0.6) # watery cyan tint

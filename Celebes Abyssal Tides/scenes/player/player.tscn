@@ -1,11 +1,12 @@
 [gd_scene format=3 uid="uid://b15bynslw4646"]
 
 [ext_resource type="Script" uid="uid://bigahcgeobwf2" path="res://Celebes Abyssal Tides/scripts/player/player.gd" id="1_8afob"]
+[ext_resource type="SpriteFrames" uid="uid://cyv5dwrlhuf16" path="res://Celebes Abyssal Tides/scenes/player/base.tres" id="2_mb2se"]
 [ext_resource type="Script" uid="uid://dnqea0iwk7vao" path="res://Celebes Abyssal Tides/scripts/components/health_component.gd" id="3_gmlin"]
 [ext_resource type="Script" uid="uid://cwn7gqg6ww0m" path="res://Celebes Abyssal Tides/scripts/abilities/spear_thrust.gd" id="4_lvxji"]
 [ext_resource type="Script" uid="uid://bv4bqssapcd8f" path="res://Celebes Abyssal Tides/scripts/abilities/bubble_strike.gd" id="5_p47bc"]
 [ext_resource type="Texture2D" uid="uid://b1yc0rg23tuye" path="res://Celebes Abyssal Tides/assets/sprite/PearlClaimTileset.png" id="6_pearl"]
-[ext_resource type="Script" path="res://Celebes Abyssal Tides/scripts/player/launch_fx.gd" id="7_launch"]
+[ext_resource type="Script" uid="uid://bwyv0275vuwsd" path="res://Celebes Abyssal Tides/scripts/player/launch_fx.gd" id="7_launch"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cmd4b"]
 radius = 18.0
@@ -41,7 +42,8 @@ script = ExtResource("1_8afob")
 texture_filter = 1
 position = Vector2(0, -46)
 scale = Vector2(1.5, 1.5)
-animation = &""
+sprite_frames = ExtResource("2_mb2se")
+animation = &"bottom_swing"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1509811323]
 visible = false
