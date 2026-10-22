@@ -12,6 +12,7 @@
 | **SpaceBar** | Dash           |
 | **E**        | Primary        |
 | **R**        | Ult            |
+|**Left Click**| Basic Attack   |
 
 ---
 
