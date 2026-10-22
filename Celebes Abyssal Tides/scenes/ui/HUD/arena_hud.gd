@@ -13,7 +13,7 @@ func _ready():
 	initialize_hud()
 
 func set_player(player): #+ called by MY player only (player.gd _ready checks authority)
-	player_name_label.text = "Player " + str(player.name) #+
+	player_name_label.text = LobbyManager.get_player_name(player.get_multiplayer_authority()) #+ NAME the username from settings
 	player.health.health_changed.connect(_on_health_changed) #+ update the bar every time my HP changes
 	_on_health_changed(player.health.current_health, player.health.max_health) #+ show full HP right away
 

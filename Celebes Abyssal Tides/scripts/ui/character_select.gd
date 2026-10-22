@@ -278,7 +278,8 @@ func _refresh_multiplayer_state() -> void:
 		var taken := selected_owner != 0 and not mine
 		var team_ok := player_team == "all" or player_team == str(data.team)
 		card_buttons[i].disabled = not _has_art(i) or not team_ok or taken or confirmed
-		owner_labels[i].text = ("YOU ✓" if CharacterSelectManager.is_locked(selected_owner) else "YOU") if mine else (("P%s ✓" % selected_owner) if taken and CharacterSelectManager.is_locked(selected_owner) else ("TAKEN — P%s" % selected_owner if taken else ""))
+		var owner_name := LobbyManager.get_player_name(selected_owner)
+		owner_labels[i].text = ("YOU ✓" if CharacterSelectManager.is_locked(selected_owner) else "YOU") if mine else (("%s ✓" % owner_name) if taken and CharacterSelectManager.is_locked(selected_owner) else ("TAKEN — %s" % owner_name if taken else ""))
 		owner_labels[i].modulate = SEA if mine else Color(1.0, 0.55, 0.45)
 		var base_color: Color = SEA if str(data.team) == "sea" else GARBAGE
 		var border_color := base_color if mine else (Color(0.9, 0.35, 0.3) if taken else GOLD)

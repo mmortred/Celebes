@@ -112,7 +112,7 @@ func _host_try_select(peer_id: int, character_id: int) -> void:
 		return
 	var current_owner := character_owner(character_id)
 	if current_owner != 0 and current_owner != peer_id:
-		_reject(peer_id, "Character already taken by Player %s." % current_owner)
+		_reject(peer_id, "Character already taken by %s." % LobbyManager.get_player_name(current_owner))
 		return
 	selections[peer_id] = character_id
 	locked[peer_id] = false
