@@ -20,6 +20,7 @@
 [ext_resource type="Script" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_mountains.gd" id="19_mountains"]
 [ext_resource type="Script" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_clouds.gd" id="20_clouds"]
 [ext_resource type="Script" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_stars.gd" id="21_stars"]
+[ext_resource type="Script" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_coral.gd" id="22_coral"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sky"]
 shader = ExtResource("16_sky")
@@ -333,6 +334,124 @@ script = ExtResource("3_weed")
 height = 150.0
 width = 11.0
 color = Color(0.18, 0.43, 0.29, 1)
+
+[node name="Corals" type="Node2D" parent="."]
+
+[node name="RockLeft" type="Node2D" parent="Corals"]
+position = Vector2(90, 366)
+script = ExtResource("22_coral")
+kind = 4
+size = 120.0
+coral_seed = 1
+
+[node name="RockMid" type="Node2D" parent="Corals"]
+position = Vector2(330, 368)
+script = ExtResource("22_coral")
+kind = 4
+size = 170.0
+coral_seed = 2
+
+[node name="RockRight" type="Node2D" parent="Corals"]
+position = Vector2(560, 366)
+script = ExtResource("22_coral")
+kind = 4
+size = 130.0
+coral_seed = 3
+
+[node name="BranchBack" type="Node2D" parent="Corals"]
+position = Vector2(362, 344)
+script = ExtResource("22_coral")
+size = 100.0
+coral_seed = 4
+
+[node name="BranchMid" type="Node2D" parent="Corals"]
+position = Vector2(272, 350)
+script = ExtResource("22_coral")
+size = 66.0
+coral_seed = 9
+flip = true
+
+[node name="BranchLeft" type="Node2D" parent="Corals"]
+position = Vector2(112, 352)
+script = ExtResource("22_coral")
+size = 62.0
+coral_seed = 12
+
+[node name="BranchRight" type="Node2D" parent="Corals"]
+position = Vector2(586, 350)
+script = ExtResource("22_coral")
+size = 72.0
+coral_seed = 5
+flip = true
+
+[node name="FingerLeft" type="Node2D" parent="Corals"]
+position = Vector2(64, 360)
+script = ExtResource("22_coral")
+kind = 2
+size = 56.0
+coral_seed = 6
+
+[node name="FingerMid" type="Node2D" parent="Corals"]
+position = Vector2(414, 362)
+script = ExtResource("22_coral")
+kind = 2
+size = 86.0
+coral_seed = 2
+
+[node name="FingerRight" type="Node2D" parent="Corals"]
+position = Vector2(488, 362)
+script = ExtResource("22_coral")
+kind = 2
+size = 52.0
+coral_seed = 8
+flip = true
+
+[node name="Brain" type="Node2D" parent="Corals"]
+position = Vector2(322, 364)
+script = ExtResource("22_coral")
+kind = 1
+size = 100.0
+coral_seed = 1
+
+[node name="BrainLeft" type="Node2D" parent="Corals"]
+position = Vector2(156, 364)
+script = ExtResource("22_coral")
+kind = 1
+size = 52.0
+coral_seed = 1
+
+[node name="BrainRight" type="Node2D" parent="Corals"]
+position = Vector2(528, 366)
+script = ExtResource("22_coral")
+kind = 1
+size = 62.0
+coral_seed = 1
+
+[node name="FanLeft" type="Node2D" parent="Corals"]
+material = SubResource("ShaderMaterial_sway")
+position = Vector2(18, 364)
+script = ExtResource("22_coral")
+kind = 3
+size = 84.0
+coral_seed = 3
+
+[node name="FanMid" type="Node2D" parent="Corals"]
+material = SubResource("ShaderMaterial_sway")
+position = Vector2(222, 364)
+script = ExtResource("22_coral")
+kind = 3
+size = 54.0
+coral_seed = 11
+flip = true
+
+[node name="FanRight" type="Node2D" parent="Corals"]
+material = SubResource("ShaderMaterial_sway")
+position = Vector2(628, 364)
+script = ExtResource("22_coral")
+kind = 3
+size = 74.0
+coral_seed = 7
+flip = true
 
 [node name="School" type="Node2D" parent="." unique_id=1235283397]
 

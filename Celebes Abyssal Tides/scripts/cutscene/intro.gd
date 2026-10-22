@@ -15,6 +15,7 @@ signal title_shown
 @export var surface_y := -1080.0 # camera y when looking at the horizon
 @export var murk_tint := Color(0.85, 0.86, 0.7) # whole-scene tint once polluted
 @export var dead_weed_color := Color(0.7, 0.6, 0.38)
+@export var bleached_coral := Color(0.72, 0.68, 0.68) # corals fade and grey out in the pollution
 
 @onready var pollution: ColorRect = $Pollution
 @onready var murk: CanvasModulate = $Murk
@@ -43,6 +44,7 @@ func _ready():
 	timeline.parallel().tween_property(murk, "color", murk_tint, pollution_time)
 	timeline.parallel().tween_property($SeaweedBack, "modulate", dead_weed_color.darkened(0.25), pollution_time)
 	timeline.parallel().tween_property($SeaweedFront, "modulate", dead_weed_color, pollution_time)
+	timeline.parallel().tween_property($Corals, "modulate", bleached_coral, pollution_time)
 	timeline.parallel().tween_property($LightRays, "modulate:a", 0.25, pollution_time)
 	timeline.tween_callback(pollution_finished.emit)
 
