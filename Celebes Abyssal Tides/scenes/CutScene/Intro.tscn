@@ -9,41 +9,53 @@
 [ext_resource type="Script" uid="uid://dph5nb28pwlnb" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_trash.gd" id="7_trash"]
 [ext_resource type="Shader" uid="uid://ckue87sso773h" path="res://Celebes Abyssal Tides/scenes/CutScene/pollution_wave.gdshader" id="8_wave"]
 [ext_resource type="Shader" uid="uid://ctrafdtdhxm5n" path="res://Celebes Abyssal Tides/scenes/CutScene/surface_waves.gdshader" id="9_surf"]
-[ext_resource type="Script" uid="uid://c6fr3vrkq02ab" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_stars.gd" id="10_stars"]
 [ext_resource type="Texture2D" uid="uid://46k1sy0llpyh" path="res://Celebes Abyssal Tides/assets/ui/celebes_logo.png" id="11_logo"]
 [ext_resource type="FontFile" uid="uid://xlnojau3gqwv" path="res://Celebes Abyssal Tides/assets/fonts/PixelifySans-VariableFont_wght.ttf" id="12_font"]
 [ext_resource type="Script" uid="uid://bewx2n8o7rnml" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_serpent.gd" id="13_serpent"]
 [ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/water_tile.png" id="14_water"]
 [ext_resource type="Shader" path="res://Celebes Abyssal Tides/scenes/CutScene/water_texture.gdshader" id="15_watertex"]
+[ext_resource type="Shader" path="res://Celebes Abyssal Tides/scenes/CutScene/sky_pixel.gdshader" id="16_sky"]
+[ext_resource type="Shader" path="res://Celebes Abyssal Tides/scenes/CutScene/sea_surface.gdshader" id="17_sea"]
+[ext_resource type="Shader" path="res://Celebes Abyssal Tides/scenes/CutScene/speed_lines.gdshader" id="18_lines"]
+[ext_resource type="Script" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_mountains.gd" id="19_mountains"]
+[ext_resource type="Script" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_clouds.gd" id="20_clouds"]
+[ext_resource type="Script" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_stars.gd" id="21_stars"]
 
-[sub_resource type="Gradient" id="Gradient_sky"]
-offsets = PackedFloat32Array(0, 0.6, 1)
-colors = PackedColorArray(0.06, 0.05, 0.16, 1, 0.24, 0.13, 0.36, 1, 0.5, 0.28, 0.42, 1)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sky"]
+shader = ExtResource("16_sky")
+shader_parameter/rect_size = Vector2(1240, 315)
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_sky"]
-gradient = SubResource("Gradient_sky")
-width = 16
-fill_to = Vector2(0, 1)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sea"]
+shader = ExtResource("17_sea")
+shader_parameter/water = ExtResource("14_water")
+shader_parameter/rect_size = Vector2(1240, 187)
 
-[sub_resource type="Gradient" id="Gradient_column"]
-colors = PackedColorArray(0.11, 0.22, 0.3, 1, 0.27, 0.1, 0.24, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_column"]
-gradient = SubResource("Gradient_column")
-width = 16
-fill_to = Vector2(0, 1)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_seafoam"]
+shader = ExtResource("17_sea")
+shader_parameter/water = ExtResource("14_water")
+shader_parameter/rect_size = Vector2(1240, 187)
+shader_parameter/foam_only = true
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_water"]
 shader = ExtResource("15_watertex")
 shader_parameter/water = ExtResource("14_water")
-shader_parameter/rect_size = Vector2(800, 182)
+shader_parameter/rect_size = Vector2(1240, 902)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_surf"]
 shader = ExtResource("9_surf")
-shader_parameter/water_color = Color(0.18, 0.34, 0.62, 1)
-shader_parameter/crest_color = Color(0.34, 0.53, 0.86, 1)
-shader_parameter/wave_height = 0.25
-shader_parameter/pixel_grid = Vector2(400, 16)
+shader_parameter/water_color = Color(0.08, 0.12, 0.24, 1)
+shader_parameter/crest_color = Color(0.8, 0.58, 0.64, 1)
+shader_parameter/wave_height = 0.3
+shader_parameter/pixel_grid = Vector2(1240, 22)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_shallowrays"]
+shader = ExtResource("5_rays")
+shader_parameter/ray_color = Color(0.9, 0.6, 0.75, 0.06)
+shader_parameter/speed = 0.15
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lines"]
+shader = ExtResource("18_lines")
+shader_parameter/intensity = 0.0
 
 [sub_resource type="Gradient" id="Gradient_sea"]
 offsets = PackedFloat32Array(0, 0.55, 1)
@@ -71,7 +83,7 @@ shader_parameter/progress = 0.0
 shader_parameter/murk_color = Color(0.22, 0.07, 0.07, 0.55)
 shader_parameter/edge_color = Color(0.4, 0.1, 0.08, 0.9)
 shader_parameter/edge_width = 0.08
-shader_parameter/pixel_grid = Vector2(320, 180)
+shader_parameter/pixel_grid = Vector2(620, 180)
 
 [sub_resource type="Gradient" id="Gradient_blend"]
 colors = PackedColorArray(0.27, 0.1, 0.24, 1, 0.27, 0.1, 0.24, 0)
@@ -92,141 +104,171 @@ shader_parameter/tint_strength = 0.6
 [node name="Intro" type="Node2D" unique_id=68001311]
 script = ExtResource("1_intro")
 
-[node name="Surface" type="Node2D" parent="." unique_id=2073345376]
+[node name="Surface" type="Node2D" parent="."]
 
-[node name="Sky" type="TextureRect" parent="Surface" unique_id=1533318528]
-offset_left = -80.0
-offset_top = -420.0
-offset_right = 720.0
-offset_bottom = -170.0
-mouse_filter = 2
-texture = SubResource("GradientTexture2D_sky")
-expand_mode = 1
-
-[node name="Stars" type="Node2D" parent="Surface" unique_id=1089077721]
-script = ExtResource("10_stars")
-area = Rect2(-80, -420, 800, 140)
-
-[node name="Clouds" type="Node2D" parent="Surface" unique_id=1633857298]
-modulate = Color(0.2, 0.12, 0.25, 0.85)
-
-[node name="Cloud" type="Polygon2D" parent="Surface/Clouds" unique_id=1292964233]
-position = Vector2(60, -300)
-polygon = PackedVector2Array(-50, 0, -35, -8, -15, -12, 5, -9, 25, -14, 45, -8, 60, 0)
-
-[node name="Cloud2" type="Polygon2D" parent="Surface/Clouds" unique_id=220289939]
-position = Vector2(520, -320)
-polygon = PackedVector2Array(-70, 0, -50, -6, -30, -11, -5, -8, 20, -13, 45, -7, 70, 0)
-
-[node name="Cloud3" type="Polygon2D" parent="Surface/Clouds" unique_id=1929899641]
-modulate = Color(1, 1, 1, 0.6)
-position = Vector2(300, -265)
-polygon = PackedVector2Array(-40, 0, -22, -6, 0, -9, 20, -5, 40, 0)
-
-[node name="Volcanoes" type="Node2D" parent="Surface" unique_id=1225536349]
-modulate = Color(0.2, 0.11, 0.17, 1)
-
-[node name="Left" type="Polygon2D" parent="Surface/Volcanoes" unique_id=785545139]
-polygon = PackedVector2Array(-80, -176, -20, -205, 40, -228, 60, -232, 75, -226, 130, -200, 190, -176)
-
-[node name="Right" type="Polygon2D" parent="Surface/Volcanoes" unique_id=2061039872]
-polygon = PackedVector2Array(440, -176, 500, -200, 560, -238, 575, -244, 590, -240, 640, -210, 720, -176)
-
-[node name="Smoke" type="CPUParticles2D" parent="Surface/Volcanoes" unique_id=1542948527]
-position = Vector2(575, -246)
-amount = 20
-lifetime = 6.0
-preprocess = 6.0
-direction = Vector2(0.3, -1)
-spread = 15.0
-gravity = Vector2(4, -2)
-initial_velocity_min = 4.0
-initial_velocity_max = 8.0
-scale_amount_min = 2.0
-scale_amount_max = 5.0
-color = Color(2, 2, 2, 0.35)
-
-[node name="WaterColumn" type="ColorRect" parent="Surface" unique_id=840397673]
-material = SubResource("ShaderMaterial_water")
-offset_left = -80.0
-offset_top = -178.0
-offset_right = 720.0
-offset_bottom = 4.0
-mouse_filter = 2
-
-[node name="Waves" type="ColorRect" parent="Surface" unique_id=1578699614]
-material = SubResource("ShaderMaterial_surf")
-offset_left = -80.0
-offset_top = -192.0
-offset_right = 720.0
-offset_bottom = -170.0
+[node name="Sea" type="ColorRect" parent="Surface"]
+material = SubResource("ShaderMaterial_sea")
+offset_left = -300.0
+offset_top = -1085.0
+offset_right = 940.0
+offset_bottom = -898.0
 mouse_filter = 2
 
 [node name="Leviathan" type="CanvasGroup" parent="Surface"]
 self_modulate = Color(1, 1, 1, 0.72)
 
-[node name="Serpent" type="Node2D" parent="Surface/Leviathan" unique_id=972723732]
-position = Vector2(0, -360)
+[node name="Serpent" type="Node2D" parent="Surface/Leviathan"]
+position = Vector2(0, -1260)
 script = ExtResource("13_serpent")
 
-[node name="SurfaceTrash" type="Node2D" parent="Surface" unique_id=1354972888]
+[node name="SeaFoam" type="ColorRect" parent="Surface"]
+material = SubResource("ShaderMaterial_seafoam")
+offset_left = -300.0
+offset_top = -1085.0
+offset_right = 940.0
+offset_bottom = -898.0
+mouse_filter = 2
 
-[node name="Bag" type="Node2D" parent="Surface/SurfaceTrash" unique_id=1953241444]
-position = Vector2(90, -178)
+[node name="Sky" type="ColorRect" parent="Surface"]
+material = SubResource("ShaderMaterial_sky")
+offset_left = -300.0
+offset_top = -1400.0
+offset_right = 940.0
+offset_bottom = -1085.0
+mouse_filter = 2
+
+[node name="Stars" type="Node2D" parent="Surface"]
+script = ExtResource("21_stars")
+area = Rect2(-300, -1400, 1240, 170)
+count = 70
+
+[node name="Mountains" type="Node2D" parent="Surface"]
+position = Vector2(-300, -1085)
+script = ExtResource("19_mountains")
+
+[node name="Clouds" type="Node2D" parent="Surface"]
+position = Vector2(0, -1250)
+script = ExtResource("20_clouds")
+area = Rect2(-300, 0, 1240, 90)
+light = Color(0.78, 0.45, 0.52, 1)
+shade = Color(0.3, 0.17, 0.3, 1)
+
+[node name="WaterColumn" type="ColorRect" parent="Surface"]
+material = SubResource("ShaderMaterial_water")
+offset_left = -300.0
+offset_top = -902.0
+offset_right = 940.0
+mouse_filter = 2
+
+[node name="ShallowRays" type="ColorRect" parent="Surface"]
+material = SubResource("ShaderMaterial_shallowrays")
+offset_left = -300.0
+offset_top = -900.0
+offset_right = 940.0
+offset_bottom = -450.0
+mouse_filter = 2
+
+[node name="Waterline" type="ColorRect" parent="Surface"]
+material = SubResource("ShaderMaterial_surf")
+offset_left = -300.0
+offset_top = -911.0
+offset_right = 940.0
+offset_bottom = -889.0
+mouse_filter = 2
+
+[node name="Debris" type="Node2D" parent="Surface"]
+
+[node name="Bag" type="Node2D" parent="Surface/Debris"]
+position = Vector2(120, -700)
 script = ExtResource("7_trash")
 floating = true
 
-[node name="Bottle" type="Node2D" parent="Surface/SurfaceTrash" unique_id=21189642]
-position = Vector2(205, -180)
+[node name="Bottle" type="Node2D" parent="Surface/Debris"]
+position = Vector2(480, -560)
 script = ExtResource("7_trash")
 kind = 1
 floating = true
 
-[node name="Slipper" type="Node2D" parent="Surface/SurfaceTrash" unique_id=1207777334]
-position = Vector2(330, -179)
+[node name="Bag2" type="Node2D" parent="Surface/Debris"]
+position = Vector2(300, -380)
 script = ExtResource("7_trash")
-kind = 4
 floating = true
 
-[node name="Can" type="Node2D" parent="Surface/SurfaceTrash" unique_id=425762836]
-position = Vector2(420, -180)
+[node name="Can" type="Node2D" parent="Surface/Debris"]
+position = Vector2(560, -250)
 script = ExtResource("7_trash")
 kind = 2
 floating = true
 
-[node name="Tire" type="Node2D" parent="Surface/SurfaceTrash" unique_id=2043176652]
-position = Vector2(500, -179)
+[node name="Slipper" type="Node2D" parent="Surface/Debris"]
+position = Vector2(60, -160)
 script = ExtResource("7_trash")
-kind = 3
+kind = 4
 floating = true
 
-[node name="Bottle2" type="Node2D" parent="Surface/SurfaceTrash" unique_id=1139956830]
-position = Vector2(590, -180)
+[node name="Bag3" type="Node2D" parent="Surface/Debris"]
+position = Vector2(400, -820)
+script = ExtResource("7_trash")
+floating = true
+
+[node name="SurfaceTrash" type="Node2D" parent="Surface"]
+
+[node name="Bag" type="Node2D" parent="Surface/SurfaceTrash"]
+position = Vector2(90, -930)
+script = ExtResource("7_trash")
+floating = true
+
+[node name="Bottle" type="Node2D" parent="Surface/SurfaceTrash"]
+position = Vector2(205, -1010)
+scale = Vector2(0.8, 0.8)
 script = ExtResource("7_trash")
 kind = 1
 floating = true
 
-[node name="Bag2" type="Node2D" parent="Surface/SurfaceTrash" unique_id=989935536]
-position = Vector2(260, -110)
+[node name="Slipper" type="Node2D" parent="Surface/SurfaceTrash"]
+position = Vector2(330, -960)
 script = ExtResource("7_trash")
+kind = 4
 floating = true
 
-[node name="Bag3" type="Node2D" parent="Surface/SurfaceTrash" unique_id=774300251]
-position = Vector2(560, -120)
+[node name="Can" type="Node2D" parent="Surface/SurfaceTrash"]
+position = Vector2(440, -1045)
+scale = Vector2(0.6, 0.6)
+script = ExtResource("7_trash")
+kind = 2
+floating = true
+
+[node name="Tire" type="Node2D" parent="Surface/SurfaceTrash"]
+position = Vector2(510, -985)
+scale = Vector2(0.9, 0.9)
+script = ExtResource("7_trash")
+kind = 3
+floating = true
+
+[node name="Bottle2" type="Node2D" parent="Surface/SurfaceTrash"]
+position = Vector2(590, -935)
+script = ExtResource("7_trash")
+kind = 1
+floating = true
+
+[node name="Bag2" type="Node2D" parent="Surface/SurfaceTrash"]
+position = Vector2(150, -1055)
+scale = Vector2(0.55, 0.55)
 script = ExtResource("7_trash")
 floating = true
 
 [node name="Background" type="TextureRect" parent="." unique_id=635464794]
-offset_left = -80.0
-offset_right = 720.0
-offset_bottom = 400.0
+offset_left = -300.0
+offset_right = 940.0
+offset_bottom = 560.0
 mouse_filter = 2
 texture = SubResource("GradientTexture2D_sea")
 expand_mode = 1
 
 [node name="LightRays" type="ColorRect" parent="." unique_id=1329532594]
 material = SubResource("ShaderMaterial_rays")
-offset_right = 640.0
+offset_left = -300.0
+offset_right = 940.0
 offset_bottom = 360.0
 mouse_filter = 2
 
@@ -371,8 +413,8 @@ color = Color(0.85, 0.8, 1, 0.35)
 
 [node name="Pollution" type="ColorRect" parent="." unique_id=2044170476]
 material = SubResource("ShaderMaterial_wave")
-offset_left = -80.0
-offset_right = 720.0
+offset_left = -300.0
+offset_right = 940.0
 offset_bottom = 360.0
 mouse_filter = 2
 
@@ -392,8 +434,8 @@ scale_amount_max = 2.0
 color = Color(0.35, 0.25, 0.12, 0.6)
 
 [node name="DepthBlend" type="TextureRect" parent="." unique_id=1852485322]
-offset_left = -80.0
-offset_right = 720.0
+offset_left = -300.0
+offset_right = 940.0
 offset_bottom = 70.0
 mouse_filter = 2
 texture = SubResource("GradientTexture2D_blend")
@@ -473,8 +515,8 @@ rest_y = 338.0
 
 [node name="Distortion" type="ColorRect" parent="." unique_id=792328608]
 material = SubResource("ShaderMaterial_glow")
-offset_left = -80.0
-offset_right = 720.0
+offset_left = -300.0
+offset_right = 940.0
 offset_bottom = 360.0
 mouse_filter = 2
 
@@ -504,3 +546,12 @@ theme_override_font_sizes/font_size = 20
 text = "PRESS START"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="SpeedLines" type="CanvasLayer" parent="."]
+layer = 5
+
+[node name="Lines" type="ColorRect" parent="SpeedLines"]
+material = SubResource("ShaderMaterial_lines")
+offset_right = 640.0
+offset_bottom = 360.0
+mouse_filter = 2

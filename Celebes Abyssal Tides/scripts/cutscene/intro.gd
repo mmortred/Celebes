@@ -9,9 +9,10 @@ signal title_shown
 @export var calm_time := 2.0 # seconds of peaceful sea before pollution
 @export var calm_zoom := 1.2 # slow push-in on the fish during the calm
 @export var fade_time := 0.8 # each half of the fade into next_scene
-@export var pollution_time := 8.0 # how long the wave takes to cover the screen
-@export var rise_time := 5.0 # camera trip up to the surface
-@export var surface_y := -180.0 # camera y when looking at the horizon
+@export var pollution_time := 4.0 # how long the wave takes to cover the screen
+@export var rise_time := 7.0 # camera trip up through the deep to the surface
+@export var rise_zoom := 0.6 # how far the camera pulls back mid-rise
+@export var surface_y := -1080.0 # camera y when looking at the horizon
 @export var murk_tint := Color(0.85, 0.86, 0.7) # whole-scene tint once polluted
 @export var dead_weed_color := Color(0.7, 0.6, 0.38)
 
@@ -22,6 +23,7 @@ signal title_shown
 @onready var logo: Control = $Title/Logo
 @onready var press_start: Control = $Title/PressStart
 @onready var serpent: Node2D = $Surface/Leviathan/Serpent
+@onready var speed_lines: ColorRect = $SpeedLines/Lines
 
 var timeline: Tween
 var title_tween: Tween
@@ -44,22 +46,25 @@ func _ready():
 	timeline.parallel().tween_property($LightRays, "modulate:a", 0.25, pollution_time)
 	timeline.tween_callback(pollution_finished.emit)
 
-	# rise to the surface, pulling back a little on the way up
-	var half := rise_time * 0.5
+	# long rise through the deep: pull way back, rush up with speed lines, settle at the surface
+	var lines := speed_lines.material
 	timeline.tween_property(camera, "position:y", surface_y, rise_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-	timeline.parallel().tween_property(camera, "zoom", Vector2(0.9, 0.9), half).set_trans(Tween.TRANS_SINE)
-	timeline.parallel().tween_property(camera, "zoom", Vector2.ONE, half).set_trans(Tween.TRANS_SINE).set_delay(half)
-	timeline.parallel().tween_property(murk, "color", Color.WHITE, rise_time)
+	timeline.parallel().tween_property(camera, "zoom", Vector2.ONE * rise_zoom, rise_time * 0.4).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	timeline.parallel().tween_property(camera, "zoom", Vector2.ONE, rise_time * 0.45).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT).set_delay(rise_time * 0.55)
+	timeline.parallel().tween_property(lines, "shader_parameter/intensity", 1.0, rise_time * 0.2).set_delay(rise_time * 0.1)
+	timeline.parallel().tween_property(lines, "shader_parameter/intensity", 0.0, rise_time * 0.2).set_delay(rise_time * 0.7)
+	timeline.parallel().tween_property(murk, "color", Color.WHITE, rise_time * 0.6)
 	timeline.tween_callback(_show_title)
 
 
 func _start_pollution():
 	grime.emitting = true
 	# fish bolt once the wave gets close, far fish first
-	_after(pollution_time * 0.2, _flee.bind($FarFish, 50.0))
-	_after(pollution_time * 0.35, _flee.bind($School, 90.0))
+	_after(pollution_time * 0.15, _flee.bind($FarFish, 120.0))
+	_after(pollution_time * 0.3, _flee.bind($School, 180.0))
 	# no more bubbles, the sea is choking
-	_after(pollution_time * 0.5, $Bubbles.set_emitting.bind(false))	# trash sinks in one piece at a time
+	_after(pollution_time * 0.5, $Bubbles.set_emitting.bind(false))
+	# trash sinks in one piece at a time
 	var trash := $Trash.get_children()
 	for i in trash.size():
 		_after(pollution_time * 0.8 * i / trash.size(), trash[i].release)
@@ -88,6 +93,7 @@ func _skip_to_title():
 	pollution.material.set_shader_parameter("progress", 1.0)
 	camera.position.y = surface_y
 	camera.zoom = Vector2.ONE
+	speed_lines.material.set_shader_parameter("intensity", 0.0)
 	murk.color = Color.WHITE
 	# trash that hadn't dropped yet would hang in view, so settle it on the seabed
 	for trash in $Trash.get_children():

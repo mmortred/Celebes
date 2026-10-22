@@ -7,15 +7,15 @@ extends Node2D
 
 ## path the head follows, in local coords, from where it enters to where it leaves
 @export var route := PackedVector2Array([
-	Vector2(830, 345), Vector2(640, 310), Vector2(420, 272), Vector2(200, 296),
-	Vector2(-40, 330), Vector2(-400, 305), Vector2(-900, 335), Vector2(-1500, 330),
+	Vector2(830, 360), Vector2(640, 325), Vector2(420, 290), Vector2(200, 312),
+	Vector2(-40, 345), Vector2(-400, 320), Vector2(-900, 350), Vector2(-1500, 345),
 ]):
 	set(v): route = v; _build_path(); queue_redraw()
 @export var length := 1300.0 # head to tail tip
 @export var max_width := 90.0
 @export var duration := 11.0 # seconds for the whole pass
 @export var sway := 14.0 # extra s-curve rolling down the body
-@export var shadow := Color(0.02, 0.05, 0.12) # opaque; the parent CanvasGroup sets the see-through amount
+@export var shadow := Color(0.0, 0.01, 0.03) # opaque; the parent CanvasGroup sets the see-through amount
 @export var eye_color := Color(1.0, 0.75, 0.2)
 @export var preview_at := 0.45 # how far along the pass to show in the editor
 
