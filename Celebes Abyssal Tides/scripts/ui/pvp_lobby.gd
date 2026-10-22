@@ -31,6 +31,9 @@ const HOST_PEER_ID = 1
 # Every slot node in the scene, in slot-number order. all_slots[0] is slot 0.
 var all_slots: Array = []
 
+# Host only: line under START saying who still has to press READY.
+var start_status: Label
+
 # Who is sitting where. Key = slot number, value = peer id.
 # Example: { 0: 1, 1: 54821 } means the host is in slot 0 and peer 54821 is in slot 1.
 # A slot number that is NOT in this dictionary is empty.
@@ -104,6 +107,15 @@ func setup_role_ui() -> void:
 		ready_button.hide()
 		unready_button.hide()
 		host_ip_label.text = "IP: " + get_local_ipv4()
+		start_status = Label.new()
+		start_status.position = Vector2(170, 304)
+		start_status.size = Vector2(300, 14)
+		start_status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		start_status.add_theme_font_size_override("font_size", 10)
+		start_status.add_theme_constant_override("outline_size", 3)
+		start_status.add_theme_color_override("font_outline_color", Color.BLACK)
+		start_status.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(start_status)
 	else:
 		start_button.hide()
 		back_button.show()
@@ -179,6 +191,38 @@ func update_slot_labels() -> void:
 			name_label.modulate = Color(1, 1, 1, 0.6)
 			if icon:
 				icon.visible = false
+	update_start_state()
+
+
+# Names of the players the host is still waiting on. The host has no READY
+# button, so the host always counts as ready.
+func players_not_ready() -> Array[String]:
+	var waiting: Array[String] = []
+	for slot_number in slots:
+		var peer_id: int = slots[slot_number]
+		if peer_id != HOST_PEER_ID and not _is_lobby_ready(peer_id):
+			waiting.append(get_player_name(peer_id))
+	return waiting
+
+
+func can_start_game() -> bool:
+	return slots.size() >= 2 and players_not_ready().is_empty()
+
+
+# Host only: dim START until everyone is ready, and say who we're waiting for.
+func update_start_state() -> void:
+	if start_status == null or multiplayer.multiplayer_peer == null or not multiplayer.is_server():
+		return
+	var ready_to_go := can_start_game()
+	start_button.disabled = not ready_to_go
+	start_button.modulate = Color.WHITE if ready_to_go else Color(1, 1, 1, 0.45)
+	var waiting := players_not_ready()
+	if slots.size() < 2:
+		start_status.text = "Waiting for another player to join"
+	elif not waiting.is_empty():
+		start_status.text = "Waiting for: " + ", ".join(waiting)
+	else:
+		start_status.text = "Everyone is ready!"
 
 
 func _is_lobby_ready(peer_id: int) -> bool:
@@ -314,8 +358,8 @@ func _on_slot_gui_input(event: InputEvent, slot_number: int) -> void:
 func _on_start_button_pressed() -> void:
 	if not multiplayer.is_server():
 		return
-	if slots.size() < 2:
-		push_warning("Need at least two players before starting.")
+	if not can_start_game():
+		update_start_state() # the status line already says what's missing
 		return
 	# The map and scene transition travel together in one reliable RPC.
 	open_character_select.rpc(_peer_slot_map())

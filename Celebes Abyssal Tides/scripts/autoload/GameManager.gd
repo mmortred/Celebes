@@ -49,7 +49,10 @@ func start_match() -> void:
 
 
 func _process(delta: float) -> void:
-	if multiplayer.multiplayer_peer == null:
+	# also stop once the connection drops (host left): asking a dead peer
+	# is_server() prints "multiplayer instance isn't currently active" every frame
+	var peer := multiplayer.multiplayer_peer
+	if peer == null or peer.get_connection_status() != MultiplayerPeer.CONNECTION_CONNECTED:
 		return
 
 	if not multiplayer.is_server() or not match_active:

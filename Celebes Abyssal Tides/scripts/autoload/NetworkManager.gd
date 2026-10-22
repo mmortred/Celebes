@@ -21,6 +21,18 @@ func _ready() -> void:
 					InputMap.action_add_event(action, event)
 	multiplayer.peer_connected.connect(_on_peer_connected)
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
+	multiplayer.server_disconnected.connect(_on_server_disconnected)
+
+
+# Client side: the host left after the lobby (character select, loading, arena).
+# Drop the dead connection and go back to the main menu. The lobby handles this itself.
+func _on_server_disconnected() -> void:
+	var scene := get_tree().current_scene
+	if scene != null and scene.name == "PvPLobby":
+		return
+	print("Host disconnected, back to main menu")
+	close_connection()
+	get_tree().change_scene_to_file("res://Celebes Abyssal Tides/scenes/MainMenu.tscn")
 
 func _on_peer_connected(id: int) -> void:
 	print("Peer connected: ", id)
