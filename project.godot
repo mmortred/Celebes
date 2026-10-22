@@ -11,21 +11,26 @@ config_version=5
 [application]
 
 config/name="Celebes: Abyssal Tides"
-run/main_scene="uid://ctmc4egsqdujy"
+run/main_scene="res://Celebes Abyssal Tides/scenes/Intro.tscn"
 config/features=PackedStringArray("4.7", "Forward Plus")
 boot_splash/show_image=false
 config/icon="uid://67fivlx11px4"
 
 [autoload]
 
+PlayerProfile="*res://Celebes Abyssal Tides/scripts/autoload/PlayerProfile.gd"
 NetworkManager="*uid://c28ydyiqt5vhw"
+GameManager="*uid://b66bnmevg2nnn"
+CharacterSelectManager="*res://Celebes Abyssal Tides/scripts/autoload/CharacterSelectManager.gd"
+LobbyManager="*res://Celebes Abyssal Tides/scripts/autoload/LobbyManager.gd"
 
 [display]
 
-window/size/viewport_width=1280
-window/size/viewport_height=720
+window/size/viewport_width=640
+window/size/viewport_height=360
+window/size/window_width_override=1280
+window/size/window_height_override=720
 window/stretch/mode="canvas_items"
-window/stretch/aspect="expand"
 
 [file_customization]
 
