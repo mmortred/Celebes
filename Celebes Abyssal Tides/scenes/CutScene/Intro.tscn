@@ -21,6 +21,7 @@
 [ext_resource type="Script" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_clouds.gd" id="20_clouds"]
 [ext_resource type="Script" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_stars.gd" id="21_stars"]
 [ext_resource type="Script" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_coral.gd" id="22_coral"]
+[ext_resource type="Texture2D" uid="uid://cjq63qtj2vphb" path="res://Celebes Abyssal Tides/assets/ui/nstw_2026_logo.png" id="23_nstw"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sky"]
 shader = ExtResource("16_sky")
@@ -665,6 +666,17 @@ theme_override_font_sizes/font_size = 20
 text = "PRESS START"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="NstwLogo" type="TextureRect" parent="Title"]
+texture_filter = 1
+offset_left = 10.0
+offset_top = 290.0
+offset_right = 136.0
+offset_bottom = 350.0
+mouse_filter = 2
+texture = ExtResource("23_nstw")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="Credit" type="Label" parent="Title"]
 offset_top = 282.0

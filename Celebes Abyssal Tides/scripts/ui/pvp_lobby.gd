@@ -9,6 +9,13 @@ const SLOT_CONTAINER_NAMES = ["SeaNomads", "GarbageMonsters", "Spectators"]
 
 const BORDER_FRAME_PATH = "SlotLayout/BorderFrame"
 const NAME_LABEL_PATH = "SlotLayout/PlayerNameLabel"
+const ICON_PATH = "SlotLayout/BorderFrame/PlayerIcon"
+
+# How a slot looks, so everyone can see who is sitting where.
+const SLOT_MINE = Color(0.45, 1.0, 0.95)     # my own slot: bright cyan frame
+const SLOT_TAKEN = Color(1, 1, 1)            # someone else's slot
+const SLOT_EMPTY = Color(1, 1, 1, 0.4)       # free slot: faded
+const NAME_READY = Color(0.55, 1.0, 0.55)    # name turns green once ready
 
 # In Godot, the host (server) always has peer id 1.
 const HOST_PEER_ID = 1
@@ -39,6 +46,9 @@ func _ready() -> void:
 	connect_buttons()
 	connect_slot_clicks()
 	setup_role_ui()
+	update_slot_labels()
+	# ready flags live in LobbyManager; redraw when they change
+	LobbyManager.lobby_updated.connect(update_slot_labels)
 
 	if multiplayer.multiplayer_peer == null:
 		push_warning("PvP Lobby opened without a network connection")
@@ -147,14 +157,33 @@ func get_player_name(peer_id: int) -> String:
 	return str(player_names.get(peer_id, "Player " + str(peer_id)))
 
 
-# Redraw every slot's name label from the slots dictionary.
+# Redraw every slot from the slots dictionary: name, frame colour, icon, ready.
 func update_slot_labels() -> void:
+	var my_id := multiplayer.get_unique_id() if multiplayer.multiplayer_peer != null else 0
 	for slot_number in all_slots.size():
-		var name_label: Label = all_slots[slot_number].get_node(NAME_LABEL_PATH)
+		var slot_node: Control = all_slots[slot_number]
+		var name_label: Label = slot_node.get_node(NAME_LABEL_PATH)
+		var frame: Control = slot_node.get_node(BORDER_FRAME_PATH)
+		var icon: Control = slot_node.get_node_or_null(ICON_PATH)
 		if slots.has(slot_number):
-			name_label.text = get_player_name(slots[slot_number])
+			var peer_id: int = slots[slot_number]
+			var mine := peer_id == my_id
+			name_label.text = get_player_name(peer_id) + (" (YOU)" if mine else "")
+			frame.self_modulate = SLOT_MINE if mine else SLOT_TAKEN
+			name_label.modulate = NAME_READY if _is_lobby_ready(peer_id) else Color.WHITE
+			if icon:
+				icon.visible = true
 		else:
 			name_label.text = "Empty"
+			frame.self_modulate = SLOT_EMPTY
+			name_label.modulate = Color(1, 1, 1, 0.6)
+			if icon:
+				icon.visible = false
+
+
+func _is_lobby_ready(peer_id: int) -> bool:
+	var index := LobbyManager.find_slot_by_peer(peer_id)
+	return index != -1 and bool(LobbyManager.slots[index].get("ready", false))
 
 
 # HOST-ONLY LOGIC (only ever runs on the host)
@@ -249,6 +278,8 @@ func open_character_select(authoritative_slots: Dictionary) -> void:
 		team = "garbage"
 	NetworkManager.set_meta("character_select_slot", my_slot)
 	NetworkManager.set_meta("character_select_team", team)
+	# the match has started, so stop listing this lobby on the network
+	NetworkManager.stop_discovery_responder()
 	CharacterSelectManager.reset_local()
 	CharacterSelectManager.set_meta("peer_slots", authoritative_slots.duplicate(true))
 	get_tree().change_scene_to_file("res://Celebes Abyssal Tides/scenes/ui/menus/CharacterSelect.tscn")
@@ -321,6 +352,7 @@ func _host_set_lobby_ready(peer_id: int, value: bool) -> void:
 		LobbyManager.set_slot_player(index, peer_id, get_player_name(peer_id))
 	LobbyManager.slots[index]["ready"] = value
 	LobbyManager.sync_lobby()
+	update_slot_labels() # the host's own screen (sync_lobby only reaches clients)
 	print("Lobby ready: peer %s -> %s" % [peer_id, value])
 
 
@@ -352,6 +384,7 @@ func disconnect_from_network() -> void:
 	if multiplayer.peer_disconnected.is_connected(_on_peer_disconnected):
 		multiplayer.peer_disconnected.disconnect(_on_peer_disconnected)
 
+	NetworkManager.stop_discovery_responder()
 	if multiplayer.multiplayer_peer != null:
 		multiplayer.multiplayer_peer.close()
 	multiplayer.multiplayer_peer = null

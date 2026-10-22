@@ -20,6 +20,19 @@ func get_default_team_for_slot(index: int) -> int:
 		return 1
 	return 2
 
+# Display name for a peer, for every screen after the lobby (character select,
+# arena labels, HUD). Comes from each player's settings username, which the
+# lobby host shares with everyone.
+func get_player_name(peer_id: int) -> String:
+	var index := find_slot_by_peer(peer_id)
+	if index != -1 and str(slots[index].get("player_name", "")) != "":
+		return str(slots[index]["player_name"])
+	var offline := multiplayer.multiplayer_peer == null
+	if offline or peer_id == multiplayer.get_unique_id():
+		return PlayerProfile.username
+	return "Player %d" % peer_id
+
+
 func find_slot_by_peer(peer_id: int) -> int:
 	for i in range(slots.size()):
 		if int(slots[i].get("peer_id", 0)) == peer_id:

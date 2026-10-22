@@ -8,6 +8,9 @@ signal state_changed
 signal selection_rejected(reason: String)
 signal match_loading_requested
 
+# Characters that have art and can be picked; the rest show "?" for now.
+const PLAYABLE := [0, 5] # Bugis, Toxic Sludge
+
 var selections: Dictionary = {} # peer_id -> character_id
 var locked: Dictionary = {}     # peer_id -> bool
 
@@ -100,13 +103,16 @@ func _host_try_select(peer_id: int, character_id: int) -> void:
 	if slot < 0 or slot >= 6:
 		_reject(peer_id, "Spectators cannot select characters.")
 		return
+	if character_id not in PLAYABLE:
+		_reject(peer_id, "That character isn't available yet.")
+		return
 	var valid_team := (slot <= 2 and character_id >= 0 and character_id <= 2) or (slot >= 3 and slot <= 5 and character_id >= 3 and character_id <= 5)
 	if not valid_team:
 		_reject(peer_id, "That character belongs to the other team.")
 		return
 	var current_owner := character_owner(character_id)
 	if current_owner != 0 and current_owner != peer_id:
-		_reject(peer_id, "Character already taken by Player %s." % current_owner)
+		_reject(peer_id, "Character already taken by %s." % LobbyManager.get_player_name(current_owner))
 		return
 	selections[peer_id] = character_id
 	locked[peer_id] = false

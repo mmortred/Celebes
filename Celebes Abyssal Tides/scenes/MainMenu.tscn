@@ -13,6 +13,8 @@
 [ext_resource type="Texture2D" uid="uid://cutl8vj7tu62n" path="res://Celebes Abyssal Tides/assets/ui/join_icon.png" id="10_ivm5w"]
 [ext_resource type="Texture2D" uid="uid://dejd3sgxrrh6q" path="res://Celebes Abyssal Tides/assets/ui/back_icon.png" id="11_l1d2i"]
 [ext_resource type="Environment" uid="uid://1kcy00nbgb55" path="res://Celebes Abyssal Tides/scripts/ui/environment_preset.tres" id="12_l1d2i"]
+[ext_resource type="Texture2D" uid="uid://c6bp23bjg8r87" path="res://Celebes Abyssal Tides/assets/ui/ClutterFile.png" id="13_clutter"]
+[ext_resource type="Texture2D" uid="uid://cjq63qtj2vphb" path="res://Celebes Abyssal Tides/assets/ui/nstw_2026_logo.png" id="14_nstw"]
 
 [sub_resource type="Gradient" id="Gradient_ivm5w"]
 colors = PackedColorArray(0, 0.023529412, 0.078431375, 1, 0, 0.32300004, 0.38, 1)
@@ -239,6 +241,14 @@ _data = {
 &"pvp_hover": SubResource("Animation_xtshi")
 }
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_banner_nstw"]
+atlas = ExtResource("13_clutter")
+region = Rect2(32, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_banner_2026"]
+atlas = ExtResource("13_clutter")
+region = Rect2(64, 0, 32, 64)
+
 [node name="MainMenu" type="Control" unique_id=1472725565]
 layout_mode = 3
 anchors_preset = 15
@@ -276,6 +286,28 @@ offset_bottom = 173.0
 texture = ExtResource("1_1mkmo")
 
 mouse_filter = 2
+
+[node name="BannerNSTW" type="TextureRect" parent="."]
+texture_filter = 1
+layout_mode = 0
+offset_left = 438.0
+offset_top = 192.0
+offset_right = 486.0
+offset_bottom = 288.0
+mouse_filter = 2
+texture = SubResource("AtlasTexture_banner_nstw")
+expand_mode = 1
+
+[node name="Banner2026" type="TextureRect" parent="."]
+texture_filter = 1
+layout_mode = 0
+offset_left = 566.0
+offset_top = 192.0
+offset_right = 614.0
+offset_bottom = 288.0
+mouse_filter = 2
+texture = SubResource("AtlasTexture_banner_2026")
+expand_mode = 1
 
 [node name="ColorRect2" type="ColorRect" parent="." unique_id=807783963]
 texture_filter = 1
@@ -447,6 +479,22 @@ theme_override_fonts/font = ExtResource("1_420ly")
 theme_override_font_sizes/font_size = 10
 text = "Made by maKate Studios"
 horizontal_alignment = 2
+
+[node name="NstwLogo" type="TextureRect" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -136.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = 70.0
+grow_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("14_nstw")
+expand_mode = 1
+stretch_mode = 5
 
 [connection signal="pressed" from="PVPButton" to="." method="_on_pvp_button_pressed"]
 [connection signal="mouse_exited" from="OptionsButton" to="VBoxContainer" method="_on_button_mouse_exited_pvp"]

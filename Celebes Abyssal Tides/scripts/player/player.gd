@@ -58,7 +58,7 @@ func _enter_tree():
 
 func _ready():
 	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING #+ NEW top-down: no "floor", so you can't ride other players
-	label.text = "Player " + str(name)          # testing player ids
+	label.text = LobbyManager.get_player_name(get_multiplayer_authority()) #+ NAME the username from settings
 	camera.enabled = is_multiplayer_authority() # only enable camera for the owning client
 	sprite.sprite_frames.set_animation_loop("top_swing", false) #+ swings must play once
 	sprite.sprite_frames.set_animation_loop("bottom_swing", false) #+

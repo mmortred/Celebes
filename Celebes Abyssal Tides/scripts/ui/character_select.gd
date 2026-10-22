@@ -4,10 +4,9 @@ extends Control
 # Clean 1280x720 layout using only assets already present in Celebes.
 
 const BG = preload("res://Celebes Abyssal Tides/assets/placeholder_assets/LobbyUI.jpg")
-const VAR1 = preload("res://Celebes Abyssal Tides/assets/placeholder_assets/Var1.PNG")
-const VAR2 = preload("res://Celebes Abyssal Tides/assets/placeholder_assets/Var2.PNG")
-const VAR3 = preload("res://Celebes Abyssal Tides/assets/placeholder_assets/Var3.PNG")
-const MONSTER1 = preload("res://Celebes Abyssal Tides/assets/placeholder_assets/Monsters/GarbageMonster1.png")
+# Portraits are zoomed-in crops of each character's first walk-down frame.
+const SEA_NOMAD_WALK = preload("res://Celebes Abyssal Tides/assets/sprite/SeaNomad1/walk down_spear.png")
+const SLUDGE_WALK = preload("res://Celebes Abyssal Tides/assets/sprite/GMonster3/monster/sludge walk_down.png")
 const READY_SHEET = preload("res://Celebes Abyssal Tides/assets/Lobby/ReadyButton - Edited.png")
 const BACK_NORMAL = preload("res://Celebes Abyssal Tides/assets/Lobby/back/343px/back01.png")
 const BACK_HOVER = preload("res://Celebes Abyssal Tides/assets/Lobby/back/343px/back03.png")
@@ -20,13 +19,14 @@ const GOLD := Color("d8b76a")
 const PANEL_BG := Color(0.015, 0.035, 0.055, 0.94)
 const CARD_BG := Color(0.025, 0.045, 0.065, 0.97)
 
+# sheet + face = the crop used as the portrait. sheet null = not made yet, shows "?".
 const CHARACTERS = [
-	{"name": "BUGIS", "team": "sea", "texture": VAR1},
-	{"name": "BAJAU", "team": "sea", "texture": VAR2},
-	{"name": "MINAHASAN", "team": "sea", "texture": VAR3},
-	{"name": "PLASTIC\nHOARD", "team": "garbage", "texture": MONSTER1},
-	{"name": "RUSTY\nLEVIATHAN", "team": "garbage", "texture": null},
-	{"name": "TOXIC\nSLUDGE", "team": "garbage", "texture": null},
+	{"name": "BUGIS", "team": "sea", "sheet": SEA_NOMAD_WALK, "face": Rect2(20, 12, 24, 24)},
+	{"name": "BAJAU", "team": "sea", "sheet": null},
+	{"name": "MINAHASAN", "team": "sea", "sheet": null},
+	{"name": "PLASTIC\nHOARD", "team": "garbage", "sheet": null},
+	{"name": "RUSTY\nLEVIATHAN", "team": "garbage", "sheet": null},
+	{"name": "TOXIC\nSLUDGE", "team": "garbage", "sheet": SLUDGE_WALK, "face": Rect2(10, 2, 44, 44)},
 ]
 
 var selected_index := -1
@@ -117,13 +117,16 @@ func _build_ui() -> void:
 	hint_panel.add_theme_stylebox_override("panel", _panel_style(Color(0.01, 0.03, 0.05, 0.95), SEA, 2, 6))
 	add_child(hint_panel)
 
-	var hint_title := _label("CHOOSE YOUR CHARACTER", 24, SEA)
+	var spectating := player_team == "spectator"
+	var hint_title := _label("SPECTATING" if spectating else "CHOOSE YOUR CHARACTER", 24, SEA)
 	hint_title.position = Vector2(410, 540)
 	hint_title.size = Vector2(460, 30)
 	hint_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	add_child(hint_title)
 
-	var hint := _label("Select a portrait, then press READY.\nOther players' picks appear on their character cards.", 17, Color(0.85, 0.91, 0.94))
+	var hint_text := "Spectators don't pick a character.\nYou'll watch the match and can pan around the arena." if spectating \
+			else "Select a portrait, then press READY.\nOther players' picks appear on their character cards."
+	var hint := _label(hint_text, 17, Color(0.85, 0.91, 0.94))
 	hint.position = Vector2(415, 580)
 	hint.size = Vector2(450, 52)
 	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -138,6 +141,7 @@ func _build_ui() -> void:
 	ready_button.ignore_texture_size = false
 	ready_button.stretch_mode = TextureButton.STRETCH_KEEP_ASPECT_CENTERED
 	ready_button.disabled = true
+	ready_button.visible = not spectating # nothing to lock in when spectating
 	ready_button.pressed.connect(_on_ready_pressed)
 	add_child(ready_button)
 	for child in get_children():
@@ -195,16 +199,17 @@ func _add_character_card(index: int, pos: Vector2, accent: Color) -> void:
 	portrait_back.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	ui_layer.add_child(portrait_back)
 
-	if data.texture != null and index != 3:
+	if _has_art(index):
 		var portrait := TextureRect.new()
-		portrait.texture = data.texture
+		portrait.texture = _atlas(data.sheet, data.face)
+		portrait.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST # keep the pixels crisp when zoomed
 		portrait.position = pos + Vector2(13, 13)
 		portrait.size = Vector2(134, 157)
 		portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		portrait.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		ui_layer.add_child(portrait)
-	elif data.texture == null:
+	else:
 		var missing := _label("?", 70, Color(0.36, 0.42, 0.48))
 		missing.position = pos + Vector2(13, 22)
 		missing.size = Vector2(134, 135)
@@ -219,7 +224,7 @@ func _add_character_card(index: int, pos: Vector2, accent: Color) -> void:
 	separator.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	ui_layer.add_child(separator)
 
-	var name_label := _label(str(data.name), 18, Color.WHITE if data.texture != null else Color(0.60, 0.64, 0.68))
+	var name_label := _label(str(data.name), 18, Color.WHITE if _has_art(index) else Color(0.60, 0.64, 0.68))
 	name_label.position = pos + Vector2(5, 185)
 	name_label.size = Vector2(150, 43)
 	name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -239,7 +244,7 @@ func _add_character_card(index: int, pos: Vector2, accent: Color) -> void:
 	button.position = pos
 	button.size = Vector2(160, 235)
 	button.focus_mode = Control.FOCUS_NONE
-	var allowed := data.texture != null and (player_team == "all" or player_team == str(data.team))
+	var allowed := _has_art(index) and (player_team == "all" or player_team == str(data.team))
 	button.disabled = not allowed
 	button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND if allowed else Control.CURSOR_FORBIDDEN
 	button.pressed.connect(_select_character.bind(index))
@@ -272,8 +277,9 @@ func _refresh_multiplayer_state() -> void:
 		var mine := selected_owner == local_peer_id
 		var taken := selected_owner != 0 and not mine
 		var team_ok := player_team == "all" or player_team == str(data.team)
-		card_buttons[i].disabled = data.texture == null or not team_ok or taken or confirmed
-		owner_labels[i].text = ("YOU ✓" if CharacterSelectManager.is_locked(selected_owner) else "YOU") if mine else (("P%s ✓" % selected_owner) if taken and CharacterSelectManager.is_locked(selected_owner) else ("TAKEN — P%s" % selected_owner if taken else ""))
+		card_buttons[i].disabled = not _has_art(i) or not team_ok or taken or confirmed
+		var owner_name := LobbyManager.get_player_name(selected_owner)
+		owner_labels[i].text = ("YOU ✓" if CharacterSelectManager.is_locked(selected_owner) else "YOU") if mine else (("%s ✓" % owner_name) if taken and CharacterSelectManager.is_locked(selected_owner) else ("TAKEN — %s" % owner_name if taken else ""))
 		owner_labels[i].modulate = SEA if mine else Color(1.0, 0.55, 0.45)
 		var base_color: Color = SEA if str(data.team) == "sea" else GARBAGE
 		var border_color := base_color if mine else (Color(0.9, 0.35, 0.3) if taken else GOLD)
@@ -286,6 +292,10 @@ func _refresh_multiplayer_state() -> void:
 		status_label.text = "Selected: " + str(CHARACTERS[selected_index].name).replace("\n", " ")
 	else:
 		status_label.text = _initial_status()
+
+func _has_art(index: int) -> bool:
+	return CHARACTERS[index].get("sheet") != null
+
 
 func _on_selection_rejected(reason: String) -> void:
 	status_label.text = reason
