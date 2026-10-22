@@ -49,32 +49,59 @@ func _process(delta):
 		scale.y = 1.0 + sin(t * 2.0) * 0.12
 
 
+const OUTLINE := Color(0.06, 0.05, 0.1, 0.9)
+
+
+## filled shape with a dark outline
+func _shape(points: PackedVector2Array, fill: Color):
+	draw_colored_polygon(points, fill)
+	draw_polyline(points + PackedVector2Array([points[0]]), OUTLINE, 1.0)
+
+
 func _draw():
 	match kind:
 		Kind.BAG:
-			var c := Color(0.85, 0.9, 0.95, 0.55)
-			draw_colored_polygon(PackedVector2Array([
-				Vector2(-7, -4), Vector2(7, -4), Vector2(9, 8), Vector2(0, 11), Vector2(-9, 8)
-			]), c)
-			# handles
+			var c := Color(0.85, 0.9, 0.95, 0.6)
+			# handles behind the bag
+			draw_arc(Vector2(-4, -5), 3.0, PI, TAU, 6, OUTLINE, 2.0)
+			draw_arc(Vector2(4, -5), 3.0, PI, TAU, 6, OUTLINE, 2.0)
 			draw_arc(Vector2(-4, -5), 3.0, PI, TAU, 6, c, 1.0)
 			draw_arc(Vector2(4, -5), 3.0, PI, TAU, 6, c, 1.0)
+			_shape(PackedVector2Array([
+				Vector2(-7, -4), Vector2(-2, -3), Vector2(2, -4), Vector2(7, -4), Vector2(9, 8),
+				Vector2(4, 10), Vector2(0, 11), Vector2(-5, 9), Vector2(-9, 8)
+			]), c)
+			# wrinkles and a printed logo
+			draw_line(Vector2(-4, -2), Vector2(-5, 7), Color(0.6, 0.65, 0.75, 0.6), 1.0)
+			draw_line(Vector2(3, -2), Vector2(5, 8), Color(0.6, 0.65, 0.75, 0.6), 1.0)
+			draw_rect(Rect2(-2, 2, 3, 3), Color(0.9, 0.35, 0.3, 0.7))
 		Kind.BOTTLE:
-			var c := Color(0.55, 0.85, 0.6, 0.7)
-			draw_rect(Rect2(-3, -6, 6, 12), c)
-			draw_rect(Rect2(-1.5, -10, 3, 4), c)
+			var c := Color(0.55, 0.85, 0.6, 0.75)
+			_shape(PackedVector2Array([
+				Vector2(-1.5, -10), Vector2(1.5, -10), Vector2(1.5, -7), Vector2(3, -5),
+				Vector2(3, 6), Vector2(-3, 6), Vector2(-3, -5), Vector2(-1.5, -7)
+			]), c)
 			draw_rect(Rect2(-1.5, -11, 3, 1), Color(0.2, 0.4, 0.9)) # cap
-			draw_rect(Rect2(-3, -2, 6, 3), Color(0.9, 0.3, 0.25, 0.8)) # label
+			draw_rect(Rect2(-3, -2, 6, 3), Color(0.9, 0.3, 0.25, 0.85)) # label
+			draw_line(Vector2(-1.5, -4), Vector2(-1.5, 4), Color(0.9, 1.0, 0.9, 0.7), 1.0) # shine
 		Kind.CAN:
-			draw_rect(Rect2(-3, -5, 6, 10), Color(0.8, 0.15, 0.2))
+			_shape(PackedVector2Array([Vector2(-3, -5), Vector2(3, -5), Vector2(3, 5), Vector2(-3, 5)]), Color(0.8, 0.15, 0.2))
 			draw_rect(Rect2(-3, -5, 6, 1), Color(0.75, 0.75, 0.8))
 			draw_rect(Rect2(-3, 0, 6, 1), Color(0.95, 0.95, 0.95))
+			draw_line(Vector2(-1.5, -3), Vector2(-1.5, 3), Color(1, 0.6, 0.6), 1.0) # shine
 		Kind.TIRE:
-			draw_arc(Vector2.ZERO, 7.0, 0.0, TAU, 16, Color(0.12, 0.12, 0.14), 4.0)
-			draw_arc(Vector2.ZERO, 5.0, 0.0, TAU, 12, Color(0.22, 0.22, 0.25), 1.0)
+			draw_arc(Vector2.ZERO, 7.0, 0.0, TAU, 20, OUTLINE, 6.0)
+			draw_arc(Vector2.ZERO, 7.0, 0.0, TAU, 20, Color(0.14, 0.14, 0.17), 4.0)
+			# tread marks and a dull rim highlight
+			for i in 10:
+				var a := TAU * i / 10.0
+				draw_line(Vector2.from_angle(a) * 5.5, Vector2.from_angle(a) * 8.5, Color(0.08, 0.08, 0.1), 1.0)
+			draw_arc(Vector2.ZERO, 6.0, PI * 1.1, PI * 1.6, 6, Color(0.35, 0.35, 0.4), 1.0)
 		Kind.SLIPPER:
-			draw_colored_polygon(PackedVector2Array([
-				Vector2(-3, -9), Vector2(3, -9), Vector2(4, 0), Vector2(3, 9), Vector2(-3, 9), Vector2(-4, 0)
+			_shape(PackedVector2Array([
+				Vector2(-3, -9), Vector2(3, -9), Vector2(4, -4), Vector2(3, 1), Vector2(4, 6),
+				Vector2(3, 9), Vector2(-3, 9), Vector2(-4, 6), Vector2(-3, 1), Vector2(-4, -4)
 			]), Color(0.25, 0.55, 0.9))
+			draw_line(Vector2(-3, 7), Vector2(3, 7), Color(0.15, 0.35, 0.65), 1.0) # heel
 			draw_line(Vector2(-3, -2), Vector2(0, -6), Color(0.95, 0.95, 0.95), 1.0) # strap
 			draw_line(Vector2(3, -2), Vector2(0, -6), Color(0.95, 0.95, 0.95), 1.0)

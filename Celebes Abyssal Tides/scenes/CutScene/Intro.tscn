@@ -157,11 +157,9 @@ offset_bottom = -170.0
 mouse_filter = 2
 
 [node name="Serpent" type="Node2D" parent="Surface" unique_id=972723732]
-position = Vector2(0, -42)
+modulate = Color(0.78, 0.92, 1, 1)
+position = Vector2(0, -360)
 script = ExtResource("13_serpent")
-speed = 10.0
-amplitude = 14.0
-color = Color(0.04, 0.06, 0.12, 0.6)
 
 [node name="SurfaceTrash" type="Node2D" parent="Surface" unique_id=1354972888]
 
@@ -362,18 +360,6 @@ gravity = Vector2(0, 0)
 initial_velocity_min = 12.0
 initial_velocity_max = 26.0
 color = Color(0.85, 0.8, 1, 0.35)
-
-[node name="DeepSerpent" type="Node2D" parent="." unique_id=1225111547]
-position = Vector2(0, 220)
-script = ExtResource("13_serpent")
-length = 700.0
-thickness = 16.0
-speed = 60.0
-amplitude = 28.0
-wavelength = 320.0
-loop = false
-color = Color(0.05, 0.02, 0.07, 0.85)
-eye_color = Color(0.3, 1, 0.8, 0.9)
 
 [node name="Pollution" type="ColorRect" parent="." unique_id=2044170476]
 material = SubResource("ShaderMaterial_wave")

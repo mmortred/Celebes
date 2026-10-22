@@ -21,8 +21,7 @@ signal title_shown
 @onready var camera: Camera2D = $Camera2D
 @onready var logo: Control = $Title/Logo
 @onready var press_start: Control = $Title/PressStart
-@onready var deep_serpent: Node2D = $DeepSerpent
-@onready var surface_serpent: Node2D = $Surface/Serpent
+@onready var serpent: Node2D = $Surface/Serpent
 
 var timeline: Tween
 var title_tween: Tween
@@ -44,8 +43,6 @@ func _ready():
 	timeline.parallel().tween_property($SeaweedFront, "modulate", dead_weed_color, pollution_time)
 	timeline.parallel().tween_property($LightRays, "modulate:a", 0.25, pollution_time)
 	timeline.tween_callback(pollution_finished.emit)
-	# serpent is already gliding under the surface when the camera arrives
-	timeline.tween_callback(surface_serpent.appear.bind(360.0))
 
 	# rise to the surface, pulling back a little on the way up
 	var half := rise_time * 0.5
@@ -62,10 +59,7 @@ func _start_pollution():
 	_after(pollution_time * 0.2, _flee.bind($FarFish, 50.0))
 	_after(pollution_time * 0.35, _flee.bind($School, 90.0))
 	# no more bubbles, the sea is choking
-	_after(pollution_time * 0.5, $Bubbles.set_emitting.bind(false))
-	# something big stirs in the murk once the fish are gone
-	_after(pollution_time * 0.55, deep_serpent.appear)
-	# trash sinks in one piece at a time
+	_after(pollution_time * 0.5, $Bubbles.set_emitting.bind(false))	# trash sinks in one piece at a time
 	var trash := $Trash.get_children()
 	for i in trash.size():
 		_after(pollution_time * 0.8 * i / trash.size(), trash[i].release)
@@ -73,6 +67,8 @@ func _start_pollution():
 
 func _show_title():
 	at_title = true
+	# the serpent only shows up once the camera has stopped
+	serpent.reveal()
 	title_tween = create_tween()
 	title_tween.tween_property(logo, "modulate:a", 1.0, 1.5)
 	title_tween.tween_property(press_start, "modulate:a", 1.0, 0.5)
@@ -93,7 +89,9 @@ func _skip_to_title():
 	camera.position.y = surface_y
 	camera.zoom = Vector2.ONE
 	murk.color = Color.WHITE
-	surface_serpent.appear(420.0)
+	# trash that hadn't dropped yet would hang in view, so settle it on the seabed
+	for trash in $Trash.get_children():
+		trash.position.y = trash.rest_y
 	_show_title()
 
 
@@ -122,6 +120,7 @@ func _finish():
 	set_process_unhandled_input(false)
 	if title_tween:
 		title_tween.kill()
+	serpent.set_process(false) # hold still during the fade
 
 	var layer := CanvasLayer.new()
 	layer.layer = 100
