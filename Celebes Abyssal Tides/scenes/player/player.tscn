@@ -1,60 +1,12 @@
 [gd_scene format=3 uid="uid://b15bynslw4646"]
 
 [ext_resource type="Script" uid="uid://bigahcgeobwf2" path="res://Celebes Abyssal Tides/scripts/player/player.gd" id="1_8afob"]
-[ext_resource type="Texture2D" uid="uid://67fivlx11px4" path="res://Celebes Abyssal Tides/assets/sprite/Spear_guy_idle.png" id="2_pek5f"]
+[ext_resource type="SpriteFrames" uid="uid://cyv5dwrlhuf16" path="res://Celebes Abyssal Tides/scenes/player/base.tres" id="2_mb2se"]
 [ext_resource type="Script" uid="uid://dnqea0iwk7vao" path="res://Celebes Abyssal Tides/scripts/components/health_component.gd" id="3_gmlin"]
 [ext_resource type="Script" uid="uid://cwn7gqg6ww0m" path="res://Celebes Abyssal Tides/scripts/abilities/spear_thrust.gd" id="4_lvxji"]
 [ext_resource type="Script" uid="uid://bv4bqssapcd8f" path="res://Celebes Abyssal Tides/scripts/abilities/bubble_strike.gd" id="5_p47bc"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_wnllx"]
-atlas = ExtResource("2_pek5f")
-region = Rect2(0, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_mb2se"]
-atlas = ExtResource("2_pek5f")
-region = Rect2(64, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_xc8wo"]
-atlas = ExtResource("2_pek5f")
-region = Rect2(128, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_j7bn5"]
-atlas = ExtResource("2_pek5f")
-region = Rect2(192, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_4u0qi"]
-atlas = ExtResource("2_pek5f")
-region = Rect2(256, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_g5n5p"]
-atlas = ExtResource("2_pek5f")
-region = Rect2(320, 0, 64, 64)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_1e16l"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wnllx")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_mb2se")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_xc8wo")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_j7bn5")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_4u0qi")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_g5n5p")
-}],
-"loop": 1,
-"name": &"idle",
-"speed": 5.0
-}]
+[ext_resource type="Texture2D" uid="uid://b1yc0rg23tuye" path="res://Celebes Abyssal Tides/assets/sprite/PearlClaimTileset.png" id="6_pearl"]
+[ext_resource type="Script" uid="uid://bwyv0275vuwsd" path="res://Celebes Abyssal Tides/scripts/player/launch_fx.gd" id="7_launch"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cmd4b"]
 radius = 18.0
@@ -64,23 +16,42 @@ height = 54.0
 properties/0/path = NodePath(".:position")
 properties/0/spawn = true
 properties/0/replication_mode = 1
+properties/1/path = NodePath(".:anim_name")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:anim_frozen")
+properties/2/spawn = true
+properties/2/replication_mode = 1
 
-[node name="Player" type="CharacterBody2D" unique_id=447082359]
+[sub_resource type="Animation" id="Animation_g5n5p"]
+resource_name = "test"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ax2op"]
+_data = {
+&"test": SubResource("Animation_g5n5p")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ma018"]
+size = Vector2(32, 61)
+
+[node name="Player2" type="CharacterBody2D" unique_id=447082359]
 input_pickable = true
 script = ExtResource("1_8afob")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=55903766]
+texture_filter = 1
 position = Vector2(0, -46)
 scale = Vector2(1.5, 1.5)
-sprite_frames = SubResource("SpriteFrames_1e16l")
-animation = &"idle"
-frame_progress = 0.30870613
+sprite_frames = ExtResource("2_mb2se")
+animation = &"bottom_swing"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1509811323]
+visible = false
 position = Vector2(1, -32)
 shape = SubResource("CapsuleShape2D_cmd4b")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=281208494]
+position = Vector2(-8, 0)
 position_smoothing_enabled = true
 
 [node name="HealthComponent" type="Node" parent="." unique_id=1331527619]
@@ -103,3 +74,43 @@ offset_bottom = -119.0
 text = "ID:"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2015980984]
+libraries/ = SubResource("AnimationLibrary_ax2op")
+
+[node name="AttackRange" type="Area2D" parent="." unique_id=1937271004 groups=["player_attack"]]
+visible = false
+position = Vector2(8, 0)
+collision_layer = 0
+collision_mask = 4
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackRange" unique_id=1703822284]
+position = Vector2(0, -16)
+shape = SubResource("RectangleShape2D_ma018")
+
+[node name="HurtBox" type="Area2D" parent="." unique_id=857489502]
+visible = false
+modulate = Color(1.5287985, 0, 0.17372437, 1)
+self_modulate = Color(0.9607843, 0.2, 0.32156864, 1)
+texture_filter = 1
+position = Vector2(0, -32)
+collision_layer = 4
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=1411050026]
+position = Vector2(0, -9.5)
+shape = SubResource("RectangleShape2D_ma018")
+
+[node name="PearlIndicator" type="Sprite2D" parent="." unique_id=1928374651]
+visible = false
+texture_filter = 1
+position = Vector2(0, -165)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("6_pearl")
+region_enabled = true
+region_rect = Rect2(32, 0, 32, 32)
+
+[node name="LaunchFX" type="Node2D" parent="." unique_id=1564738291]
+script = ExtResource("7_launch")

@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://cdes6vwqfowyu"]
+
+[ext_resource type="PackedScene" uid="uid://b15bynslw4646" path="res://Celebes Abyssal Tides/scenes/player/player.tscn" id="1_7wpj7"]
+
+[node name="Player" unique_id=447082359 instance=ExtResource("1_7wpj7")]
+
+[node name="AnimatedSprite2D" parent="." index="0" unique_id=55903766]
+animation = &""
