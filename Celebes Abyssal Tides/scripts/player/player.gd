@@ -22,6 +22,7 @@ extends CharacterBody2D
 @onready var attack_range: Area2D = $AttackRange #+
 @onready var health = $HealthComponent #+
 @onready var death_dust = get_node_or_null("DeathDust") #+ optional particles, null if you didn't add it
+@onready var pearl_indicator: Sprite2D = $PearlIndicator #+ PEARL icon above the head
 
 
 #kelp stuff
@@ -38,11 +39,11 @@ var dash_cooldown_timer = 0.0
 
 #animatioon stuff so others can see the animation
 @export var anim_name = "walk_down" #+ NEW exported so it shows in the synchronizer picker
-@export var anim_flip = false #+ NEW exported
 @export var anim_frozen = true #+ NEW exported. true = standing still, hold the current frame
 var is_swinging = false #+
 var hit_tween = null #+ so rapid hits restart the flash instead of stacking
 var is_dead = false #+
+var has_pearl = false #+ PEARL set on every peer by the pearl's collected() rpc
 
 func _enter_tree():
 	var id = str(name).to_int() #+
@@ -68,7 +69,6 @@ func _ready():
 			hud.set_player(self) #+
 
 func _process(_delta): #+ runs on every peer, plays whatever the owner set
-	sprite.flip_h = anim_flip #+
 	if sprite.animation != anim_name: #+
 		sprite.play(anim_name) #+
 	if anim_frozen: #+
@@ -158,14 +158,11 @@ func update_animation(): #+
 
 	# facing_direction = last direction moved, so standing still keeps that direction #+
 	if abs(facing_direction.x) > abs(facing_direction.y): #+
-		anim_name = "walk_right" #+
-		anim_flip = facing_direction.x < 0 #+ flip walk_right for left
+		anim_name = "walk_left" if facing_direction.x < 0 else "walk_right" #+
 	elif facing_direction.y < 0: #+
 		anim_name = "walk_up" #+
-		anim_flip = false #+
 	else: #+
 		anim_name = "walk_down" #+
-		anim_flip = false #+
 
 func start_swing(): #+
 	if is_swinging: #+
@@ -183,7 +180,6 @@ func start_swing(): #+
 		anim_name = "right_swing" #+ SWING
 	else: #+ SWING
 		anim_name = "left_swing" #+ SWING
-	anim_flip = false #+ SWING every direction has its own art now, so never flip
 
 	# End the swing after the animation's length, instead of waiting for a signal #+ NEW
 	var frames = sprite.sprite_frames #+ NEW
@@ -230,6 +226,11 @@ func flash_hit(): #+
 	hit_tween = create_tween() #+
 	hit_tween.tween_property(sprite, "self_modulate", Color.WHITE, 0.2) #+ fade back to normal over 0.2s
 
+##Pearl #+
+func set_has_pearl(value): #+ PEARL called on every peer, so everyone sees the icon
+	has_pearl = value #+
+	pearl_indicator.visible = value #+
+
 ##Death and Respawn #+
 func _on_knocked_out(): #+ runs on every peer, because take_damage runs on every peer
 	is_dead = true #+
@@ -244,6 +245,10 @@ func _on_knocked_out(): #+ runs on every peer, because take_damage runs on every
 	fade.tween_property(sprite, "self_modulate:a", 0.0, 0.6) #+ fade away like dust
 	if death_dust: #+
 		death_dust.restart() #+ puff of dust particles
+	if has_pearl and multiplayer.is_server(): #+ PEARL server drops it where I died, for everyone
+		var pearl = get_tree().get_first_node_in_group("pearl") #+
+		if pearl: #+
+			pearl.dropped.rpc(global_position) #+
 
 	if is_multiplayer_authority(): #+ only the owner decides when and where to respawn
 		await get_tree().create_timer(respawn_time).timeout #+
