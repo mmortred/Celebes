@@ -70,6 +70,7 @@ func _build_player(data: Dictionary) -> Node:
 	var player := scene.instantiate()
 	player.name = str(data.peer) # the name sets who controls it (player.gd _enter_tree)
 	player.team = int(data.team)
+	player.character = int(data.character) # the HUD shows this character's icon
 	player.position = data.position
 	return player
 

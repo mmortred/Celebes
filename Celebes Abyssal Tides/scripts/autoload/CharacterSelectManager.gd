@@ -11,6 +11,21 @@ signal match_loading_requested
 # Characters that have art and can be picked; the rest show "?" for now.
 const PLAYABLE := [0, 5] # Bugis, Toxic Sludge
 
+# Portrait icons, shared by character select and the arena HUD: zoomed-in crops
+# of each character's first walk-down frame. Not listed = not made yet ("?").
+const ICONS := {
+	0: {"sheet": "res://Celebes Abyssal Tides/assets/sprite/SeaNomad1/walk down_spear.png", "face": Rect2(20, 12, 24, 24)},
+	5: {"sheet": "res://Celebes Abyssal Tides/assets/sprite/GMonster3/monster/sludge walk_down.png", "face": Rect2(10, 2, 44, 44)},
+}
+
+func get_icon(character_id: int) -> Texture2D:
+	if not ICONS.has(character_id):
+		return null
+	var icon := AtlasTexture.new()
+	icon.atlas = load(ICONS[character_id].sheet)
+	icon.region = ICONS[character_id].face
+	return icon
+
 # The arena every match loads (loading screen + transition). TestArena has the
 # full map: tile layers, kelp, clam zone, HUD and spawns.
 const ARENA_SCENE := "res://Celebes Abyssal Tides/scenes/arena/TestArena.tscn"

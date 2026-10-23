@@ -4,9 +4,7 @@ extends Control
 # Clean 1280x720 layout using only assets already present in Celebes.
 
 const SEA_BACKGROUND = preload("res://Celebes Abyssal Tides/scenes/ui/SeaBackground.tscn") # the intro's sunset sea
-# Portraits are zoomed-in crops of each character's first walk-down frame.
-const SEA_NOMAD_WALK = preload("res://Celebes Abyssal Tides/assets/sprite/SeaNomad1/walk down_spear.png")
-const SLUDGE_WALK = preload("res://Celebes Abyssal Tides/assets/sprite/GMonster3/monster/sludge walk_down.png")
+# Portraits come from CharacterSelectManager.get_icon (the arena HUD uses the same ones).
 const READY_SHEET = preload("res://Celebes Abyssal Tides/assets/Lobby/ReadyButton - Edited.png")
 const BACK_NORMAL = preload("res://Celebes Abyssal Tides/assets/Lobby/back/343px/back01.png")
 const BACK_HOVER = preload("res://Celebes Abyssal Tides/assets/Lobby/back/343px/back03.png")
@@ -19,14 +17,14 @@ const GOLD := Color("d8b76a")
 const PANEL_BG := Color(0.015, 0.035, 0.055, 0.94)
 const CARD_BG := Color(0.025, 0.045, 0.065, 0.97)
 
-# sheet + face = the crop used as the portrait. sheet null = not made yet, shows "?".
+# index = character id. No icon in CharacterSelectManager.ICONS = not made yet, shows "?".
 const CHARACTERS = [
-	{"name": "BUGIS", "team": "sea", "sheet": SEA_NOMAD_WALK, "face": Rect2(20, 12, 24, 24)},
-	{"name": "BAJAU", "team": "sea", "sheet": null},
-	{"name": "MINAHASAN", "team": "sea", "sheet": null},
-	{"name": "PLASTIC\nHOARD", "team": "garbage", "sheet": null},
-	{"name": "RUSTY\nLEVIATHAN", "team": "garbage", "sheet": null},
-	{"name": "TOXIC\nSLUDGE", "team": "garbage", "sheet": SLUDGE_WALK, "face": Rect2(10, 2, 44, 44)},
+	{"name": "BUGIS", "team": "sea"},
+	{"name": "BAJAU", "team": "sea"},
+	{"name": "MINAHASAN", "team": "sea"},
+	{"name": "PLASTIC\nHOARD", "team": "garbage"},
+	{"name": "RUSTY\nLEVIATHAN", "team": "garbage"},
+	{"name": "TOXIC\nSLUDGE", "team": "garbage"},
 ]
 
 var selected_index := -1
@@ -196,7 +194,7 @@ func _add_character_card(index: int, pos: Vector2, accent: Color) -> void:
 
 	if _has_art(index):
 		var portrait := TextureRect.new()
-		portrait.texture = _atlas(data.sheet, data.face)
+		portrait.texture = CharacterSelectManager.get_icon(index)
 		portrait.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST # keep the pixels crisp when zoomed
 		portrait.position = pos + Vector2(13, 13)
 		portrait.size = Vector2(134, 157)
@@ -289,7 +287,7 @@ func _refresh_multiplayer_state() -> void:
 		status_label.text = _initial_status()
 
 func _has_art(index: int) -> bool:
-	return CHARACTERS[index].get("sheet") != null
+	return CharacterSelectManager.ICONS.has(index)
 
 
 func _on_selection_rejected(reason: String) -> void:

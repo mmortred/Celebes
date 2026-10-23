@@ -52,6 +52,7 @@ var has_pearl = false #+ PEARL set on every peer by the pearl's collected() rpc
 const SMOOTHING = 18.0 #+ SMOOTH higher = catches up faster
 const SNAP_DISTANCE = 200.0 #+ SMOOTH further than this = teleport, don't glide
 var team = 0 #+ SPAWN 0 = Sea Nomads (left spawns), 1 = Garbage Monsters (right). set by the arena when spawning
+var character = -1 #+ ICON character id picked in character select (0 Bugis, 5 Toxic Sludge). set by the arena when spawning
 
 func _enter_tree():
 	var id = str(name).to_int() #+

@@ -51,7 +51,24 @@ func show_alert(text: String, team: int = -1): #+ ALERT pop in, hold, fade out
 	alert_tween.tween_interval(2.5) #+
 	alert_tween.tween_property(alert_label, "modulate:a", 0.0, 0.6) #+
 
+func show_character_icon(character_id: int): #+ ICON same face crop as character select, inside the portrait frame
+	var portrait = $PlayerStats/PlayerPortrait #+
+	var icon: TextureRect = portrait.get_node_or_null("CharacterIcon") #+
+	if icon == null: #+
+		icon = TextureRect.new() #+
+		icon.name = "CharacterIcon" #+
+		icon.position = Vector2(8, 8) #+ inset so the frame's border stays visible
+		icon.size = portrait.size - Vector2(16, 16) #+
+		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE #+
+		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED #+
+		icon.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST #+ crisp pixels
+		icon.mouse_filter = Control.MOUSE_FILTER_IGNORE #+
+		portrait.add_child(icon) #+
+		portrait.move_child(icon, 0) #+ behind the name label
+	icon.texture = CharacterSelectManager.get_icon(character_id) #+
+
 func set_player(player): #+ called by MY player only (player.gd _ready checks authority)
+	show_character_icon(player.character) #+ ICON
 	player_name_label.text = LobbyManager.get_player_name(player.get_multiplayer_authority()) #+ NAME the username from settings
 	player.health.health_changed.connect(_on_health_changed) #+ update the bar every time my HP changes
 	_on_health_changed(player.health.current_health, player.health.max_health) #+ show full HP right away
