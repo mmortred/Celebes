@@ -9,12 +9,12 @@ signal title_shown
 @export var calm_time := 2.0 # seconds of peaceful sea before pollution
 @export var calm_zoom := 1.2 # slow push-in on the fish during the calm
 @export var fade_time := 0.8 # each half of the fade into next_scene
-@export var pollution_time := 6.0 # how long the wave creeps in before the rise starts
+@export var pollution_time := 8.0 # how long the wave takes to cover the screen before the rise
 # wave progress (pollution_wave.gdshader): 0.18 = front just off-screen right,
-# 0.42 = front a bit right of the middle, where the rise to the surface begins
+# 0.8 = the whole screen is covered, then the rise to the surface begins
 @export var wave_start := 0.18
-@export var wave_at_rise := 0.42
-@export var wave_after_rise := 0.62 # it keeps creeping while the camera leaves
+@export var wave_at_rise := 0.8
+@export var wave_after_rise := 1.0 # it keeps rolling while the camera leaves
 @export var rise_time := 7.0 # camera trip up through the deep to the surface
 @export var rise_zoom := 0.6 # how far the camera pulls back mid-rise
 @export var surface_y := -1080.0 # camera y when looking at the horizon
@@ -50,9 +50,9 @@ func _ready():
 	credit.modulate.a = 0.0
 	nstw_logo.modulate.a = 0.0
 
-	# the wave only reaches about mid-screen before the rise, so squeeze each piece's
-	# drop spot (its x in the scene, 0-640) into the part the wave actually covers
-	var covered_from := pollution_front_x(wave_at_rise) + 130.0 # trash rides up to 130px behind the edge
+	# keep every drop spot (its x in the scene, 0-640) inside what the wave covers
+	# before the rise and on screen (trash rides up to 130px behind the edge)
+	var covered_from := maxf(pollution_front_x(wave_at_rise) + 130.0, 20.0)
 	for trash in $Trash.get_children():
 		trash.hide()
 		waiting_trash.append(trash)
@@ -63,7 +63,7 @@ func _ready():
 	timeline = create_tween()
 	timeline.tween_property(camera, "zoom", Vector2.ONE * calm_zoom, calm_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	timeline.tween_callback(_start_pollution)
-	# slow, steady creep from the right edge to about mid-screen
+	# slow, steady roll from the right edge until it covers the whole screen
 	timeline.tween_property(pollution.material, "shader_parameter/progress", wave_at_rise, pollution_time).from(wave_start)
 	# ease back out so the whole wave is in view
 	timeline.parallel().tween_property(camera, "zoom", Vector2.ONE, pollution_time * 0.3).set_trans(Tween.TRANS_SINE)
