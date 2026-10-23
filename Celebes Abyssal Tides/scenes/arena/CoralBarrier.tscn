@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bckjlcrn7sobi"]
 
-[ext_resource type="Script" uid="uid://cfdnjajs8whh8" path="res://scripts/arena/coral_barrier.gd" id="1_e0adr"]
+[ext_resource type="Script" uid="uid://cfdnjajs8whh8" path="res://Celebes Abyssal Tides/scripts/arena/coral_barrier.gd" id="1_e0adr"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1e16l"]
 

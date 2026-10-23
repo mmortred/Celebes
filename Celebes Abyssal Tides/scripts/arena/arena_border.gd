@@ -27,7 +27,7 @@ func start() -> void:
 
 
 func _process(delta: float) -> void:
-	if not active:
+	if not active or GameManager.match_paused: # holds still during the leviathan cutscene
 		return
 	elapsed += delta
 	var progress := clampf(elapsed / shrink_time, 0.0, 1.0)

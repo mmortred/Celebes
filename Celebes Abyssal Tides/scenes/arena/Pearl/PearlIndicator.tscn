@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://l1edhq5tltwr"]
+
+[ext_resource type="Script" path="res://Celebes Abyssal Tides/scenes/arena/Pearl/pearl_indicator.gd" id="0_pind"]
+[ext_resource type="Texture2D" uid="uid://b1yc0rg23tuye" path="res://Celebes Abyssal Tides/assets/sprite/PearlClaimTileset.png" id="1_vjaq6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1e16l"]
+atlas = ExtResource("1_vjaq6")
+region = Rect2(64, 0, 32, 32)
+
+[node name="PearlIndicator" type="Node2D" unique_id=959739545]
+script = ExtResource("0_pind")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1880863941]
+texture = SubResource("AtlasTexture_1e16l")

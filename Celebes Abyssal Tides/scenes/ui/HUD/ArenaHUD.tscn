@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://djgqv3e6r7654"]
 
 [ext_resource type="Script" uid="uid://dk3886hq7ubp6" path="res://Celebes Abyssal Tides/scenes/ui/HUD/arena_hud.gd" id="1_5aeom"]
-[ext_resource type="Texture2D" uid="uid://dldja27rnnhoi" path="res://Celebes Abyssal Tides/assets/placeholder_assets/0e37590b-5926-4163-a787-7ecaf4d6c59e.jpg" id="2_0xm5c"]
 [ext_resource type="LabelSettings" uid="uid://b8dgfckqrnto1" path="res://Celebes Abyssal Tides/scripts/ui/jersey_10_a.tres" id="2_6rlgc"]
 [ext_resource type="Texture2D" uid="uid://cyq1kvxc80fpo" path="res://Celebes Abyssal Tides/assets/ui/nomads_team_card.png" id="3_kkcta"]
 [ext_resource type="Texture2D" uid="uid://b2sak558v2pws" path="res://Celebes Abyssal Tides/assets/ui/monsters_team_card.png" id="4_6rlgc"]
@@ -13,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://tworia3xh0it" path="res://Celebes Abyssal Tides/assets/ui/HPBar/HPBarOver.PNG" id="11_guqs1"]
 [ext_resource type="Texture2D" uid="uid://bmh3gkr67epjp" path="res://Celebes Abyssal Tides/assets/ui/HPBar/HPBarFill.PNG" id="12_ysuro"]
 [ext_resource type="FontFile" uid="uid://c13xubmjd3yfi" path="res://Celebes Abyssal Tides/assets/font/monogram.ttf" id="13_guqs1"]
+[ext_resource type="PackedScene" uid="uid://l1edhq5tltwr" path="res://Celebes Abyssal Tides/scenes/arena/Pearl/PearlIndicator.tscn" id="14_pind"]
 
 [sub_resource type="Animation" id="Animation_0xm5c"]
 length = 0.001
@@ -276,14 +276,6 @@ libraries/ = SubResource("AnimationLibrary_oaj53")
 autoplay = &"game_start"
 speed_scale = 0.8
 
-[node name="0e37590b59264163A7877Ecaf4d6c59e" type="Sprite2D" parent="." unique_id=1998448804]
-visible = false
-self_modulate = Color(0.60960835, 0.60960835, 0.60960835, 1)
-texture_filter = 1
-position = Vector2(322, 274)
-scale = Vector2(0.7121951, 0.7121951)
-texture = ExtResource("2_0xm5c")
-
 [node name="ScoreboardNode" type="Control" parent="." unique_id=604686078]
 anchors_preset = 0
 offset_right = 40.0
@@ -494,3 +486,5 @@ offset_left = 560.0
 offset_top = 8.0
 offset_right = 632.0
 offset_bottom = 80.0
+
+[node name="PearlIndicator" parent="." instance=ExtResource("14_pind")]

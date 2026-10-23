@@ -33,9 +33,9 @@ func get_icon(character_id: int) -> Texture2D:
 	icon.region = ICONS[character_id].face
 	return icon
 
-# The arena every match loads (loading screen + transition). TestArena has the
+# The arena every match loads (loading screen + transition). MainArena has the
 # full map: tile layers, kelp, clam zone, HUD and spawns.
-const ARENA_SCENE := "res://Celebes Abyssal Tides/scenes/arena/TestArena.tscn"
+const ARENA_SCENE := "res://Celebes Abyssal Tides/scenes/arena/MainArena.tscn"
 
 var selections: Dictionary = {} # peer_id -> character_id
 var locked: Dictionary = {}     # peer_id -> bool

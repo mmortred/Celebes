@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bq4s403mtynuk"]
 
-[ext_resource type="PackedScene" uid="uid://dtgnaehpfhh6f" path="res://Celebes Abyssal Tides/scenes/arena/TestArena.tscn" id="1_u6lr5"]
+[ext_resource type="PackedScene" uid="uid://dtgnaehpfhh6f" path="res://Celebes Abyssal Tides/scenes/arena/MainArena.tscn" id="1_u6lr5"]
 
 [node name="Node2D" type="Node2D" unique_id=676411190]
 

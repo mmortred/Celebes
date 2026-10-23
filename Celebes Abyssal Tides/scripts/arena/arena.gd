@@ -1,6 +1,7 @@
 extends Node2D
 
 const SPECTATOR_CAMERA = preload("res://Celebes Abyssal Tides/scripts/arena/spectator_camera.gd")
+const LEVIATHAN_AWAKENING = preload("res://Celebes Abyssal Tides/scenes/CutScene/LeviathanAwakening/LeviathanAwakening.tscn")
 
 # Character id (CharacterSelectManager) -> scene. Anything not listed uses the base player.
 const CHARACTER_SCENES := {
@@ -88,17 +89,21 @@ func enter_late_phase() -> void:
 	if border:
 		border.start()
 	GameManager.announcement.emit("5 MINUTES! New wells - the border is closing in!", -1)
+	add_child(LEVIATHAN_AWAKENING.instantiate()) # shake, freeze everyone, the serpent's eye, then play on
 
 
 # Where a dead player comes back: their team's side, inner spawns after 5 minutes.
-func get_respawn_position(team: int) -> Vector2:
+# index picks a spawn point in turn (so teammates don't stack), -1 = a random one.
+func get_respawn_position(team: int, index := -1) -> Vector2:
 	var folder_name := "TeamLeftSpawns" if team == 0 else "TeamRightSpawns"
 	var folder: Node = find_child(folder_name + "Late") if late_phase else null
 	if folder == null or folder.get_child_count() == 0:
 		folder = team_left_spawns if team == 0 else team_right_spawns
 	if folder == null or folder.get_child_count() == 0:
 		return Vector2.ZERO
-	return folder.get_child(randi() % folder.get_child_count()).global_position
+	if index < 0:
+		index = randi()
+	return folder.get_child(index % folder.get_child_count()).global_position
 
 
 # Team 0 (Sea Nomads) uses the left spawns, team 1 (Garbage Monsters) the right.
