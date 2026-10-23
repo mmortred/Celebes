@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://bpcspsdq4x55f"]
+
+[ext_resource type="PackedScene" uid="uid://f7rrad6ys273" path="res://Celebes Abyssal Tides/scenes/arena/Well Drop Zone/SeaNomadDrop.tscn" id="1_1lbxw"]
+
+[node name="Well" unique_id=1979348771 instance=ExtResource("1_1lbxw")]

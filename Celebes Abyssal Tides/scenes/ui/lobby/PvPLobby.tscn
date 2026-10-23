@@ -1,15 +1,14 @@
 [gd_scene format=4 uid="uid://bdwfal4cg4y1s"]
 
-[ext_resource type="PackedScene" uid="uid://bl2vxk2ip5e4i" path="res://Celebes Abyssal Tides/scenes/helper/transition.tscn" id="1_aqggm"]
 [ext_resource type="Script" uid="uid://dp6ynnepw0ege" path="res://Celebes Abyssal Tides/scripts/ui/pvp_lobby.gd" id="1_tpxpr"]
 [ext_resource type="Texture2D" uid="uid://cpwu2hd0g0hbt" path="res://Celebes Abyssal Tides/assets/placeholder_assets/LobbyUI.jpg" id="2_30ddx"]
 [ext_resource type="PackedScene" uid="uid://dpj7htbrdpdwd" path="res://Celebes Abyssal Tides/scenes/ui/lobby/PlayerSlot.tscn" id="3_30ddx"]
 [ext_resource type="Texture2D" uid="uid://d1vgqa6dgvpj1" path="res://Celebes Abyssal Tides/assets/Lobby/01.png" id="4_tlccx"]
 [ext_resource type="LabelSettings" uid="uid://cq5ia27rk75m" path="res://Celebes Abyssal Tides/assets/font/PixelFont.tres" id="6_x7sd8"]
-[ext_resource type="Texture2D" uid="uid://d0bpfd5b0dbd5" path="res://Celebes Abyssal Tides/assets/placeholder_assets/Border All 4.png" id="7_tpxpr"]
+[ext_resource type="Texture2D" uid="uid://d0bpfd5b0dbd5" path="res://Celebes Abyssal Tides/assets/placeholder_assets/Garbage_Border.png" id="7_tpxpr"]
 [ext_resource type="FontFile" uid="uid://c13xubmjd3yfi" path="res://Celebes Abyssal Tides/assets/font/monogram.ttf" id="8_3oaqy"]
 [ext_resource type="Texture2D" uid="uid://nbbtfvt0d00h" path="res://Celebes Abyssal Tides/assets/Lobby/back/343px/back01.png" id="8_e018o"]
-[ext_resource type="Texture2D" uid="uid://ba8fs8w5nn2qj" path="res://Celebes Abyssal Tides/assets/placeholder_assets/Border All 1.png" id="8_tpxpr"]
+[ext_resource type="Texture2D" uid="uid://ba8fs8w5nn2qj" path="res://Celebes Abyssal Tides/assets/placeholder_assets/Sea_Nomad_Border.png" id="8_tpxpr"]
 [ext_resource type="Texture2D" uid="uid://cpy5o1oc37fir" path="res://Celebes Abyssal Tides/assets/Lobby/back/343px/back03.png" id="9_tlccx"]
 [ext_resource type="Texture2D" uid="uid://uw20m8v8sp03" path="res://Celebes Abyssal Tides/assets/Lobby/ReadyButton - Edited.png" id="10_tpxpr"]
 [ext_resource type="Texture2D" uid="uid://br57t4ph51nw" path="res://Celebes Abyssal Tides/assets/Lobby/back/343px/back02.png" id="10_x7sd8"]
@@ -1818,12 +1817,6 @@ texture_pressed = SubResource("AtlasTexture_rmi1m")
 texture_hover = SubResource("AtlasTexture_v4l0a")
 ignore_texture_size = true
 stretch_mode = 5
-
-[node name="Transition" parent="." unique_id=937295659 instance=ExtResource("1_aqggm")]
-visible = false
-layout_mode = 0
-offset_right = 1280.0
-offset_bottom = 720.0
 
 [editable path="SeaNomads/SeaNomadSlot_0"]
 [editable path="SeaNomads/SeaNomadSlot_1"]

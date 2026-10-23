@@ -1,0 +1,91 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Celebes Abyssal Tides/scripts/cutscene/leviathan_awakening.gd" id="1_awake"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/leviathan_eye.webp" id="2_eye"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eye"]
+atlas = ExtResource("2_eye")
+region = Rect2(0, 743, 736, 414)
+
+[sub_resource type="Gradient" id="Gradient_top"]
+offsets = PackedFloat32Array(0, 0.85, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_top"]
+gradient = SubResource("Gradient_top")
+width = 8
+height = 64
+fill_to = Vector2(0, 1)
+
+[sub_resource type="Gradient" id="Gradient_bottom"]
+offsets = PackedFloat32Array(0, 0.15, 1)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_bottom"]
+gradient = SubResource("Gradient_bottom")
+width = 8
+height = 64
+fill_to = Vector2(0, 1)
+
+[node name="LeviathanAwakening" type="CanvasLayer"]
+layer = 100
+script = ExtResource("1_awake")
+
+[node name="Root" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Background" type="ColorRect" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Eye" type="TextureRect" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("AtlasTexture_eye")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="TopLid" type="TextureRect" parent="Root"]
+layout_mode = 1
+anchor_right = 1.0
+offset_bottom = 220.0
+grow_horizontal = 2
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_top")
+expand_mode = 1
+
+[node name="BottomLid" type="TextureRect" parent="Root"]
+layout_mode = 1
+anchor_right = 1.0
+offset_bottom = 220.0
+grow_horizontal = 2
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_bottom")
+expand_mode = 1
+
+[node name="Curtain" type="ColorRect" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)

@@ -18,6 +18,7 @@ const SUDDEN_DEATH_DURATION = 120.0  # adjust to your actual sudden-death length
 var state: MatchState = MatchState.MENU
 var team_scores: Dictionary = {0: 0, 1: 0}
 var time_remaining: float = MATCH_DURATION
+var match_paused := false # set on every peer by the leviathan cutscene: the timer and the border wait
 
 # Derived from `state` so there is a single source of truth. These keep the
 # names the HUD branch already used, so existing HUD code keeps working.
@@ -40,6 +41,7 @@ func set_state(new_state: MatchState) -> void:
 func reset_match() -> void:
 	team_scores = {0: 0, 1: 0}
 	time_remaining = MATCH_DURATION
+	match_paused = false
 
 
 func start_match() -> void:
@@ -78,7 +80,7 @@ func _process(delta: float) -> void:
 	if peer == null or peer.get_connection_status() != MultiplayerPeer.CONNECTION_CONNECTED:
 		return
 
-	if not multiplayer.is_server() or not match_active:
+	if not multiplayer.is_server() or not match_active or match_paused:
 		return
 
 	time_remaining -= delta

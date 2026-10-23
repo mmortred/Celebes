@@ -1,7 +1,7 @@
 [gd_scene format=3]
 
-[ext_resource type="Shader" uid="uid://cxw5lknijqjgt" path="res://Celebes Abyssal Tides/scenes/CutScene/sky_pixel.gdshader" id="1_sky"]
-[ext_resource type="Shader" uid="uid://dqyfs1w8j50yf" path="res://Celebes Abyssal Tides/scenes/CutScene/sea_surface.gdshader" id="2_sea"]
+[ext_resource type="Shader" uid="uid://cxw5lknijqjgt" path="res://Celebes Abyssal Tides/scenes/CutScene/IntroScene/sky_pixel.gdshader" id="1_sky"]
+[ext_resource type="Shader" uid="uid://dqyfs1w8j50yf" path="res://Celebes Abyssal Tides/scenes/CutScene/IntroScene/sea_surface.gdshader" id="2_sea"]
 [ext_resource type="Texture2D" uid="uid://bdkle0urapj74" path="res://Celebes Abyssal Tides/assets/cutscene/water_tile.png" id="3_water"]
 [ext_resource type="Script" uid="uid://c6fr3vrkq02ab" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_stars.gd" id="4_stars"]
 [ext_resource type="Script" uid="uid://bbsyex2enn65u" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_mountains.gd" id="5_mountains"]

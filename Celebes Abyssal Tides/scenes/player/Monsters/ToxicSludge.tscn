@@ -457,42 +457,37 @@ animations = [{
 "speed": 6.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mj236"]
-radius = 40.0
-height = 96.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_1e16l"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gnugr"]
-size = Vector2(64, 61)
+size = Vector2(56, 43.5)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_n4k3l"]
-radius = 32.0
-height = 80.0
+radius = 24.0
+height = 64.0
 
 [node name="Player" unique_id=447082359 instance=ExtResource("1_3c0u8")]
 
 [node name="AnimatedSprite2D" parent="." index="0" unique_id=55903766]
+scale = Vector2(1, 1)
 sprite_frames = SubResource("SpriteFrames_iauuq")
-animation = &"walk_left"
-frame_progress = 0.8194636
+animation = &"left_swing"
 
 [node name="CollisionShape2D" parent="." index="1" unique_id=1509811323]
 visible = true
-position = Vector2(0, -40)
-shape = SubResource("CapsuleShape2D_mj236")
+position = Vector2(0, -16)
+shape = SubResource("CircleShape2D_1e16l")
+debug_color = Color(0.6327152, 0.5274247, 0.1361036, 0.41960785)
 
-[node name="AttackRange" parent="." index="9" unique_id=1937271004]
-visible = true
-
-[node name="CollisionShape2D" parent="AttackRange" index="0" unique_id=1703822284]
-position = Vector2(-8, -16)
+[node name="CollisionShape2D" parent="AttackRange" parent_id_path=PackedInt32Array(1937271004) index="0" unique_id=1703822284]
+position = Vector2(-8, -11)
 shape = SubResource("RectangleShape2D_gnugr")
+debug_color = Color(0, 0.6338434, 0.43946248, 0.41960785)
 
-[node name="HurtBox" parent="." index="10" unique_id=857489502]
-visible = true
-
-[node name="CollisionShape2D" parent="HurtBox" index="0" unique_id=1411050026]
-position = Vector2(0, -8)
+[node name="CollisionShape2D" parent="HurtBox" parent_id_path=PackedInt32Array(857489502) index="0" unique_id=1411050026]
+position = Vector2(0, -11)
 shape = SubResource("CapsuleShape2D_n4k3l")
+debug_color = Color(0.9659174, 9.62615e-07, 0.48670137, 0.41960785)
 
 [node name="PearlIndicator" parent="." index="11" unique_id=1928374651]
 position = Vector2(48, -96)

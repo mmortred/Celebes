@@ -48,6 +48,7 @@ var is_swinging = false #+
 var hit_tween = null #+ so rapid hits restart the flash instead of stacking
 var is_dead = false #+
 var has_pearl = false #+ PEARL set on every peer by the pearl's collected() rpc
+var cutscene_frozen = false #+ CUTSCENE set by the leviathan awakening, stand still until it ends
 @export var net_position = Vector2.ZERO #+ SMOOTH owner's real position; synced instead of position so others can glide to it
 const SMOOTHING = 18.0 #+ SMOOTH higher = catches up faster
 const SNAP_DISTANCE = 200.0 #+ SMOOTH further than this = teleport, don't glide
@@ -98,7 +99,11 @@ func _physics_process(delta):
 		return  # non-owners skip input AND physics entirely — position comes from sync instead
 	if is_dead: #+ dead players can't move, attack, or dash
 		return #+
-	
+	if cutscene_frozen: #+ CUTSCENE no moving, attacking or dashing
+		velocity = Vector2.ZERO #+
+		anim_frozen = true #+ hold the current frame
+		return #+
+
 	# Reduce the dash cooldown every frame.
 	if dash_cooldown_timer > 0:
 		dash_cooldown_timer -= delta

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b15bynslw4646"]
 
 [ext_resource type="Script" uid="uid://bigahcgeobwf2" path="res://Celebes Abyssal Tides/scripts/player/player.gd" id="1_8afob"]
-[ext_resource type="SpriteFrames" uid="uid://cyv5dwrlhuf16" path="res://Celebes Abyssal Tides/scenes/player/base.tres" id="2_mb2se"]
+[ext_resource type="SpriteFrames" uid="uid://bixchxdprutth" path="res://Celebes Abyssal Tides/scenes/player/base.tres" id="2_mb2se"]
 [ext_resource type="Script" uid="uid://dnqea0iwk7vao" path="res://Celebes Abyssal Tides/scripts/components/health_component.gd" id="3_gmlin"]
 [ext_resource type="Script" uid="uid://cwn7gqg6ww0m" path="res://Celebes Abyssal Tides/scripts/abilities/spear_thrust.gd" id="4_lvxji"]
 [ext_resource type="Script" uid="uid://bv4bqssapcd8f" path="res://Celebes Abyssal Tides/scripts/abilities/bubble_strike.gd" id="5_p47bc"]

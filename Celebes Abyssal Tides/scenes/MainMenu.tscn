@@ -4,9 +4,7 @@
 [ext_resource type="FontFile" uid="uid://xlnojau3gqwv" path="res://Celebes Abyssal Tides/assets/fonts/PixelifySans-VariableFont_wght.ttf" id="1_420ly"]
 [ext_resource type="Script" uid="uid://c2nh5yvcl4w7m" path="res://Celebes Abyssal Tides/scripts/ui/menu_buttons.gd" id="1_xtshi"]
 [ext_resource type="StyleBox" uid="uid://dx3wrf3a2xr4x" path="res://Celebes Abyssal Tides/scripts/ui/main_menu_button.tres" id="2_0j5kp"]
-[ext_resource type="Texture2D" uid="uid://cpwu2hd0g0hbt" path="res://Celebes Abyssal Tides/assets/placeholder_assets/LobbyUI.jpg" id="2_1bmiw"]
 [ext_resource type="Texture2D" uid="uid://cu425j3wn4tgb" path="res://Celebes Abyssal Tides/assets/ui/button_container.png" id="3_1mkmo"]
-[ext_resource type="Shader" uid="uid://b3ssdl33tb0d6" path="res://Celebes Abyssal Tides/scenes/glow_shader.gdshader" id="5_auvfh"]
 [ext_resource type="Texture2D" uid="uid://bvbkcwhu3hy6v" path="res://Celebes Abyssal Tides/assets/ui/play_icon.png" id="7_20om1"]
 [ext_resource type="Texture2D" uid="uid://c5mrbmf5thduk" path="res://Celebes Abyssal Tides/assets/ui/options_icon.png" id="8_4vxo6"]
 [ext_resource type="Texture2D" uid="uid://ckooy4w18424o" path="res://Celebes Abyssal Tides/assets/ui/quit_icon.png" id="9_ivm5w"]
@@ -17,20 +15,13 @@
 [ext_resource type="Texture2D" uid="uid://cjq63qtj2vphb" path="res://Celebes Abyssal Tides/assets/ui/nstw_2026_logo.png" id="14_nstw"]
 [ext_resource type="PackedScene" path="res://Celebes Abyssal Tides/scenes/ui/SeaBackground.tscn" id="15_seabg"]
 
-[sub_resource type="Gradient" id="Gradient_ivm5w"]
-colors = PackedColorArray(0, 0.023529412, 0.078431375, 1, 0, 0.32300004, 0.38, 1)
+[sub_resource type="AtlasTexture" id="AtlasTexture_banner_nstw"]
+atlas = ExtResource("13_clutter")
+region = Rect2(32, 0, 32, 64)
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_ylcck"]
-gradient = SubResource("Gradient_ivm5w")
-fill_from = Vector2(1, 1)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_0j5kp"]
-shader = ExtResource("5_auvfh")
-shader_parameter/wave_speed = 0.394000018715
-shader_parameter/wave_strength = 0.0050000002375
-shader_parameter/wave_frequency = 9.3830003981925
-shader_parameter/tint_color = Color(0.1, 0.3, 0.4, 0.15)
-shader_parameter/tint_strength = 1.0
+[sub_resource type="AtlasTexture" id="AtlasTexture_banner_2026"]
+atlas = ExtResource("13_clutter")
+region = Rect2(64, 0, 32, 64)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1ww84"]
 content_margin_left = 10.0
@@ -242,14 +233,6 @@ _data = {
 &"pvp_hover": SubResource("Animation_xtshi")
 }
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_banner_nstw"]
-atlas = ExtResource("13_clutter")
-region = Rect2(32, 0, 32, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_banner_2026"]
-atlas = ExtResource("13_clutter")
-region = Rect2(64, 0, 32, 64)
-
 [node name="MainMenu" type="Control" unique_id=1472725565]
 layout_mode = 3
 anchors_preset = 15
@@ -259,7 +242,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_xtshi")
 
-[node name="SeaBackground" parent="." instance=ExtResource("15_seabg")]
+[node name="SeaBackground" parent="." unique_id=1543647797 instance=ExtResource("15_seabg")]
 layout_mode = 0
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=846911785]
@@ -270,28 +253,27 @@ offset_left = 27.0
 offset_top = 34.0
 offset_right = 274.0
 offset_bottom = 173.0
+mouse_filter = 2
 texture = ExtResource("1_1mkmo")
 
-mouse_filter = 2
-
-[node name="BannerNSTW" type="TextureRect" parent="."]
+[node name="BannerNSTW" type="TextureRect" parent="." unique_id=62047368]
 texture_filter = 1
 layout_mode = 0
-offset_left = 438.0
-offset_top = 192.0
-offset_right = 486.0
-offset_bottom = 288.0
+offset_left = 5.0
+offset_top = 273.0
+offset_right = 53.0
+offset_bottom = 369.0
 mouse_filter = 2
 texture = SubResource("AtlasTexture_banner_nstw")
 expand_mode = 1
 
-[node name="Banner2026" type="TextureRect" parent="."]
+[node name="Banner2026" type="TextureRect" parent="." unique_id=2058548798]
 texture_filter = 1
 layout_mode = 0
-offset_left = 566.0
-offset_top = 192.0
-offset_right = 614.0
-offset_bottom = 288.0
+offset_left = 255.0
+offset_top = 273.0
+offset_right = 303.0
+offset_bottom = 369.0
 mouse_filter = 2
 texture = SubResource("AtlasTexture_banner_2026")
 expand_mode = 1
@@ -380,21 +362,19 @@ theme = SubResource("Theme_xtshi")
 theme_override_constants/caret_width = 2
 theme_override_fonts/font = ExtResource("1_420ly")
 theme_override_font_sizes/font_size = 12
-text = ""
 placeholder_text = "127.0.0.1"
 alignment = 2
 emoji_menu_enabled = false
 flat = true
 caret_blink = true
 
-[node name="ConnectionStatus" type="Label" parent="."]
+[node name="ConnectionStatus" type="Label" parent="." unique_id=1230612977]
 layout_mode = 0
 offset_left = 54.0
 offset_top = 348.0
 offset_right = 430.0
 offset_bottom = 376.0
 theme_override_font_sizes/font_size = 11
-text = ""
 
 [node name="BackButton" type="Button" parent="." unique_id=679030118]
 texture_filter = 1
@@ -454,10 +434,10 @@ offset_transform_enabled = true
 offset_transform_position = Vector2(-10, 0)
 theme_override_fonts/font = ExtResource("1_420ly")
 theme_override_font_sizes/font_size = 10
-text = "Made by maKate Studios"
+text = "Made by Lit Studios"
 horizontal_alignment = 2
 
-[node name="NstwLogo" type="TextureRect" parent="."]
+[node name="NstwLogo" type="TextureRect" parent="." unique_id=1846623866]
 texture_filter = 1
 layout_mode = 1
 anchors_preset = 1
