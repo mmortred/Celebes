@@ -10,7 +10,7 @@ const CHARACTER_SCENES := {
 }
 const BASE_PLAYER = preload("res://Celebes Abyssal Tides/scenes/player/player.tscn")
 
-# spawn folders may sit deeper (TestArena keeps them under ArenaUtil) or be missing
+# spawn folders may sit deeper (MainArena keeps them under ArenaUtil) or be missing
 @onready var team_left_spawns = find_child("TeamLeftSpawns")
 @onready var team_right_spawns = find_child("TeamRightSpawns")
 @onready var spawner: MultiplayerSpawner = $MultiplayerSpawner
@@ -124,7 +124,7 @@ func add_spectator_camera() -> void:
 	add_child(camera)
 	# no player of their own, so no HP / portrait card; scoreboard and timer stay.
 	# hide what's inside the card: the HUD's intro animation turns the card itself back on
-	var hud := find_child("ArenaHUD", true, false) # HUDLayer in Arena, CanvasLayer in TestArena
+	var hud := find_child("ArenaHUD", true, false) # under MainArena's CanvasLayer
 	var player_stats: Node = hud.get_node_or_null("PlayerStats") if hud else null
 	if player_stats:
 		for part in player_stats.get_children():
