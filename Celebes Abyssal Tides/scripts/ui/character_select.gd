@@ -3,7 +3,7 @@ extends Control
 # Stage 5 — Character Select
 # Clean 1280x720 layout using only assets already present in Celebes.
 
-const SEA_BACKGROUND = preload("res://Celebes Abyssal Tides/scenes/ui/SeaBackground.tscn") # the intro's sunset sea
+const BG = preload("res://Celebes Abyssal Tides/assets/placeholder_assets/LobbyUI.jpg")
 # Portraits come from CharacterSelectManager.get_icon (the arena HUD uses the same ones).
 const READY_SHEET = preload("res://Celebes Abyssal Tides/assets/Lobby/ReadyButton - Edited.png")
 const BACK_NORMAL = preload("res://Celebes Abyssal Tides/assets/Lobby/back/343px/back01.png")
@@ -57,7 +57,12 @@ func _build_ui() -> void:
 	ui_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(ui_layer)
 	# Background
-	var background: Control = SEA_BACKGROUND.instantiate()
+	var background := TextureRect.new()
+	background.texture = BG
+	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	background.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	background.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(background)
 
 	var shade := ColorRect.new()

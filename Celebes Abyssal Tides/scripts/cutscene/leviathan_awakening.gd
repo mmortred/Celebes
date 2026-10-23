@@ -1,7 +1,7 @@
 extends CanvasLayer
 ## Sudden death cutscene: the leviathan wakes up.
 ## The arena shakes, every player stops, then the serpent's eye fills the screen,
-## opens, blinks and glares, closes, everyone respawns on their own side, and play
+## opens, glares, closes (one slow blink), everyone respawns on their own side, and play
 ## goes on from each player's own camera.
 ## The arena adds one of these on every peer at the same moment (sudden death rpc),
 ## so it needs no networking of its own.
@@ -63,11 +63,9 @@ func play() -> void:
 	t.tween_property(eye, "scale", Vector2.ONE * 1.08, 2.2 * s).set_delay(0.4 * s) # 0.4 creeping zoom
 	t.tween_property(eye, "modulate", Color(1.35, 1.2, 1.1), 0.6 * s).set_delay(1.4 * s) # 1.4 the eye glows
 	t.tween_property(eye, "modulate", Color.WHITE, 0.6 * s).set_delay(2.0 * s)
-	t.tween_method(set_lid, 0.0, 1.0, 0.15 * s).set_delay(2.6 * s) # 2.6 blink
-	t.tween_method(set_lid, 1.0, 0.0, 0.25 * s).set_delay(2.75 * s)
-	t.tween_property(eye, "scale", Vector2.ONE * 1.22, 1.1 * s).set_delay(3.0 * s).set_ease(Tween.EASE_IN) # 3.0 leans in and glares
-	t.tween_property(eye, "modulate", Color(1.5, 1.25, 1.1), 1.1 * s).set_delay(3.0 * s)
-	t.tween_property(self, "eye_shake", 3.0, 1.1 * s).set_delay(3.0 * s)
+	t.tween_property(eye, "scale", Vector2.ONE * 1.22, 1.5 * s).set_delay(2.6 * s).set_ease(Tween.EASE_IN) # 2.6 leans in and glares
+	t.tween_property(eye, "modulate", Color(1.5, 1.25, 1.1), 1.5 * s).set_delay(2.6 * s)
+	t.tween_property(self, "eye_shake", 3.0, 1.5 * s).set_delay(2.6 * s)
 	t.tween_method(set_lid, 0.0, 1.0, 0.5 * s).set_delay(4.1 * s).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_SINE) # 4.1 narrows shut
 	t.tween_property(self, "eye_shake", 0.0, 0.5 * s).set_delay(4.1 * s)
 	t.tween_callback(send_players_home).set_delay(4.6 * s) # 4.6 still black: everyone to their side
