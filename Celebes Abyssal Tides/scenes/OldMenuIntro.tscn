@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://dw0cqdlm620tr"]
 
-[ext_resource type="Script" path="res://Celebes Abyssal Tides/scripts/ui/OldMenuIntro.gd" id="1"]
+[ext_resource type="Script" uid="uid://b630msmjg03wt" path="res://Celebes Abyssal Tides/scripts/ui/OldMenuIntro.gd" id="1"]
 
-[node name="OldMenuIntro" type="Control"]
+[node name="OldMenuIntro" type="Control" unique_id=1485708357]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

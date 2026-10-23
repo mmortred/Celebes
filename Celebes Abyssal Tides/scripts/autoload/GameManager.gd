@@ -7,6 +7,8 @@ signal state_changed(new_state: int)
 signal time_updated(seconds_remaining: int)
 signal sudden_death_started
 signal match_ended
+signal score_changed(scores: Dictionary)
+signal announcement(text: String, team: int) # pearl taken / dropped / captured, shown by the HUD
 
 enum MatchState { MENU, LOBBY, CHARACTER_SELECT, LOADING, IN_PROGRESS, SUDDEN_DEATH, VICTORY }
 
@@ -16,6 +18,7 @@ const SUDDEN_DEATH_DURATION = 120.0  # adjust to your actual sudden-death length
 var state: MatchState = MatchState.MENU
 var team_scores: Dictionary = {0: 0, 1: 0}
 var time_remaining: float = MATCH_DURATION
+var match_paused := false # set on every peer by the leviathan cutscene: the timer and the border wait
 
 # Derived from `state` so there is a single source of truth. These keep the
 # names the HUD branch already used, so existing HUD code keeps working.
@@ -38,6 +41,7 @@ func set_state(new_state: MatchState) -> void:
 func reset_match() -> void:
 	team_scores = {0: 0, 1: 0}
 	time_remaining = MATCH_DURATION
+	match_paused = false
 
 
 func start_match() -> void:
@@ -46,13 +50,37 @@ func start_match() -> void:
 	reset_match()
 	set_state(MatchState.IN_PROGRESS)
 	sync_timer_state.rpc(time_remaining, state)
+	sync_scores.rpc(team_scores)
+
+
+# SCORING (server decides, everyone hears about it)
+func add_score(team: int) -> void:
+	if not multiplayer.is_server():
+		return
+	team_scores[team] = int(team_scores.get(team, 0)) + 1
+	sync_scores.rpc(team_scores)
+
+
+@rpc("authority", "call_local", "reliable")
+func sync_scores(scores: Dictionary) -> void:
+	team_scores = {0: int(scores.get(0, 0)), 1: int(scores.get(1, 0))}
+	score_changed.emit(team_scores)
+
+
+# team -1 = neutral (white) message
+@rpc("authority", "call_local", "reliable")
+func announce(text: String, team: int = -1) -> void:
+	announcement.emit(text, team)
 
 
 func _process(delta: float) -> void:
-	if multiplayer.multiplayer_peer == null:
+	# also stop once the connection drops (host left): asking a dead peer
+	# is_server() prints "multiplayer instance isn't currently active" every frame
+	var peer := multiplayer.multiplayer_peer
+	if peer == null or peer.get_connection_status() != MultiplayerPeer.CONNECTION_CONNECTED:
 		return
 
-	if not multiplayer.is_server() or not match_active:
+	if not multiplayer.is_server() or not match_active or match_paused:
 		return
 
 	time_remaining -= delta

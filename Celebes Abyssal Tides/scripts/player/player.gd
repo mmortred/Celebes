@@ -48,6 +48,12 @@ var is_swinging = false #+
 var hit_tween = null #+ so rapid hits restart the flash instead of stacking
 var is_dead = false #+
 var has_pearl = false #+ PEARL set on every peer by the pearl's collected() rpc
+var cutscene_frozen = false #+ CUTSCENE set by the leviathan awakening, stand still until it ends
+@export var net_position = Vector2.ZERO #+ SMOOTH owner's real position; synced instead of position so others can glide to it
+const SMOOTHING = 18.0 #+ SMOOTH higher = catches up faster
+const SNAP_DISTANCE = 200.0 #+ SMOOTH further than this = teleport, don't glide
+var team = 0 #+ SPAWN 0 = Sea Nomads (left spawns), 1 = Garbage Monsters (right). set by the arena when spawning
+var character = -1 #+ ICON character id picked in character select (0 Bugis, 5 Toxic Sludge). set by the arena when spawning
 
 func _enter_tree():
 	var id = str(name).to_int() #+
@@ -58,7 +64,8 @@ func _enter_tree():
 
 func _ready():
 	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING #+ NEW top-down: no "floor", so you can't ride other players
-	label.text = "Player " + str(name)          # testing player ids
+	net_position = position #+ SMOOTH start where I spawned, not at (0, 0)
+	label.text = LobbyManager.get_player_name(get_multiplayer_authority()) #+ NAME the username from settings
 	camera.enabled = is_multiplayer_authority() # only enable camera for the owning client
 	sprite.sprite_frames.set_animation_loop("top_swing", false) #+ swings must play once
 	sprite.sprite_frames.set_animation_loop("bottom_swing", false) #+
@@ -73,7 +80,13 @@ func _ready():
 		if hud: #+
 			hud.set_player(self) #+
 
-func _process(_delta): #+ runs on every peer, plays whatever the owner set
+func _process(delta): #+ runs on every peer, plays whatever the owner set
+	if is_multiplayer_authority(): #+ SMOOTH publish where I really am
+		net_position = position #+ SMOOTH
+	elif position.distance_to(net_position) > SNAP_DISTANCE: #+ SMOOTH respawn/teleport: jump straight there
+		position = net_position #+ SMOOTH
+	else: #+ SMOOTH glide toward the owner's position instead of snapping to each network update
+		position = position.lerp(net_position, 1.0 - exp(-SMOOTHING * delta)) #+ SMOOTH
 	if sprite.animation != anim_name: #+
 		sprite.play(anim_name) #+
 	if anim_frozen: #+
@@ -86,7 +99,11 @@ func _physics_process(delta):
 		return  # non-owners skip input AND physics entirely — position comes from sync instead
 	if is_dead: #+ dead players can't move, attack, or dash
 		return #+
-	
+	if cutscene_frozen: #+ CUTSCENE no moving, attacking or dashing
+		velocity = Vector2.ZERO #+
+		anim_frozen = true #+ hold the current frame
+		return #+
+
 	# Reduce the dash cooldown every frame.
 	if dash_cooldown_timer > 0:
 		dash_cooldown_timer -= delta
@@ -225,7 +242,14 @@ func receive_hit(amount, attacker_name): #+
 	for player in get_tree().get_nodes_in_group("players"): #+ turn the name back into the player node
 		if str(player.name) == attacker_name: #+
 			attacker = player #+
+	# Damage remains replicated by the existing hit RPC.
+	# Only the host updates scoreboard records to avoid duplicate K/D/A.
+	var was_alive: bool = health.current_health > 0.0
+	if multiplayer.multiplayer_peer != null and multiplayer.is_server() and was_alive:
+		ScoreboardManager.record_damage(str(name).to_int(), str(attacker_name).to_int())
 	health.take_damage(amount, attacker) #+
+	if multiplayer.multiplayer_peer != null and multiplayer.is_server() and was_alive and health.current_health <= 0.0:
+		ScoreboardManager.record_death(str(name).to_int(), str(attacker_name).to_int())
 	if not is_dead: #+ the killing hit starts the fade instead of a flash
 		flash_hit() #+
 		slow_timer = hit_slow_duration #+ SLOW refresh, not stack: 2 quick hits = still 0.5s
@@ -266,9 +290,12 @@ func _on_knocked_out(): #+ runs on every peer, because take_damage runs on every
 		respawn.rpc(pick_spawn_point()) #+
 
 func pick_spawn_point() -> Vector2: #+
-	var spawns = get_tree().current_scene.find_child("TeamLeftSpawns") #+
+	var arena = get_tree().current_scene #+ PHASE the arena knows which spawns count right now (outer, or inner after 5 min)
+	if arena.has_method("get_respawn_position"): #+
+		return arena.get_respawn_position(team) #+
+	var spawns = arena.find_child("TeamLeftSpawns" if team == 0 else "TeamRightSpawns") #+ SPAWN my own team's side
 	if spawns == null or spawns.get_child_count() == 0: #+
-		print("No TeamLeftSpawns found, respawning in place") #+
+		print("No team spawns found, respawning in place") #+
 		return global_position #+
 	var spawn = spawns.get_child(randi() % spawns.get_child_count()) #+ random spawn point
 	return spawn.global_position #+

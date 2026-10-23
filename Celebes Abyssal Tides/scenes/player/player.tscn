@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b15bynslw4646"]
 
 [ext_resource type="Script" uid="uid://bigahcgeobwf2" path="res://Celebes Abyssal Tides/scripts/player/player.gd" id="1_8afob"]
-[ext_resource type="SpriteFrames" uid="uid://cyv5dwrlhuf16" path="res://Celebes Abyssal Tides/scenes/player/base.tres" id="2_mb2se"]
+[ext_resource type="SpriteFrames" uid="uid://bixchxdprutth" path="res://Celebes Abyssal Tides/scenes/player/base.tres" id="2_mb2se"]
 [ext_resource type="Script" uid="uid://dnqea0iwk7vao" path="res://Celebes Abyssal Tides/scripts/components/health_component.gd" id="3_gmlin"]
 [ext_resource type="Script" uid="uid://cwn7gqg6ww0m" path="res://Celebes Abyssal Tides/scripts/abilities/spear_thrust.gd" id="4_lvxji"]
 [ext_resource type="Script" uid="uid://bv4bqssapcd8f" path="res://Celebes Abyssal Tides/scripts/abilities/bubble_strike.gd" id="5_p47bc"]
@@ -9,19 +9,19 @@
 [ext_resource type="Script" uid="uid://bwyv0275vuwsd" path="res://Celebes Abyssal Tides/scripts/player/launch_fx.gd" id="7_launch"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cmd4b"]
-radius = 18.0
-height = 54.0
+radius = 16.0
+height = 32.0
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_lvxji"]
-properties/0/path = NodePath(".:position")
+properties/0/path = NodePath(".:net_position")
 properties/0/spawn = true
 properties/0/replication_mode = 1
 properties/1/path = NodePath(".:anim_name")
 properties/1/spawn = true
-properties/1/replication_mode = 1
+properties/1/replication_mode = 2
 properties/2/path = NodePath(".:anim_frozen")
 properties/2/spawn = true
-properties/2/replication_mode = 1
+properties/2/replication_mode = 2
 
 [sub_resource type="Animation" id="Animation_g5n5p"]
 resource_name = "test"
@@ -40,18 +40,24 @@ script = ExtResource("1_8afob")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=55903766]
 texture_filter = 1
-position = Vector2(0, -46)
+position = Vector2(0, -35)
 scale = Vector2(1.5, 1.5)
 sprite_frames = ExtResource("2_mb2se")
-animation = &"bottom_swing"
+animation = &"walk_down"
+speed_scale = 1.5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1509811323]
 visible = false
-position = Vector2(1, -32)
+position = Vector2(0, -19)
 shape = SubResource("CapsuleShape2D_cmd4b")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=281208494]
 position = Vector2(-8, 0)
+limit_left = -1730
+limit_top = -928
+limit_right = 1730
+limit_bottom = 997
+limit_smoothed = true
 position_smoothing_enabled = true
 
 [node name="HealthComponent" type="Node" parent="." unique_id=1331527619]
@@ -80,7 +86,7 @@ libraries/ = SubResource("AnimationLibrary_ax2op")
 
 [node name="AttackRange" type="Area2D" parent="." unique_id=1937271004 groups=["player_attack"]]
 visible = false
-position = Vector2(8, 0)
+position = Vector2(8, 11)
 collision_layer = 0
 collision_mask = 4
 monitorable = false
@@ -91,10 +97,9 @@ shape = SubResource("RectangleShape2D_ma018")
 
 [node name="HurtBox" type="Area2D" parent="." unique_id=857489502]
 visible = false
-modulate = Color(1.5287985, 0, 0.17372437, 1)
 self_modulate = Color(0.9607843, 0.2, 0.32156864, 1)
 texture_filter = 1
-position = Vector2(0, -32)
+position = Vector2(0, -21)
 collision_layer = 4
 collision_mask = 0
 monitoring = false

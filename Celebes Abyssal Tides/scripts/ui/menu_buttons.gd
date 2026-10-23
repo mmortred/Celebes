@@ -2,10 +2,12 @@ extends Control
 
 const LOBBY_PATH := "res://Celebes Abyssal Tides/scenes/ui/lobby/PvPLobby.tscn"
 const SETTINGS_SCENE := preload("res://Celebes Abyssal Tides/scenes/ui/menus/SettingsPanel.tscn")
+const JOIN_PANEL_SCRIPT := preload("res://Celebes Abyssal Tides/scripts/ui/join_panel.gd")
 @onready var anim: AnimationPlayer = $AnimationPlayer
 @onready var ip_input: LineEdit = $IPInput
 var connecting := false
 var settings_panel: Control
+var join_panel: Control
 
 func _ready() -> void:
 	if has_node("OptionsButton"):
@@ -23,18 +25,15 @@ func _on_back_button_pressed() -> void:
 	anim.play_backwards("menu")
 
 func _on_join_button_pressed() -> void:
-	# First click reveals the IP field. Second click submits it.
+	# Opens the join panel: lobbies found on the network plus a manual IP field.
 	print("JOIN button pressed")
-	if connecting:
+	if connecting or is_instance_valid(join_panel):
 		return
-	if not ip_input.visible:
-		ip_input.visible = true
-		ip_input.text = "127.0.0.1"
-		ip_input.select_all()
-		ip_input.grab_focus()
-		_set_status("Enter an IP, press Enter or click JOIN again")
-		return
-	_on_ip_input_text_submitted(ip_input.text)
+	ip_input.visible = false
+	join_panel = Control.new()
+	join_panel.set_script(JOIN_PANEL_SCRIPT)
+	join_panel.join_requested.connect(_on_ip_input_text_submitted)
+	add_child(join_panel)
 
 func _on_ip_input_text_submitted(new_text: String) -> void:
 	print("JOIN submitted: [", new_text, "]")
@@ -99,6 +98,8 @@ func _set_status(message: String) -> void:
 	var status: Label = get_node_or_null("ConnectionStatus")
 	if status != null:
 		status.text = message
+	if is_instance_valid(join_panel):
+		join_panel.set_status(message)
 
 func _open_settings() -> void:
 	if is_instance_valid(settings_panel):

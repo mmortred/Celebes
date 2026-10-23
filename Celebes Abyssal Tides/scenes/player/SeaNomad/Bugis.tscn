@@ -408,6 +408,9 @@ animations = [{
 "speed": 6.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_ma018"]
+custom_solver_bias = 1.0
+
 [node name="Player" unique_id=447082359 instance=ExtResource("1_gqejy")]
 
 [node name="AnimatedSprite2D" parent="." index="0" unique_id=55903766]
@@ -416,9 +419,15 @@ animation = &"walk_right"
 
 [node name="CollisionShape2D" parent="." index="1" unique_id=1509811323]
 visible = true
+position = Vector2(0, -9)
+shape = SubResource("CircleShape2D_ma018")
+debug_color = Color(0.62533885, 0.52897364, 0.16805804, 0.41960785)
 
 [node name="HurtBox" parent="." index="10" unique_id=857489502]
 visible = true
+
+[node name="CollisionShape2D" parent="HurtBox" index="0" unique_id=1411050026]
+visible = false
 
 [node name="PearlIndicator" parent="." index="11" unique_id=1928374651]
 visible = true

@@ -2,6 +2,7 @@
 extends Node2D
 ## placeholder trash for the intro. sits still until release() is called,
 ## then sinks with a side-to-side drift and slows to a stop at rest_y.
+## release() can also give it a push (the pollution wave carrying it) that fades out.
 ## swap _draw for a Sprite2D later.
 
 enum Kind { BAG, BOTTLE, CAN, TIRE, SLIPPER }
@@ -13,19 +14,25 @@ enum Kind { BAG, BOTTLE, CAN, TIRE, SLIPPER }
 @export var spin := 0.6 # radians per second
 @export var rest_y := 330.0
 @export var floating := false # bob on the sea surface instead of sinking
+@export var carry_drag := 1.1 # how fast the wave's push dies away
 
 var active := false
 var t := 0.0
 var base_y := 0.0
+var base_scale := Vector2.ONE
+var carry := Vector2.ZERO # push from the wave, fades out
 
 
 func _ready():
 	t = randf() * TAU
 	base_y = position.y
+	base_scale = scale
 
 
-func release():
+func release(push := Vector2.ZERO):
 	active = true
+	carry = push
+	show()
 
 
 func _process(delta):
@@ -41,12 +48,13 @@ func _process(delta):
 	t += delta
 	# slow down as it reaches its resting depth
 	var slow := clampf((rest_y - position.y) / 40.0, 0.0, 1.0)
-	position += velocity * slow * delta
+	position += (velocity * slow + carry) * delta
 	position.x += sin(t * 1.4) * drift * slow * delta
-	rotation += spin * slow * delta
+	carry = carry.lerp(Vector2.ZERO, 1.0 - exp(-carry_drag * delta))
+	rotation += spin * maxf(slow, carry.length() / 200.0) * delta # tumbles while carried
 	if kind == Kind.BAG:
 		# bag "breathes" as it drifts
-		scale.y = 1.0 + sin(t * 2.0) * 0.12
+		scale.y = base_scale.y * (1.0 + sin(t * 2.0) * 0.12)
 
 
 const OUTLINE := Color(0.06, 0.05, 0.1, 0.9)

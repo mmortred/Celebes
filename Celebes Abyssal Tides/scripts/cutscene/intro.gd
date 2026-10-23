@@ -9,7 +9,12 @@ signal title_shown
 @export var calm_time := 2.0 # seconds of peaceful sea before pollution
 @export var calm_zoom := 1.2 # slow push-in on the fish during the calm
 @export var fade_time := 0.8 # each half of the fade into next_scene
-@export var pollution_time := 4.0 # how long the wave takes to cover the screen
+@export var pollution_time := 8.0 # how long the wave takes to cover the screen before the rise
+# wave progress (pollution_wave.gdshader): 0.18 = front just off-screen right,
+# 0.8 = the whole screen is covered, then the rise to the surface begins
+@export var wave_start := 0.18
+@export var wave_at_rise := 0.8
+@export var wave_after_rise := 1.0 # it keeps rolling while the camera leaves
 @export var rise_time := 7.0 # camera trip up through the deep to the surface
 @export var rise_zoom := 0.6 # how far the camera pulls back mid-rise
 @export var surface_y := -1080.0 # camera y when looking at the horizon
@@ -24,23 +29,42 @@ signal title_shown
 @onready var logo: Control = $Title/Logo
 @onready var press_start: Control = $Title/PressStart
 @onready var credit: Control = $Title/Credit
+@onready var nstw_logo: Control = $Title/NstwLogo
 @onready var serpent: Node2D = $Surface/Leviathan/Serpent
 @onready var speed_lines: ColorRect = $SpeedLines/Lines
 
 var timeline: Tween
 var title_tween: Tween
 var at_title := false
+var polluting := false
+# trash still riding the wave front, rightmost first. each piece starts off-screen
+# right, travels with the front, and drops off when the front reaches its spot
+var waiting_trash: Array[Node2D] = []
+var trash_drop_x: Dictionary = {} # piece -> x where it leaves the wave (its scene position)
+var trash_lag: Dictionary = {}    # piece -> how far behind the front edge (inside the murk) it rides
 
 
 func _ready():
 	logo.modulate.a = 0.0
 	press_start.modulate.a = 0.0
 	credit.modulate.a = 0.0
+	nstw_logo.modulate.a = 0.0
+
+	# keep every drop spot (its x in the scene, 0-640) inside what the wave covers
+	# before the rise and on screen (trash rides up to 130px behind the edge)
+	var covered_from := maxf(pollution_front_x(wave_at_rise) + 130.0, 20.0)
+	for trash in $Trash.get_children():
+		trash.hide()
+		waiting_trash.append(trash)
+		trash_drop_x[trash] = lerpf(covered_from, 650.0, clampf(trash.position.x / 640.0, 0.0, 1.0))
+		trash_lag[trash] = randf_range(45.0, 130.0)
+	waiting_trash.sort_custom(func(a, b): return a.position.x > b.position.x)
 
 	timeline = create_tween()
 	timeline.tween_property(camera, "zoom", Vector2.ONE * calm_zoom, calm_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	timeline.tween_callback(_start_pollution)
-	timeline.tween_property(pollution.material, "shader_parameter/progress", 1.0, pollution_time).set_trans(Tween.TRANS_SINE)
+	# slow, steady roll from the right edge until it covers the whole screen
+	timeline.tween_property(pollution.material, "shader_parameter/progress", wave_at_rise, pollution_time).from(wave_start)
 	# ease back out so the whole wave is in view
 	timeline.parallel().tween_property(camera, "zoom", Vector2.ONE, pollution_time * 0.3).set_trans(Tween.TRANS_SINE)
 	timeline.parallel().tween_property(murk, "color", murk_tint, pollution_time)
@@ -53,6 +77,7 @@ func _ready():
 	# long rise through the deep: pull way back, rush up with speed lines, settle at the surface
 	var lines := speed_lines.material
 	timeline.tween_property(camera, "position:y", surface_y, rise_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	timeline.parallel().tween_property(pollution.material, "shader_parameter/progress", wave_after_rise, rise_time)
 	timeline.parallel().tween_property(camera, "zoom", Vector2.ONE * rise_zoom, rise_time * 0.4).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	timeline.parallel().tween_property(camera, "zoom", Vector2.ONE, rise_time * 0.45).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT).set_delay(rise_time * 0.55)
 	timeline.parallel().tween_property(lines, "shader_parameter/intensity", 1.0, rise_time * 0.2).set_delay(rise_time * 0.1)
@@ -64,14 +89,40 @@ func _ready():
 func _start_pollution():
 	grime.emitting = true
 	# fish bolt once the wave gets close, far fish first
-	_after(pollution_time * 0.15, _flee.bind($FarFish, 120.0))
-	_after(pollution_time * 0.3, _flee.bind($School, 180.0))
+	_after(pollution_time * 0.2, _flee.bind($FarFish, 90.0))
+	_after(pollution_time * 0.4, _flee.bind($School, 140.0))
 	# no more bubbles, the sea is choking
-	_after(pollution_time * 0.5, $Bubbles.set_emitting.bind(false))
-	# trash sinks in one piece at a time
-	var trash := $Trash.get_children()
-	for i in trash.size():
-		_after(pollution_time * 0.8 * i / trash.size(), trash[i].release)
+	_after(pollution_time * 0.6, $Bubbles.set_emitting.bind(false))
+	# trash rides in on the wave, see _process
+	polluting = true
+
+
+func _process(delta: float) -> void:
+	if not polluting or waiting_trash.is_empty():
+		return
+	var front_x := pollution_front_x()
+	for trash in waiting_trash.duplicate():
+		var ride_x: float = front_x + trash_lag[trash] # trails the edge so the murk arrives first
+		if ride_x <= trash_drop_x[trash]:
+			# the front reached this piece's spot: let go, it drifts on a little and sinks
+			waiting_trash.erase(trash)
+			trash.position.x = trash_drop_x[trash]
+			trash.release(Vector2(-randf_range(8.0, 25.0), randf_range(-8.0, 8.0))) # small push, never outruns the wave
+		else:
+			# carried inside the wave just behind its edge, tumbling (starts off-screen right)
+			trash.position.x = ride_x
+			trash.rotation += delta * 2.0
+			trash.show()
+
+
+# World x of the pollution wave's front edge, matching pollution_wave.gdshader:
+# front = 1 - progress * (1 + 2 * edge_width), plus a little noise we ignore.
+func pollution_front_x(progress: float = -1.0) -> float:
+	if progress < 0.0:
+		progress = pollution.material.get_shader_parameter("progress")
+	var edge_width: float = pollution.material.get_shader_parameter("edge_width")
+	var front := 1.0 - progress * (1.0 + 2.0 * edge_width) + 0.015
+	return pollution.position.x + front * pollution.size.x
 
 
 func _show_title():
@@ -83,6 +134,7 @@ func _show_title():
 	title_tween.tween_property(press_start, "modulate:a", 1.0, 0.5)
 	# studio credit sits under PRESS START and stays put while it blinks
 	title_tween.tween_property(credit, "modulate:a", 1.0, 0.5)
+	title_tween.parallel().tween_property(nstw_logo, "modulate:a", 1.0, 0.5)
 	title_tween.tween_callback(_blink_press_start)
 	title_shown.emit()
 
@@ -101,9 +153,12 @@ func _skip_to_title():
 	camera.zoom = Vector2.ONE
 	speed_lines.material.set_shader_parameter("intensity", 0.0)
 	murk.color = Color.WHITE
-	# trash that hadn't dropped yet would hang in view, so settle it on the seabed
+	# trash that hadn't arrived yet: put it straight on the seabed
+	polluting = false
+	waiting_trash.clear()
 	for trash in $Trash.get_children():
 		trash.position.y = trash.rest_y
+		trash.show()
 	_show_title()
 
 
