@@ -2,6 +2,9 @@
 
 [ext_resource type="Script" path="res://Celebes Abyssal Tides/scripts/arena/well.gd" id="1_well"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_block"]
+radius = 34.0
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_score"]
 radius = 40.0
 
@@ -18,3 +21,8 @@ collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ScoreArea"]
 shape = SubResource("CircleShape2D_score")
+
+[node name="Blocker" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Blocker"]
+shape = SubResource("CircleShape2D_block")
