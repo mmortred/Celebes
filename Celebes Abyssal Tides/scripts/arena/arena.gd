@@ -5,6 +5,11 @@ extends Node2D
 
 func _ready() -> void:
 	print("Arena loaded!")
+	var scoreboard := CanvasLayer.new()
+	scoreboard.set_script(preload("res://Celebes Abyssal Tides/scripts/ui/scoreboard_overlay.gd"))
+	add_child(scoreboard)
+	if multiplayer.multiplayer_peer != null and multiplayer.is_server():
+		ScoreboardManager.begin_match()
 
 	var left_spawn = get_random_spawn_position("left")
 	var right_spawn = get_random_spawn_position("right")

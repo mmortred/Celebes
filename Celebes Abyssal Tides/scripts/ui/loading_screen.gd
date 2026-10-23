@@ -3,6 +3,7 @@ extends Control
 const BG = preload("res://Celebes Abyssal Tides/assets/placeholder_assets/LobbyUI.jpg")
 const ARENA_PATH := "res://Celebes Abyssal Tides/scenes/arena/Arena.tscn"
 const CINEMATIC_SECONDS := 4.0
+const PIXEL_FONT = preload("res://Celebes Abyssal Tides/assets/fonts/PixelifySans-VariableFont_wght.ttf")
 const FACTS := [
 	"The Coral Triangle contains some of the world's richest marine biodiversity.",
 	"Plastic pollution can harm marine wildlife through ingestion and entanglement.",
@@ -60,7 +61,7 @@ func _ready() -> void:
 	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(center)
 	var panel := PanelContainer.new()
-	panel.custom_minimum_size = Vector2(455, 0)
+	panel.custom_minimum_size = Vector2(420, 0)
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color(0.012, 0.055, 0.095, 0.94)
 	style.border_color = Color(0.26, 0.76, 0.84, 0.85)
@@ -76,7 +77,8 @@ func _ready() -> void:
 	content.add_theme_constant_override("separation", 13)
 	panel.add_child(content)
 	var heading := Label.new()
-	heading.text = "ENTERING THE ABYSS"
+	heading.text = "DESCENDING INTO THE ABYSS"
+	heading.add_theme_font_override("font", PIXEL_FONT)
 	heading.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	heading.add_theme_font_size_override("font_size", 27)
 	heading.add_theme_color_override("font_color", Color("a3edf3"))
@@ -87,6 +89,7 @@ func _ready() -> void:
 	fact.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	fact.custom_minimum_size.y = 53
 	fact.add_theme_font_size_override("font_size", 14)
+	fact.add_theme_font_override("font", PIXEL_FONT)
 	content.add_child(fact)
 	progress = ProgressBar.new()
 	progress.custom_minimum_size.y = 18
@@ -96,7 +99,18 @@ func _ready() -> void:
 	status.text = "Loading arena..."
 	status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	status.add_theme_font_size_override("font_size", 13)
+	status.add_theme_font_override("font", PIXEL_FONT)
 	content.add_child(status)
+	var ocean_caption := Label.new()
+	ocean_caption.text = "~ THE OCEAN IS CALLING ~"
+	ocean_caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	ocean_caption.add_theme_font_override("font", PIXEL_FONT)
+	ocean_caption.add_theme_font_size_override("font_size", 15)
+	ocean_caption.add_theme_color_override("font_color", Color("7bdeec"))
+	content.add_child(ocean_caption)
+	var caption_tween := create_tween().set_loops()
+	caption_tween.tween_property(ocean_caption, "modulate:a", 0.35, 1.25)
+	caption_tween.tween_property(ocean_caption, "modulate:a", 1.0, 1.25)
 	_load_arena()
 
 func _process(delta: float) -> void:
