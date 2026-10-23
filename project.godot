@@ -19,10 +19,13 @@ config/icon="uid://67fivlx11px4"
 [autoload]
 
 PlayerProfile="*res://Celebes Abyssal Tides/scripts/autoload/PlayerProfile.gd"
+
 NetworkManager="*uid://c28ydyiqt5vhw"
 GameManager="*uid://b66bnmevg2nnn"
 CharacterSelectManager="*res://Celebes Abyssal Tides/scripts/autoload/CharacterSelectManager.gd"
 LobbyManager="*res://Celebes Abyssal Tides/scripts/autoload/LobbyManager.gd"
+ScoreboardManager="*res://Celebes Abyssal Tides/scripts/autoload/ScoreboardManager.gd"
+LobbyAudio="*res://Celebes Abyssal Tides/scripts/autoload/LobbyAudio.gd"
 
 [display]
 
@@ -30,7 +33,10 @@ window/size/viewport_width=640
 window/size/viewport_height=360
 window/size/window_width_override=1280
 window/size/window_height_override=720
+window/size/resizable=true
+window/size/borderless=false
 window/stretch/mode="canvas_items"
+window/stretch/aspect="keep"
 
 [file_customization]
 
@@ -146,3 +152,8 @@ basic_attack={
 
 textures/canvas_textures/default_texture_filter=0
 rendering_device/driver.windows="d3d12"
+
+[gui]
+
+theme/default_font="res://Celebes Abyssal Tides/assets/fonts/PixelifySans-VariableFont_wght.ttf"
+

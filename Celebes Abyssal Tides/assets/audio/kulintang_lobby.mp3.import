@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dcc5nlcwaxufa"
+path="res://.godot/imported/kulintang_lobby.mp3-2a83ab7a463dbfe621484fa094f12c21.mp3str"
+
+[deps]
+
+source_file="res://Celebes Abyssal Tides/assets/audio/kulintang_lobby.mp3"
+dest_files=["res://.godot/imported/kulintang_lobby.mp3-2a83ab7a463dbfe621484fa094f12c21.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -24,6 +24,11 @@ func _ready() -> void:
 	spawner.spawn_function = _build_player
 	# GameManager announces the 5-minute mark (sudden death) on every peer
 	GameManager.sudden_death_started.connect(enter_late_phase)
+	var scoreboard := CanvasLayer.new()
+	scoreboard.set_script(preload("res://Celebes Abyssal Tides/scripts/ui/scoreboard_overlay.gd"))
+	add_child(scoreboard)
+	if multiplayer.multiplayer_peer != null and multiplayer.is_server():
+		ScoreboardManager.begin_match()
 
 	# spectators get no player, just a camera they can pan around the arena
 	if NetworkManager.get_meta("character_select_team", "") == "spectator":

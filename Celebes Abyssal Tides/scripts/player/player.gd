@@ -242,7 +242,14 @@ func receive_hit(amount, attacker_name): #+
 	for player in get_tree().get_nodes_in_group("players"): #+ turn the name back into the player node
 		if str(player.name) == attacker_name: #+
 			attacker = player #+
+	# Damage remains replicated by the existing hit RPC.
+	# Only the host updates scoreboard records to avoid duplicate K/D/A.
+	var was_alive: bool = health.current_health > 0.0
+	if multiplayer.multiplayer_peer != null and multiplayer.is_server() and was_alive:
+		ScoreboardManager.record_damage(str(name).to_int(), str(attacker_name).to_int())
 	health.take_damage(amount, attacker) #+
+	if multiplayer.multiplayer_peer != null and multiplayer.is_server() and was_alive and health.current_health <= 0.0:
+		ScoreboardManager.record_death(str(name).to_int(), str(attacker_name).to_int())
 	if not is_dead: #+ the killing hit starts the fade instead of a flash
 		flash_hit() #+
 		slow_timer = hit_slow_duration #+ SLOW refresh, not stack: 2 quick hits = still 0.5s
