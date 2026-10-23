@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://hiaddhywd31o"
-path="res://.godot/imported/leviathan_eye.webp-950dcf3ea216fb81bb2632de291f4610.ctex"
+uid="uid://cw5wgjpw7xubv"
+path="res://.godot/imported/Railings.png-1afe78c81b29425c6eeb241818d176d3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Celebes Abyssal Tides/assets/cutscene/leviathan_eye.webp"
-dest_files=["res://.godot/imported/leviathan_eye.webp-950dcf3ea216fb81bb2632de291f4610.ctex"]
+source_file="res://Celebes Abyssal Tides/assets/tf_atlantis/Railings.png"
+dest_files=["res://.godot/imported/Railings.png-1afe78c81b29425c6eeb241818d176d3.ctex"]
 
 [params]
 
