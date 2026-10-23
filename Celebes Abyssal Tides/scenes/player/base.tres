@@ -1,13 +1,13 @@
-[gd_resource type="SpriteFrames" format=3 uid="uid://cyv5dwrlhuf16"]
+[gd_resource type="SpriteFrames" format=3]
 
-[ext_resource type="Texture2D" uid="uid://bmecr3amonxb1" path="res://Celebes Abyssal Tides/assets/sprite/SeaNomad1/down atk_spear.png" id="1_nkp1b"]
-[ext_resource type="Texture2D" uid="uid://c8w8taj2x4c87" path="res://Celebes Abyssal Tides/assets/sprite/SeaNomad1/atk left_spear.png" id="2_xl8lp"]
-[ext_resource type="Texture2D" uid="uid://b2p4cl8ec681d" path="res://Celebes Abyssal Tides/assets/sprite/SeaNomad1/atk right_spear.png" id="3_tuf88"]
-[ext_resource type="Texture2D" uid="uid://c72sb0741pm03" path="res://Celebes Abyssal Tides/assets/sprite/SeaNomad1/top swing atk_spear.png" id="4_hosgp"]
-[ext_resource type="Texture2D" uid="uid://db1ncqspp64s3" path="res://Celebes Abyssal Tides/assets/sprite/SeaNomad1/walk down_spear.png" id="5_a4l2k"]
-[ext_resource type="Texture2D" uid="uid://drv7tnxhhhn0v" path="res://Celebes Abyssal Tides/assets/sprite/SeaNomad1/walk right_spear.png" id="6_mrare"]
-[ext_resource type="Texture2D" uid="uid://bvmb7y70t6g4q" path="res://Celebes Abyssal Tides/assets/sprite/SeaNomad1/walk left_spear .png" id="6_xl8lp"]
-[ext_resource type="Texture2D" uid="uid://diu8ysme0do0w" path="res://Celebes Abyssal Tides/assets/sprite/SeaNomad1/walk up_spear.png" id="7_7nxvw"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/sprite/SeaNomad1/down atk_spear.png" id="1_nkp1b"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/sprite/SeaNomad1/atk left_spear.png" id="2_xl8lp"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/sprite/SeaNomad1/atk right_spear.png" id="3_tuf88"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/sprite/SeaNomad1/top swing atk_spear.png" id="4_hosgp"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/sprite/SeaNomad1/walk down_spear.png" id="5_a4l2k"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/sprite/SeaNomad1/walk right_spear.png" id="6_mrare"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/sprite/SeaNomad1/walk left_spear .png" id="6_xl8lp"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/sprite/SeaNomad1/walk up_spear.png" id="7_7nxvw"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mng07"]
 atlas = ExtResource("1_nkp1b")
@@ -185,10 +185,6 @@ region = Rect2(256, 0, 64, 64)
 atlas = ExtResource("6_mrare")
 region = Rect2(320, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_kusgv"]
-atlas = ExtResource("7_7nxvw")
-region = Rect2(0, 0, 64, 64)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_gl82s"]
 atlas = ExtResource("7_7nxvw")
 region = Rect2(64, 0, 64, 64)
@@ -212,25 +208,25 @@ region = Rect2(320, 0, 64, 64)
 [resource]
 animations = [{
 "frames": [{
-"duration": 1.0,
+"duration": 0.61,
 "texture": SubResource("AtlasTexture_mng07")
 }, {
-"duration": 1.0,
+"duration": 0.61,
 "texture": SubResource("AtlasTexture_mt6xq")
 }, {
-"duration": 1.0,
+"duration": 0.61,
 "texture": SubResource("AtlasTexture_db64i")
 }, {
-"duration": 1.0,
+"duration": 0.61,
 "texture": SubResource("AtlasTexture_nxsj2")
 }, {
-"duration": 1.0,
+"duration": 0.61,
 "texture": SubResource("AtlasTexture_jp7v1")
 }, {
-"duration": 1.0,
+"duration": 0.61,
 "texture": SubResource("AtlasTexture_1g32t")
 }, {
-"duration": 1.0,
+"duration": 0.61,
 "texture": SubResource("AtlasTexture_yunts")
 }],
 "loop": 1,
@@ -292,19 +288,19 @@ animations = [{
 "speed": 5.0
 }, {
 "frames": [{
-"duration": 1.0,
+"duration": 0.6,
 "texture": SubResource("AtlasTexture_0gvcv")
 }, {
-"duration": 1.0,
+"duration": 0.6,
 "texture": SubResource("AtlasTexture_0qrw5")
 }, {
-"duration": 1.0,
+"duration": 0.6,
 "texture": SubResource("AtlasTexture_wskjo")
 }, {
-"duration": 1.0,
+"duration": 0.6,
 "texture": SubResource("AtlasTexture_78ugg")
 }, {
-"duration": 1.0,
+"duration": 0.6,
 "texture": SubResource("AtlasTexture_aak6l")
 }, {
 "duration": 1.0,
@@ -315,7 +311,7 @@ animations = [{
 "speed": 5.0
 }, {
 "frames": [{
-"duration": 1.0,
+"duration": 0.6,
 "texture": SubResource("AtlasTexture_jitl8")
 }, {
 "duration": 1.0,
@@ -361,7 +357,7 @@ animations = [{
 "speed": 5.0
 }, {
 "frames": [{
-"duration": 1.0,
+"duration": 0.6,
 "texture": SubResource("AtlasTexture_cwrly")
 }, {
 "duration": 1.0,
@@ -384,9 +380,6 @@ animations = [{
 "speed": 6.0
 }, {
 "frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_kusgv")
-}, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_gl82s")
 }, {

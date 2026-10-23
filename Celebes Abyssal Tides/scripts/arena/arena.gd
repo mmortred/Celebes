@@ -2,8 +2,9 @@ extends Node2D
 
 const SPECTATOR_CAMERA = preload("res://Celebes Abyssal Tides/scripts/arena/spectator_camera.gd")
 
-@onready var team_left_spawns = $TeamLeftSpawns
-@onready var team_right_spawns = $TeamRightSpawns
+# optional: test arenas may not have spawn folders yet
+@onready var team_left_spawns = get_node_or_null("TeamLeftSpawns")
+@onready var team_right_spawns = get_node_or_null("TeamRightSpawns")
 
 func _ready() -> void:
 	print("Arena loaded!")
@@ -47,6 +48,8 @@ func get_arena_bounds() -> Rect2:
 			return child.global_transform * child.get_rect()
 	var bounds := Rect2()
 	for spawn_folder in [team_left_spawns, team_right_spawns]:
+		if spawn_folder == null:
+			continue
 		for spawn in spawn_folder.get_children():
 			bounds = Rect2(spawn.global_position, Vector2.ZERO) if bounds.size == Vector2.ZERO and bounds.position == Vector2.ZERO else bounds.expand(spawn.global_position)
 	return bounds.grow(160)

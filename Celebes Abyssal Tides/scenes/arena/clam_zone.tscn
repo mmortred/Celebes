@@ -1,0 +1,83 @@
+[gd_scene format=3 uid="uid://b1ww4ithphpyg"]
+
+[ext_resource type="Texture2D" uid="uid://dl6hkqavcse6l" path="res://Celebes Abyssal Tides/assets/tf_atlantis/all.png" id="1_hxpny"]
+[ext_resource type="Shader" uid="uid://ccnw2xdjtui51" path="res://Celebes Abyssal Tides/scenes/pulse.gdshader" id="1_swxp4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7u8de"]
+shader = ExtResource("1_swxp4")
+shader_parameter/time_scale = 1.0
+shader_parameter/primary_color = Color(2.2234871, 2.2234871, 2.2234871, 1)
+shader_parameter/secondary_color = Color(1.0818647, 1.3396034, 2.3705583, 1)
+shader_parameter/turbulence = 1.0
+shader_parameter/distortion = 0.1
+shader_parameter/ring_count_influence = 10.0
+shader_parameter/go_backwards = false
+shader_parameter/alpha_blend = 0.52800007258
+shader_parameter/color_mix = Color(0.8151441, 0.8151441, 0.8151441, 1)
+shader_parameter/distortion_speed = 1.0
+shader_parameter/ring_speed = 3.0
+shader_parameter/final_alpha_multi = 0.79999998584372
+shader_parameter/opacity_smoothstep_1 = -2.2352000073055933e-07
+shader_parameter/opacity_smoothstep_2 = 0.48999976552751967
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ylcck"]
+atlas = ExtResource("1_hxpny")
+region = Rect2(305, 242, 30, 27)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vu07u"]
+atlas = ExtResource("1_hxpny")
+region = Rect2(486, 43, 4, 4)
+
+[sub_resource type="Gradient" id="Gradient_tvffj"]
+offsets = PackedFloat32Array(0, 0.34108528, 0.79457366, 1)
+colors = PackedColorArray(18.892157, 18.892157, 18.892157, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="Gradient" id="Gradient_nu0ix"]
+colors = PackedColorArray(1.5417734, 1.1946707, 1.057444, 0.7019608, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_swxp4"]
+gradient = SubResource("Gradient_nu0ix")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.8418803, 0.2008547)
+
+[node name="ClamZone" type="Node2D" unique_id=948020656]
+scale = Vector2(2, 2)
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=548463045]
+texture_filter = 3
+material = SubResource("ShaderMaterial_7u8de")
+offset_left = -48.0
+offset_top = -47.0
+offset_right = 46.5
+offset_bottom = 47.5
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2073063266]
+texture = SubResource("AtlasTexture_ylcck")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="." unique_id=821527837]
+visible = false
+position = Vector2(8, -1)
+amount = 10
+texture = SubResource("AtlasTexture_vu07u")
+lifetime = 2.0
+speed_scale = 0.1
+randomness = 0.3
+emission_shape = 1
+emission_sphere_radius = 5.76
+spread = 180.0
+gravity = Vector2(0, -980)
+linear_accel_min = -14.77
+linear_accel_max = 5.37
+angle_min = -231.9
+angle_max = 77.3
+scale_amount_max = 2.0
+color_ramp = SubResource("Gradient_tvffj")
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=53015199]
+position = Vector2(-0.5, -1)
+energy = 0.3
+shadow_enabled = true
+shadow_color = Color(0.14, 0, 0.0023332976, 1)
+texture = SubResource("GradientTexture2D_swxp4")
+texture_scale = 2.3
