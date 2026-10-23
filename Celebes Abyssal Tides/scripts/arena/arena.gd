@@ -2,22 +2,82 @@ extends Node2D
 
 const SPECTATOR_CAMERA = preload("res://Celebes Abyssal Tides/scripts/arena/spectator_camera.gd")
 
+# Character id (CharacterSelectManager) -> scene. Anything not listed uses the base player.
+const CHARACTER_SCENES := {
+	0: preload("res://Celebes Abyssal Tides/scenes/player/SeaNomad/Bugis.tscn"),
+	5: preload("res://Celebes Abyssal Tides/scenes/player/Monsters/ToxicSludge.tscn"),
+}
+const BASE_PLAYER = preload("res://Celebes Abyssal Tides/scenes/player/player.tscn")
+
 # spawn folders may sit deeper (TestArena keeps them under ArenaUtil) or be missing
 @onready var team_left_spawns = find_child("TeamLeftSpawns")
 @onready var team_right_spawns = find_child("TeamRightSpawns")
+@onready var spawner: MultiplayerSpawner = $MultiplayerSpawner
+
+var players_spawned := false
 
 func _ready() -> void:
 	print("Arena loaded!")
-
-	var left_spawn = get_random_spawn_position("left")
-	var right_spawn = get_random_spawn_position("right")
-
-	print("Left spawn: ", left_spawn)
-	print("Right spawn: ", right_spawn)
+	# every peer builds spawned players the same way from the host's spawn data
+	spawner.spawn_function = _build_player
 
 	# spectators get no player, just a camera they can pan around the arena
 	if NetworkManager.get_meta("character_select_team", "") == "spectator":
 		add_spectator_camera()
+
+	# the host spawns everyone once all peers have this arena loaded
+	if multiplayer.is_server():
+		CharacterSelectManager.everyone_in_arena.connect(spawn_players)
+	CharacterSelectManager.report_arena_ready()
+
+
+# HOST: one player per non-spectator, with their picked character, at their team's spawns.
+# The MultiplayerSpawner recreates each one on every peer through _build_player.
+func spawn_players() -> void:
+	if players_spawned:
+		return
+	players_spawned = true
+	var networked := multiplayer.multiplayer_peer != null and not multiplayer.multiplayer_peer is OfflineMultiplayerPeer
+	var spawn_count := {0: 0, 1: 0}
+	var everyone: Array[int] = [multiplayer.get_unique_id()]
+	everyone.append_array(multiplayer.get_peers())
+	for peer_id in everyone:
+		var slot := LobbyManager.find_slot_by_peer(peer_id)
+		var team := 0
+		if slot >= 6:
+			continue # spectator
+		elif slot >= 3:
+			team = 1
+		elif slot < 0 and networked:
+			continue # not in the lobby (shouldn't happen)
+		var character := CharacterSelectManager.selected_by(peer_id)
+		if character < 0:
+			character = 0 if team == 0 else 5 # F6 test run: no character select
+		spawner.spawn({
+			"peer": peer_id,
+			"character": character,
+			"team": team,
+			"position": get_spawn_position(team, spawn_count[team]),
+		})
+		spawn_count[team] += 1
+
+
+func _build_player(data: Dictionary) -> Node:
+	var scene: PackedScene = CHARACTER_SCENES.get(int(data.character), BASE_PLAYER)
+	var player := scene.instantiate()
+	player.name = str(data.peer) # the name sets who controls it (player.gd _enter_tree)
+	player.team = int(data.team)
+	player.position = data.position
+	return player
+
+
+# Team 0 (Sea Nomads) uses the left spawns, team 1 (Garbage Monsters) the right.
+# Players on one team take the spawn points in turn.
+func get_spawn_position(team: int, index: int) -> Vector2:
+	var folder: Node = team_left_spawns if team == 0 else team_right_spawns
+	if folder == null or folder.get_child_count() == 0:
+		return Vector2.ZERO
+	return folder.get_child(index % folder.get_child_count()).global_position
 
 
 func add_spectator_camera() -> void:

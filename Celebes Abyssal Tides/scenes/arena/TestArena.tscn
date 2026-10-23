@@ -3235,10 +3235,6 @@ spawn_path = NodePath("../Players")
 [node name="Players" type="Node2D" parent="." unique_id=608096496]
 y_sort_enabled = true
 
-[node name="Player" parent="Players" unique_id=447082359 instance=ExtResource("13_nu0ix")]
-y_sort_enabled = true
-position = Vector2(-1296, -248)
-
 [node name="Basement" type="TileMapLayer" parent="." unique_id=1199663270]
 z_index = -2
 y_sort_enabled = true

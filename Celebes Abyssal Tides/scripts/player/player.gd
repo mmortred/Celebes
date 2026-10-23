@@ -48,6 +48,7 @@ var is_swinging = false #+
 var hit_tween = null #+ so rapid hits restart the flash instead of stacking
 var is_dead = false #+
 var has_pearl = false #+ PEARL set on every peer by the pearl's collected() rpc
+var team = 0 #+ SPAWN 0 = Sea Nomads (left spawns), 1 = Garbage Monsters (right). set by the arena when spawning
 
 func _enter_tree():
 	var id = str(name).to_int() #+
@@ -266,9 +267,9 @@ func _on_knocked_out(): #+ runs on every peer, because take_damage runs on every
 		respawn.rpc(pick_spawn_point()) #+
 
 func pick_spawn_point() -> Vector2: #+
-	var spawns = get_tree().current_scene.find_child("TeamLeftSpawns") #+
+	var spawns = get_tree().current_scene.find_child("TeamLeftSpawns" if team == 0 else "TeamRightSpawns") #+ SPAWN my own team's side
 	if spawns == null or spawns.get_child_count() == 0: #+
-		print("No TeamLeftSpawns found, respawning in place") #+
+		print("No team spawns found, respawning in place") #+
 		return global_position #+
 	var spawn = spawns.get_child(randi() % spawns.get_child_count()) #+ random spawn point
 	return spawn.global_position #+

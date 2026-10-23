@@ -216,4 +216,32 @@ func _record_loading_ready(id: int) -> void:
 
 @rpc("authority", "call_local", "reliable")
 func enter_arena() -> void:
+	arena_peers.clear()
 	get_tree().change_scene_to_file(ARENA_SCENE)
+
+
+# Stage 7: the host spawns players only once every peer has the arena loaded,
+# otherwise a slower peer would miss the spawn. Lives here (not in the arena)
+# so a peer that loads faster than the host can't lose its "I'm in" message.
+signal everyone_in_arena # host only
+var arena_peers: Dictionary = {}
+
+func report_arena_ready() -> void:
+	if multiplayer.is_server():
+		_record_arena_ready(multiplayer.get_unique_id())
+	else:
+		arena_ready_rpc.rpc_id(1)
+
+@rpc("any_peer", "call_remote", "reliable")
+func arena_ready_rpc() -> void:
+	if multiplayer.is_server():
+		_record_arena_ready(multiplayer.get_remote_sender_id())
+
+func _record_arena_ready(id: int) -> void:
+	arena_peers[id] = true
+	if not arena_peers.has(multiplayer.get_unique_id()):
+		return # the host's own arena isn't loaded yet; it reports last
+	for peer in multiplayer.get_peers():
+		if not arena_peers.has(peer):
+			return
+	everyone_in_arena.emit()
