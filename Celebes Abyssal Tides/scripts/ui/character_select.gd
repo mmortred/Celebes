@@ -217,7 +217,7 @@ func _add_character_card(index: int, pos: Vector2, accent: Color) -> void:
 	separator.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	ui_layer.add_child(separator)
 
-	var name_label := _label(str(data.name), 18, Color.WHITE if _has_art(index) else Color(0.60, 0.64, 0.68))
+	var name_label := _label(str(data.name), 18, Color.WHITE if _pickable(index) else Color(0.60, 0.64, 0.68))
 	name_label.position = pos + Vector2(5, 185)
 	name_label.size = Vector2(150, 43)
 	name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -237,7 +237,7 @@ func _add_character_card(index: int, pos: Vector2, accent: Color) -> void:
 	button.position = pos
 	button.size = Vector2(160, 235)
 	button.focus_mode = Control.FOCUS_NONE
-	var allowed := _has_art(index) and (player_team == "all" or player_team == str(data.team))
+	var allowed := _pickable(index) and (player_team == "all" or player_team == str(data.team))
 	button.disabled = not allowed
 	button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND if allowed else Control.CURSOR_FORBIDDEN
 	button.pressed.connect(_select_character.bind(index))
@@ -270,7 +270,7 @@ func _refresh_multiplayer_state() -> void:
 		var mine := selected_owner == local_peer_id
 		var taken := selected_owner != 0 and not mine
 		var team_ok := player_team == "all" or player_team == str(data.team)
-		card_buttons[i].disabled = not _has_art(i) or not team_ok or taken or confirmed
+		card_buttons[i].disabled = not _pickable(i) or not team_ok or taken or confirmed
 		var owner_name := LobbyManager.get_player_name(selected_owner)
 		owner_labels[i].text = ("YOU ✓" if CharacterSelectManager.is_locked(selected_owner) else "YOU") if mine else (("%s ✓" % owner_name) if taken and CharacterSelectManager.is_locked(selected_owner) else ("TAKEN — %s" % owner_name if taken else ""))
 		owner_labels[i].modulate = SEA if mine else Color(1.0, 0.55, 0.45)
@@ -288,6 +288,9 @@ func _refresh_multiplayer_state() -> void:
 
 func _has_art(index: int) -> bool:
 	return CharacterSelectManager.ICONS.has(index)
+
+func _pickable(index: int) -> bool: # some "?" cards can be picked before their art exists
+	return index in CharacterSelectManager.PLAYABLE
 
 
 func _on_selection_rejected(reason: String) -> void:

@@ -8,8 +8,15 @@ signal state_changed
 signal selection_rejected(reason: String)
 signal match_loading_requested
 
-# Characters that have art and can be picked; the rest show "?" for now.
-const PLAYABLE := [0, 5] # Bugis, Toxic Sludge
+# Characters that can be picked. Bajau and Minahasan stay locked "?" for now.
+const PLAYABLE := [0, 3, 4, 5] # Bugis, Plastic Hoard, Rusty Leviathan, Toxic Sludge
+
+# Picked characters without art yet play as another one in the arena
+# (sprite and HUD icon) until theirs is made.
+const STAND_INS := {3: 5, 4: 5} # Plastic Hoard, Rusty Leviathan -> Toxic Sludge
+
+func play_as(character_id: int) -> int:
+	return int(STAND_INS.get(character_id, character_id))
 
 # Portrait icons, shared by character select and the arena HUD: zoomed-in crops
 # of each character's first walk-down frame. Not listed = not made yet ("?").

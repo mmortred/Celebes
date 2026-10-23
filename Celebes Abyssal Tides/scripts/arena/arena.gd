@@ -66,7 +66,8 @@ func spawn_players() -> void:
 
 
 func _build_player(data: Dictionary) -> Node:
-	var scene: PackedScene = CHARACTER_SCENES.get(int(data.character), BASE_PLAYER)
+	var look := CharacterSelectManager.play_as(int(data.character)) # stand-in while art is missing
+	var scene: PackedScene = CHARACTER_SCENES.get(look, BASE_PLAYER)
 	var player := scene.instantiate()
 	player.name = str(data.peer) # the name sets who controls it (player.gd _enter_tree)
 	player.team = int(data.team)
