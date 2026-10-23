@@ -11,6 +11,10 @@ signal match_loading_requested
 # Characters that have art and can be picked; the rest show "?" for now.
 const PLAYABLE := [0, 5] # Bugis, Toxic Sludge
 
+# The arena every match loads (loading screen + transition). TestArena has the
+# full map: tile layers, kelp, clam zone, HUD and spawns.
+const ARENA_SCENE := "res://Celebes Abyssal Tides/scenes/arena/TestArena.tscn"
+
 var selections: Dictionary = {} # peer_id -> character_id
 var locked: Dictionary = {}     # peer_id -> bool
 
@@ -185,7 +189,7 @@ func begin_loading() -> void:
 var loading_peers: Dictionary = {}
 func report_loading_ready() -> void:
 	if multiplayer.multiplayer_peer == null:
-		get_tree().change_scene_to_file("res://Celebes Abyssal Tides/scenes/arena/Arena.tscn")
+		get_tree().change_scene_to_file(ARENA_SCENE)
 	elif multiplayer.is_server():
 		_record_loading_ready(multiplayer.get_unique_id())
 	else:
@@ -212,4 +216,4 @@ func _record_loading_ready(id: int) -> void:
 
 @rpc("authority", "call_local", "reliable")
 func enter_arena() -> void:
-	get_tree().change_scene_to_file("res://Celebes Abyssal Tides/scenes/arena/Arena.tscn")
+	get_tree().change_scene_to_file(ARENA_SCENE)

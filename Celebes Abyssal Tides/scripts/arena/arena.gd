@@ -2,9 +2,9 @@ extends Node2D
 
 const SPECTATOR_CAMERA = preload("res://Celebes Abyssal Tides/scripts/arena/spectator_camera.gd")
 
-# optional: test arenas may not have spawn folders yet
-@onready var team_left_spawns = get_node_or_null("TeamLeftSpawns")
-@onready var team_right_spawns = get_node_or_null("TeamRightSpawns")
+# spawn folders may sit deeper (TestArena keeps them under ArenaUtil) or be missing
+@onready var team_left_spawns = find_child("TeamLeftSpawns")
+@onready var team_right_spawns = find_child("TeamRightSpawns")
 
 func _ready() -> void:
 	print("Arena loaded!")
@@ -29,20 +29,25 @@ func add_spectator_camera() -> void:
 	add_child(camera)
 	# no player of their own, so no HP / portrait card; scoreboard and timer stay.
 	# hide what's inside the card: the HUD's intro animation turns the card itself back on
-	var player_stats := get_node_or_null("HUDLayer/ArenaHUD/PlayerStats")
+	var hud := find_child("ArenaHUD", true, false) # HUDLayer in Arena, CanvasLayer in TestArena
+	var player_stats: Node = hud.get_node_or_null("PlayerStats") if hud else null
 	if player_stats:
 		for part in player_stats.get_children():
 			part.visible = false
 
 
 # World rect of what is actually drawn, used to keep the spectator camera in:
-# the painted tiles, else the background picture, else the spawn points.
+# all painted tile layers, else the background picture, else the spawn points.
 func get_arena_bounds() -> Rect2:
-	var tilemap: TileMapLayer = get_node_or_null("TileMap")
-	if tilemap and tilemap.tile_set and tilemap.get_used_rect().size != Vector2i.ZERO:
-		var used := tilemap.get_used_rect()
-		var tile := Vector2(tilemap.tile_set.tile_size)
-		return tilemap.global_transform * Rect2(Vector2(used.position) * tile, Vector2(used.size) * tile)
+	var tiles := Rect2()
+	for layer in get_children():
+		if layer is TileMapLayer and layer.tile_set and layer.get_used_rect().size != Vector2i.ZERO:
+			var used: Rect2i = layer.get_used_rect()
+			var tile := Vector2(layer.tile_set.tile_size)
+			var rect: Rect2 = layer.global_transform * Rect2(Vector2(used.position) * tile, Vector2(used.size) * tile)
+			tiles = rect if tiles.size == Vector2.ZERO else tiles.merge(rect)
+	if tiles.size != Vector2.ZERO:
+		return tiles
 	for child in get_children():
 		if child is Sprite2D and child.texture and child.z_index < 0: # background picture
 			return child.global_transform * child.get_rect()

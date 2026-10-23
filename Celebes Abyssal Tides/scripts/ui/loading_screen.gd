@@ -1,7 +1,7 @@
 extends Control
 
 const SEA_BACKGROUND = preload("res://Celebes Abyssal Tides/scenes/ui/SeaBackground.tscn") # the intro's sunset sea
-const ARENA_PATH := "res://Celebes Abyssal Tides/scenes/arena/Arena.tscn"
+const ARENA_PATH := "res://Celebes Abyssal Tides/scenes/arena/TestArena.tscn" # keep in sync with CharacterSelectManager.ARENA_SCENE
 const CINEMATIC_SECONDS := 4.0
 const FACTS := [
 	"The Coral Triangle contains some of the world's richest marine biodiversity.",
