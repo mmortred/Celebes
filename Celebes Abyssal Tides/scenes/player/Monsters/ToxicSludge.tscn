@@ -1,14 +1,14 @@
 [gd_scene format=3 uid="uid://4tjfsqilmyrh"]
 
 [ext_resource type="PackedScene" uid="uid://b15bynslw4646" path="res://Celebes Abyssal Tides/scenes/player/player.tscn" id="1_3c0u8"]
-[ext_resource type="Texture2D" uid="uid://df5gprj8kstij" path="res://Celebes Abyssal Tides/assets/sprite/GMonster3/monster/sludge atk_down.png" id="2_6ttse"]
-[ext_resource type="Texture2D" uid="uid://1osxmtb60mmt" path="res://Celebes Abyssal Tides/assets/sprite/GMonster3/monster/sludge left_walk.png" id="3_xen5l"]
-[ext_resource type="Texture2D" uid="uid://bc73r5pw6nfe3" path="res://Celebes Abyssal Tides/assets/sprite/GMonster3/monster/sludge kickatk_left.png" id="4_5s0i6"]
-[ext_resource type="Texture2D" uid="uid://bhag5553na12k" path="res://Celebes Abyssal Tides/assets/sprite/GMonster3/monster/sludge kickatk_right.png" id="5_qgj0i"]
-[ext_resource type="Texture2D" uid="uid://c0w085f8fucfa" path="res://Celebes Abyssal Tides/assets/sprite/GMonster3/monster/sludge atk_up.png" id="7_6ttse"]
-[ext_resource type="Texture2D" uid="uid://bfgn8b37koyme" path="res://Celebes Abyssal Tides/assets/sprite/GMonster3/monster/sludge walk_down.png" id="7_8iu1s"]
-[ext_resource type="Texture2D" uid="uid://dqv4wgwt41liw" path="res://Celebes Abyssal Tides/assets/sprite/GMonster3/monster/sludge right_walk.png" id="8_k15uw"]
-[ext_resource type="Texture2D" uid="uid://pfa1umqql1s2" path="res://Celebes Abyssal Tides/assets/sprite/GMonster3/monster/sludge walk_up.png" id="9_ray2j"]
+[ext_resource type="Texture2D" uid="uid://crfmuh8bm6fsb" path="res://Celebes Abyssal Tides/assets/sprite/GMonster3/monster/sludge atk_down.png" id="2_6ttse"]
+[ext_resource type="Texture2D" uid="uid://nel2uf1s7w3l" path="res://Celebes Abyssal Tides/assets/sprite/GMonster3/monster/sludge walk_left.png" id="3_xen5l"]
+[ext_resource type="Texture2D" uid="uid://ci7xeer2hexv6" path="res://Celebes Abyssal Tides/assets/sprite/GMonster3/monster/sludge kickatk_left.png" id="4_5s0i6"]
+[ext_resource type="Texture2D" uid="uid://lifshkrf5ks2" path="res://Celebes Abyssal Tides/assets/sprite/GMonster3/monster/sludge kickatk_right.png" id="5_qgj0i"]
+[ext_resource type="Texture2D" uid="uid://do1mo1etn7atr" path="res://Celebes Abyssal Tides/assets/sprite/GMonster3/monster/sludge atk_up.png" id="7_6ttse"]
+[ext_resource type="Texture2D" uid="uid://h5yggneq0qhu" path="res://Celebes Abyssal Tides/assets/sprite/GMonster3/monster/sludge walk_down.png" id="7_8iu1s"]
+[ext_resource type="Texture2D" uid="uid://b1wye6ro2l7qc" path="res://Celebes Abyssal Tides/assets/sprite/GMonster3/monster/sludge walk_right.png" id="8_k15uw"]
+[ext_resource type="Texture2D" uid="uid://2tqkj5wvc85c" path="res://Celebes Abyssal Tides/assets/sprite/GMonster3/monster/sludge walk_up.png" id="9_ray2j"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3jokt"]
 atlas = ExtResource("2_6ttse")

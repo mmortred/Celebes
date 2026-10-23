@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://1osxmtb60mmt"
-path="res://.godot/imported/sludge left_walk.png-57e5698e807d49f05ccc1aec3b45df7b.ctex"
+uid="uid://b1wye6ro2l7qc"
+path="res://.godot/imported/sludge walk_right.png-301508c1811aa13a46df3acb6b69bb1f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Celebes Abyssal Tides/assets/sprite/GMonster3/monster/sludge left_walk.png"
-dest_files=["res://.godot/imported/sludge left_walk.png-57e5698e807d49f05ccc1aec3b45df7b.ctex"]
+source_file="res://Celebes Abyssal Tides/assets/sprite/GMonster3/monster/sludge walk_right.png"
+dest_files=["res://.godot/imported/sludge walk_right.png-301508c1811aa13a46df3acb6b69bb1f.ctex"]
 
 [params]
 
