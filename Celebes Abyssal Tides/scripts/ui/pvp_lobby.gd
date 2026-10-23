@@ -108,11 +108,12 @@ func setup_role_ui() -> void:
 		unready_button.hide()
 		host_ip_label.text = "IP: " + get_local_ipv4()
 		start_status = Label.new()
-		start_status.position = Vector2(170, 304)
-		start_status.size = Vector2(300, 14)
+		# the lobby is laid out at 1280x720 and scaled to half, so these are 1280-space numbers
+		start_status.position = Vector2(340, 612)
+		start_status.size = Vector2(600, 28)
 		start_status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		start_status.add_theme_font_size_override("font_size", 10)
-		start_status.add_theme_constant_override("outline_size", 3)
+		start_status.add_theme_font_size_override("font_size", 20)
+		start_status.add_theme_constant_override("outline_size", 6)
 		start_status.add_theme_color_override("font_outline_color", Color.BLACK)
 		start_status.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		add_child(start_status)

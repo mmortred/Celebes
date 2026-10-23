@@ -1,6 +1,6 @@
 extends Control
 
-const BG = preload("res://Celebes Abyssal Tides/assets/placeholder_assets/LobbyUI.jpg")
+const SEA_BACKGROUND = preload("res://Celebes Abyssal Tides/scenes/ui/SeaBackground.tscn") # the intro's sunset sea
 const ARENA_PATH := "res://Celebes Abyssal Tides/scenes/arena/Arena.tscn"
 const CINEMATIC_SECONDS := 4.0
 const FACTS := [
@@ -21,12 +21,7 @@ var bubbles: Array[Dictionary] = []
 var elapsed := 0.0
 
 func _ready() -> void:
-	var background := TextureRect.new()
-	background.texture = BG
-	background.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	background.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
-	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var background: Control = SEA_BACKGROUND.instantiate()
 	add_child(background)
 	var shade := ColorRect.new()
 	shade.color = Color(0.008, 0.025, 0.055, 0.76)
