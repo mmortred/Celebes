@@ -260,8 +260,8 @@ func _on_back_pressed() -> void:
 	if confirmed:
 		CharacterSelectManager.request_character_ready(false)
 		return
-	if ResourceLoader.exists("res://Celebes Abyssal Tides/scenes/ui/lobby/PvPLobby.tscn"):
-		get_tree().change_scene_to_file("res://Celebes Abyssal Tides/scenes/ui/lobby/PvPLobby.tscn")
+	# everyone goes back to the lobby together
+	CharacterSelectManager.request_back_to_lobby()
 
 func _refresh_multiplayer_state() -> void:
 	selected_index = CharacterSelectManager.selected_by(local_peer_id)

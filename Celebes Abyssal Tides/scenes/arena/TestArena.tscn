@@ -16,6 +16,9 @@
 [ext_resource type="Texture2D" uid="uid://bife108tsc8ae" path="res://Celebes Abyssal Tides/assets/tf_atlantis/32bit/SandBlend.png" id="15_fm3hg"]
 [ext_resource type="Texture2D" uid="uid://67fivlx11px4" path="res://Celebes Abyssal Tides/assets/sprite/Spear_guy_idle.png" id="17_qiqpj"]
 [ext_resource type="Texture2D" uid="uid://b2ay7so841qr4" path="res://Celebes Abyssal Tides/assets/tileset/tempng.png" id="18_80avs"]
+[ext_resource type="PackedScene" path="res://Celebes Abyssal Tides/scenes/arena/Well.tscn" id="90_well"]
+[ext_resource type="PackedScene" uid="uid://drpci78bgmsgy" path="res://Celebes Abyssal Tides/scenes/arena/Pearl.tscn" id="91_pearl"]
+[ext_resource type="Script" path="res://Celebes Abyssal Tides/scripts/arena/arena_border.gd" id="92_border"]
 
 [sub_resource type="Gradient" id="Gradient_sfihq"]
 offsets = PackedFloat32Array(0, 0.11904762, 0.51785713, 0.8630952, 1)
@@ -3349,33 +3352,33 @@ shape = SubResource("CircleShape2D_ma018")
 
 [node name="TeamLeftSpawns" type="Node2D" parent="ArenaUtil" unique_id=634953856]
 visible = false
-position = Vector2(1057, 202)
+position = Vector2(0, 0)
 
 [node name="SpawnPointL1" type="Marker2D" parent="ArenaUtil/TeamLeftSpawns" unique_id=72071672]
 visible = false
-position = Vector2(-91, 62)
+position = Vector2(-1420, -140)
 
 [node name="SpawnPointL2" type="Marker2D" parent="ArenaUtil/TeamLeftSpawns" unique_id=218424880]
 visible = false
-position = Vector2(-132, 132)
+position = Vector2(-1420, 60)
 
 [node name="SpawnPointL3" type="Marker2D" parent="ArenaUtil/TeamLeftSpawns" unique_id=994713935]
 visible = false
-position = Vector2(-12, -70)
+position = Vector2(-1330, -40)
 
 [node name="TeamRightSpawns" type="Node2D" parent="ArenaUtil" unique_id=1545679681]
 visible = false
-position = Vector2(874, -7)
+position = Vector2(0, 0)
 
 [node name="SpawnPointR1" type="Marker2D" parent="ArenaUtil/TeamRightSpawns" unique_id=1301084053]
 visible = false
-position = Vector2(6, 107)
+position = Vector2(1360, -140)
 
 [node name="SpawnPointR2" type="Marker2D" parent="ArenaUtil/TeamRightSpawns" unique_id=1247256835]
-position = Vector2(848, -30)
+position = Vector2(1360, 60)
 
 [node name="SpawnPointR3" type="Marker2D" parent="ArenaUtil/TeamRightSpawns" unique_id=395792289]
-position = Vector2(167, -25)
+position = Vector2(1270, -40)
 
 [node name="KelpZones" type="Node2D" parent="ArenaUtil" unique_id=1153053186]
 y_sort_enabled = true
@@ -3398,6 +3401,55 @@ visible = false
 position = Vector2(-337, -66)
 scale = Vector2(1.8125, 1.8125)
 texture = ExtResource("17_qiqpj")
+
+[node name="TeamLeftSpawnsLate" type="Node2D" parent="ArenaUtil"]
+visible = false
+
+[node name="SpawnPointL1" type="Marker2D" parent="ArenaUtil/TeamLeftSpawnsLate"]
+position = Vector2(-860, -300)
+
+[node name="SpawnPointL2" type="Marker2D" parent="ArenaUtil/TeamLeftSpawnsLate"]
+position = Vector2(-860, -140)
+
+[node name="SpawnPointL3" type="Marker2D" parent="ArenaUtil/TeamLeftSpawnsLate"]
+position = Vector2(-760, 330)
+
+[node name="TeamRightSpawnsLate" type="Node2D" parent="ArenaUtil"]
+visible = false
+
+[node name="SpawnPointR1" type="Marker2D" parent="ArenaUtil/TeamRightSpawnsLate"]
+position = Vector2(820, -300)
+
+[node name="SpawnPointR2" type="Marker2D" parent="ArenaUtil/TeamRightSpawnsLate"]
+position = Vector2(820, -140)
+
+[node name="SpawnPointR3" type="Marker2D" parent="ArenaUtil/TeamRightSpawnsLate"]
+position = Vector2(760, 330)
+
+[node name="NomadWell" parent="ArenaUtil" instance=ExtResource("90_well")]
+position = Vector2(-1475, -40)
+
+[node name="MonsterWell" parent="ArenaUtil" instance=ExtResource("90_well")]
+position = Vector2(1415, -40)
+team = 1
+
+[node name="NomadWellLate" parent="ArenaUtil" instance=ExtResource("90_well")]
+position = Vector2(-995, 365)
+late = true
+
+[node name="MonsterWellLate" parent="ArenaUtil" instance=ExtResource("90_well")]
+position = Vector2(1115, -370)
+team = 1
+late = true
+
+[node name="Pearl" parent="ArenaUtil" instance=ExtResource("91_pearl")]
+z_index = 2
+position = Vector2(0, -50)
+
+[node name="ArenaBorder" type="Node2D" parent="."]
+z_index = 5
+position = Vector2(-30, -60)
+script = ExtResource("92_border")
 
 [node name="ClamZone" parent="." unique_id=948020656 instance=ExtResource("11_p6c4i")]
 z_index = 1

@@ -15,11 +15,14 @@ const BASE_PLAYER = preload("res://Celebes Abyssal Tides/scenes/player/player.ts
 @onready var spawner: MultiplayerSpawner = $MultiplayerSpawner
 
 var players_spawned := false
+var late_phase := false # after the 5-minute mark: inner wells and spawns, closing border
 
 func _ready() -> void:
 	print("Arena loaded!")
 	# every peer builds spawned players the same way from the host's spawn data
 	spawner.spawn_function = _build_player
+	# GameManager announces the 5-minute mark (sudden death) on every peer
+	GameManager.sudden_death_started.connect(enter_late_phase)
 
 	# spectators get no player, just a camera they can pan around the arena
 	if NetworkManager.get_meta("character_select_team", "") == "spectator":
@@ -69,6 +72,31 @@ func _build_player(data: Dictionary) -> Node:
 	player.team = int(data.team)
 	player.position = data.position
 	return player
+
+
+# The 5-minute mark: the outer wells stop counting and the inner ("late") ones
+# start, respawns move to the inner spawn points, and the border closes in.
+func enter_late_phase() -> void:
+	if late_phase:
+		return
+	late_phase = true
+	for well in get_tree().get_nodes_in_group("wells"):
+		well.set_active(well.late)
+	var border := find_child("ArenaBorder")
+	if border:
+		border.start()
+	GameManager.announcement.emit("5 MINUTES! New wells - the border is closing in!", -1)
+
+
+# Where a dead player comes back: their team's side, inner spawns after 5 minutes.
+func get_respawn_position(team: int) -> Vector2:
+	var folder_name := "TeamLeftSpawns" if team == 0 else "TeamRightSpawns"
+	var folder: Node = find_child(folder_name + "Late") if late_phase else null
+	if folder == null or folder.get_child_count() == 0:
+		folder = team_left_spawns if team == 0 else team_right_spawns
+	if folder == null or folder.get_child_count() == 0:
+		return Vector2.ZERO
+	return folder.get_child(randi() % folder.get_child_count()).global_position
 
 
 # Team 0 (Sea Nomads) uses the left spawns, team 1 (Garbage Monsters) the right.

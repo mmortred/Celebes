@@ -7,6 +7,8 @@ signal state_changed(new_state: int)
 signal time_updated(seconds_remaining: int)
 signal sudden_death_started
 signal match_ended
+signal score_changed(scores: Dictionary)
+signal announcement(text: String, team: int) # pearl taken / dropped / captured, shown by the HUD
 
 enum MatchState { MENU, LOBBY, CHARACTER_SELECT, LOADING, IN_PROGRESS, SUDDEN_DEATH, VICTORY }
 
@@ -46,6 +48,27 @@ func start_match() -> void:
 	reset_match()
 	set_state(MatchState.IN_PROGRESS)
 	sync_timer_state.rpc(time_remaining, state)
+	sync_scores.rpc(team_scores)
+
+
+# SCORING (server decides, everyone hears about it)
+func add_score(team: int) -> void:
+	if not multiplayer.is_server():
+		return
+	team_scores[team] = int(team_scores.get(team, 0)) + 1
+	sync_scores.rpc(team_scores)
+
+
+@rpc("authority", "call_local", "reliable")
+func sync_scores(scores: Dictionary) -> void:
+	team_scores = {0: int(scores.get(0, 0)), 1: int(scores.get(1, 0))}
+	score_changed.emit(team_scores)
+
+
+# team -1 = neutral (white) message
+@rpc("authority", "call_local", "reliable")
+func announce(text: String, team: int = -1) -> void:
+	announcement.emit(text, team)
 
 
 func _process(delta: float) -> void:

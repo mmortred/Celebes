@@ -214,6 +214,31 @@ func _record_loading_ready(id: int) -> void:
 	loading_started = false # Avoid sending the arena transition more than once.
 	enter_arena.rpc()
 
+# Anyone pressing BACK in character select sends EVERY player back to the lobby
+# together (keeping their slots), so nobody is left waiting on a half-empty select.
+func request_back_to_lobby() -> void:
+	if multiplayer.multiplayer_peer == null:
+		get_tree().change_scene_to_file(LOBBY_SCENE)
+	elif multiplayer.is_server():
+		back_to_lobby.rpc()
+	else:
+		back_to_lobby_request.rpc_id(1)
+
+@rpc("any_peer", "call_remote", "reliable")
+func back_to_lobby_request() -> void:
+	if multiplayer.is_server():
+		back_to_lobby.rpc()
+
+@rpc("authority", "call_local", "reliable")
+func back_to_lobby() -> void:
+	reset_local()
+	if multiplayer.is_server():
+		LobbyManager.reset_ready_states() # everyone readies up again
+	get_tree().change_scene_to_file(LOBBY_SCENE)
+
+const LOBBY_SCENE := "res://Celebes Abyssal Tides/scenes/ui/lobby/PvPLobby.tscn"
+
+
 @rpc("authority", "call_local", "reliable")
 func enter_arena() -> void:
 	arena_peers.clear()

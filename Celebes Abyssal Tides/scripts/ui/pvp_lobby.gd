@@ -60,14 +60,40 @@ func _ready() -> void:
 	if multiplayer.is_server():
 		# HOST: put myself in the first slot and listen for players leaving.
 		multiplayer.peer_disconnected.connect(_on_peer_disconnected)
+		# back from character select: everyone keeps the slot they had
+		restore_slots_from_lobby_manager()
 		assign_peer_to_first_free_slot(HOST_PEER_ID)
 		player_names[HOST_PEER_ID] = PlayerProfile.username
 		PlayerProfile.username_changed.connect(_on_local_username_changed)
-		update_slot_labels()
+		NetworkManager.start_discovery_responder() # list this lobby on the network again
+		host_send_slots_to_everyone()
 	else:
 		# CLIENT: listen for the host disappearing, then ask the host for a slot.
 		multiplayer.server_disconnected.connect(_on_server_disconnected)
+		ask_host_for_slot()
+
+
+# Host only: refill the slots from LobbyManager (kept while in character select)
+# for the players who are still connected.
+func restore_slots_from_lobby_manager() -> void:
+	var connected := multiplayer.get_peers()
+	for index in mini(LobbyManager.slots.size(), all_slots.size()):
+		var peer_id := int(LobbyManager.slots[index].get("peer_id", 0))
+		if peer_id == HOST_PEER_ID or peer_id in connected:
+			slots[index] = peer_id
+			player_names[peer_id] = str(LobbyManager.slots[index].get("player_name", ""))
+
+
+# Client only: when everyone comes back from character select at once the host's
+# lobby may not be loaded yet, so keep asking until the host's slot list arrives.
+var got_slots_from_host := false
+
+func ask_host_for_slot() -> void:
+	for attempt in 10:
+		if got_slots_from_host or not is_inside_tree() or multiplayer.multiplayer_peer == null:
+			return
 		request_join.rpc_id(HOST_PEER_ID, PlayerProfile.username)
+		await get_tree().create_timer(0.5).timeout
 
 
 # Fill all_slots with the real slot nodes found inside the slot containers.
@@ -303,6 +329,7 @@ func request_slot_change(new_slot: int) -> void:
 # HOST -> CLIENTS: "Here is the current list of who is in which slot."
 @rpc("authority", "call_remote", "reliable")
 func sync_all_slots(new_slots: Dictionary, new_names: Dictionary) -> void:
+	got_slots_from_host = true
 	# Rebuild the dictionary from scratch and force every key (slot number)
 	# and value (peer id) to be an int, in case they arrive as another type.
 	slots.clear()

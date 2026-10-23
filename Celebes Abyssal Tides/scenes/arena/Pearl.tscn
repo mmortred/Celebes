@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://drpci78bgmsgy"]
 
 [ext_resource type="Script" uid="uid://dbttbwtceroky" path="res://Celebes Abyssal Tides/scenes/arena/pearl.gd" id="1_71n4g"]
+[ext_resource type="Texture2D" uid="uid://dv6wx4epyv7kc" path="res://Celebes Abyssal Tides/assets/ui/pearl_icon.png" id="2_icon"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ylcck"]
 radius = 16.0
@@ -15,3 +16,6 @@ shape = SubResource("CircleShape2D_ylcck")
 debug_color = Color(1, 0.60038817, 0.70000815, 0.42000002)
 
 [node name="PearlSprite" type="Sprite2D" parent="." unique_id=709353693]
+texture_filter = 1
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("2_icon")
