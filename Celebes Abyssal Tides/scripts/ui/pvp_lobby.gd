@@ -119,8 +119,10 @@ func setup_role_ui() -> void:
 	else:
 		start_button.hide()
 		back_button.show()
+		# READY and UNREADY sit in the same spot: only one is shown at a time,
+		# swapped in update_ready_buttons() once the host confirms the change
 		ready_button.show()
-		unready_button.show()
+		unready_button.hide()
 		host_ip_label.text = "CONNECTED TO HOST"
 
 
@@ -192,6 +194,16 @@ func update_slot_labels() -> void:
 			if icon:
 				icon.visible = false
 	update_start_state()
+	update_ready_buttons()
+
+
+# Client only: show READY while not ready, UNREADY once the host has me as ready.
+func update_ready_buttons() -> void:
+	if multiplayer.multiplayer_peer == null or multiplayer.is_server():
+		return
+	var me_ready := _is_lobby_ready(multiplayer.get_unique_id())
+	ready_button.visible = not me_ready
+	unready_button.visible = me_ready
 
 
 # Names of the players the host is still waiting on. The host has no READY

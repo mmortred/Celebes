@@ -31,6 +31,9 @@ signal title_shown
 var timeline: Tween
 var title_tween: Tween
 var at_title := false
+var polluting := false
+# trash not yet in the water, rightmost first; each piece joins when the wave front reaches it
+var waiting_trash: Array[Node2D] = []
 
 
 func _ready():
@@ -38,6 +41,11 @@ func _ready():
 	press_start.modulate.a = 0.0
 	credit.modulate.a = 0.0
 	nstw_logo.modulate.a = 0.0
+
+	for trash in $Trash.get_children():
+		trash.hide()
+		waiting_trash.append(trash)
+	waiting_trash.sort_custom(func(a, b): return a.position.x > b.position.x)
 
 	timeline = create_tween()
 	timeline.tween_property(camera, "zoom", Vector2.ONE * calm_zoom, calm_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
@@ -70,10 +78,28 @@ func _start_pollution():
 	_after(pollution_time * 0.3, _flee.bind($School, 180.0))
 	# no more bubbles, the sea is choking
 	_after(pollution_time * 0.5, $Bubbles.set_emitting.bind(false))
-	# trash sinks in one piece at a time
-	var trash := $Trash.get_children()
-	for i in trash.size():
-		_after(pollution_time * 0.8 * i / trash.size(), trash[i].release)
+	# trash rides in on the wave, see _process
+	polluting = true
+
+
+func _process(_delta: float) -> void:
+	if not polluting or waiting_trash.is_empty():
+		return
+	var front_x := pollution_front_x()
+	while not waiting_trash.is_empty() and waiting_trash[0].position.x >= front_x:
+		var trash = waiting_trash.pop_front() # untyped: release() lives on intro_trash.gd
+		# appear right at the wave's edge, shoved ahead into the clear water
+		trash.position.x = front_x + randf_range(0.0, 16.0)
+		trash.release(Vector2(-randf_range(70.0, 150.0), randf_range(-12.0, 12.0)))
+
+
+# World x of the pollution wave's front edge, matching pollution_wave.gdshader:
+# front = 1 - progress * (1 + 2 * edge_width), plus a little noise we ignore.
+func pollution_front_x() -> float:
+	var progress: float = pollution.material.get_shader_parameter("progress")
+	var edge_width: float = pollution.material.get_shader_parameter("edge_width")
+	var front := 1.0 - progress * (1.0 + 2.0 * edge_width) + 0.015
+	return pollution.position.x + front * pollution.size.x
 
 
 func _show_title():
@@ -104,9 +130,12 @@ func _skip_to_title():
 	camera.zoom = Vector2.ONE
 	speed_lines.material.set_shader_parameter("intensity", 0.0)
 	murk.color = Color.WHITE
-	# trash that hadn't dropped yet would hang in view, so settle it on the seabed
+	# trash that hadn't arrived yet: put it straight on the seabed
+	polluting = false
+	waiting_trash.clear()
 	for trash in $Trash.get_children():
 		trash.position.y = trash.rest_y
+		trash.show()
 	_show_title()
 
 

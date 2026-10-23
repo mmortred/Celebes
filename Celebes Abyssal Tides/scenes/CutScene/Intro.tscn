@@ -561,75 +561,299 @@ mouse_filter = 2
 texture = SubResource("GradientTexture2D_blend")
 expand_mode = 1
 
-[node name="Trash" type="Node2D" parent="." unique_id=850493338]
+[node name="Trash" type="Node2D" parent="."]
 
-[node name="Bag" type="Node2D" parent="Trash" unique_id=1932516708]
-position = Vector2(520, -20)
+[node name="Bag1" type="Node2D" parent="Trash"]
+position = Vector2(18, 141)
+scale = Vector2(0.96, 0.96)
 script = ExtResource("7_trash")
-velocity = Vector2(-10, 16)
-drift = 18.0
-spin = 0.3
-rest_y = 190.0
+velocity = Vector2(-2.8, 10.7)
+drift = 14.5
+spin = 0.72
+rest_y = 148.7
 
-[node name="Bottle" type="Node2D" parent="Trash" unique_id=1101133154]
-position = Vector2(430, -30)
+[node name="Bottle2" type="Node2D" parent="Trash"]
+position = Vector2(42, 228)
+scale = Vector2(-0.99, 0.99)
 script = ExtResource("7_trash")
 kind = 1
-velocity = Vector2(-4, 24)
-drift = 8.0
-spin = 0.9
-rest_y = 340.0
+velocity = Vector2(-3.2, 29.5)
+drift = 8.2
+spin = -0.70
+rest_y = 332.1
 
-[node name="Tire" type="Node2D" parent="Trash" unique_id=839352163]
-position = Vector2(580, -30)
-script = ExtResource("7_trash")
-kind = 3
-velocity = Vector2(-3, 30)
-drift = 4.0
-spin = 0.4
-rest_y = 345.0
-
-[node name="Can" type="Node2D" parent="Trash" unique_id=1108392291]
-position = Vector2(300, -25)
+[node name="Can3" type="Node2D" parent="Trash"]
+position = Vector2(71, 240)
+scale = Vector2(0.84, 0.84)
 script = ExtResource("7_trash")
 kind = 2
-velocity = Vector2(-5, 26)
-spin = 1.4
-rest_y = 350.0
+velocity = Vector2(2.0, 20.3)
+drift = 7.4
+spin = -1.01
+rest_y = 320.4
 
-[node name="Slipper" type="Node2D" parent="Trash" unique_id=545473259]
-position = Vector2(360, -20)
+[node name="Slipper4" type="Node2D" parent="Trash"]
+position = Vector2(95, 133)
+scale = Vector2(1.18, 1.18)
 script = ExtResource("7_trash")
 kind = 4
-velocity = Vector2(-6, 18)
-drift = 14.0
-spin = 0.7
-rest_y = 335.0
+velocity = Vector2(-5.8, 30.0)
+drift = 4.8
+spin = -1.33
+rest_y = 321.4
 
-[node name="Bag2" type="Node2D" parent="Trash" unique_id=1223727976]
-position = Vector2(230, -25)
+[node name="Bag5" type="Node2D" parent="Trash"]
+position = Vector2(107, 159)
+scale = Vector2(1.01, 1.01)
 script = ExtResource("7_trash")
-velocity = Vector2(-8, 14)
-drift = 20.0
-spin = 0.25
-rest_y = 140.0
+velocity = Vector2(-3.9, 13.0)
+drift = 21.7
+spin = 0.60
+rest_y = 159.7
 
-[node name="Bottle2" type="Node2D" parent="Trash" unique_id=1098626395]
-position = Vector2(150, -30)
+[node name="Bottle6" type="Node2D" parent="Trash"]
+position = Vector2(132, 140)
+scale = Vector2(-1.09, 1.09)
 script = ExtResource("7_trash")
 kind = 1
-velocity = Vector2(-3, 22)
-spin = -0.8
-rest_y = 345.0
+velocity = Vector2(-0.2, 28.3)
+drift = 9.9
+spin = 1.37
+rest_y = 322.0
 
-[node name="Can2" type="Node2D" parent="Trash" unique_id=1535603452]
-position = Vector2(600, -20)
+[node name="Tire7" type="Node2D" parent="Trash"]
+position = Vector2(148, 284)
+scale = Vector2(0.92, 0.92)
+script = ExtResource("7_trash")
+kind = 3
+velocity = Vector2(-2.2, 24.1)
+drift = 5.0
+spin = -0.77
+rest_y = 331.9
+
+[node name="Can8" type="Node2D" parent="Trash"]
+position = Vector2(177, 35)
+scale = Vector2(-1.00, 1.00)
 script = ExtResource("7_trash")
 kind = 2
-velocity = Vector2(-12, 24)
+velocity = Vector2(1.7, 27.5)
 drift = 6.0
-spin = -1.2
-rest_y = 338.0
+spin = -0.77
+rest_y = 334.0
+
+[node name="Bag9" type="Node2D" parent="Trash"]
+position = Vector2(189, 286)
+scale = Vector2(1.03, 1.03)
+script = ExtResource("7_trash")
+velocity = Vector2(-3.5, 13.9)
+drift = 20.3
+spin = 0.37
+rest_y = 245.1
+
+[node name="Slipper10" type="Node2D" parent="Trash"]
+position = Vector2(207, 227)
+scale = Vector2(0.80, 0.80)
+script = ExtResource("7_trash")
+kind = 4
+velocity = Vector2(-0.7, 23.5)
+drift = 5.2
+spin = 0.78
+rest_y = 321.6
+
+[node name="Bottle11" type="Node2D" parent="Trash"]
+position = Vector2(235, 238)
+scale = Vector2(0.83, 0.83)
+script = ExtResource("7_trash")
+kind = 1
+velocity = Vector2(2.2, 30.7)
+drift = 4.3
+spin = 0.72
+rest_y = 348.4
+
+[node name="Bag12" type="Node2D" parent="Trash"]
+position = Vector2(245, 228)
+scale = Vector2(-1.31, 1.31)
+script = ExtResource("7_trash")
+velocity = Vector2(2.1, 9.1)
+drift = 16.4
+spin = 0.70
+rest_y = 133.4
+
+[node name="Can13" type="Node2D" parent="Trash"]
+position = Vector2(268, 95)
+scale = Vector2(1.13, 1.13)
+script = ExtResource("7_trash")
+kind = 2
+velocity = Vector2(0.9, 23.6)
+drift = 8.3
+spin = -1.06
+rest_y = 349.6
+
+[node name="Bottle14" type="Node2D" parent="Trash"]
+position = Vector2(287, 192)
+scale = Vector2(0.80, 0.80)
+script = ExtResource("7_trash")
+kind = 1
+velocity = Vector2(2.6, 27.8)
+drift = 8.3
+spin = 1.02
+rest_y = 333.5
+
+[node name="Slipper15" type="Node2D" parent="Trash"]
+position = Vector2(310, 213)
+scale = Vector2(1.30, 1.30)
+script = ExtResource("7_trash")
+kind = 4
+velocity = Vector2(-4.4, 31.2)
+drift = 9.9
+spin = 0.35
+rest_y = 325.4
+
+[node name="Bag16" type="Node2D" parent="Trash"]
+position = Vector2(328, 283)
+scale = Vector2(1.08, 1.08)
+script = ExtResource("7_trash")
+velocity = Vector2(-4.5, 12.4)
+drift = 20.3
+spin = -1.15
+rest_y = 124.0
+
+[node name="Tire17" type="Node2D" parent="Trash"]
+position = Vector2(365, 236)
+scale = Vector2(-1.31, 1.31)
+script = ExtResource("7_trash")
+kind = 3
+velocity = Vector2(1.0, 25.3)
+drift = 7.1
+spin = 1.24
+rest_y = 342.3
+
+[node name="Can18" type="Node2D" parent="Trash"]
+position = Vector2(376, 86)
+scale = Vector2(1.30, 1.30)
+script = ExtResource("7_trash")
+kind = 2
+velocity = Vector2(-1.9, 21.8)
+drift = 4.7
+spin = -1.19
+rest_y = 317.4
+
+[node name="Bottle19" type="Node2D" parent="Trash"]
+position = Vector2(398, 48)
+scale = Vector2(-1.30, 1.30)
+script = ExtResource("7_trash")
+kind = 1
+velocity = Vector2(2.6, 24.6)
+drift = 6.7
+spin = 0.70
+rest_y = 323.3
+
+[node name="Bag20" type="Node2D" parent="Trash"]
+position = Vector2(419, 62)
+scale = Vector2(-0.85, 0.85)
+script = ExtResource("7_trash")
+velocity = Vector2(2.5, 8.3)
+drift = 15.2
+spin = -0.34
+rest_y = 117.1
+
+[node name="Slipper21" type="Node2D" parent="Trash"]
+position = Vector2(437, 120)
+scale = Vector2(0.95, 0.95)
+script = ExtResource("7_trash")
+kind = 4
+velocity = Vector2(1.2, 29.8)
+drift = 8.1
+spin = 0.80
+rest_y = 347.2
+
+[node name="Can22" type="Node2D" parent="Trash"]
+position = Vector2(461, 91)
+scale = Vector2(0.79, 0.79)
+script = ExtResource("7_trash")
+kind = 2
+velocity = Vector2(-2.7, 20.7)
+drift = 4.3
+spin = -0.86
+rest_y = 318.0
+
+[node name="Bottle23" type="Node2D" parent="Trash"]
+position = Vector2(477, 198)
+scale = Vector2(-0.89, 0.89)
+script = ExtResource("7_trash")
+kind = 1
+velocity = Vector2(-5.5, 29.8)
+drift = 7.2
+spin = 0.83
+rest_y = 342.4
+
+[node name="Bag24" type="Node2D" parent="Trash"]
+position = Vector2(507, 100)
+scale = Vector2(1.20, 1.20)
+script = ExtResource("7_trash")
+velocity = Vector2(-2.9, 12.2)
+drift = 20.0
+spin = 0.38
+rest_y = 231.8
+
+[node name="Tire25" type="Node2D" parent="Trash"]
+position = Vector2(524, 113)
+scale = Vector2(-0.89, 0.89)
+script = ExtResource("7_trash")
+kind = 3
+velocity = Vector2(0.7, 21.0)
+drift = 7.0
+spin = 1.13
+rest_y = 333.7
+
+[node name="Slipper26" type="Node2D" parent="Trash"]
+position = Vector2(540, 62)
+scale = Vector2(-1.06, 1.06)
+script = ExtResource("7_trash")
+kind = 4
+velocity = Vector2(-2.8, 23.6)
+drift = 7.7
+spin = -0.89
+rest_y = 347.8
+
+[node name="Bottle27" type="Node2D" parent="Trash"]
+position = Vector2(564, 184)
+scale = Vector2(-0.77, 0.77)
+script = ExtResource("7_trash")
+kind = 1
+velocity = Vector2(-0.3, 22.1)
+drift = 5.1
+spin = 1.03
+rest_y = 338.1
+
+[node name="Can28" type="Node2D" parent="Trash"]
+position = Vector2(582, 99)
+scale = Vector2(0.88, 0.88)
+script = ExtResource("7_trash")
+kind = 2
+velocity = Vector2(2.4, 25.5)
+drift = 7.2
+spin = -0.86
+rest_y = 343.1
+
+[node name="Bag29" type="Node2D" parent="Trash"]
+position = Vector2(609, 94)
+scale = Vector2(-1.01, 1.01)
+script = ExtResource("7_trash")
+velocity = Vector2(-2.7, 8.7)
+drift = 14.8
+spin = -0.73
+rest_y = 150.3
+
+[node name="Bottle30" type="Node2D" parent="Trash"]
+position = Vector2(630, 247)
+scale = Vector2(-0.96, 0.96)
+script = ExtResource("7_trash")
+kind = 1
+velocity = Vector2(1.2, 25.4)
+drift = 6.5
+spin = 0.67
+rest_y = 341.0
 
 [node name="Murk" type="CanvasModulate" parent="." unique_id=630185732]
 
