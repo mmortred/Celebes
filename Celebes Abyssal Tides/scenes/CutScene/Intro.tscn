@@ -12,36 +12,69 @@
 [ext_resource type="Texture2D" uid="uid://46k1sy0llpyh" path="res://Celebes Abyssal Tides/assets/ui/celebes_logo.png" id="11_logo"]
 [ext_resource type="FontFile" uid="uid://xlnojau3gqwv" path="res://Celebes Abyssal Tides/assets/fonts/PixelifySans-VariableFont_wght.ttf" id="12_font"]
 [ext_resource type="Script" uid="uid://bewx2n8o7rnml" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_serpent.gd" id="13_serpent"]
-[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/water_tile.png" id="14_water"]
-[ext_resource type="Shader" path="res://Celebes Abyssal Tides/scenes/CutScene/water_texture.gdshader" id="15_watertex"]
-[ext_resource type="Shader" path="res://Celebes Abyssal Tides/scenes/CutScene/sky_pixel.gdshader" id="16_sky"]
-[ext_resource type="Shader" path="res://Celebes Abyssal Tides/scenes/CutScene/sea_surface.gdshader" id="17_sea"]
-[ext_resource type="Shader" path="res://Celebes Abyssal Tides/scenes/CutScene/speed_lines.gdshader" id="18_lines"]
-[ext_resource type="Script" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_mountains.gd" id="19_mountains"]
-[ext_resource type="Script" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_clouds.gd" id="20_clouds"]
-[ext_resource type="Script" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_stars.gd" id="21_stars"]
-[ext_resource type="Script" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_coral.gd" id="22_coral"]
-[ext_resource type="Texture2D" uid="uid://cjq63qtj2vphb" path="res://Celebes Abyssal Tides/assets/ui/nstw_2026_logo.png" id="23_nstw"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_sky"]
-shader = ExtResource("16_sky")
-shader_parameter/rect_size = Vector2(1240, 315)
+[ext_resource type="Texture2D" uid="uid://bdkle0urapj74" path="res://Celebes Abyssal Tides/assets/cutscene/water_tile.png" id="14_water"]
+[ext_resource type="Shader" uid="uid://cgdnj3exbkfhx" path="res://Celebes Abyssal Tides/scenes/CutScene/water_texture.gdshader" id="15_watertex"]
+[ext_resource type="Shader" uid="uid://cxw5lknijqjgt" path="res://Celebes Abyssal Tides/scenes/CutScene/sky_pixel.gdshader" id="16_sky"]
+[ext_resource type="Shader" uid="uid://dqyfs1w8j50yf" path="res://Celebes Abyssal Tides/scenes/CutScene/sea_surface.gdshader" id="17_sea"]
+[ext_resource type="Shader" uid="uid://282citgcfjt2" path="res://Celebes Abyssal Tides/scenes/CutScene/speed_lines.gdshader" id="18_lines"]
+[ext_resource type="Script" uid="uid://bbsyex2enn65u" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_mountains.gd" id="19_mountains"]
+[ext_resource type="Script" uid="uid://dgmg14cp6efvc" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_clouds.gd" id="20_clouds"]
+[ext_resource type="Texture2D" uid="uid://c7t478jxbppfp" path="res://Celebes Abyssal Tides/assets/Lobby/NSTW Logo 64px.png" id="21_aput2"]
+[ext_resource type="Script" uid="uid://c6fr3vrkq02ab" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_stars.gd" id="21_stars"]
+[ext_resource type="Script" uid="uid://pdvolq11x3a0" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_coral.gd" id="22_coral"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sea"]
 shader = ExtResource("17_sea")
 shader_parameter/water = ExtResource("14_water")
 shader_parameter/rect_size = Vector2(1240, 187)
+shader_parameter/far_color = Color(0.5, 0.28, 0.4, 1)
+shader_parameter/mid_color = Color(0.2, 0.14, 0.3, 1)
+shader_parameter/near_color = Color(0.08, 0.12, 0.24, 1)
+shader_parameter/foam_color = Color(0.88, 0.62, 0.66, 1)
+shader_parameter/texture_amount = 0.45
+shader_parameter/wave_density = 0.3
+shader_parameter/speed = 1.0
+shader_parameter/foam_only = false
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_seafoam"]
 shader = ExtResource("17_sea")
 shader_parameter/water = ExtResource("14_water")
 shader_parameter/rect_size = Vector2(1240, 187)
+shader_parameter/far_color = Color(0.5, 0.28, 0.4, 1)
+shader_parameter/mid_color = Color(0.2, 0.14, 0.3, 1)
+shader_parameter/near_color = Color(0.08, 0.12, 0.24, 1)
+shader_parameter/foam_color = Color(0.88, 0.62, 0.66, 1)
+shader_parameter/texture_amount = 0.45
+shader_parameter/wave_density = 0.3
+shader_parameter/speed = 1.0
 shader_parameter/foam_only = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sky"]
+shader = ExtResource("16_sky")
+shader_parameter/top_color = Color(0.06, 0.05, 0.16, 1)
+shader_parameter/mid_color = Color(0.24, 0.13, 0.36, 1)
+shader_parameter/horizon_color = Color(0.62, 0.32, 0.4, 1)
+shader_parameter/mid_at = 0.6
+shader_parameter/rect_size = Vector2(1240, 315)
+shader_parameter/bands = 12.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_water"]
 shader = ExtResource("15_watertex")
 shader_parameter/water = ExtResource("14_water")
 shader_parameter/rect_size = Vector2(1240, 902)
+shader_parameter/tile_size = Vector2(64, 64)
+shader_parameter/drift = Vector2(4, 1)
+shader_parameter/wobble = 1.5
+shader_parameter/top_color = Color(0.08, 0.12, 0.24, 1)
+shader_parameter/mid_color = Color(0.1, 0.08, 0.2, 1)
+shader_parameter/deep_color = Color(0.27, 0.1, 0.24, 1)
+shader_parameter/texture_depth = 0.35
+shader_parameter/bands = 18.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_shallowrays"]
+shader = ExtResource("5_rays")
+shader_parameter/ray_color = Color(0.9, 0.6, 0.75, 0.06)
+shader_parameter/speed = 0.15
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_surf"]
 shader = ExtResource("9_surf")
@@ -49,15 +82,6 @@ shader_parameter/water_color = Color(0.08, 0.12, 0.24, 1)
 shader_parameter/crest_color = Color(0.8, 0.58, 0.64, 1)
 shader_parameter/wave_height = 0.3
 shader_parameter/pixel_grid = Vector2(1240, 22)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_shallowrays"]
-shader = ExtResource("5_rays")
-shader_parameter/ray_color = Color(0.9, 0.6, 0.75, 0.06)
-shader_parameter/speed = 0.15
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_lines"]
-shader = ExtResource("18_lines")
-shader_parameter/intensity = 0.0
 
 [sub_resource type="Gradient" id="Gradient_sea"]
 offsets = PackedFloat32Array(0, 0.55, 1)
@@ -103,12 +127,24 @@ shader_parameter/wave_frequency = 9.0
 shader_parameter/tint_color = Color(0.25, 0.1, 0.45, 0.15)
 shader_parameter/tint_strength = 0.6
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_1u8u4"]
+atlas = ExtResource("21_aput2")
+region = Rect2(0, 3, 63, 13)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lines"]
+shader = ExtResource("18_lines")
+shader_parameter/intensity = 0.0
+shader_parameter/line_color = Color(1, 1, 1, 0.55)
+shader_parameter/pixel_grid = Vector2(320, 180)
+shader_parameter/count = 72.0
+shader_parameter/flicker = 14.0
+
 [node name="Intro" type="Node2D" unique_id=68001311]
 script = ExtResource("1_intro")
 
-[node name="Surface" type="Node2D" parent="."]
+[node name="Surface" type="Node2D" parent="." unique_id=626636699]
 
-[node name="Sea" type="ColorRect" parent="Surface"]
+[node name="Sea" type="ColorRect" parent="Surface" unique_id=744922856]
 material = SubResource("ShaderMaterial_sea")
 offset_left = -300.0
 offset_top = -1085.0
@@ -116,14 +152,15 @@ offset_right = 940.0
 offset_bottom = -898.0
 mouse_filter = 2
 
-[node name="Leviathan" type="CanvasGroup" parent="Surface"]
+[node name="Leviathan" type="CanvasGroup" parent="Surface" unique_id=1622381688]
 self_modulate = Color(1, 1, 1, 0.72)
 
-[node name="Serpent" type="Node2D" parent="Surface/Leviathan"]
+[node name="Serpent" type="Node2D" parent="Surface/Leviathan" unique_id=2024952646]
 position = Vector2(0, -1260)
 script = ExtResource("13_serpent")
+route = PackedVector2Array(830, 360, 640, 325, 420, 290, 200, 312, -40, 345, -400, 320, -900, 350, -1500, 345)
 
-[node name="SeaFoam" type="ColorRect" parent="Surface"]
+[node name="SeaFoam" type="ColorRect" parent="Surface" unique_id=1527400355]
 material = SubResource("ShaderMaterial_seafoam")
 offset_left = -300.0
 offset_top = -1085.0
@@ -131,7 +168,7 @@ offset_right = 940.0
 offset_bottom = -898.0
 mouse_filter = 2
 
-[node name="Sky" type="ColorRect" parent="Surface"]
+[node name="Sky" type="ColorRect" parent="Surface" unique_id=1811426951]
 material = SubResource("ShaderMaterial_sky")
 offset_left = -300.0
 offset_top = -1400.0
@@ -139,30 +176,30 @@ offset_right = 940.0
 offset_bottom = -1085.0
 mouse_filter = 2
 
-[node name="Stars" type="Node2D" parent="Surface"]
+[node name="Stars" type="Node2D" parent="Surface" unique_id=632727190]
 script = ExtResource("21_stars")
 area = Rect2(-300, -1400, 1240, 170)
 count = 70
 
-[node name="Mountains" type="Node2D" parent="Surface"]
+[node name="Mountains" type="Node2D" parent="Surface" unique_id=1575922180]
 position = Vector2(-300, -1085)
 script = ExtResource("19_mountains")
 
-[node name="Clouds" type="Node2D" parent="Surface"]
+[node name="Clouds" type="Node2D" parent="Surface" unique_id=281791235]
 position = Vector2(0, -1250)
 script = ExtResource("20_clouds")
 area = Rect2(-300, 0, 1240, 90)
 light = Color(0.78, 0.45, 0.52, 1)
 shade = Color(0.3, 0.17, 0.3, 1)
 
-[node name="WaterColumn" type="ColorRect" parent="Surface"]
+[node name="WaterColumn" type="ColorRect" parent="Surface" unique_id=803922103]
 material = SubResource("ShaderMaterial_water")
 offset_left = -300.0
 offset_top = -902.0
 offset_right = 940.0
 mouse_filter = 2
 
-[node name="ShallowRays" type="ColorRect" parent="Surface"]
+[node name="ShallowRays" type="ColorRect" parent="Surface" unique_id=69316430]
 material = SubResource("ShaderMaterial_shallowrays")
 offset_left = -300.0
 offset_top = -900.0
@@ -170,7 +207,7 @@ offset_right = 940.0
 offset_bottom = -450.0
 mouse_filter = 2
 
-[node name="Waterline" type="ColorRect" parent="Surface"]
+[node name="Waterline" type="ColorRect" parent="Surface" unique_id=1296507942]
 material = SubResource("ShaderMaterial_surf")
 offset_left = -300.0
 offset_top = -911.0
@@ -178,88 +215,88 @@ offset_right = 940.0
 offset_bottom = -889.0
 mouse_filter = 2
 
-[node name="Debris" type="Node2D" parent="Surface"]
+[node name="Debris" type="Node2D" parent="Surface" unique_id=1818223804]
 
-[node name="Bag" type="Node2D" parent="Surface/Debris"]
+[node name="Bag" type="Node2D" parent="Surface/Debris" unique_id=689775407]
 position = Vector2(120, -700)
 scale = Vector2(1.6, 1.6)
 script = ExtResource("7_trash")
 floating = true
 
-[node name="Bottle" type="Node2D" parent="Surface/Debris"]
+[node name="Bottle" type="Node2D" parent="Surface/Debris" unique_id=1978750210]
 position = Vector2(480, -560)
 scale = Vector2(1.6, 1.6)
 script = ExtResource("7_trash")
 kind = 1
 floating = true
 
-[node name="Bag2" type="Node2D" parent="Surface/Debris"]
+[node name="Bag2" type="Node2D" parent="Surface/Debris" unique_id=1317125176]
 position = Vector2(300, -380)
 scale = Vector2(1.6, 1.6)
 script = ExtResource("7_trash")
 floating = true
 
-[node name="Can" type="Node2D" parent="Surface/Debris"]
+[node name="Can" type="Node2D" parent="Surface/Debris" unique_id=1419181950]
 position = Vector2(560, -250)
 scale = Vector2(1.6, 1.6)
 script = ExtResource("7_trash")
 kind = 2
 floating = true
 
-[node name="Slipper" type="Node2D" parent="Surface/Debris"]
+[node name="Slipper" type="Node2D" parent="Surface/Debris" unique_id=1985100849]
 position = Vector2(60, -160)
 scale = Vector2(1.6, 1.6)
 script = ExtResource("7_trash")
 kind = 4
 floating = true
 
-[node name="Bag3" type="Node2D" parent="Surface/Debris"]
+[node name="Bag3" type="Node2D" parent="Surface/Debris" unique_id=1231662854]
 position = Vector2(400, -820)
 scale = Vector2(1.6, 1.6)
 script = ExtResource("7_trash")
 floating = true
 
-[node name="SurfaceTrash" type="Node2D" parent="Surface"]
+[node name="SurfaceTrash" type="Node2D" parent="Surface" unique_id=716508285]
 
-[node name="Bag" type="Node2D" parent="Surface/SurfaceTrash"]
+[node name="Bag" type="Node2D" parent="Surface/SurfaceTrash" unique_id=1716264915]
 position = Vector2(90, -930)
 script = ExtResource("7_trash")
 floating = true
 
-[node name="Bottle" type="Node2D" parent="Surface/SurfaceTrash"]
+[node name="Bottle" type="Node2D" parent="Surface/SurfaceTrash" unique_id=2126329619]
 position = Vector2(205, -1010)
 scale = Vector2(0.8, 0.8)
 script = ExtResource("7_trash")
 kind = 1
 floating = true
 
-[node name="Slipper" type="Node2D" parent="Surface/SurfaceTrash"]
+[node name="Slipper" type="Node2D" parent="Surface/SurfaceTrash" unique_id=1279617940]
 position = Vector2(330, -960)
 script = ExtResource("7_trash")
 kind = 4
 floating = true
 
-[node name="Can" type="Node2D" parent="Surface/SurfaceTrash"]
+[node name="Can" type="Node2D" parent="Surface/SurfaceTrash" unique_id=1665906770]
 position = Vector2(440, -1045)
 scale = Vector2(0.6, 0.6)
 script = ExtResource("7_trash")
 kind = 2
 floating = true
 
-[node name="Tire" type="Node2D" parent="Surface/SurfaceTrash"]
+[node name="Tire" type="Node2D" parent="Surface/SurfaceTrash" unique_id=1392552461]
 position = Vector2(510, -985)
 scale = Vector2(0.9, 0.9)
 script = ExtResource("7_trash")
 kind = 3
 floating = true
 
-[node name="Bottle2" type="Node2D" parent="Surface/SurfaceTrash"]
+[node name="Bottle2" type="Node2D" parent="Surface/SurfaceTrash" unique_id=1772813791]
 position = Vector2(590, -935)
 script = ExtResource("7_trash")
 kind = 1
 floating = true
 
-[node name="Bag2" type="Node2D" parent="Surface/SurfaceTrash"]
+[node name="Bag2" type="Node2D" parent="Surface/SurfaceTrash" unique_id=1995819999]
 position = Vector2(150, -1055)
 scale = Vector2(0.55, 0.55)
 script = ExtResource("7_trash")
@@ -342,99 +379,98 @@ height = 150.0
 width = 11.0
 color = Color(0.18, 0.43, 0.29, 1)
 
-[node name="Corals" type="Node2D" parent="."]
+[node name="Corals" type="Node2D" parent="." unique_id=613664059]
 
-[node name="RockLeft" type="Node2D" parent="Corals"]
+[node name="RockLeft" type="Node2D" parent="Corals" unique_id=16213140]
 position = Vector2(90, 366)
 script = ExtResource("22_coral")
 kind = 4
 size = 120.0
-coral_seed = 1
 
-[node name="RockMid" type="Node2D" parent="Corals"]
+[node name="RockMid" type="Node2D" parent="Corals" unique_id=114129600]
 position = Vector2(330, 368)
 script = ExtResource("22_coral")
 kind = 4
 size = 170.0
 coral_seed = 2
 
-[node name="RockRight" type="Node2D" parent="Corals"]
+[node name="RockRight" type="Node2D" parent="Corals" unique_id=1540591973]
 position = Vector2(560, 366)
 script = ExtResource("22_coral")
 kind = 4
 size = 130.0
 coral_seed = 3
 
-[node name="BranchBack" type="Node2D" parent="Corals"]
+[node name="BranchBack" type="Node2D" parent="Corals" unique_id=549858322]
 position = Vector2(362, 344)
 script = ExtResource("22_coral")
 size = 100.0
 coral_seed = 4
 
-[node name="BranchMid" type="Node2D" parent="Corals"]
+[node name="BranchMid" type="Node2D" parent="Corals" unique_id=356411975]
 position = Vector2(272, 350)
+scale = Vector2(-1, 1)
 script = ExtResource("22_coral")
 size = 66.0
 coral_seed = 9
 flip = true
 
-[node name="BranchLeft" type="Node2D" parent="Corals"]
+[node name="BranchLeft" type="Node2D" parent="Corals" unique_id=2048067389]
 position = Vector2(112, 352)
 script = ExtResource("22_coral")
 size = 62.0
 coral_seed = 12
 
-[node name="BranchRight" type="Node2D" parent="Corals"]
+[node name="BranchRight" type="Node2D" parent="Corals" unique_id=1825651222]
 position = Vector2(586, 350)
+scale = Vector2(-1, 1)
 script = ExtResource("22_coral")
 size = 72.0
 coral_seed = 5
 flip = true
 
-[node name="FingerLeft" type="Node2D" parent="Corals"]
+[node name="FingerLeft" type="Node2D" parent="Corals" unique_id=791518267]
 position = Vector2(64, 360)
 script = ExtResource("22_coral")
 kind = 2
 size = 56.0
 coral_seed = 6
 
-[node name="FingerMid" type="Node2D" parent="Corals"]
+[node name="FingerMid" type="Node2D" parent="Corals" unique_id=987571843]
 position = Vector2(414, 362)
 script = ExtResource("22_coral")
 kind = 2
 size = 86.0
 coral_seed = 2
 
-[node name="FingerRight" type="Node2D" parent="Corals"]
+[node name="FingerRight" type="Node2D" parent="Corals" unique_id=2122273158]
 position = Vector2(488, 362)
+scale = Vector2(-1, 1)
 script = ExtResource("22_coral")
 kind = 2
 size = 52.0
 coral_seed = 8
 flip = true
 
-[node name="Brain" type="Node2D" parent="Corals"]
+[node name="Brain" type="Node2D" parent="Corals" unique_id=264403094]
 position = Vector2(322, 364)
 script = ExtResource("22_coral")
 kind = 1
 size = 100.0
-coral_seed = 1
 
-[node name="BrainLeft" type="Node2D" parent="Corals"]
+[node name="BrainLeft" type="Node2D" parent="Corals" unique_id=109424908]
 position = Vector2(156, 364)
 script = ExtResource("22_coral")
 kind = 1
 size = 52.0
-coral_seed = 1
 
-[node name="BrainRight" type="Node2D" parent="Corals"]
+[node name="BrainRight" type="Node2D" parent="Corals" unique_id=472771147]
 position = Vector2(528, 366)
 script = ExtResource("22_coral")
 kind = 1
 size = 62.0
-coral_seed = 1
 
-[node name="FanLeft" type="Node2D" parent="Corals"]
+[node name="FanLeft" type="Node2D" parent="Corals" unique_id=298222671]
 material = SubResource("ShaderMaterial_sway")
 position = Vector2(18, 364)
 script = ExtResource("22_coral")
@@ -442,18 +478,20 @@ kind = 3
 size = 84.0
 coral_seed = 3
 
-[node name="FanMid" type="Node2D" parent="Corals"]
+[node name="FanMid" type="Node2D" parent="Corals" unique_id=518314216]
 material = SubResource("ShaderMaterial_sway")
 position = Vector2(222, 364)
+scale = Vector2(-1, 1)
 script = ExtResource("22_coral")
 kind = 3
 size = 54.0
 coral_seed = 11
 flip = true
 
-[node name="FanRight" type="Node2D" parent="Corals"]
+[node name="FanRight" type="Node2D" parent="Corals" unique_id=138361395]
 material = SubResource("ShaderMaterial_sway")
 position = Vector2(628, 364)
+scale = Vector2(-1, 1)
 script = ExtResource("22_coral")
 kind = 3
 size = 74.0
@@ -567,9 +605,9 @@ mouse_filter = 2
 texture = SubResource("GradientTexture2D_blend")
 expand_mode = 1
 
-[node name="Trash" type="Node2D" parent="."]
+[node name="Trash" type="Node2D" parent="." unique_id=1997576783]
 
-[node name="Bag1" type="Node2D" parent="Trash"]
+[node name="Bag1" type="Node2D" parent="Trash" unique_id=307576113]
 position = Vector2(18, 141)
 scale = Vector2(1.63, 1.63)
 script = ExtResource("7_trash")
@@ -578,27 +616,27 @@ drift = 14.5
 spin = 0.72
 rest_y = 148.7
 
-[node name="Can3" type="Node2D" parent="Trash"]
+[node name="Can3" type="Node2D" parent="Trash" unique_id=712240346]
 position = Vector2(71, 240)
 scale = Vector2(1.43, 1.43)
 script = ExtResource("7_trash")
 kind = 2
-velocity = Vector2(2.0, 20.3)
+velocity = Vector2(2, 20.3)
 drift = 7.4
 spin = -1.01
 rest_y = 320.4
 
-[node name="Slipper4" type="Node2D" parent="Trash"]
+[node name="Slipper4" type="Node2D" parent="Trash" unique_id=227565017]
 position = Vector2(95, 133)
 scale = Vector2(2.01, 2.01)
 script = ExtResource("7_trash")
 kind = 4
-velocity = Vector2(-5.8, 30.0)
+velocity = Vector2(-5.8, 30)
 drift = 4.8
 spin = -1.33
 rest_y = 321.4
 
-[node name="Bottle6" type="Node2D" parent="Trash"]
+[node name="Bottle6" type="Node2D" parent="Trash" unique_id=691689804]
 position = Vector2(132, 140)
 scale = Vector2(-1.85, 1.85)
 script = ExtResource("7_trash")
@@ -608,7 +646,7 @@ drift = 9.9
 spin = 1.37
 rest_y = 322.0
 
-[node name="Tire7" type="Node2D" parent="Trash"]
+[node name="Tire7" type="Node2D" parent="Trash" unique_id=971474746]
 position = Vector2(148, 284)
 scale = Vector2(1.56, 1.56)
 script = ExtResource("7_trash")
@@ -618,9 +656,9 @@ drift = 5.0
 spin = -0.77
 rest_y = 331.9
 
-[node name="Can8" type="Node2D" parent="Trash"]
+[node name="Can8" type="Node2D" parent="Trash" unique_id=357541145]
 position = Vector2(177, 35)
-scale = Vector2(-1.70, 1.70)
+scale = Vector2(-1.7, 1.7)
 script = ExtResource("7_trash")
 kind = 2
 velocity = Vector2(1.7, 27.5)
@@ -628,7 +666,7 @@ drift = 6.0
 spin = -0.77
 rest_y = 334.0
 
-[node name="Bag9" type="Node2D" parent="Trash"]
+[node name="Bag9" type="Node2D" parent="Trash" unique_id=830375804]
 position = Vector2(189, 286)
 scale = Vector2(1.75, 1.75)
 script = ExtResource("7_trash")
@@ -637,7 +675,7 @@ drift = 20.3
 spin = 0.37
 rest_y = 245.1
 
-[node name="Can13" type="Node2D" parent="Trash"]
+[node name="Can13" type="Node2D" parent="Trash" unique_id=773471099]
 position = Vector2(268, 95)
 scale = Vector2(1.92, 1.92)
 script = ExtResource("7_trash")
@@ -647,7 +685,7 @@ drift = 8.3
 spin = -1.06
 rest_y = 349.6
 
-[node name="Bag16" type="Node2D" parent="Trash"]
+[node name="Bag16" type="Node2D" parent="Trash" unique_id=116991484]
 position = Vector2(328, 283)
 scale = Vector2(1.84, 1.84)
 script = ExtResource("7_trash")
@@ -656,7 +694,7 @@ drift = 20.3
 spin = -1.15
 rest_y = 124.0
 
-[node name="Can18" type="Node2D" parent="Trash"]
+[node name="Can18" type="Node2D" parent="Trash" unique_id=1559113304]
 position = Vector2(376, 86)
 scale = Vector2(2.21, 2.21)
 script = ExtResource("7_trash")
@@ -666,27 +704,27 @@ drift = 4.7
 spin = -1.19
 rest_y = 317.4
 
-[node name="Bottle19" type="Node2D" parent="Trash"]
+[node name="Bottle19" type="Node2D" parent="Trash" unique_id=1275787206]
 position = Vector2(398, 48)
 scale = Vector2(-2.21, 2.21)
 script = ExtResource("7_trash")
 kind = 1
 velocity = Vector2(2.6, 24.6)
 drift = 6.7
-spin = 0.70
+spin = 0.7
 rest_y = 323.3
 
-[node name="Slipper21" type="Node2D" parent="Trash"]
+[node name="Slipper21" type="Node2D" parent="Trash" unique_id=1223366493]
 position = Vector2(437, 120)
 scale = Vector2(1.61, 1.61)
 script = ExtResource("7_trash")
 kind = 4
 velocity = Vector2(1.2, 29.8)
 drift = 8.1
-spin = 0.80
+spin = 0.8
 rest_y = 347.2
 
-[node name="Bottle23" type="Node2D" parent="Trash"]
+[node name="Bottle23" type="Node2D" parent="Trash" unique_id=1016306341]
 position = Vector2(477, 198)
 scale = Vector2(-1.51, 1.51)
 script = ExtResource("7_trash")
@@ -696,7 +734,7 @@ drift = 7.2
 spin = 0.83
 rest_y = 342.4
 
-[node name="Bag24" type="Node2D" parent="Trash"]
+[node name="Bag24" type="Node2D" parent="Trash" unique_id=1736044530]
 position = Vector2(507, 100)
 scale = Vector2(2.04, 2.04)
 script = ExtResource("7_trash")
@@ -705,19 +743,19 @@ drift = 20.0
 spin = 0.38
 rest_y = 231.8
 
-[node name="Tire25" type="Node2D" parent="Trash"]
+[node name="Tire25" type="Node2D" parent="Trash" unique_id=70429905]
 position = Vector2(524, 113)
 scale = Vector2(-1.51, 1.51)
 script = ExtResource("7_trash")
 kind = 3
-velocity = Vector2(0.7, 21.0)
+velocity = Vector2(0.7, 21)
 drift = 7.0
 spin = 1.13
 rest_y = 333.7
 
-[node name="Slipper26" type="Node2D" parent="Trash"]
+[node name="Slipper26" type="Node2D" parent="Trash" unique_id=1964432378]
 position = Vector2(540, 62)
-scale = Vector2(-1.80, 1.80)
+scale = Vector2(-1.8, 1.8)
 script = ExtResource("7_trash")
 kind = 4
 velocity = Vector2(-2.8, 23.6)
@@ -725,9 +763,9 @@ drift = 7.7
 spin = -0.89
 rest_y = 347.8
 
-[node name="Can28" type="Node2D" parent="Trash"]
+[node name="Can28" type="Node2D" parent="Trash" unique_id=539369403]
 position = Vector2(582, 99)
-scale = Vector2(1.50, 1.50)
+scale = Vector2(1.5, 1.5)
 script = ExtResource("7_trash")
 kind = 2
 velocity = Vector2(2.4, 25.5)
@@ -735,7 +773,7 @@ drift = 7.2
 spin = -0.86
 rest_y = 343.1
 
-[node name="Bag29" type="Node2D" parent="Trash"]
+[node name="Bag29" type="Node2D" parent="Trash" unique_id=1114665507]
 position = Vector2(609, 94)
 scale = Vector2(-1.72, 1.72)
 script = ExtResource("7_trash")
@@ -780,22 +818,21 @@ text = "PRESS START"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="NstwLogo" type="TextureRect" parent="Title"]
+[node name="NstwLogo" type="TextureRect" parent="Title" unique_id=858510168]
 texture_filter = 1
 offset_left = 10.0
 offset_top = 290.0
 offset_right = 136.0
 offset_bottom = 350.0
 mouse_filter = 2
-texture = ExtResource("23_nstw")
+texture = SubResource("AtlasTexture_1u8u4")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Credit" type="Label" parent="Title"]
+[node name="Credit" type="Label" parent="Title" unique_id=1607637156]
 offset_top = 282.0
 offset_right = 640.0
 offset_bottom = 298.0
-mouse_filter = 2
 theme_override_colors/font_color = Color(0.77, 0.93, 0.95, 1)
 theme_override_colors/font_outline_color = Color(0.02, 0.1, 0.08, 1)
 theme_override_constants/outline_size = 3
@@ -805,10 +842,10 @@ text = "Made by maKate Studios"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="SpeedLines" type="CanvasLayer" parent="."]
+[node name="SpeedLines" type="CanvasLayer" parent="." unique_id=2066782234]
 layer = 5
 
-[node name="Lines" type="ColorRect" parent="SpeedLines"]
+[node name="Lines" type="ColorRect" parent="SpeedLines" unique_id=666502482]
 material = SubResource("ShaderMaterial_lines")
 offset_right = 640.0
 offset_bottom = 360.0
