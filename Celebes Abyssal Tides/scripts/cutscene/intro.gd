@@ -32,8 +32,11 @@ var timeline: Tween
 var title_tween: Tween
 var at_title := false
 var polluting := false
-# trash not yet in the water, rightmost first; each piece joins when the wave front reaches it
+# trash still riding the wave front, rightmost first. each piece starts off-screen
+# right, travels with the front, and drops off when the front reaches its spot
 var waiting_trash: Array[Node2D] = []
+var trash_drop_x: Dictionary = {} # piece -> x where it leaves the wave (its scene position)
+var trash_lead: Dictionary = {}   # piece -> how far ahead of the front edge it rides
 
 
 func _ready():
@@ -45,6 +48,8 @@ func _ready():
 	for trash in $Trash.get_children():
 		trash.hide()
 		waiting_trash.append(trash)
+		trash_drop_x[trash] = trash.position.x
+		trash_lead[trash] = randf_range(0.0, 36.0)
 	waiting_trash.sort_custom(func(a, b): return a.position.x > b.position.x)
 
 	timeline = create_tween()
@@ -82,15 +87,22 @@ func _start_pollution():
 	polluting = true
 
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	if not polluting or waiting_trash.is_empty():
 		return
 	var front_x := pollution_front_x()
-	while not waiting_trash.is_empty() and waiting_trash[0].position.x >= front_x:
-		var trash = waiting_trash.pop_front() # untyped: release() lives on intro_trash.gd
-		# appear right at the wave's edge, shoved ahead into the clear water
-		trash.position.x = front_x + randf_range(0.0, 16.0)
-		trash.release(Vector2(-randf_range(70.0, 150.0), randf_range(-12.0, 12.0)))
+	for trash in waiting_trash.duplicate():
+		var ride_x: float = front_x - trash_lead[trash]
+		if ride_x <= trash_drop_x[trash]:
+			# the front reached this piece's spot: let go, it drifts on a little and sinks
+			waiting_trash.erase(trash)
+			trash.position.x = trash_drop_x[trash]
+			trash.release(Vector2(-randf_range(40.0, 90.0), randf_range(-8.0, 8.0)))
+		else:
+			# pushed along on the front edge, tumbling (starts off-screen right)
+			trash.position.x = ride_x
+			trash.rotation += delta * 2.0
+			trash.show()
 
 
 # World x of the pollution wave's front edge, matching pollution_wave.gdshader:
