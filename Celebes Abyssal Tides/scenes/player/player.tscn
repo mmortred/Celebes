@@ -187,10 +187,6 @@ region = Rect2(256, 0, 64, 64)
 atlas = ExtResource("6_ks3wm")
 region = Rect2(320, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_kusgv"]
-atlas = ExtResource("7_7klsc")
-region = Rect2(0, 0, 64, 64)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_gl82s"]
 atlas = ExtResource("7_7klsc")
 region = Rect2(64, 0, 64, 64)
@@ -214,28 +210,28 @@ region = Rect2(320, 0, 64, 64)
 [sub_resource type="SpriteFrames" id="SpriteFrames_1e16l"]
 animations = [{
 "frames": [{
-"duration": 1.0,
+"duration": 0.61,
 "texture": SubResource("AtlasTexture_mng07")
 }, {
-"duration": 1.0,
+"duration": 0.61,
 "texture": SubResource("AtlasTexture_mt6xq")
 }, {
-"duration": 1.0,
+"duration": 0.61,
 "texture": SubResource("AtlasTexture_db64i")
 }, {
-"duration": 1.0,
+"duration": 0.61,
 "texture": SubResource("AtlasTexture_nxsj2")
 }, {
-"duration": 1.0,
+"duration": 0.61,
 "texture": SubResource("AtlasTexture_jp7v1")
 }, {
-"duration": 1.0,
+"duration": 0.61,
 "texture": SubResource("AtlasTexture_1g32t")
 }, {
-"duration": 1.0,
+"duration": 0.61,
 "texture": SubResource("AtlasTexture_yunts")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"bottom_swing",
 "speed": 5.0
 }, {
@@ -312,30 +308,30 @@ animations = [{
 "speed": 5.0
 }, {
 "frames": [{
-"duration": 1.0,
+"duration": 0.6,
 "texture": SubResource("AtlasTexture_0gvcv")
 }, {
-"duration": 1.0,
+"duration": 0.6,
 "texture": SubResource("AtlasTexture_0qrw5")
 }, {
-"duration": 1.0,
+"duration": 0.6,
 "texture": SubResource("AtlasTexture_wskjo")
 }, {
-"duration": 1.0,
+"duration": 0.6,
 "texture": SubResource("AtlasTexture_78ugg")
 }, {
-"duration": 1.0,
+"duration": 0.6,
 "texture": SubResource("AtlasTexture_aak6l")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_jwt7h")
 }],
-"loop": 1,
+"loop": 2,
 "name": &"top_swing",
 "speed": 5.0
 }, {
 "frames": [{
-"duration": 1.0,
+"duration": 0.6,
 "texture": SubResource("AtlasTexture_jitl8")
 }, {
 "duration": 1.0,
@@ -358,7 +354,7 @@ animations = [{
 "speed": 7.0
 }, {
 "frames": [{
-"duration": 1.0,
+"duration": 0.6,
 "texture": SubResource("AtlasTexture_cwrly")
 }, {
 "duration": 1.0,
@@ -382,9 +378,6 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_kusgv")
-}, {
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_gl82s")
 }, {
 "duration": 1.0,
@@ -399,14 +392,14 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_vjutg")
 }],
-"loop": 2,
+"loop": 1,
 "name": &"walk_up",
 "speed": 7.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cmd4b"]
-radius = 18.0
-height = 54.0
+radius = 16.0
+height = 32.0
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_lvxji"]
 properties/0/path = NodePath(".:position")
@@ -439,17 +432,24 @@ script = ExtResource("1_8afob")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=55903766]
 texture_filter = 1
-position = Vector2(0, -46)
+position = Vector2(0, -35)
 scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_1e16l")
-animation = &"right_swing"
+animation = &"walk_down"
+frame_progress = 0.038798295
+speed_scale = 1.5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1509811323]
-position = Vector2(1, -32)
+position = Vector2(0, -19)
 shape = SubResource("CapsuleShape2D_cmd4b")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=281208494]
 position = Vector2(-8, 0)
+limit_left = -1730
+limit_top = -832
+limit_right = 1730
+limit_bottom = 997
+limit_smoothed = true
 position_smoothing_enabled = true
 
 [node name="HealthComponent" type="Node" parent="." unique_id=1331527619]
@@ -477,7 +477,7 @@ vertical_alignment = 1
 libraries/ = SubResource("AnimationLibrary_ax2op")
 
 [node name="AttackRange" type="Area2D" parent="." unique_id=1937271004 groups=["player_attack"]]
-position = Vector2(8, 0)
+position = Vector2(8, 11)
 collision_layer = 0
 collision_mask = 4
 monitorable = false
@@ -487,10 +487,9 @@ position = Vector2(0, -16)
 shape = SubResource("RectangleShape2D_ma018")
 
 [node name="HurtBox" type="Area2D" parent="." unique_id=857489502]
-modulate = Color(1.5287985, 0, 0.17372437, 1)
 self_modulate = Color(0.9607843, 0.2, 0.32156864, 1)
 texture_filter = 1
-position = Vector2(0, -32)
+position = Vector2(0, -21)
 collision_layer = 4
 collision_mask = 0
 monitoring = false
