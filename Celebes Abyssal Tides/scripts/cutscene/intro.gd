@@ -41,7 +41,7 @@ var polluting := false
 # right, travels with the front, and drops off when the front reaches its spot
 var waiting_trash: Array[Node2D] = []
 var trash_drop_x: Dictionary = {} # piece -> x where it leaves the wave (its scene position)
-var trash_lead: Dictionary = {}   # piece -> how far ahead of the front edge it rides
+var trash_lag: Dictionary = {}    # piece -> how far behind the front edge (inside the murk) it rides
 
 
 func _ready():
@@ -52,12 +52,12 @@ func _ready():
 
 	# the wave only reaches about mid-screen before the rise, so squeeze each piece's
 	# drop spot (its x in the scene, 0-640) into the part the wave actually covers
-	var covered_from := pollution_front_x(wave_at_rise)
+	var covered_from := pollution_front_x(wave_at_rise) + 130.0 # trash rides up to 130px behind the edge
 	for trash in $Trash.get_children():
 		trash.hide()
 		waiting_trash.append(trash)
 		trash_drop_x[trash] = lerpf(covered_from, 650.0, clampf(trash.position.x / 640.0, 0.0, 1.0))
-		trash_lead[trash] = randf_range(0.0, 36.0)
+		trash_lag[trash] = randf_range(45.0, 130.0)
 	waiting_trash.sort_custom(func(a, b): return a.position.x > b.position.x)
 
 	timeline = create_tween()
@@ -102,14 +102,14 @@ func _process(delta: float) -> void:
 		return
 	var front_x := pollution_front_x()
 	for trash in waiting_trash.duplicate():
-		var ride_x: float = front_x - trash_lead[trash]
+		var ride_x: float = front_x + trash_lag[trash] # trails the edge so the murk arrives first
 		if ride_x <= trash_drop_x[trash]:
 			# the front reached this piece's spot: let go, it drifts on a little and sinks
 			waiting_trash.erase(trash)
 			trash.position.x = trash_drop_x[trash]
-			trash.release(Vector2(-randf_range(40.0, 90.0), randf_range(-8.0, 8.0)))
+			trash.release(Vector2(-randf_range(8.0, 25.0), randf_range(-8.0, 8.0))) # small push, never outruns the wave
 		else:
-			# pushed along on the front edge, tumbling (starts off-screen right)
+			# carried inside the wave just behind its edge, tumbling (starts off-screen right)
 			trash.position.x = ride_x
 			trash.rotation += delta * 2.0
 			trash.show()
