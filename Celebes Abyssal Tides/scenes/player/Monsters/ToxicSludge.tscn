@@ -258,7 +258,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"bottom_swing",
-"speed": 3.0
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -319,7 +319,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"left_swing",
-"speed": 5.0
+"speed": 7.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -382,7 +382,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"walk_down",
-"speed": 6.0
+"speed": 4.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -434,7 +434,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"walk_right",
-"speed": 6.0
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -454,7 +454,7 @@ animations = [{
 }],
 "loop": 2,
 "name": &"walk_up",
-"speed": 6.0
+"speed": 5.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1e16l"]
@@ -471,7 +471,8 @@ height = 64.0
 [node name="AnimatedSprite2D" parent="." index="0" unique_id=55903766]
 scale = Vector2(1, 1)
 sprite_frames = SubResource("SpriteFrames_iauuq")
-animation = &"left_swing"
+animation = &"walk_up"
+frame_progress = 0.49782184
 
 [node name="CollisionShape2D" parent="." index="1" unique_id=1509811323]
 visible = true

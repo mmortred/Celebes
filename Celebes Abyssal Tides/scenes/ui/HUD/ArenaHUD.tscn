@@ -487,4 +487,4 @@ offset_top = 8.0
 offset_right = 632.0
 offset_bottom = 80.0
 
-[node name="PearlIndicator" parent="." instance=ExtResource("14_pind")]
+[node name="PearlIndicator" parent="." unique_id=1766965540 instance=ExtResource("14_pind")]

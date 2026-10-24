@@ -158,7 +158,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_43y14")
 }],
-"loop": 1,
+"loop": false,
 "name": &"pearl_point",
 "speed": 5.0
 }, {
@@ -178,10 +178,13 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_score"]
-radius = 40.0
+radius = 52.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_block"]
 radius = 34.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall"]
+size = Vector2(80, 30)
 
 [node name="Well" type="Node2D" unique_id=1731009454]
 script = ExtResource("1_ddgrk")
@@ -204,3 +207,9 @@ shape = SubResource("CircleShape2D_score")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Blocker" unique_id=1392314472]
 shape = SubResource("CircleShape2D_block")
+
+[node name="WellWall" type="StaticBody2D" parent="." unique_id=1640275193]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WellWall" unique_id=884213570]
+position = Vector2(0, 14)
+shape = SubResource("RectangleShape2D_wall")

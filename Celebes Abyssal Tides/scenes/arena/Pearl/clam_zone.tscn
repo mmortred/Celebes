@@ -7,7 +7,7 @@
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cmd4b"]
 atlas = ExtResource("1_heuo3")
-region = Rect2(132, 458, 56, 42)
+region = Rect2(68, 468, 56, 32)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7u8de"]
 shader = ExtResource("1_swxp4")
@@ -44,10 +44,12 @@ fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.8418803, 0.2008547)
 
 [node name="ClamZone" type="Node2D" unique_id=948020656]
-scale = Vector2(2, 2)
 script = ExtResource("2_clam")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1539444437]
+[node name="ClamOpen" type="Sprite2D" parent="." unique_id=1539444437]
+texture = SubResource("AtlasTexture_cmd4b")
+
+[node name="ClamClosed" type="Sprite2D" parent="." unique_id=1889799448]
 texture = SubResource("AtlasTexture_cmd4b")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=548463045]

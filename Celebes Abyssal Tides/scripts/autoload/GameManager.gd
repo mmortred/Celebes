@@ -14,6 +14,10 @@ enum MatchState { MENU, LOBBY, CHARACTER_SELECT, LOADING, IN_PROGRESS, SUDDEN_DE
 
 const MATCH_DURATION = 300.0   # 5 minutes, per your design doc
 const SUDDEN_DEATH_DURATION = 120.0  # adjust to your actual sudden-death length
+const TARGET_SCORE = 20 # first team to capture this many pearls wins on the spot
+const TEAM_NAMES = {0: "Sea Nomads", 1: "Garbage Monsters"}
+const TEAM_COLORS = {0: Color("2ed3be"), 1: Color("a5e35f"), -1: Color.WHITE} # Sea Nomads teal, Garbage Monsters green, neutral
+const PIXEL_FONT = preload("res://Celebes Abyssal Tides/assets/font/monogram.ttf") # alerts and name tags
 
 var state: MatchState = MatchState.MENU
 var team_scores: Dictionary = {0: 0, 1: 0}
@@ -55,10 +59,12 @@ func start_match() -> void:
 
 # SCORING (server decides, everyone hears about it)
 func add_score(team: int) -> void:
-	if not multiplayer.is_server():
+	if not multiplayer.is_server() or state == MatchState.VICTORY:
 		return
 	team_scores[team] = int(team_scores.get(team, 0)) + 1
 	sync_scores.rpc(team_scores)
+	if team_scores[team] >= TARGET_SCORE:
+		_end_match("%s win — first to %d pearls!" % [TEAM_NAMES[team], TARGET_SCORE])
 
 
 @rpc("authority", "call_local", "reliable")
@@ -89,7 +95,7 @@ func _process(delta: float) -> void:
 		if state == MatchState.IN_PROGRESS:
 			_enter_sudden_death()
 		else:
-			_end_match()
+			_end_match(_time_up_result())
 		return
 
 	# only push updates roughly once a second, not every frame
@@ -104,11 +110,22 @@ func _enter_sudden_death() -> void:
 	notify_sudden_death.rpc()
 
 
-func _end_match() -> void:
+func _end_match(result: String) -> void:
 	time_remaining = 0.0
 	set_state(MatchState.VICTORY)
 	sync_timer_state.rpc(time_remaining, state)
 	notify_match_ended.rpc()
+	ScoreboardManager._end_all(result) # result on every screen, then back to the menu
+
+
+# Time ran out before anyone reached TARGET_SCORE: most pearls wins.
+func _time_up_result() -> String:
+	var nomads := int(team_scores.get(0, 0))
+	var monsters := int(team_scores.get(1, 0))
+	if nomads == monsters:
+		return "Time's up — draw, %d to %d." % [nomads, monsters]
+	var winner := 0 if nomads > monsters else 1
+	return "Time's up — %s win, %d to %d!" % [TEAM_NAMES[winner], maxi(nomads, monsters), mini(nomads, monsters)]
 
 
 @rpc("authority", "call_local", "reliable")

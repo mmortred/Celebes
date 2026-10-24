@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 ##Public 
 @export_category("Stats")
-@export var move_speed = 200.0
+@export var move_speed = 170.0
 @export var dash_speed = 700.0
 @export var dash_duration = 0.15
 @export var dash_cooldown = 2.0
@@ -66,6 +66,11 @@ func _ready():
 	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING #+ NEW top-down: no "floor", so you can't ride other players
 	net_position = position #+ SMOOTH start where I spawned, not at (0, 0)
 	label.text = LobbyManager.get_player_name(get_multiplayer_authority()) #+ NAME the username from settings
+	label.add_theme_font_override("font", GameManager.PIXEL_FONT) #+ NAME monogram
+	label.add_theme_font_size_override("font_size", 16) #+
+	label.add_theme_constant_override("outline_size", 4) #+
+	label.add_theme_color_override("font_outline_color", Color.BLACK) #+
+	label.add_theme_color_override("font_color", GameManager.TEAM_COLORS.get(team, Color.WHITE)) #+ NAME teal / green by team
 	camera.enabled = is_multiplayer_authority() # only enable camera for the owning client
 	sprite.sprite_frames.set_animation_loop("top_swing", false) #+ swings must play once
 	sprite.sprite_frames.set_animation_loop("bottom_swing", false) #+

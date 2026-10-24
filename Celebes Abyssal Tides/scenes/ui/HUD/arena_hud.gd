@@ -7,7 +7,6 @@ extends Control
 
 @onready var nomads_score: Label = $ScoreboardNode/NomadsContainer/TeamScoreLabel #+ SCORE
 @onready var monsters_score: Label = $ScoreboardNode/MonstersContainer/TeamScoreLabel #+ SCORE
-const TEAM_COLORS = {0: Color("56dce8"), 1: Color("a5e35f"), -1: Color.WHITE} #+ ALERT sea / garbage / neutral
 var alert_label: Label #+ ALERT pearl taken / dropped / captured banner
 var alert_tween: Tween #+ ALERT
 
@@ -34,7 +33,8 @@ func _make_alert_label(): #+ ALERT centred under the timer, hidden until somethi
 	alert_label.offset_left = -200 #+
 	alert_label.offset_right = 200 #+
 	alert_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER #+
-	alert_label.add_theme_font_size_override("font_size", 12) #+
+	alert_label.add_theme_font_override("font", GameManager.PIXEL_FONT) #+ monogram
+	alert_label.add_theme_font_size_override("font_size", 16) #+ monogram's native size, stays crisp
 	alert_label.add_theme_constant_override("outline_size", 4) #+
 	alert_label.add_theme_color_override("font_outline_color", Color.BLACK) #+
 	alert_label.mouse_filter = Control.MOUSE_FILTER_IGNORE #+
@@ -43,7 +43,7 @@ func _make_alert_label(): #+ ALERT centred under the timer, hidden until somethi
 
 func show_alert(text: String, team: int = -1): #+ ALERT pop in, hold, fade out
 	alert_label.text = text #+
-	alert_label.add_theme_color_override("font_color", TEAM_COLORS.get(team, Color.WHITE)) #+
+	alert_label.add_theme_color_override("font_color", GameManager.TEAM_COLORS.get(team, Color.WHITE)) #+
 	if alert_tween: #+
 		alert_tween.kill() #+ a new message replaces the old one
 	alert_label.modulate.a = 1.0 #+
@@ -70,6 +70,8 @@ func show_character_icon(character_id: int): #+ ICON same face crop as character
 func set_player(player): #+ called by MY player only (player.gd _ready checks authority)
 	show_character_icon(CharacterSelectManager.play_as(player.character)) #+ ICON stand-in's face while art is missing
 	player_name_label.text = LobbyManager.get_player_name(player.get_multiplayer_authority()) #+ NAME the username from settings
+	player_name_label.label_settings = player_name_label.label_settings.duplicate() #+ NAME own copy so the tint doesn't touch the shared resource
+	player_name_label.label_settings.font_color = GameManager.TEAM_COLORS.get(player.team, Color.WHITE) #+ NAME teal / green by team
 	player.health.health_changed.connect(_on_health_changed) #+ update the bar every time my HP changes
 	_on_health_changed(player.health.current_health, player.health.max_health) #+ show full HP right away
 

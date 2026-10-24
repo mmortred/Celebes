@@ -2,16 +2,11 @@ extends Node2D
 ## A team's scoring well. Walk in carrying the pearl to score (server checks).
 ## Each well belongs to a phase: "early" wells count for the first 5 minutes,
 ## "late" wells after the 5-minute mark (the arena switches them).
-## Art: WellNomad / WellMonster sheets, 64x128 frames in rows of 5.
+## Art: each well scene's AnimatedSprite2D has "well_normal_state" (idle) and
+## "pearl_point" (plays once on a capture).
 
-const FRAME := Vector2i(64, 128)
-const SHEETS := {
-	0: {"texture": preload("res://Celebes Abyssal Tides/assets/tf_atlantis/WellNomad.png"), "frames": 20, "idle": 12},
-	1: {"texture": preload("res://Celebes Abyssal Tides/assets/tf_atlantis/WellMonster.png"), "frames": 22, "idle": 21},
-}
-
-@export var team := 0 # 0 = Sea Nomads, 1 = Garbage Monsters
-@export var late := false # true = only scores after the 5-minute mark
+@export_enum("Sea Nomads", "Garbage Monsters") var team := 0 # GarbageMonsterDrop.tscn already sets Garbage Monsters, don't override it per instance
+@export var late := false # true = only scores after the 5-minute mark (inner wells)
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var score_area: Area2D = $ScoreArea
@@ -23,32 +18,10 @@ var active := true
 func _ready() -> void:
 	add_to_group("wells")
 	sprite.show_behind_parent = true # so the padlock (_draw) shows on top of the well
-	sprite.sprite_frames = _build_frames()
-	sprite.play("idle")
-	sprite.animation_finished.connect(func(): sprite.play("idle"))
+	sprite.play("well_normal_state")
+	sprite.animation_finished.connect(func(): sprite.play("well_normal_state"))
 	score_area.body_entered.connect(_on_body_entered)
 	set_active(not late)
-
-
-func _build_frames() -> SpriteFrames:
-	var sheet: Dictionary = SHEETS[team]
-	var frames := SpriteFrames.new()
-	frames.remove_animation("default")
-	frames.add_animation("idle")
-	frames.add_frame("idle", _cell(sheet.texture, sheet.idle))
-	frames.add_animation("capture")
-	frames.set_animation_loop("capture", false)
-	frames.set_animation_speed("capture", 12.0)
-	for i in sheet.frames:
-		frames.add_frame("capture", _cell(sheet.texture, i))
-	return frames
-
-
-func _cell(texture: Texture2D, index: int) -> AtlasTexture:
-	var atlas := AtlasTexture.new()
-	atlas.atlas = texture
-	atlas.region = Rect2(Vector2((index % 5) * FRAME.x, (index / 5) * FRAME.y), Vector2(FRAME))
-	return atlas
 
 
 # Locked wells (inner ones before 5:00, outer ones after) are solid so nobody can
@@ -71,7 +44,7 @@ func _draw() -> void:
 
 
 func play_capture() -> void:
-	sprite.play("capture")
+	sprite.play("pearl_point")
 
 
 func _on_body_entered(body) -> void:
