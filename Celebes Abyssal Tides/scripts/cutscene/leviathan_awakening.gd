@@ -5,13 +5,18 @@ extends CanvasLayer
 ## goes on from each player's own camera.
 ## The arena adds one of these on every peer at the same moment (sudden death rpc),
 ## so it needs no networking of its own.
+##
+## The timing lives in $AnimationPlayer ("awakening", 7s), open it in the editor to see or change it:
+##   0.0  the arena rumbles (camera_shake), players can still move
+##   2.0  everyone stops, fade to black
+##   2.4  the eye shows behind shut lids, they slowly open (lid 1 -> 0)
+##   3.4  the eye glows, 4.6 leans in and glares, trembling (eye_shake)
+##   6.1  the lids narrow shut
+##   6.6  still black: everyone respawns on their side, back to the arena by 7.0
 
 signal finished
 
-@export var shake_time := 2.0 # arena shake before the players stop
-@export var shake_strength := 6.0 # px the camera jumps around while shaking
-@export var eye_time := 5.0 # the eye part, from fade-in to fade-out
-
+@onready var anim: AnimationPlayer = $AnimationPlayer
 @onready var root: Control = $Root
 @onready var eye: TextureRect = $Root/Eye
 @onready var top_lid: TextureRect = $Root/TopLid
@@ -20,10 +25,13 @@ signal finished
 
 const LID_FEATHER = 0.15 # bottom part of each lid that fades out, the lids overlap by this when shut
 
-var camera: Camera2D # my player's (or the spectator's) camera
-var camera_offset := Vector2.ZERO # its offset before the shake, put back afterwards
+# animated by "awakening"
 var camera_shake := 0.0 # current arena shake, px
 var eye_shake := 0.0 # current eye tremble, px
+var lid := 1.0: set = set_lid # 1 = the lids meet in the middle, 0 = both off screen
+
+var camera: Camera2D # my player's (or the spectator's) camera
+var camera_offset := Vector2.ZERO # its offset before the shake, put back afterwards
 
 
 func _ready() -> void:
@@ -35,7 +43,8 @@ func _ready() -> void:
 	if camera:
 		camera_offset = camera.offset
 	GameManager.match_paused = true # sudden death timer and border wait for the whole cutscene
-	play()
+	anim.animation_finished.connect(_on_animation_finished)
+	anim.play("awakening")
 
 
 func _process(_delta: float) -> void:
@@ -44,50 +53,18 @@ func _process(_delta: float) -> void:
 	eye.position = Vector2(randf_range(-1, 1), randf_range(-1, 1)) * eye_shake
 
 
-func play() -> void:
-	# 1. the arena rumbles, players can still move
-	var rumble := create_tween()
-	rumble.tween_property(self, "camera_shake", shake_strength, 0.3)
-	rumble.tween_interval(shake_time - 0.6)
-	rumble.tween_property(self, "camera_shake", 0.0, 0.3)
-	await rumble.finished
-
-	# 2. everyone stops, the eye takes the screen
-	set_players_frozen(true)
-	# every step below says when it starts and how long it lasts, in seconds out of 5
-	var s := eye_time / 5.0 # keeps the steps in proportion if eye_time changes
-	var t := create_tween().set_parallel(true)
-	t.tween_property(curtain, "modulate:a", 1.0, 0.4 * s).from(0.0) # 0.0 fade to black
-	t.tween_callback(swap_to_eye.bind(true)).set_delay(0.4 * s) # lids are shut, so the screen stays black
-	t.tween_method(set_lid, 1.0, 0.0, 1.0 * s).set_delay(0.4 * s).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_SINE) # 0.4 slowly opens
-	t.tween_property(eye, "scale", Vector2.ONE * 1.08, 2.2 * s).set_delay(0.4 * s) # 0.4 creeping zoom
-	t.tween_property(eye, "modulate", Color(1.35, 1.2, 1.1), 0.6 * s).set_delay(1.4 * s) # 1.4 the eye glows
-	t.tween_property(eye, "modulate", Color.WHITE, 0.6 * s).set_delay(2.0 * s)
-	t.tween_property(eye, "scale", Vector2.ONE * 1.22, 1.5 * s).set_delay(2.6 * s).set_ease(Tween.EASE_IN) # 2.6 leans in and glares
-	t.tween_property(eye, "modulate", Color(1.5, 1.25, 1.1), 1.5 * s).set_delay(2.6 * s)
-	t.tween_property(self, "eye_shake", 3.0, 1.5 * s).set_delay(2.6 * s)
-	t.tween_method(set_lid, 0.0, 1.0, 0.5 * s).set_delay(4.1 * s).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_SINE) # 4.1 narrows shut
-	t.tween_property(self, "eye_shake", 0.0, 0.5 * s).set_delay(4.1 * s)
-	t.tween_callback(send_players_home).set_delay(4.6 * s) # 4.6 still black: everyone to their side
-	t.tween_callback(swap_to_eye.bind(false)).set_delay(4.6 * s) # 4.6 back to the arena, done at 5.0
-	t.tween_property(curtain, "modulate:a", 0.0, 0.4 * s).from(1.0).set_delay(4.6 * s)
-	await t.finished
-
-	# 3. back to playing, each camera is still on its own player
+# back to playing, each camera is still on its own player
+func _on_animation_finished(_anim_name: StringName) -> void:
 	set_players_frozen(false)
 	GameManager.match_paused = false
 	finished.emit()
 	queue_free()
 
 
-# Swaps the black curtain for the eye (true) or back (false) while the screen is black.
-func swap_to_eye(value: bool) -> void:
-	root.visible = value
-	curtain.modulate.a = 0.0 if value else 1.0
-
-
-# Moves both eyelids: 1 = they meet in the middle, 0 = both off screen.
 func set_lid(value: float) -> void:
+	lid = value
+	if not is_node_ready():
+		return
 	var middle := root.size.y / 2.0
 	var overlap := top_lid.size.y * LID_FEATHER
 	top_lid.position.y = lerpf(-top_lid.size.y, middle + overlap - top_lid.size.y, value)

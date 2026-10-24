@@ -1,27 +1,27 @@
-[gd_scene format=3 uid="uid://527a8y3ulahb"]
+[gd_scene format=3]
 
-[ext_resource type="Script" uid="uid://r14k1lb4h6jj" path="res://Celebes Abyssal Tides/scripts/cutscene/intro.gd" id="1_intro"]
-[ext_resource type="Script" uid="uid://kwj8in1xtm6s" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_fish.gd" id="2_fish"]
-[ext_resource type="Script" uid="uid://dcvov3bvw1o0i" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_seaweed.gd" id="3_weed"]
-[ext_resource type="Shader" uid="uid://7vvo6am1w2gg" path="res://Celebes Abyssal Tides/scenes/CutScene/IntroScene/sway.gdshader" id="4_sway"]
-[ext_resource type="Shader" uid="uid://crt6ff4landhb" path="res://Celebes Abyssal Tides/scenes/CutScene/IntroScene/light_rays.gdshader" id="5_rays"]
-[ext_resource type="Shader" uid="uid://b3ssdl33tb0d6" path="res://Celebes Abyssal Tides/scenes/glow_shader.gdshader" id="6_glow"]
-[ext_resource type="Script" uid="uid://dph5nb28pwlnb" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_trash.gd" id="7_trash"]
-[ext_resource type="Shader" uid="uid://ckue87sso773h" path="res://Celebes Abyssal Tides/scenes/CutScene/IntroScene/pollution_wave.gdshader" id="8_wave"]
-[ext_resource type="Shader" uid="uid://ctrafdtdhxm5n" path="res://Celebes Abyssal Tides/scenes/CutScene/IntroScene/surface_waves.gdshader" id="9_surf"]
-[ext_resource type="Texture2D" uid="uid://46k1sy0llpyh" path="res://Celebes Abyssal Tides/assets/ui/celebes_logo.png" id="11_logo"]
-[ext_resource type="FontFile" uid="uid://xlnojau3gqwv" path="res://Celebes Abyssal Tides/assets/fonts/PixelifySans-VariableFont_wght.ttf" id="12_font"]
-[ext_resource type="Script" uid="uid://bewx2n8o7rnml" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_serpent.gd" id="13_serpent"]
-[ext_resource type="Texture2D" uid="uid://bdkle0urapj74" path="res://Celebes Abyssal Tides/assets/cutscene/water_tile.png" id="14_water"]
-[ext_resource type="Shader" uid="uid://cgdnj3exbkfhx" path="res://Celebes Abyssal Tides/scenes/CutScene/IntroScene/water_texture.gdshader" id="15_watertex"]
-[ext_resource type="Shader" uid="uid://cxw5lknijqjgt" path="res://Celebes Abyssal Tides/scenes/CutScene/IntroScene/sky_pixel.gdshader" id="16_sky"]
-[ext_resource type="Shader" uid="uid://dqyfs1w8j50yf" path="res://Celebes Abyssal Tides/scenes/CutScene/IntroScene/sea_surface.gdshader" id="17_sea"]
-[ext_resource type="Shader" uid="uid://282citgcfjt2" path="res://Celebes Abyssal Tides/scenes/CutScene/IntroScene/speed_lines.gdshader" id="18_lines"]
-[ext_resource type="Script" uid="uid://bbsyex2enn65u" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_mountains.gd" id="19_mountains"]
-[ext_resource type="Script" uid="uid://dgmg14cp6efvc" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_clouds.gd" id="20_clouds"]
-[ext_resource type="Texture2D" uid="uid://c7t478jxbppfp" path="res://Celebes Abyssal Tides/assets/Lobby/NSTW Logo 64px.png" id="21_aput2"]
-[ext_resource type="Script" uid="uid://c6fr3vrkq02ab" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_stars.gd" id="21_stars"]
-[ext_resource type="Script" uid="uid://pdvolq11x3a0" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_coral.gd" id="22_coral"]
+[ext_resource type="Script" path="res://Celebes Abyssal Tides/scripts/cutscene/intro.gd" id="1_intro"]
+[ext_resource type="Script" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_fish.gd" id="2_fish"]
+[ext_resource type="Script" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_seaweed.gd" id="3_weed"]
+[ext_resource type="Shader" path="res://Celebes Abyssal Tides/scenes/CutScene/IntroScene/sway.gdshader" id="4_sway"]
+[ext_resource type="Shader" path="res://Celebes Abyssal Tides/scenes/CutScene/IntroScene/light_rays.gdshader" id="5_rays"]
+[ext_resource type="Shader" path="res://Celebes Abyssal Tides/scenes/glow_shader.gdshader" id="6_glow"]
+[ext_resource type="Script" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_trash.gd" id="7_trash"]
+[ext_resource type="Shader" path="res://Celebes Abyssal Tides/scenes/CutScene/IntroScene/pollution_wave.gdshader" id="8_wave"]
+[ext_resource type="Shader" path="res://Celebes Abyssal Tides/scenes/CutScene/IntroScene/surface_waves.gdshader" id="9_surf"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/ui/celebes_logo.png" id="11_logo"]
+[ext_resource type="FontFile" path="res://Celebes Abyssal Tides/assets/fonts/PixelifySans-VariableFont_wght.ttf" id="12_font"]
+[ext_resource type="Script" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_serpent.gd" id="13_serpent"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/water_tile.png" id="14_water"]
+[ext_resource type="Shader" path="res://Celebes Abyssal Tides/scenes/CutScene/IntroScene/water_texture.gdshader" id="15_watertex"]
+[ext_resource type="Shader" path="res://Celebes Abyssal Tides/scenes/CutScene/IntroScene/sky_pixel.gdshader" id="16_sky"]
+[ext_resource type="Shader" path="res://Celebes Abyssal Tides/scenes/CutScene/IntroScene/sea_surface.gdshader" id="17_sea"]
+[ext_resource type="Shader" path="res://Celebes Abyssal Tides/scenes/CutScene/IntroScene/speed_lines.gdshader" id="18_lines"]
+[ext_resource type="Script" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_mountains.gd" id="19_mountains"]
+[ext_resource type="Script" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_clouds.gd" id="20_clouds"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/Lobby/NSTW Logo 64px.png" id="21_aput2"]
+[ext_resource type="Script" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_stars.gd" id="21_stars"]
+[ext_resource type="Script" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_coral.gd" id="22_coral"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sea"]
 shader = ExtResource("17_sea")
@@ -138,6 +138,261 @@ shader_parameter/line_color = Color(1, 1, 1, 0.55)
 shader_parameter/pixel_grid = Vector2(320, 180)
 shader_parameter/count = 72.0
 shader_parameter/flicker = 14.0
+
+[sub_resource type="Animation" id="Animation_pdm73"]
+length = 1.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Title/PressStart:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6, 1.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [1.0, 0.2, 1.0]
+}
+
+[sub_resource type="Animation" id="Animation_x5qjb"]
+length = 17.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camera2D:zoom")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2, 4.4, 10, 12.8, 13.85, 17),
+"transitions": PackedFloat32Array(-2, -2, 1, 0.5, 1, -2, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.2, 1.2), Vector2(1, 1), Vector2(1, 1), Vector2(0.6, 0.6), Vector2(0.6, 0.6), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Camera2D:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 10, 17),
+"transitions": PackedFloat32Array(1, -2, 1),
+"update": 0,
+"values": [180.0, 180.0, -1080.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Pollution:material:shader_parameter/progress")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 2, 10, 17),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.18, 0.18, 0.8, 1.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Murk:color")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 2, 10, 14.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(0.85, 0.86, 0.7, 1), Color(1, 1, 1, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("SeaweedBack:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 2, 10),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0.75, 0.8, 0.85, 1), Color(0.75, 0.8, 0.85, 1), Color(0.525, 0.45000002, 0.285, 1)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("SeaweedFront:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 2, 10),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(0.7, 0.6, 0.38, 1)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Corals:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 2, 10),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(0.72, 0.68, 0.68, 1)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("LightRays:modulate:a")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 2, 10),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [1.0, 1.0, 0.25]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("SpeedLines/Lines:material:shader_parameter/intensity")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 10.7, 12.1, 14.9, 16.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 1.0, 1.0, 0.0]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath(".:polluting")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("Grime:emitting")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("Bubbles:emitting")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0, 6.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/12/type = "method"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath(".")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(3.6, 5.2, 10),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": [NodePath("FarFish"), 90.0],
+"method": &"_flee"
+}, {
+"args": [NodePath("School"), 140.0],
+"method": &"_flee"
+}, {
+"args": [&"pollution_finished"],
+"method": &"emit_signal"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_7e7t7"]
+length = 2.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Title/Logo:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Title/PressStart:modulate:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.5, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 1.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Title/Credit:modulate:a")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 2, 2.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 1.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Title/NstwLogo:modulate:a")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 2, 2.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 1.0]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Surface/Leviathan/Serpent")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"swim_past"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7yk0f"]
+_data = {
+&"blink": SubResource("Animation_pdm73"),
+&"intro": SubResource("Animation_x5qjb"),
+&"title": SubResource("Animation_7e7t7")
+}
 
 [node name="Intro" type="Node2D" unique_id=68001311]
 script = ExtResource("1_intro")
@@ -809,11 +1064,11 @@ texture = ExtResource("11_logo")
 offset_top = 250.0
 offset_right = 640.0
 offset_bottom = 280.0
+theme_override_fonts/font = ExtResource("12_font")
+theme_override_font_sizes/font_size = 20
 theme_override_colors/font_color = Color(0.45, 1, 0.55, 1)
 theme_override_colors/font_outline_color = Color(0.02, 0.1, 0.08, 1)
 theme_override_constants/outline_size = 4
-theme_override_fonts/font = ExtResource("12_font")
-theme_override_font_sizes/font_size = 20
 text = "PRESS START"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -833,11 +1088,11 @@ stretch_mode = 5
 offset_top = 282.0
 offset_right = 640.0
 offset_bottom = 298.0
+theme_override_fonts/font = ExtResource("12_font")
+theme_override_font_sizes/font_size = 12
 theme_override_colors/font_color = Color(0.77, 0.93, 0.95, 1)
 theme_override_colors/font_outline_color = Color(0.02, 0.1, 0.08, 1)
 theme_override_constants/outline_size = 3
-theme_override_fonts/font = ExtResource("12_font")
-theme_override_font_sizes/font_size = 12
 text = "Made by maKate Studios"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -850,3 +1105,6 @@ material = SubResource("ShaderMaterial_lines")
 offset_right = 640.0
 offset_bottom = 360.0
 mouse_filter = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=158505777]
+libraries/ = SubResource("AnimationLibrary_7yk0f")
