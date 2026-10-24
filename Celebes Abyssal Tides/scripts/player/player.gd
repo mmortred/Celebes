@@ -80,6 +80,7 @@ func _ready():
 	health.knocked_out.connect(_on_knocked_out) #+ react when HP hits 0
 	sprite.play(anim_name) #+
 	pearl_indicator.visible = has_pearl #+ PEARL hidden at spawn even if left visible in the editor
+	_add_feet_shadow() #+ SHADOW
 	if is_multiplayer_authority(): #+ only MY player connects to MY screen's HUD
 		var hud = get_tree().get_first_node_in_group("hud") #+
 		if hud: #+
@@ -173,6 +174,29 @@ func _physics_process(delta):
 	move_and_slide()
 
 	update_animation() #+
+
+##Shadow #+
+# Soft dark oval right under the feet, sized to the feet collision so it fits each character. #+
+func _add_feet_shadow(): #+ SHADOW
+	var gradient = Gradient.new() #+
+	gradient.set_color(0, Color(0, 0, 0, 0.6)) #+ dark in the middle
+	gradient.set_color(1, Color(0, 0, 0, 0)) #+ fades out at the edge
+	var texture = GradientTexture2D.new() #+
+	texture.gradient = gradient #+
+	texture.fill = GradientTexture2D.FILL_RADIAL #+
+	texture.fill_from = Vector2(0.5, 0.5) #+
+	texture.fill_to = Vector2(1.0, 0.5) #+
+	var feet = $CollisionShape2D #+ the feet oval (rotated capsule): its length is the feet width
+	var width = 26.0 #+
+	if feet.shape is CapsuleShape2D: #+
+		width = feet.shape.height + 6.0 #+
+	var shadow = Sprite2D.new() #+
+	shadow.name = "FeetShadow" #+
+	shadow.texture = texture #+
+	shadow.position = Vector2(0, feet.position.y + 4.0) #+ at the bottom of the feet
+	shadow.scale = Vector2(width, 10.0) / 64.0 #+ GradientTexture2D is 64x64
+	add_child(shadow) #+
+	move_child(shadow, 0) #+ first child = drawn under the sprite
 
 ##Movement
 func move_player():
@@ -282,6 +306,7 @@ func _on_knocked_out(): #+ runs on every peer, because take_damage runs on every
 	is_dashing = false #+
 	velocity = Vector2.ZERO #+
 	label.visible = false #+
+	$FeetShadow.visible = false #+ SHADOW
 	if hit_tween: #+
 		hit_tween.kill() #+ don't let the red flash fight the fade
 	sprite.self_modulate = Color.WHITE #+
@@ -315,6 +340,7 @@ func respawn(spawn_position: Vector2): #+
 	health.reset_full() #+
 	sprite.self_modulate = Color.WHITE #+ visible again
 	label.visible = true #+
+	$FeetShadow.visible = true #+ SHADOW
 	slow_timer = 0.0 #+ SLOW don't come back slowed from a hit taken before dying
 	is_dead = false #+
 

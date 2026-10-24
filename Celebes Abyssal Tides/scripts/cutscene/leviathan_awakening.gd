@@ -1,9 +1,9 @@
 extends CanvasLayer
-## Sudden death cutscene: the leviathan wakes up.
+## Leviathan rising cutscene: the leviathan wakes up.
 ## The arena shakes, every player stops, then the serpent's eye fills the screen,
 ## opens, glares, closes (one slow blink), everyone respawns on their own side, and play
 ## goes on from each player's own camera.
-## The arena adds one of these on every peer at the same moment (sudden death rpc),
+## The arena adds one of these on every peer at the same moment (leviathan rising rpc),
 ## so it needs no networking of its own.
 ##
 ## The timing lives in $AnimationPlayer ("awakening", 7s), open it in the editor to see or change it:
@@ -42,7 +42,7 @@ func _ready() -> void:
 	camera = get_viewport().get_camera_2d()
 	if camera:
 		camera_offset = camera.offset
-	GameManager.match_paused = true # sudden death timer and border wait for the whole cutscene
+	GameManager.match_paused = true # leviathan rising timer and border wait for the whole cutscene
 	anim.animation_finished.connect(_on_animation_finished)
 	anim.play("awakening")
 

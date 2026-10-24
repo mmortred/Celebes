@@ -260,6 +260,13 @@ func back_to_lobby() -> void:
 
 const LOBBY_SCENE := "res://Celebes Abyssal Tides/scenes/ui/lobby/PvPLobby.tscn"
 
+# Winner screen: whoever presses a key goes back to the lobby on their own,
+# keeping their slot, while the others can keep looking at the result.
+func leave_match_to_lobby() -> void:
+	ScoreboardManager._clear_local() # match over: records gone, state back to MENU
+	GameManager.set_state(GameManager.MatchState.LOBBY)
+	back_to_lobby()
+
 
 @rpc("authority", "call_local", "reliable")
 func enter_arena() -> void:

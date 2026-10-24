@@ -8,7 +8,7 @@ extends Node2D
 
 @export var start_radius := 2000.0 # covers the whole arena, corners included
 @export var end_radius := 1300.0 # the final circle; the outer wells end up outside it
-@export var shrink_time := 60.0 # seconds to go from start to end
+@export var shrink_time := 30.0 # seconds to go from start to end
 @export var color := Color(1.8, 0.22, 0.18) # above 1 so it stays red under the arena's blue CanvasModulate
 @export var warn_distance := 220.0 # my screen starts going red this far from the edge
 
@@ -31,7 +31,7 @@ func _ready() -> void:
 	_make_vignette()
 
 
-# Called on every peer at the same moment (GameManager's sudden death rpc).
+# Called on every peer at the same moment (GameManager's leviathan rising rpc).
 func start() -> void:
 	active = true
 	elapsed = 0.0

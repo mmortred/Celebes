@@ -22,8 +22,9 @@ func _ready() -> void:
 	print("Arena loaded!")
 	# every peer builds spawned players the same way from the host's spawn data
 	spawner.spawn_function = _build_player
-	# GameManager announces the 5-minute mark (sudden death) on every peer
-	GameManager.sudden_death_started.connect(enter_late_phase)
+	# GameManager announces the 5-minute mark (leviathan rising) on every peer
+	GameManager.leviathan_rising_started.connect(enter_late_phase)
+	GameManager.match_won.connect(_on_match_won) # winner screen: freeze and frame everyone
 	var scoreboard := CanvasLayer.new()
 	scoreboard.set_script(preload("res://Celebes Abyssal Tides/scripts/ui/scoreboard_overlay.gd"))
 	add_child(scoreboard)
@@ -93,8 +94,36 @@ func enter_late_phase() -> void:
 	var border := find_child("ArenaBorder")
 	if border:
 		border.start()
-	GameManager.announcement.emit("5 MINUTES! New wells - the border is closing in!", -1)
+	GameManager.announcement.emit("LEVIATHAN RISING! New wells - the border is closing in!", -1)
 	add_child(LEVIATHAN_AWAKENING.instantiate()) # shake, freeze everyone, the serpent's eye, then play on
+
+
+# Match decided (every peer): everyone stops where they are and the view glides to the
+# middle of all the players, zoomed so they all fit. The HUD draws the winner on top.
+func _on_match_won(_winner: int, _reason: String) -> void:
+	var players := get_tree().get_nodes_in_group("players")
+	for player in players:
+		player.cutscene_frozen = true
+	var current := get_viewport().get_camera_2d()
+	var camera := Camera2D.new()
+	camera.name = "WinnerCamera"
+	add_child(camera)
+	if current:
+		camera.global_position = current.get_screen_center_position()
+		camera.zoom = current.zoom
+	camera.make_current()
+	var area := Rect2(get_arena_bounds().get_center(), Vector2.ZERO) # nobody left: the arena's middle
+	for i in players.size():
+		var body: Vector2 = players[i].global_position + Vector2(0, -32) # middle of the body
+		area = Rect2(body, Vector2.ZERO) if i == 0 else area.expand(body)
+	area = area.grow(120.0) # room around them
+	# players fill the top half of the screen; the HUD puts the result in the bottom half
+	var view := get_viewport_rect().size
+	var zoom := clampf(minf(view.x / area.size.x, view.y * 0.5 / area.size.y), 0.35, 2.0)
+	var target := area.get_center() + Vector2(0, view.y * 0.18 / zoom) # moves the players up on screen
+	var tween := create_tween().set_parallel().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(camera, "global_position", target, 1.8)
+	tween.tween_property(camera, "zoom", Vector2.ONE * zoom, 1.8)
 
 
 # Where a dead player comes back: their team's side, inner spawns after 5 minutes.
