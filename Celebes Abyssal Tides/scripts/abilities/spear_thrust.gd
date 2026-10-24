@@ -8,4 +8,6 @@ func _init():
 	cooldown_time = 1.5
 
 func _execute(caster):
+	if is_instance_valid(caster) and caster is Node2D:
+		SFXManager.play_at("spear_thrust", caster.global_position)
 	print(caster.name, " used SPEAR THRUST")

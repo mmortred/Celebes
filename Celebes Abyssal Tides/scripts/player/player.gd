@@ -239,6 +239,7 @@ func start_swing(): #+
 	if is_swinging: #+
 		return #+
 	is_swinging = true #+
+	_play_attack_sound.rpc() #+ SFX
 	anim_frozen = false #+ swings always play, even when standing still
 	var swing_dir = get_swing_direction() #+ SWING snap facing to up/down/left/right
 	attack_range.position = body_center + swing_dir * attack_offset #+ SWING hitbox in front of you
@@ -296,6 +297,7 @@ func receive_hit(amount, attacker_name): #+
 	if multiplayer.multiplayer_peer != null and multiplayer.is_server() and was_alive:
 		ScoreboardManager.record_damage(str(name).to_int(), str(attacker_name).to_int())
 	health.take_damage(amount, attacker) #+
+	SFXManager.play_at("hurt_sea" if team == 0 else "hurt_garbage", global_position) #+ SFX
 	if multiplayer.multiplayer_peer != null and multiplayer.is_server() and was_alive and health.current_health <= 0.0:
 		ScoreboardManager.record_death(str(name).to_int(), str(attacker_name).to_int())
 	if not is_dead: #+ the killing hit starts the fade instead of a flash
@@ -358,6 +360,7 @@ func respawn(spawn_position: Vector2): #+
 	$FeetShadow.visible = true #+ SHADOW
 	slow_timer = 0.0 #+ SLOW don't come back slowed from a hit taken before dying
 	is_dead = false #+
+	SFXManager.play_at("respawn", global_position) #+ SFX
 
 
 ##Dash Logic
@@ -367,6 +370,7 @@ func start_dash():
 	dash_cooldown_timer = dash_cooldown
 	reveal_from_attack()
 	play_launch_fx.rpc(facing_direction) #+ LAUNCH show the effect on every screen
+	_play_dash_sound.rpc() #+ SFX
 	print("Dash started!")
 
 func dash_player(delta):
@@ -442,3 +446,12 @@ func reveal_from_attack():
 @rpc("any_peer", "call_local")
 func set_kelp_visibility(is_concealed: bool):
 	modulate.a = 0.2 if is_concealed else 1.0
+
+
+@rpc("authority", "call_local", "unreliable") #+ SFX my swing, heard on every screen
+func _play_attack_sound() -> void:
+	SFXManager.play_at("attack_sea" if team == 0 else "attack_garbage", global_position)
+
+@rpc("authority", "call_local", "unreliable") #+ SFX
+func _play_dash_sound() -> void:
+	SFXManager.play_at("dash", global_position)

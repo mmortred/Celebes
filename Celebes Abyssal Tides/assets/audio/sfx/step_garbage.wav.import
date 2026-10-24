@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://snleyfvovsmg"
+path="res://.godot/imported/step_garbage.wav-2f1e517bac1b9dd1aca3a5df858a44d0.sample"
+
+[deps]
+
+source_file="res://Celebes Abyssal Tides/assets/audio/sfx/step_garbage.wav"
+dest_files=["res://.godot/imported/step_garbage.wav-2f1e517bac1b9dd1aca3a5df858a44d0.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

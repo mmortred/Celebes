@@ -18,6 +18,8 @@ config/icon="uid://67fivlx11px4"
 
 [autoload]
 
+SFXManager="*res://Celebes Abyssal Tides/scripts/autoload/SFXManager.gd"
+
 PlayerProfile="*res://Celebes Abyssal Tides/scripts/autoload/PlayerProfile.gd"
 NetworkManager="*uid://c28ydyiqt5vhw"
 GameManager="*uid://b66bnmevg2nnn"

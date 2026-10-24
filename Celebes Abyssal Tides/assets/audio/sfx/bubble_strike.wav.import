@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://sem1kpux084j"
+path="res://.godot/imported/bubble_strike.wav-1f9015736ca2106351e4d81fb2c4da79.sample"
+
+[deps]
+
+source_file="res://Celebes Abyssal Tides/assets/audio/sfx/bubble_strike.wav"
+dest_files=["res://.godot/imported/bubble_strike.wav-1f9015736ca2106351e4d81fb2c4da79.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

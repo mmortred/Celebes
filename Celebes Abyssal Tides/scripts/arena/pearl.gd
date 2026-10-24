@@ -58,6 +58,7 @@ func collected(player_name):
 	var carrier = find_player(player_name)
 	if carrier:
 		carrier.set_has_pearl(true)
+		SFXManager.play_at("pearl_pickup", carrier.global_position)
 		last_carrier_position = carrier.global_position
 		GameManager.announcement.emit("%s took the pearl!" % carrier.label.text, carrier.team)
 
@@ -95,6 +96,7 @@ func captured(team: int, well_path: NodePath):
 	var well = get_node_or_null(well_path)
 	if well:
 		well.play_capture()
+		SFXManager.play_at("score", well.global_position)
 	GameManager.announcement.emit("%s CAPTURED THE PEARL!" % ("SEA NOMADS" if team == 0 else "GARBAGE MONSTERS"), team)
 
 

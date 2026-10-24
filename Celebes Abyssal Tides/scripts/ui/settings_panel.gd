@@ -144,6 +144,29 @@ func _ready() -> void:
 		LobbyAudio.set_music_volume(value / 100.0)
 		volume_value.text = "%d%%" % int(value)
 	)
+	page_audio.add_child(_label("GAMEPLAY SOUND EFFECTS", 16))
+	var sfx_row := HBoxContainer.new()
+	page_audio.add_child(sfx_row)
+	sfx_row.add_child(_label("SFX volume"))
+	var sfx_slider := HSlider.new()
+	sfx_slider.custom_minimum_size.x = 185
+	sfx_slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	sfx_slider.min_value = 0
+	sfx_slider.max_value = 100
+	sfx_slider.step = 1
+	sfx_slider.value = SFXManager.volume * 100.0
+	sfx_row.add_child(sfx_slider)
+	var sfx_value := _label("%d%%" % int(sfx_slider.value))
+	sfx_row.add_child(sfx_value)
+	sfx_slider.value_changed.connect(func(value: float) -> void:
+		SFXManager.set_sfx_volume(value / 100.0)
+		sfx_value.text = "%d%%" % int(value)
+	)
+	var test_sound := Button.new()
+	test_sound.text = "TEST SFX"
+	_style_button(test_sound)
+	test_sound.pressed.connect(func() -> void: SFXManager.play_ui("ui_click"))
+	page_audio.add_child(test_sound)
 	page_audio.add_child(_label("Changes are saved automatically.", 11))
 
 	page_profile = VBoxContainer.new()

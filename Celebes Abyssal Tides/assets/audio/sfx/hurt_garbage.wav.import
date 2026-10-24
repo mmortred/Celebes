@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dlf5d5xoja8lr"
+path="res://.godot/imported/hurt_garbage.wav-b5d5832bfe3a62b4b50599d6586e641c.sample"
+
+[deps]
+
+source_file="res://Celebes Abyssal Tides/assets/audio/sfx/hurt_garbage.wav"
+dest_files=["res://.godot/imported/hurt_garbage.wav-b5d5832bfe3a62b4b50599d6586e641c.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2
