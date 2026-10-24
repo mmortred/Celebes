@@ -2,18 +2,21 @@
 
 [resource]
 background_mode = 3
-ambient_light_source = 1
+background_canvas_max_layer = 1
+ambient_light_energy = 0.0
 tonemap_mode = 3
 ssr_fade_in = 0.046167903
 glow_enabled = true
 glow_normalized = true
-glow_intensity = 3.43
-glow_strength = 0.93
+glow_intensity = 1.52
+glow_strength = 0.96
 glow_mix = 0.0
-glow_bloom = 0.16
+glow_bloom = 0.43
 glow_blend_mode = 0
-volumetric_fog_enabled = true
+glow_hdr_threshold = 1.18
+glow_hdr_scale = 0.92
+glow_hdr_luminance_cap = 70.53
 adjustment_enabled = true
-adjustment_brightness = 0.93
-adjustment_contrast = 1.145
-adjustment_saturation = 1.85
+adjustment_brightness = 0.76
+adjustment_contrast = 1.095
+adjustment_saturation = 1.26

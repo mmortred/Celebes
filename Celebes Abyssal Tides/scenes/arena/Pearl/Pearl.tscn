@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://drpci78bgmsgy"]
+
+[ext_resource type="Script" uid="uid://dbttbwtceroky" path="res://Celebes Abyssal Tides/scripts/arena/pearl.gd" id="1_71n4g"]
+[ext_resource type="Texture2D" uid="uid://cg0bysupfxvxn" path="res://Celebes Abyssal Tides/assets/tf_atlantis/32bit/NormalAssets.png" id="2_4r6j5"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ylcck"]
+radius = 32.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kef68"]
+atlas = ExtResource("2_4r6j5")
+region = Rect2(230, 422, 20, 20)
+
+[node name="Pearl" type="Node2D" unique_id=1702686417]
+script = ExtResource("1_71n4g")
+
+[node name="CollectArea" type="Area2D" parent="." unique_id=170324139]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollectArea" unique_id=848175438]
+shape = SubResource("CircleShape2D_ylcck")
+debug_color = Color(1, 0.60038817, 0.70000815, 0.42000002)
+
+[node name="PearlSprite" type="Sprite2D" parent="." unique_id=709353693]
+texture_filter = 1
+scale = Vector2(1.5, 1.5)
+texture = SubResource("AtlasTexture_kef68")

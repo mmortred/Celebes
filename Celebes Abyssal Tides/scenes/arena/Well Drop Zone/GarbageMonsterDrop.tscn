@@ -1,0 +1,188 @@
+[gd_scene format=3 uid="uid://bpcspsdq4x55f"]
+
+[ext_resource type="PackedScene" uid="uid://f7rrad6ys273" path="res://Celebes Abyssal Tides/scenes/arena/Well Drop Zone/SeaNomadDrop.tscn" id="1_1lbxw"]
+[ext_resource type="Texture2D" uid="uid://cmbtd5m1dh6qs" path="res://Celebes Abyssal Tides/assets/tf_atlantis/WellMonster.png" id="2_07ht4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_07ht4"]
+atlas = ExtResource("2_07ht4")
+region = Rect2(64, 512, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1378o"]
+atlas = ExtResource("2_07ht4")
+region = Rect2(0, 0, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i2ljo"]
+atlas = ExtResource("2_07ht4")
+region = Rect2(64, 0, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v37nf"]
+atlas = ExtResource("2_07ht4")
+region = Rect2(128, 0, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t3uph"]
+atlas = ExtResource("2_07ht4")
+region = Rect2(192, 0, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2yog0"]
+atlas = ExtResource("2_07ht4")
+region = Rect2(256, 0, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wgvd8"]
+atlas = ExtResource("2_07ht4")
+region = Rect2(0, 128, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_307hu"]
+atlas = ExtResource("2_07ht4")
+region = Rect2(64, 128, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8d8tp"]
+atlas = ExtResource("2_07ht4")
+region = Rect2(128, 128, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_es7eq"]
+atlas = ExtResource("2_07ht4")
+region = Rect2(192, 128, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r58wg"]
+atlas = ExtResource("2_07ht4")
+region = Rect2(256, 128, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dj4rk"]
+atlas = ExtResource("2_07ht4")
+region = Rect2(0, 256, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lodou"]
+atlas = ExtResource("2_07ht4")
+region = Rect2(64, 256, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ahe3"]
+atlas = ExtResource("2_07ht4")
+region = Rect2(128, 256, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ngmae"]
+atlas = ExtResource("2_07ht4")
+region = Rect2(192, 256, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7ljum"]
+atlas = ExtResource("2_07ht4")
+region = Rect2(256, 256, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rfjkx"]
+atlas = ExtResource("2_07ht4")
+region = Rect2(0, 384, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lxgeh"]
+atlas = ExtResource("2_07ht4")
+region = Rect2(64, 384, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2kf23"]
+atlas = ExtResource("2_07ht4")
+region = Rect2(128, 384, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m34bw"]
+atlas = ExtResource("2_07ht4")
+region = Rect2(192, 384, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gymfu"]
+atlas = ExtResource("2_07ht4")
+region = Rect2(256, 384, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7qk7t"]
+atlas = ExtResource("2_07ht4")
+region = Rect2(0, 512, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v7jtv"]
+atlas = ExtResource("2_07ht4")
+region = Rect2(64, 512, 64, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lqdgw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_07ht4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1378o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i2ljo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v37nf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t3uph")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2yog0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wgvd8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_307hu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8d8tp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_es7eq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r58wg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dj4rk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lodou")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ahe3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ngmae")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7ljum")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rfjkx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lxgeh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2kf23")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m34bw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gymfu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7qk7t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v7jtv")
+}],
+"loop": 0,
+"name": &"pearl_point",
+"speed": 9.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v7jtv")
+}],
+"loop": 1,
+"name": &"well_normal_state",
+"speed": 6.0
+}]
+
+[node name="Well" unique_id=1979348771 instance=ExtResource("1_1lbxw")]
+team = 1
+
+[node name="AnimatedSprite2D" parent="." index="0" unique_id=1166213558]
+sprite_frames = SubResource("SpriteFrames_lqdgw")
+frame_progress = 0.0

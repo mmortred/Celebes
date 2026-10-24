@@ -1,0 +1,3 @@
+# Godot writes LF line endings, keep them LF in the checkout too so files the
+# editor saves do not show as modified (overrides a global core.autocrlf=true)
+* text=auto eol=lf

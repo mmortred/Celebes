@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 ##Public 
 @export_category("Stats")
-@export var move_speed = 200.0
+@export var move_speed = 170.0
 @export var dash_speed = 700.0
 @export var dash_duration = 0.15
 @export var dash_cooldown = 2.0
@@ -12,6 +12,8 @@ extends CharacterBody2D
 @export var attack_offset = 24.0 #+ how far in front of the player the hitbox sits
 @export var body_center = Vector2(0, -32) #+ SWING middle of the body, the hitbox is placed around this
 @export var respawn_time = 3.0 #+ seconds dead before respawning
+@export var hit_slow_percent = 0.10 #+ SLOW getting hit cuts walk speed by this much
+@export var hit_slow_duration = 0.5 #+ SLOW seconds the slow lasts, another hit restarts it
 
 ##Private
 @onready var camera = $Camera2D
@@ -22,6 +24,8 @@ extends CharacterBody2D
 @onready var attack_range: Area2D = $AttackRange #+
 @onready var health = $HealthComponent #+
 @onready var death_dust = get_node_or_null("DeathDust") #+ optional particles, null if you didn't add it
+@onready var pearl_indicator: Sprite2D = $PearlIndicator #+ PEARL icon above the head
+@onready var launch_fx = $LaunchFX #+ LAUNCH dash effect, code lives in launch_fx.gd
 
 
 #kelp stuff
@@ -35,14 +39,21 @@ var facing_direction = Vector2.DOWN
 var is_dashing = false
 var dash_timer = 0.0
 var dash_cooldown_timer = 0.0
+var slow_timer = 0.0 #+ SLOW time left on the hit slow
 
 #animatioon stuff so others can see the animation
 @export var anim_name = "walk_down" #+ NEW exported so it shows in the synchronizer picker
-@export var anim_flip = false #+ NEW exported
 @export var anim_frozen = true #+ NEW exported. true = standing still, hold the current frame
 var is_swinging = false #+
 var hit_tween = null #+ so rapid hits restart the flash instead of stacking
 var is_dead = false #+
+var has_pearl = false #+ PEARL set on every peer by the pearl's collected() rpc
+var cutscene_frozen = false #+ CUTSCENE set by the leviathan awakening, stand still until it ends
+@export var net_position = Vector2.ZERO #+ SMOOTH owner's real position; synced instead of position so others can glide to it
+const SMOOTHING = 18.0 #+ SMOOTH higher = catches up faster
+const SNAP_DISTANCE = 200.0 #+ SMOOTH further than this = teleport, don't glide
+var team = 0 #+ SPAWN 0 = Sea Nomads (left spawns), 1 = Garbage Monsters (right). set by the arena when spawning
+var character = -1 #+ ICON character id picked in character select (0 Bugis, 5 Toxic Sludge). set by the arena when spawning
 
 func _enter_tree():
 	var id = str(name).to_int() #+
@@ -53,7 +64,13 @@ func _enter_tree():
 
 func _ready():
 	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING #+ NEW top-down: no "floor", so you can't ride other players
-	label.text = "Player " + str(name)          # testing player ids
+	net_position = position #+ SMOOTH start where I spawned, not at (0, 0)
+	label.text = LobbyManager.get_player_name(get_multiplayer_authority()) #+ NAME the username from settings
+	label.add_theme_font_override("font", GameManager.PIXEL_FONT) #+ NAME monogram
+	label.add_theme_font_size_override("font_size", 16) #+
+	label.add_theme_constant_override("outline_size", 4) #+
+	label.add_theme_color_override("font_outline_color", Color.BLACK) #+
+	label.add_theme_color_override("font_color", GameManager.TEAM_COLORS.get(team, Color.WHITE)) #+ NAME teal / green by team
 	camera.enabled = is_multiplayer_authority() # only enable camera for the owning client
 	sprite.sprite_frames.set_animation_loop("top_swing", false) #+ swings must play once
 	sprite.sprite_frames.set_animation_loop("bottom_swing", false) #+
@@ -62,13 +79,19 @@ func _ready():
 	sprite.frame_changed.connect(_on_frame_changed) #+ used to time the hit to a frame
 	health.knocked_out.connect(_on_knocked_out) #+ react when HP hits 0
 	sprite.play(anim_name) #+
+	pearl_indicator.visible = has_pearl #+ PEARL hidden at spawn even if left visible in the editor
 	if is_multiplayer_authority(): #+ only MY player connects to MY screen's HUD
 		var hud = get_tree().get_first_node_in_group("hud") #+
 		if hud: #+
 			hud.set_player(self) #+
 
-func _process(_delta): #+ runs on every peer, plays whatever the owner set
-	sprite.flip_h = anim_flip #+
+func _process(delta): #+ runs on every peer, plays whatever the owner set
+	if is_multiplayer_authority(): #+ SMOOTH publish where I really am
+		net_position = position #+ SMOOTH
+	elif position.distance_to(net_position) > SNAP_DISTANCE: #+ SMOOTH respawn/teleport: jump straight there
+		position = net_position #+ SMOOTH
+	else: #+ SMOOTH glide toward the owner's position instead of snapping to each network update
+		position = position.lerp(net_position, 1.0 - exp(-SMOOTHING * delta)) #+ SMOOTH
 	if sprite.animation != anim_name: #+
 		sprite.play(anim_name) #+
 	if anim_frozen: #+
@@ -81,10 +104,16 @@ func _physics_process(delta):
 		return  # non-owners skip input AND physics entirely — position comes from sync instead
 	if is_dead: #+ dead players can't move, attack, or dash
 		return #+
-	
+	if cutscene_frozen: #+ CUTSCENE no moving, attacking or dashing
+		velocity = Vector2.ZERO #+
+		anim_frozen = true #+ hold the current frame
+		return #+
+
 	# Reduce the dash cooldown every frame.
 	if dash_cooldown_timer > 0:
 		dash_cooldown_timer -= delta
+	if slow_timer > 0: #+ SLOW
+		slow_timer -= delta #+
 
 	# Get movement from the Input Map.
 	move_direction = Input.get_vector(
@@ -147,7 +176,10 @@ func _physics_process(delta):
 
 ##Movement
 func move_player():
-	velocity = move_direction * move_speed
+	var speed = move_speed #+ SLOW
+	if slow_timer > 0: #+ SLOW
+		speed *= 1.0 - hit_slow_percent #+ 10% slower while slowed
+	velocity = move_direction * speed #+
 
 ##Animation #+
 func update_animation(): #+
@@ -158,19 +190,17 @@ func update_animation(): #+
 
 	# facing_direction = last direction moved, so standing still keeps that direction #+
 	if abs(facing_direction.x) > abs(facing_direction.y): #+
-		anim_name = "walk_right" #+
-		anim_flip = facing_direction.x < 0 #+ flip walk_right for left
+		anim_name = "walk_left" if facing_direction.x < 0 else "walk_right" #+
 	elif facing_direction.y < 0: #+
 		anim_name = "walk_up" #+
-		anim_flip = false #+
 	else: #+
 		anim_name = "walk_down" #+
-		anim_flip = false #+
 
 func start_swing(): #+
 	if is_swinging: #+
 		return #+
 	is_swinging = true #+
+	_play_attack_sound.rpc() #+
 	anim_frozen = false #+ swings always play, even when standing still
 	var swing_dir = get_swing_direction() #+ SWING snap facing to up/down/left/right
 	attack_range.position = body_center + swing_dir * attack_offset #+ SWING hitbox in front of you
@@ -183,7 +213,6 @@ func start_swing(): #+
 		anim_name = "right_swing" #+ SWING
 	else: #+ SWING
 		anim_name = "left_swing" #+ SWING
-	anim_flip = false #+ SWING every direction has its own art now, so never flip
 
 	# End the swing after the animation's length, instead of waiting for a signal #+ NEW
 	var frames = sprite.sprite_frames #+ NEW
@@ -225,10 +254,12 @@ func receive_hit(amount, attacker_name): #+
 	if multiplayer.multiplayer_peer != null and multiplayer.is_server() and was_alive:
 		ScoreboardManager.record_damage(str(name).to_int(), str(attacker_name).to_int())
 	health.take_damage(amount, attacker) #+
+	SFXManager.play_at("hurt_sea" if team == 0 else "hurt_garbage", global_position)
 	if multiplayer.multiplayer_peer != null and multiplayer.is_server() and was_alive and health.current_health <= 0.0:
 		ScoreboardManager.record_death(str(name).to_int(), str(attacker_name).to_int())
 	if not is_dead: #+ the killing hit starts the fade instead of a flash
 		flash_hit() #+
+		slow_timer = hit_slow_duration #+ SLOW refresh, not stack: 2 quick hits = still 0.5s
 
 func flash_hit(): #+
 	if hit_tween: #+
@@ -236,6 +267,11 @@ func flash_hit(): #+
 	sprite.self_modulate = Color(1, 0.3, 0.3) #+ red tint
 	hit_tween = create_tween() #+
 	hit_tween.tween_property(sprite, "self_modulate", Color.WHITE, 0.2) #+ fade back to normal over 0.2s
+
+##Pearl #+
+func set_has_pearl(value): #+ PEARL called on every peer, so everyone sees the icon
+	has_pearl = value #+
+	pearl_indicator.visible = value #+
 
 ##Death and Respawn #+
 func _on_knocked_out(): #+ runs on every peer, because take_damage runs on every peer
@@ -251,15 +287,22 @@ func _on_knocked_out(): #+ runs on every peer, because take_damage runs on every
 	fade.tween_property(sprite, "self_modulate:a", 0.0, 0.6) #+ fade away like dust
 	if death_dust: #+
 		death_dust.restart() #+ puff of dust particles
+	if has_pearl and multiplayer.is_server(): #+ PEARL server drops it where I died, for everyone
+		var pearl = get_tree().get_first_node_in_group("pearl") #+
+		if pearl: #+
+			pearl.dropped.rpc(global_position) #+
 
 	if is_multiplayer_authority(): #+ only the owner decides when and where to respawn
 		await get_tree().create_timer(respawn_time).timeout #+
 		respawn.rpc(pick_spawn_point()) #+
 
 func pick_spawn_point() -> Vector2: #+
-	var spawns = get_tree().current_scene.find_child("TeamLeftSpawns") #+
+	var arena = get_tree().current_scene #+ PHASE the arena knows which spawns count right now (outer, or inner after 5 min)
+	if arena.has_method("get_respawn_position"): #+
+		return arena.get_respawn_position(team) #+
+	var spawns = arena.find_child("TeamLeftSpawns" if team == 0 else "TeamRightSpawns") #+ SPAWN my own team's side
 	if spawns == null or spawns.get_child_count() == 0: #+
-		print("No TeamLeftSpawns found, respawning in place") #+
+		print("No team spawns found, respawning in place") #+
 		return global_position #+
 	var spawn = spawns.get_child(randi() % spawns.get_child_count()) #+ random spawn point
 	return spawn.global_position #+
@@ -270,7 +313,9 @@ func respawn(spawn_position: Vector2): #+
 	health.reset_full() #+
 	sprite.self_modulate = Color.WHITE #+ visible again
 	label.visible = true #+
+	slow_timer = 0.0 #+ SLOW don't come back slowed from a hit taken before dying
 	is_dead = false #+
+	SFXManager.play_at("respawn", global_position)
 
 
 ##Dash Logic
@@ -279,6 +324,8 @@ func start_dash():
 	dash_timer = dash_duration
 	dash_cooldown_timer = dash_cooldown
 	reveal_from_attack()
+	play_launch_fx.rpc(facing_direction) #+
+	_play_dash_sound.rpc() LAUNCH show the effect on every screen
 	print("Dash started!")
 
 func dash_player(delta):
@@ -288,6 +335,11 @@ func dash_player(delta):
 	if dash_timer <= 0:
 		is_dashing = false
 		print("Dash ended.")
+
+##Launch FX #+
+@rpc("authority", "call_local") #+ LAUNCH only the owner can trigger it, runs on every peer
+func play_launch_fx(direction: Vector2): #+
+	launch_fx.play(direction, dash_duration) #+
 
 ##Kelp Logic
 func enter_kelp():
@@ -349,3 +401,12 @@ func reveal_from_attack():
 @rpc("any_peer", "call_local")
 func set_kelp_visibility(is_concealed: bool):
 	modulate.a = 0.2 if is_concealed else 1.0
+
+
+@rpc("authority", "call_local", "unreliable")
+func _play_attack_sound() -> void:
+    SFXManager.play_at("attack_sea" if team == 0 else "attack_garbage", global_position)
+
+@rpc("authority", "call_local", "unreliable")
+func _play_dash_sound() -> void:
+    SFXManager.play_at("dash", global_position)

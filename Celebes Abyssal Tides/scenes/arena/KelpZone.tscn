@@ -1,12 +1,147 @@
 [gd_scene format=3 uid="uid://c4jafmsek2qnb"]
 
-[ext_resource type="Script" uid="uid://cvggllxgwtja2" path="res://scripts/arena/kelp_area.gd" id="1_6t4s1"]
-[ext_resource type="Texture2D" uid="uid://c62rc8vco77ew" path="res://placeholder_assets/Var3.PNG" id="1_cjvj2"]
+[ext_resource type="Script" uid="uid://cvggllxgwtja2" path="res://Celebes Abyssal Tides/scripts/arena/kelp_area.gd" id="1_6t4s1"]
+[ext_resource type="Texture2D" uid="uid://dl6hkqavcse6l" path="res://Celebes Abyssal Tides/assets/tf_atlantis/all.png" id="2_nm0jl"]
+[ext_resource type="Shader" uid="uid://cawqcsauosakp" path="res://Celebes Abyssal Tides/scenes/arena/kelp.gdshader" id="2_ry64y"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cjvj2"]
-size = Vector2(137.5, 153)
+size = Vector2(80, 56)
+
+[sub_resource type="Shader" id="Shader_ry64y"]
+code = "shader_type canvas_item;
+
+uniform float margin_scale: hint_range(1.0, 4.0) = 1.0;
+
+group_uniforms wind;
+uniform float wind_strength = 1.0;
+uniform float wind_scale = 10.0;
+uniform float wind_speed = 0.1;
+uniform float wind_height_start: hint_range(0, 1) = 0.;
+
+group_uniforms sway;
+uniform float sway_strength: hint_range(0, 10) = 0.5;
+uniform float sway_speed = 0.5;
+uniform float sway_height_start: hint_range(0, 1) = 0.;
+group_uniforms;
+
+
+// simple 2D noise (could also be replaced with a texture for more control)
+vec2 random(vec2 uv) {
+    uv = vec2(dot(uv, vec2(127.1,311.7)), dot(uv, vec2(269.5,183.3)));
+    return -1.0 + 2.0 * fract(sin(uv) * 43758.5453123);
+}
+
+float noise(vec2 uv) {
+    vec2 uv_index = floor(uv);
+    vec2 uv_fract = fract(uv);
+
+    vec2 blur = smoothstep(0.0, 1.0, uv_fract);
+
+    return mix( mix(dot( random(uv_index + vec2(0.0,0.0) ), uv_fract - vec2(0.0,0.0) ),
+                    dot( random(uv_index + vec2(1.0,0.0) ), uv_fract - vec2(1.0,0.0) ), blur.x),
+                mix(dot( random(uv_index + vec2(0.0,1.0) ), uv_fract - vec2(0.0,1.0) ),
+                    dot( random(uv_index + vec2(1.0,1.0) ), uv_fract - vec2(1.0,1.0) ), blur.x), blur.y) + 0.5;
+}
+
+void vertex() {
+	VERTEX *= margin_scale;
+}
+
+void fragment() {
+	vec2 region_size_px = REGION_RECT.zw / TEXTURE_PIXEL_SIZE;
+
+	// convert altas UV in region space uv
+	vec2 local_uv = (UV - REGION_RECT.xy) / REGION_RECT.zw;
+	local_uv = (local_uv-0.5) * margin_scale + 0.5;
+	
+	vec2 pixelated_local_uv = floor(local_uv * region_size_px) / region_size_px;
+	
+	float wind_offset = noise(pixelated_local_uv * wind_scale + TIME*wind_speed)*2.0-1.0;
+	// vertical mask to apply wind_noise only to the top part of the texture
+	wind_offset *= step(pixelated_local_uv.y, 1.- wind_height_start);
+	// divide wind offset by region width in pixels to normalize it, so that the wind effect is consistent across different region sizes
+	wind_offset /= region_size_px.x;
+
+	// sway offset applied from height_start to the top of the texture
+	float sway_offset = max(0., (1.0 - pixelated_local_uv.y - sway_height_start))*sin(TIME*sway_speed);
+
+	pixelated_local_uv.x += sway_offset * sway_strength + wind_offset * wind_strength;
+	
+	// convert back to transformed altas space UV coordinates
+	vec2 transformed_uv = pixelated_local_uv * REGION_RECT.zw + REGION_RECT.xy;
+	
+	// then clamp to the region rect to avoid sampling outside the texture region
+	transformed_uv = clamp(transformed_uv, REGION_RECT.xy, REGION_RECT.xy + REGION_RECT.zw);
+	
+	COLOR = texture(TEXTURE, transformed_uv);
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fwym4"]
+shader = SubResource("Shader_ry64y")
+shader_parameter/margin_scale = 1.11200000532
+shader_parameter/wind_strength = 1.0
+shader_parameter/wind_scale = 10.0
+shader_parameter/wind_speed = 0.5
+shader_parameter/wind_height_start = 0.0
+shader_parameter/sway_strength = 0.400000019
+shader_parameter/sway_speed = 1.0
+shader_parameter/sway_height_start = 0.25600001216
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ry64y"]
+atlas = ExtResource("2_nm0jl")
+region = Rect2(305, 32, 14, 31)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gyq1h"]
+shader = ExtResource("2_ry64y")
+shader_parameter/margin_scale = 1.11200000532
+shader_parameter/wind_strength = 1.0
+shader_parameter/wind_scale = 10.0
+shader_parameter/wind_speed = 0.5
+shader_parameter/wind_height_start = 0.0
+shader_parameter/sway_strength = 0.400000019
+shader_parameter/sway_speed = 0.5
+shader_parameter/sway_height_start = 0.25600001216
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b350n"]
+atlas = ExtResource("2_nm0jl")
+region = Rect2(320, 32, 14, 31)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_oi1le"]
+shader = ExtResource("2_ry64y")
+shader_parameter/margin_scale = 1.11200000532
+shader_parameter/wind_strength = 1.0
+shader_parameter/wind_scale = 10.0
+shader_parameter/wind_speed = 0.5
+shader_parameter/wind_height_start = 0.0
+shader_parameter/sway_strength = 0.400000019
+shader_parameter/sway_speed = 0.5
+shader_parameter/sway_height_start = 0.25600001216
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fwym4"]
+atlas = ExtResource("2_nm0jl")
+region = Rect2(209, 64, 14, 16)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_42x54"]
+shader = ExtResource("2_ry64y")
+shader_parameter/margin_scale = 1.11200000532
+shader_parameter/wind_strength = 1.0
+shader_parameter/wind_scale = 10.0
+shader_parameter/wind_speed = 0.5
+shader_parameter/wind_height_start = 0.0
+shader_parameter/sway_strength = 0.400000019
+shader_parameter/sway_speed = 0.5
+shader_parameter/sway_height_start = 0.25600001216
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gyq1h"]
+atlas = ExtResource("2_nm0jl")
+region = Rect2(306, 32, 14, 31)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l17up"]
+atlas = ExtResource("2_nm0jl")
+region = Rect2(223, 63, 14, 17)
 
 [node name="Node2D" type="Node2D" unique_id=1081455485]
+y_sort_enabled = true
 
 [node name="Area2D" type="Area2D" parent="." unique_id=152408866]
 collision_layer = 8
@@ -14,10 +149,60 @@ script = ExtResource("1_6t4s1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=124951536]
 z_index = 2
-position = Vector2(0, -21)
+position = Vector2(0, -28)
 shape = SubResource("RectangleShape2D_cjvj2")
 debug_color = Color(0.3254902, 0.62352943, 0, 0)
 
+[node name="Sprite2D3" type="Sprite2D" parent="." unique_id=876653126]
+material = SubResource("ShaderMaterial_fwym4")
+position = Vector2(30, -57)
+scale = Vector2(2, 2)
+texture = SubResource("AtlasTexture_ry64y")
+
+[node name="Sprite2D4" type="Sprite2D" parent="." unique_id=743382222]
+material = SubResource("ShaderMaterial_gyq1h")
+position = Vector2(-26, -65)
+scale = Vector2(2, 2)
+texture = SubResource("AtlasTexture_ry64y")
+
+[node name="Sprite2D5" type="Sprite2D" parent="." unique_id=621829822]
+material = SubResource("ShaderMaterial_fwym4")
+position = Vector2(-2, -57)
+scale = Vector2(2, 2)
+texture = SubResource("AtlasTexture_b350n")
+
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1199768277]
-position = Vector2(0, -61)
-texture = ExtResource("1_cjvj2")
+material = SubResource("ShaderMaterial_oi1le")
+position = Vector2(6, -33)
+scale = Vector2(2, 2)
+texture = SubResource("AtlasTexture_b350n")
+
+[node name="Sprite2D2" type="Sprite2D" parent="." unique_id=1141147247]
+material = SubResource("ShaderMaterial_fwym4")
+position = Vector2(-2, -1)
+scale = Vector2(2, 2)
+texture = SubResource("AtlasTexture_fwym4")
+
+[node name="Sprite2D6" type="Sprite2D" parent="." unique_id=780357184]
+material = SubResource("ShaderMaterial_42x54")
+position = Vector2(-26, -25)
+scale = Vector2(2, 2)
+texture = SubResource("AtlasTexture_gyq1h")
+
+[node name="Sprite2D8" type="Sprite2D" parent="." unique_id=450990578]
+material = SubResource("ShaderMaterial_fwym4")
+position = Vector2(14, -65)
+scale = Vector2(2, 2)
+texture = SubResource("AtlasTexture_gyq1h")
+
+[node name="Sprite2D7" type="Sprite2D" parent="." unique_id=2032659273]
+material = SubResource("ShaderMaterial_42x54")
+position = Vector2(30, -1)
+scale = Vector2(2, 2)
+texture = SubResource("AtlasTexture_l17up")
+
+[node name="Sprite2D9" type="Sprite2D" parent="." unique_id=911620341]
+material = SubResource("ShaderMaterial_fwym4")
+position = Vector2(-18, -33)
+scale = Vector2(2, 2)
+texture = SubResource("AtlasTexture_l17up")

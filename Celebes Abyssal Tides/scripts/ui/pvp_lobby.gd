@@ -9,6 +9,13 @@ const SLOT_CONTAINER_NAMES = ["SeaNomads", "GarbageMonsters", "Spectators"]
 
 const BORDER_FRAME_PATH = "SlotLayout/BorderFrame"
 const NAME_LABEL_PATH = "SlotLayout/PlayerNameLabel"
+const ICON_PATH = "SlotLayout/BorderFrame/PlayerIcon"
+
+# How a slot looks, so everyone can see who is sitting where.
+const SLOT_MINE = Color(0.45, 1.0, 0.95)     # my own slot: bright cyan frame
+const SLOT_TAKEN = Color(1, 1, 1)            # someone else's slot
+const SLOT_EMPTY = Color(1, 1, 1, 0.4)       # free slot: faded
+const NAME_READY = Color(0.55, 1.0, 0.55)    # name turns green once ready
 
 # In Godot, the host (server) always has peer id 1.
 const HOST_PEER_ID = 1
@@ -23,6 +30,9 @@ const HOST_PEER_ID = 1
 # DATA
 # Every slot node in the scene, in slot-number order. all_slots[0] is slot 0.
 var all_slots: Array = []
+
+# Host only: line under START saying who still has to press READY.
+var start_status: Label
 
 # Who is sitting where. Key = slot number, value = peer id.
 # Example: { 0: 1, 1: 54821 } means the host is in slot 0 and peer 54821 is in slot 1.
@@ -39,6 +49,9 @@ func _ready() -> void:
 	connect_buttons()
 	connect_slot_clicks()
 	setup_role_ui()
+	update_slot_labels()
+	# ready flags live in LobbyManager; redraw when they change
+	LobbyManager.lobby_updated.connect(update_slot_labels)
 
 	if multiplayer.multiplayer_peer == null:
 		push_warning("PvP Lobby opened without a network connection")
@@ -47,14 +60,40 @@ func _ready() -> void:
 	if multiplayer.is_server():
 		# HOST: put myself in the first slot and listen for players leaving.
 		multiplayer.peer_disconnected.connect(_on_peer_disconnected)
+		# back from character select: everyone keeps the slot they had
+		restore_slots_from_lobby_manager()
 		assign_peer_to_first_free_slot(HOST_PEER_ID)
 		player_names[HOST_PEER_ID] = PlayerProfile.username
 		PlayerProfile.username_changed.connect(_on_local_username_changed)
-		update_slot_labels()
+		NetworkManager.start_discovery_responder() # list this lobby on the network again
+		host_send_slots_to_everyone()
 	else:
 		# CLIENT: listen for the host disappearing, then ask the host for a slot.
 		multiplayer.server_disconnected.connect(_on_server_disconnected)
+		ask_host_for_slot()
+
+
+# Host only: refill the slots from LobbyManager (kept while in character select)
+# for the players who are still connected.
+func restore_slots_from_lobby_manager() -> void:
+	var connected := multiplayer.get_peers()
+	for index in mini(LobbyManager.slots.size(), all_slots.size()):
+		var peer_id := int(LobbyManager.slots[index].get("peer_id", 0))
+		if peer_id == HOST_PEER_ID or peer_id in connected:
+			slots[index] = peer_id
+			player_names[peer_id] = str(LobbyManager.slots[index].get("player_name", ""))
+
+
+# Client only: when everyone comes back from character select at once the host's
+# lobby may not be loaded yet, so keep asking until the host's slot list arrives.
+var got_slots_from_host := false
+
+func ask_host_for_slot() -> void:
+	for attempt in 10:
+		if got_slots_from_host or not is_inside_tree() or multiplayer.multiplayer_peer == null:
+			return
 		request_join.rpc_id(HOST_PEER_ID, PlayerProfile.username)
+		await get_tree().create_timer(0.5).timeout
 
 
 # Fill all_slots with the real slot nodes found inside the slot containers.
@@ -94,11 +133,23 @@ func setup_role_ui() -> void:
 		ready_button.hide()
 		unready_button.hide()
 		host_ip_label.text = "IP: " + get_local_ipv4()
+		start_status = Label.new()
+		# the lobby is laid out at 1280x720 and scaled to half, so these are 1280-space numbers
+		start_status.position = Vector2(340, 612)
+		start_status.size = Vector2(600, 28)
+		start_status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		start_status.add_theme_font_size_override("font_size", 20)
+		start_status.add_theme_constant_override("outline_size", 6)
+		start_status.add_theme_color_override("font_outline_color", Color.BLACK)
+		start_status.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(start_status)
 	else:
 		start_button.hide()
 		back_button.show()
+		# READY and UNREADY sit in the same spot: only one is shown at a time,
+		# swapped in update_ready_buttons() once the host confirms the change
 		ready_button.show()
-		unready_button.show()
+		unready_button.hide()
 		host_ip_label.text = "CONNECTED TO HOST"
 
 
@@ -147,14 +198,75 @@ func get_player_name(peer_id: int) -> String:
 	return str(player_names.get(peer_id, "Player " + str(peer_id)))
 
 
-# Redraw every slot's name label from the slots dictionary.
+# Redraw every slot from the slots dictionary: name, frame colour, icon, ready.
 func update_slot_labels() -> void:
+	var my_id := multiplayer.get_unique_id() if multiplayer.multiplayer_peer != null else 0
 	for slot_number in all_slots.size():
-		var name_label: Label = all_slots[slot_number].get_node(NAME_LABEL_PATH)
+		var slot_node: Control = all_slots[slot_number]
+		var name_label: Label = slot_node.get_node(NAME_LABEL_PATH)
+		var frame: Control = slot_node.get_node(BORDER_FRAME_PATH)
+		var icon: Control = slot_node.get_node_or_null(ICON_PATH)
 		if slots.has(slot_number):
-			name_label.text = get_player_name(slots[slot_number])
+			var peer_id: int = slots[slot_number]
+			var mine := peer_id == my_id
+			name_label.text = get_player_name(peer_id) + (" (YOU)" if mine else "")
+			frame.self_modulate = SLOT_MINE if mine else SLOT_TAKEN
+			name_label.modulate = NAME_READY if _is_lobby_ready(peer_id) else Color.WHITE
+			if icon:
+				icon.visible = true
 		else:
 			name_label.text = "Empty"
+			frame.self_modulate = SLOT_EMPTY
+			name_label.modulate = Color(1, 1, 1, 0.6)
+			if icon:
+				icon.visible = false
+	update_start_state()
+	update_ready_buttons()
+
+
+# Client only: show READY while not ready, UNREADY once the host has me as ready.
+func update_ready_buttons() -> void:
+	if multiplayer.multiplayer_peer == null or multiplayer.is_server():
+		return
+	var me_ready := _is_lobby_ready(multiplayer.get_unique_id())
+	ready_button.visible = not me_ready
+	unready_button.visible = me_ready
+
+
+# Names of the players the host is still waiting on. The host has no READY
+# button, so the host always counts as ready.
+func players_not_ready() -> Array[String]:
+	var waiting: Array[String] = []
+	for slot_number in slots:
+		var peer_id: int = slots[slot_number]
+		if peer_id != HOST_PEER_ID and not _is_lobby_ready(peer_id):
+			waiting.append(get_player_name(peer_id))
+	return waiting
+
+
+func can_start_game() -> bool:
+	return slots.size() >= 2 and players_not_ready().is_empty()
+
+
+# Host only: dim START until everyone is ready, and say who we're waiting for.
+func update_start_state() -> void:
+	if start_status == null or multiplayer.multiplayer_peer == null or not multiplayer.is_server():
+		return
+	var ready_to_go := can_start_game()
+	start_button.disabled = not ready_to_go
+	start_button.modulate = Color.WHITE if ready_to_go else Color(1, 1, 1, 0.45)
+	var waiting := players_not_ready()
+	if slots.size() < 2:
+		start_status.text = "Waiting for another player to join"
+	elif not waiting.is_empty():
+		start_status.text = "Waiting for: " + ", ".join(waiting)
+	else:
+		start_status.text = "Everyone is ready!"
+
+
+func _is_lobby_ready(peer_id: int) -> bool:
+	var index := LobbyManager.find_slot_by_peer(peer_id)
+	return index != -1 and bool(LobbyManager.slots[index].get("ready", false))
 
 
 # HOST-ONLY LOGIC (only ever runs on the host)
@@ -217,6 +329,7 @@ func request_slot_change(new_slot: int) -> void:
 # HOST -> CLIENTS: "Here is the current list of who is in which slot."
 @rpc("authority", "call_remote", "reliable")
 func sync_all_slots(new_slots: Dictionary, new_names: Dictionary) -> void:
+	got_slots_from_host = true
 	# Rebuild the dictionary from scratch and force every key (slot number)
 	# and value (peer id) to be an int, in case they arrive as another type.
 	slots.clear()
@@ -249,6 +362,8 @@ func open_character_select(authoritative_slots: Dictionary) -> void:
 		team = "garbage"
 	NetworkManager.set_meta("character_select_slot", my_slot)
 	NetworkManager.set_meta("character_select_team", team)
+	# the match has started, so stop listing this lobby on the network
+	NetworkManager.stop_discovery_responder()
 	CharacterSelectManager.reset_local()
 	CharacterSelectManager.set_meta("peer_slots", authoritative_slots.duplicate(true))
 	get_tree().change_scene_to_file("res://Celebes Abyssal Tides/scenes/ui/menus/CharacterSelect.tscn")
@@ -283,8 +398,8 @@ func _on_slot_gui_input(event: InputEvent, slot_number: int) -> void:
 func _on_start_button_pressed() -> void:
 	if not multiplayer.is_server():
 		return
-	if slots.size() < 2:
-		push_warning("Need at least two players before starting.")
+	if not can_start_game():
+		update_start_state() # the status line already says what's missing
 		return
 	# The map and scene transition travel together in one reliable RPC.
 	open_character_select.rpc(_peer_slot_map())
@@ -321,6 +436,7 @@ func _host_set_lobby_ready(peer_id: int, value: bool) -> void:
 		LobbyManager.set_slot_player(index, peer_id, get_player_name(peer_id))
 	LobbyManager.slots[index]["ready"] = value
 	LobbyManager.sync_lobby()
+	update_slot_labels() # the host's own screen (sync_lobby only reaches clients)
 	print("Lobby ready: peer %s -> %s" % [peer_id, value])
 
 
@@ -352,6 +468,7 @@ func disconnect_from_network() -> void:
 	if multiplayer.peer_disconnected.is_connected(_on_peer_disconnected):
 		multiplayer.peer_disconnected.disconnect(_on_peer_disconnected)
 
+	NetworkManager.stop_discovery_responder()
 	if multiplayer.multiplayer_peer != null:
 		multiplayer.multiplayer_peer.close()
 	multiplayer.multiplayer_peer = null

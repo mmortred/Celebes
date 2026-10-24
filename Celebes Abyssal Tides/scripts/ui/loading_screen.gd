@@ -1,7 +1,7 @@
 extends Control
 
 const BG = preload("res://Celebes Abyssal Tides/assets/placeholder_assets/LobbyUI.jpg")
-const ARENA_PATH := "res://Celebes Abyssal Tides/scenes/arena/Arena.tscn"
+const ARENA_PATH := "res://Celebes Abyssal Tides/scenes/arena/MainArena.tscn" # keep in sync with CharacterSelectManager.ARENA_SCENE
 const CINEMATIC_SECONDS := 4.0
 const PIXEL_FONT = preload("res://Celebes Abyssal Tides/assets/fonts/PixelifySans-VariableFont_wght.ttf")
 const FACTS := [

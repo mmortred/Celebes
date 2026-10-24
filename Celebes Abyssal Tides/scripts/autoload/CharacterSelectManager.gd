@@ -8,6 +8,35 @@ signal state_changed
 signal selection_rejected(reason: String)
 signal match_loading_requested
 
+# Characters that can be picked. Bajau and Minahasan stay locked "?" for now.
+const PLAYABLE := [0, 3, 4, 5] # Bugis, Plastic Hoard, Rusty Leviathan, Toxic Sludge
+
+# Picked characters without art yet play as another one in the arena
+# (sprite and HUD icon) until theirs is made.
+const STAND_INS := {3: 5, 4: 5} # Plastic Hoard, Rusty Leviathan -> Toxic Sludge
+
+func play_as(character_id: int) -> int:
+	return int(STAND_INS.get(character_id, character_id))
+
+# Portrait icons, shared by character select and the arena HUD: zoomed-in crops
+# of each character's first walk-down frame. Not listed = not made yet ("?").
+const ICONS := {
+	0: {"sheet": "res://Celebes Abyssal Tides/assets/sprite/SeaNomad1/walk down_spear.png", "face": Rect2(20, 12, 24, 24)},
+	5: {"sheet": "res://Celebes Abyssal Tides/assets/sprite/GMonster3/monster/sludge walk_down.png", "face": Rect2(10, 2, 44, 44)},
+}
+
+func get_icon(character_id: int) -> Texture2D:
+	if not ICONS.has(character_id):
+		return null
+	var icon := AtlasTexture.new()
+	icon.atlas = load(ICONS[character_id].sheet)
+	icon.region = ICONS[character_id].face
+	return icon
+
+# The arena every match loads (loading screen + transition). MainArena has the
+# full map: tile layers, kelp, clam zone, HUD and spawns.
+const ARENA_SCENE := "res://Celebes Abyssal Tides/scenes/arena/MainArena.tscn"
+
 var selections: Dictionary = {} # peer_id -> character_id
 var locked: Dictionary = {}     # peer_id -> bool
 
@@ -100,13 +129,16 @@ func _host_try_select(peer_id: int, character_id: int) -> void:
 	if slot < 0 or slot >= 6:
 		_reject(peer_id, "Spectators cannot select characters.")
 		return
+	if character_id not in PLAYABLE:
+		_reject(peer_id, "That character isn't available yet.")
+		return
 	var valid_team := (slot <= 2 and character_id >= 0 and character_id <= 2) or (slot >= 3 and slot <= 5 and character_id >= 3 and character_id <= 5)
 	if not valid_team:
 		_reject(peer_id, "That character belongs to the other team.")
 		return
 	var current_owner := character_owner(character_id)
 	if current_owner != 0 and current_owner != peer_id:
-		_reject(peer_id, "Character already taken by Player %s." % current_owner)
+		_reject(peer_id, "Character already taken by %s." % LobbyManager.get_player_name(current_owner))
 		return
 	selections[peer_id] = character_id
 	locked[peer_id] = false
@@ -179,7 +211,7 @@ func begin_loading() -> void:
 var loading_peers: Dictionary = {}
 func report_loading_ready() -> void:
 	if multiplayer.multiplayer_peer == null:
-		get_tree().change_scene_to_file("res://Celebes Abyssal Tides/scenes/arena/Arena.tscn")
+		get_tree().change_scene_to_file(ARENA_SCENE)
 	elif multiplayer.is_server():
 		_record_loading_ready(multiplayer.get_unique_id())
 	else:
@@ -204,6 +236,59 @@ func _record_loading_ready(id: int) -> void:
 	loading_started = false # Avoid sending the arena transition more than once.
 	enter_arena.rpc()
 
+# Anyone pressing BACK in character select sends EVERY player back to the lobby
+# together (keeping their slots), so nobody is left waiting on a half-empty select.
+func request_back_to_lobby() -> void:
+	if multiplayer.multiplayer_peer == null:
+		get_tree().change_scene_to_file(LOBBY_SCENE)
+	elif multiplayer.is_server():
+		back_to_lobby.rpc()
+	else:
+		back_to_lobby_request.rpc_id(1)
+
+@rpc("any_peer", "call_remote", "reliable")
+func back_to_lobby_request() -> void:
+	if multiplayer.is_server():
+		back_to_lobby.rpc()
+
+@rpc("authority", "call_local", "reliable")
+func back_to_lobby() -> void:
+	reset_local()
+	if multiplayer.is_server():
+		LobbyManager.reset_ready_states() # everyone readies up again
+	get_tree().change_scene_to_file(LOBBY_SCENE)
+
+const LOBBY_SCENE := "res://Celebes Abyssal Tides/scenes/ui/lobby/PvPLobby.tscn"
+
+
 @rpc("authority", "call_local", "reliable")
 func enter_arena() -> void:
-	get_tree().change_scene_to_file("res://Celebes Abyssal Tides/scenes/arena/Arena.tscn")
+	arena_peers.clear()
+	get_tree().change_scene_to_file(ARENA_SCENE)
+
+
+# Stage 7: the host spawns players only once every peer has the arena loaded,
+# otherwise a slower peer would miss the spawn. Lives here (not in the arena)
+# so a peer that loads faster than the host can't lose its "I'm in" message.
+signal everyone_in_arena # host only
+var arena_peers: Dictionary = {}
+
+func report_arena_ready() -> void:
+	if multiplayer.is_server():
+		_record_arena_ready(multiplayer.get_unique_id())
+	else:
+		arena_ready_rpc.rpc_id(1)
+
+@rpc("any_peer", "call_remote", "reliable")
+func arena_ready_rpc() -> void:
+	if multiplayer.is_server():
+		_record_arena_ready(multiplayer.get_remote_sender_id())
+
+func _record_arena_ready(id: int) -> void:
+	arena_peers[id] = true
+	if not arena_peers.has(multiplayer.get_unique_id()):
+		return # the host's own arena isn't loaded yet; it reports last
+	for peer in multiplayer.get_peers():
+		if not arena_peers.has(peer):
+			return
+	everyone_in_arena.emit()
