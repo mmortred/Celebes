@@ -24,7 +24,6 @@ signal title_shown
 @onready var logo: Control = $Title/Logo
 @onready var press_start: Control = $Title/PressStart
 @onready var credit: Control = $Title/Credit
-@onready var nstw_logo: Control = $Title/NstwLogo
 
 var at_title := false
 
@@ -33,7 +32,6 @@ func _ready():
 	logo.modulate.a = 0.0
 	press_start.modulate.a = 0.0
 	credit.modulate.a = 0.0
-	nstw_logo.modulate.a = 0.0
 	anim.animation_finished.connect(_on_animation_finished)
 	anim.play("intro")
 	anim.seek(0.0, true) # apply the 0s keys now (trash hidden, fish in place) before the first frame

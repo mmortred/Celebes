@@ -457,22 +457,6 @@ speed_scale = 1.2
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1546504004]
 environment = ExtResource("12_l1d2i")
 
-[node name="NstwLogo" type="TextureRect" parent="." unique_id=1846623866]
-texture_filter = 1
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -136.0
-offset_top = 10.0
-offset_right = -10.0
-offset_bottom = 70.0
-grow_horizontal = 0
-mouse_filter = 2
-texture = ExtResource("15_1u8u4")
-expand_mode = 1
-stretch_mode = 5
-
 [node name="LitLogo" type="TextureRect" parent="." unique_id=739358118]
 texture_filter = 1
 layout_mode = 1
