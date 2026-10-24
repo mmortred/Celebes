@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cg0bysupfxvxn" path="res://Celebes Abyssal Tides/assets/tf_atlantis/32bit/NormalAssets.png" id="2_4r6j5"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ylcck"]
-radius = 16.0
+radius = 32.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kef68"]
 atlas = ExtResource("2_4r6j5")

@@ -15,8 +15,7 @@ var shown_anim: StringName
 
 func _ready() -> void:
 	clam = find_clam_sprite()
-	if clam == null:
-		push_warning("ClamZone: no AnimatedSprite2D child, clam will not animate")
+	if clam == null: # a plain Sprite2D clam is fine, it just stays on one picture
 		return
 	for anim in [with_pearl_anim, closed_anim, respawn_anim]:
 		if not clam.sprite_frames.has_animation(anim):

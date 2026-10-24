@@ -5,6 +5,10 @@
 [ext_resource type="Shader" uid="uid://ccnw2xdjtui51" path="res://Celebes Abyssal Tides/scenes/pulse.gdshader" id="1_swxp4"]
 [ext_resource type="Script" uid="uid://diqlb6rutc5ih" path="res://Celebes Abyssal Tides/scripts/arena/clam_zone.gd" id="2_clam"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_cmd4b"]
+atlas = ExtResource("1_heuo3")
+region = Rect2(132, 458, 56, 42)
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7u8de"]
 shader = ExtResource("1_swxp4")
 shader_parameter/time_scale = 1.0
@@ -39,62 +43,12 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.8418803, 0.2008547)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_1yaen"]
-atlas = ExtResource("1_heuo3")
-region = Rect2(64, 448, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_dbkea"]
-atlas = ExtResource("1_heuo3")
-region = Rect2(128, 448, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_0ab8h"]
-atlas = ExtResource("1_heuo3")
-region = Rect2(192, 448, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_g6lry"]
-atlas = ExtResource("1_heuo3")
-region = Rect2(192, 448, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_676ey"]
-atlas = ExtResource("1_heuo3")
-region = Rect2(64, 448, 64, 64)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_1e16l"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_1yaen")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_dbkea")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_0ab8h")
-}],
-"loop": 0,
-"name": &"clam_respawn",
-"speed": 0.6
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_g6lry")
-}],
-"loop": 2,
-"name": &"pearl_available",
-"speed": 1.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_676ey")
-}],
-"loop": 2,
-"name": &"pearl_taken",
-"speed": 1.0
-}]
-
 [node name="ClamZone" type="Node2D" unique_id=948020656]
-script = ExtResource("2_clam")
 scale = Vector2(2, 2)
+script = ExtResource("2_clam")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1539444437]
+texture = SubResource("AtlasTexture_cmd4b")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=548463045]
 texture_filter = 3
@@ -129,8 +83,3 @@ shadow_enabled = true
 shadow_color = Color(0.14, 0, 0.0023332976, 1)
 texture = SubResource("GradientTexture2D_swxp4")
 texture_scale = 2.3
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1201994948]
-sprite_frames = SubResource("SpriteFrames_1e16l")
-animation = &"clam_respawn"
-frame_progress = 0.67323875

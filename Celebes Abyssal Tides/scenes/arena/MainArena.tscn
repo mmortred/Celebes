@@ -3291,12 +3291,10 @@ metadata/_edit_horizontal_guides_ = [-567.0, 415.0, 591.0, 283.0, -310.0, -683.0
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1776568479]
 
 [node name="ArenaHUD" parent="CanvasLayer" unique_id=875958759 instance=ExtResource("2_s6xih")]
-visible = false
 top_level = true
 offset_bottom = 64.0
 
 [node name="Parallax2D" type="Parallax2D" parent="." unique_id=694207566]
-visible = false
 self_modulate = Color(1, 1, 1, 0)
 scroll_scale = Vector2(0.9, 0.9)
 
@@ -3328,7 +3326,6 @@ texture_scale = 3.34
 height = 69.0
 
 [node name="Parallax2D2" type="Parallax2D" parent="." unique_id=220824435]
-visible = false
 scroll_scale = Vector2(1.1, 1.1)
 
 [node name="PointLight2D4" type="PointLight2D" parent="Parallax2D2" unique_id=442557859]
@@ -3359,11 +3356,9 @@ texture_scale = 3.34
 height = 69.0
 
 [node name="Parallax2D3" type="Parallax2D" parent="." unique_id=1194546661]
-visible = false
 scroll_scale = Vector2(0.5, 0.5)
 
 [node name="TextureRect" type="TextureRect" parent="Parallax2D3" unique_id=919116584]
-visible = false
 self_modulate = Color(0.72, 0.72, 0.72, 1)
 z_index = -6
 texture_filter = 2
@@ -3379,7 +3374,6 @@ _spawnable_scenes = PackedStringArray("uid://b15bynslw4646")
 spawn_path = NodePath("../Players")
 
 [node name="Players" type="Node2D" parent="." unique_id=608096496]
-visible = false
 y_sort_enabled = true
 
 [node name="Basement" type="TileMapLayer" parent="." unique_id=1199663270]
@@ -3490,7 +3484,6 @@ visible = false
 position = Vector2(-105, -37)
 
 [node name="ClamSpawner" type="Area2D" parent="ArenaUtil" unique_id=448138373]
-visible = false
 position = Vector2(1114, -131)
 
 [node name="pearl" type="CollisionShape2D" parent="ArenaUtil/ClamSpawner" unique_id=1275876508]
@@ -3499,7 +3492,6 @@ position = Vector2(-4, 52)
 shape = SubResource("CircleShape2D_ma018")
 
 [node name="TeamLeftSpawns" type="Node2D" parent="ArenaUtil" unique_id=634953856]
-visible = false
 
 [node name="SpawnPointL1" type="Marker2D" parent="ArenaUtil/TeamLeftSpawns" unique_id=72071672]
 visible = false
@@ -3514,7 +3506,6 @@ visible = false
 position = Vector2(-1330, -40)
 
 [node name="TeamRightSpawns" type="Node2D" parent="ArenaUtil" unique_id=1545679681]
-visible = false
 
 [node name="SpawnPointR1" type="Marker2D" parent="ArenaUtil/TeamRightSpawns" unique_id=1301084053]
 visible = false
@@ -3531,7 +3522,6 @@ y_sort_enabled = true
 position = Vector2(2464, -184)
 
 [node name="TeamLeftSpawnsLate" type="Node2D" parent="ArenaUtil" unique_id=1867847409]
-visible = false
 
 [node name="SpawnPointL1" type="Marker2D" parent="ArenaUtil/TeamLeftSpawnsLate" unique_id=1796413726]
 position = Vector2(-860, -396)
@@ -3543,7 +3533,6 @@ position = Vector2(-860, -140)
 position = Vector2(-760, 330)
 
 [node name="TeamRightSpawnsLate" type="Node2D" parent="ArenaUtil" unique_id=895507006]
-visible = false
 
 [node name="SpawnPointR1" type="Marker2D" parent="ArenaUtil/TeamRightSpawnsLate" unique_id=1514361458]
 position = Vector2(820, -396)
