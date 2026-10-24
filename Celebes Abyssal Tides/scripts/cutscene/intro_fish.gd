@@ -1,54 +1,23 @@
 @tool
 extends Node2D
 ## placeholder fish for the intro (almond body + forked tail, head on the left).
-## swims sideways, bobs, and wraps around the screen. swap _draw for a Sprite2D later.
+## only draws itself: the swimming, bobbing and fleeing are keys in the Intro's
+## AnimationPlayer ("intro"), the tail flick clock `t` in its AmbientPlayer.
+## swap _draw for a Sprite2D later.
 
-@export var swim_speed := 14.0
 @export var facing_left := true:
 	set(v): facing_left = v; scale.x = 1.0 if v else -1.0
 @export var body_size := Vector2(28, 12): # length, height
 	set(v): body_size = v; queue_redraw()
 @export var body_color := Color("f2a541"):
 	set(v): body_color = v; queue_redraw()
-@export var bob_amount := 3.0
-@export var screen_width := 640.0
 
-var base_y := 0.0
-var t := 0.0
-var wraps := true # false once fleeing, so it leaves for good
+var t := 0.0: # tail flick clock, animated
+	set(v): t = v; queue_redraw()
 
 
 func _ready():
-	base_y = position.y
-	t = randf() * TAU
 	scale.x = 1.0 if facing_left else -1.0
-
-
-func _process(delta):
-	t += delta
-	queue_redraw() # tail wiggle
-	if Engine.is_editor_hint():
-		return
-	var dir := -1.0 if facing_left else 1.0
-	position.x += dir * swim_speed * delta
-	position.y = base_y + sin(t * 1.3) * bob_amount
-	# wrap to the other side once fully off screen
-	var margin := body_size.x * 2.0
-	if not wraps:
-		if position.x < -margin or position.x > screen_width + margin:
-			hide()
-			set_process(false)
-	elif facing_left and position.x < -margin:
-		position.x = screen_width + margin
-	elif not facing_left and position.x > screen_width + margin:
-		position.x = -margin
-
-
-## turn left (away from the pollution) and dart off screen
-func flee(speed := 90.0):
-	facing_left = true
-	wraps = false
-	create_tween().tween_property(self, "swim_speed", speed, 1.2).set_ease(Tween.EASE_IN)
 
 
 func _draw():

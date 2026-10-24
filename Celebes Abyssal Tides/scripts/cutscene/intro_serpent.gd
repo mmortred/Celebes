@@ -3,7 +3,8 @@ extends Node2D
 ## leviathan for the title: a huge shadow that swims past under the surface once.
 ## the head follows `route` from right to left and the body trails along the same
 ## path, so it slithers. drawn as a dark silhouette with soft edges; only a dim
-## gold eye shows. call swim_past() to start; it hides itself once the tail is gone.
+## gold eye shows. the pass is keyed in the Intro's AnimationPlayer ("title" moves
+## head_d along the route and shows/hides it), the body sway clock `t` in its AmbientPlayer.
 
 ## path the head follows, in local coords, from where it enters to where it leaves
 @export var route := PackedVector2Array([
@@ -13,7 +14,6 @@ extends Node2D
 	set(v): route = v; _build_path(); queue_redraw()
 @export var length := 1300.0 # head to tail tip
 @export var max_width := 90.0
-@export var duration := 11.0 # seconds for the whole pass
 @export var sway := 14.0 # extra s-curve rolling down the body
 @export var shadow := Color(0.0, 0.01, 0.03) # opaque; the parent CanvasGroup sets the see-through amount
 @export var eye_color := Color(1.0, 0.75, 0.2)
@@ -23,8 +23,10 @@ const SAMPLES := 90
 
 var path := PackedVector2Array() # dense polyline along the route
 var dist := PackedFloat32Array() # distance along the path at each point
-var head_d := 0.0
-var t := 0.0
+var head_d := 0.0: # how far along the route the head is, animated
+	set(v): head_d = v; queue_redraw()
+var t := 0.0: # body sway clock, animated
+	set(v): t = v; queue_redraw()
 
 
 func _ready():
@@ -42,19 +44,6 @@ func _start_d() -> float:
 
 func _end_d() -> float:
 	return dist[dist.size() - 1]
-
-
-func swim_past():
-	head_d = _start_d()
-	show()
-	var tw := create_tween()
-	tw.tween_property(self, "head_d", _end_d(), duration)
-	tw.tween_callback(hide)
-
-
-func _process(delta):
-	t += delta
-	queue_redraw()
 
 
 ## catmull-rom through the route, then cumulative distances for lookups
@@ -106,7 +95,7 @@ func _draw():
 	for i in SAMPLES + 1:
 		var u := float(i) / SAMPLES
 		var p := _at(head_d - length * u)
-		p.y += sin(u * 7.0 - t * 1.6) * sway * u
+		p.y += sin(u * 7.0 - t * 1.5) * sway * u # 1.5 so the sway loops cleanly with the ambient clock
 		pts.append(p)
 
 	var left := PackedVector2Array()

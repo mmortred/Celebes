@@ -11,7 +11,8 @@ extends Node2D
 @export var color := Color(0.9, 0.9, 1.0, 0.8)
 
 var stars: Array[Vector3] = [] # x, y, twinkle phase
-var t := 0.0
+var t := 0.0: # twinkle clock, animated by the Intro's AmbientPlayer
+	set(v): t = v; queue_redraw()
 
 
 func _ready():
@@ -27,11 +28,6 @@ func _scatter():
 			area.position.x + rng.randf() * area.size.x,
 			area.position.y + rng.randf() * area.size.y,
 			rng.randf() * TAU))
-	queue_redraw()
-
-
-func _process(delta):
-	t += delta
 	queue_redraw()
 
 

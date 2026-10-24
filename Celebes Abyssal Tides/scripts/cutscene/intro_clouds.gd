@@ -1,6 +1,7 @@
 @tool
 extends Node2D
-## soft pixel clouds drifting slowly across a band of sky (local coords).
+## soft pixel clouds scattered across a band of sky (local coords).
+## the drift is keyed on this node in the Intro's AmbientPlayer.
 
 @export var area := Rect2(-200, 0, 1040, 90):
 	set(v): area = v; _scatter()
@@ -8,7 +9,6 @@ extends Node2D
 	set(v): count = v; _scatter()
 @export var cloud_seed := 5:
 	set(v): cloud_seed = v; _scatter()
-@export var speed := 3.0 # pixels per second
 @export var light := Color(0.98, 0.99, 1.0)
 @export var shade := Color(0.8, 0.88, 0.95)
 
@@ -36,17 +36,6 @@ func _scatter():
 			"pos": Vector2(area.position.x + rng.randf() * area.size.x, area.position.y + rng.randf() * area.size.y),
 			"puffs": puffs,
 		})
-	queue_redraw()
-
-
-func _process(delta):
-	if Engine.is_editor_hint():
-		return
-	for c in clouds:
-		var p: Vector2 = c.pos + Vector2(speed * delta, 0)
-		if p.x > area.end.x + 60.0:
-			p.x = area.position.x - 60.0
-		c.pos = p
 	queue_redraw()
 
 
