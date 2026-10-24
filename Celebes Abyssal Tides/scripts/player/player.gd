@@ -7,7 +7,7 @@ extends CharacterBody2D
 @export var dash_duration = 0.15
 @export var dash_cooldown = 2.0
 @export var player_index = 0
-@export var attack_damage = 10.0 #+
+@export var attack_damage = 20.0 #+
 @export var swing_hit_frames = {"top_swing": 2, "bottom_swing": 2, "right_swing": 3, "left_swing": 3} #+ SWING frame where each swing's hit lands (count from 0)
 @export var attack_offset = 24.0 #+ how far in front of the player the hitbox sits
 @export var body_center = Vector2(0, -32) #+ SWING middle of the body, the hitbox is placed around this
@@ -193,10 +193,25 @@ func _add_feet_shadow(): #+ SHADOW
 	var shadow = Sprite2D.new() #+
 	shadow.name = "FeetShadow" #+
 	shadow.texture = texture #+
-	shadow.position = Vector2(0, feet.position.y + 4.0) #+ at the bottom of the feet
-	shadow.scale = Vector2(width, 10.0) / 64.0 #+ GradientTexture2D is 64x64
+	shadow.position = Vector2(0, _feet_ground_y()) #+ where the feet touch the ground in the art
+	shadow.scale = Vector2(width, 8.0) / 64.0 #+ GradientTexture2D is 64x64
 	add_child(shadow) #+
 	move_child(shadow, 0) #+ first child = drawn under the sprite
+
+func _feet_ground_y() -> float: #+ SHADOW lowest painted row of the first walk_down frame, in player space
+	var fallback = $CollisionShape2D.position.y #+
+	if not sprite.sprite_frames.has_animation("walk_down"): #+
+		return fallback #+
+	var frame = sprite.sprite_frames.get_frame_texture("walk_down", 0) #+
+	var image = frame.get_image() if frame else null #+
+	if image == null: #+
+		return fallback #+
+	for y in range(image.get_height() - 1, -1, -1): #+ bottom row up
+		for x in image.get_width(): #+
+			if image.get_pixel(x, y).a > 0.15: #+
+				var top = -image.get_height() / 2.0 if sprite.centered else 0.0 #+
+				return sprite.position.y + (sprite.offset.y + top + y - 1.0) * sprite.scale.y #+ 1px up: shadow tucks under the soles
+	return fallback #+
 
 ##Movement
 func move_player():

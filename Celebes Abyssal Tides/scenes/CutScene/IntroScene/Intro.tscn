@@ -22,6 +22,7 @@
 [ext_resource type="Texture2D" uid="uid://c7t478jxbppfp" path="res://Celebes Abyssal Tides/assets/Lobby/NSTW Logo 64px.png" id="21_aput2"]
 [ext_resource type="Script" uid="uid://c6fr3vrkq02ab" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_stars.gd" id="21_stars"]
 [ext_resource type="Script" uid="uid://pdvolq11x3a0" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_coral.gd" id="22_coral"]
+[ext_resource type="Texture2D" uid="uid://chgipisv3w5i2" path="res://Celebes Abyssal Tides/assets/LITLOGOwhite.png" id="22_x5qjb"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sea"]
 shader = ExtResource("17_sea")
@@ -1431,7 +1432,7 @@ tracks/12/keys = {
 "times": PackedFloat32Array(0, 0.93160385, 2.5024002, 4.0731964, 5.643993, 7.214789, 8.785585, 10.356381, 11.927178, 12.566371),
 "transitions": PackedFloat32Array(1, 0.5, 2, 0.5, 2, 0.5, 2, 0.5, 2, 1),
 "update": 0,
-"values": [0.2006444340913404, 3.061516e-17, -0.25, -6.123032e-17, 0.25, 9.184547700000001e-17, -0.25, -1.2246064e-16, 0.25, 0.2006444340913404]
+"values": [0.2006444340913404, 3.061516e-17, -0.25, -6.123032e-17, 0.25, 9.1845477e-17, -0.25, -1.2246064e-16, 0.25, 0.2006444340913404]
 }
 tracks/13/type = "value"
 tracks/13/imported = false
@@ -1455,7 +1456,7 @@ tracks/14/keys = {
 "times": PackedFloat32Array(0, 1.0902627, 2.6610591, 4.2318554, 5.802652, 7.373448, 8.944244, 10.51504, 12.085837, 12.566371),
 "transitions": PackedFloat32Array(1, 2, 0.5, 2, 0.5, 2, 0.5, 2, 0.5, 1),
 "update": 0,
-"values": [0.11556310687803208, 0.25, 3.061516e-17, -0.25, -6.123032e-17, 0.25, 9.184547700000001e-17, -0.25, -1.2246064e-16, 0.115563106878032]
+"values": [0.11556310687803208, 0.25, 3.061516e-17, -0.25, -6.123032e-17, 0.25, 9.1845477e-17, -0.25, -1.2246064e-16, 0.115563106878032]
 }
 tracks/15/type = "value"
 tracks/15/imported = false
@@ -1479,7 +1480,7 @@ tracks/16/keys = {
 "times": PackedFloat32Array(0, 0.17843574, 1.749232, 3.3200283, 4.890825, 6.4616213, 8.032417, 9.603213, 11.17401, 12.566371),
 "transitions": PackedFloat32Array(1, 0.5, 2, 0.5, 2, 0.5, 2, 0.5, 2, 1),
 "update": 0,
-"values": [-0.04437259343780336, -6.123032e-17, 0.25, 9.184547700000001e-17, -0.25, -1.2246064e-16, 0.25, 1.530758e-16, -0.25, -0.04437259343780305]
+"values": [-0.04437259343780336, -6.123032e-17, 0.25, 9.1845477e-17, -0.25, -1.2246064e-16, 0.25, 1.530758e-16, -0.25, -0.04437259343780305]
 }
 tracks/17/type = "value"
 tracks/17/imported = false
@@ -1503,7 +1504,7 @@ tracks/18/keys = {
 "times": PackedFloat32Array(0, 1.0288322, 2.5996284, 4.170425, 5.7412214, 7.3120174, 8.882813, 10.45361, 12.024406, 12.566371),
 "transitions": PackedFloat32Array(1, 0.5, 2, 0.5, 2, 0.5, 2, 0.5, 2, 1),
 "update": 0,
-"values": [-0.21417430316242209, -6.123032e-17, 0.25, 9.184547700000001e-17, -0.25, -1.2246064e-16, 0.25, 1.530758e-16, -0.25, -0.21417430316242236]
+"values": [-0.21417430316242209, -6.123032e-17, 0.25, 9.1845477e-17, -0.25, -1.2246064e-16, 0.25, 1.530758e-16, -0.25, -0.21417430316242236]
 }
 tracks/19/type = "value"
 tracks/19/imported = false
@@ -1527,7 +1528,7 @@ tracks/20/keys = {
 "times": PackedFloat32Array(0, 0.99486876, 2.565665, 4.1364613, 5.7072577, 7.278054, 8.84885, 10.419646, 11.990443, 12.566371),
 "transitions": PackedFloat32Array(1, 0.5, 2, 0.5, 2, 0.5, 2, 0.5, 2, 1),
 "update": 0,
-"values": [0.20967187258667433, 3.061516e-17, -0.25, -6.123032e-17, 0.25, 9.184547700000001e-17, -0.25, -1.2246064e-16, 0.25, 0.2096718725866744]
+"values": [0.20967187258667433, 3.061516e-17, -0.25, -6.123032e-17, 0.25, 9.1845477e-17, -0.25, -1.2246064e-16, 0.25, 0.2096718725866744]
 }
 tracks/21/type = "value"
 tracks/21/imported = false
@@ -1551,7 +1552,7 @@ tracks/22/keys = {
 "times": PackedFloat32Array(0, 0.57582855, 2.1466248, 3.7174213, 5.2882175, 6.859014, 8.429811, 10.000607, 11.571403, 12.566371),
 "transitions": PackedFloat32Array(1, 0.5, 2, 0.5, 2, 0.5, 2, 0.5, 2, 1),
 "update": 0,
-"values": [0.1361324738214832, 3.061516e-17, -0.25, -6.123032e-17, 0.25, 9.184547700000001e-17, -0.25, -1.2246064e-16, 0.25, 0.1361324738214834]
+"values": [0.1361324738214832, 3.061516e-17, -0.25, -6.123032e-17, 0.25, 9.1845477e-17, -0.25, -1.2246064e-16, 0.25, 0.1361324738214834]
 }
 tracks/23/type = "value"
 tracks/23/imported = false
@@ -1575,7 +1576,7 @@ tracks/24/keys = {
 "times": PackedFloat32Array(0, 1.095138, 2.6659343, 4.2367306, 5.807527, 7.378323, 8.94912, 10.519916, 12.090713, 12.566371),
 "transitions": PackedFloat32Array(1, 2, 0.5, 2, 0.5, 2, 0.5, 2, 0.5, 1),
 "update": 0,
-"values": [-0.11448096026814512, -0.25, -6.123032e-17, 0.25, 9.184547700000001e-17, -0.25, -1.2246064e-16, 0.25, 1.530758e-16, -0.1144809602681454]
+"values": [-0.11448096026814512, -0.25, -6.123032e-17, 0.25, 9.1845477e-17, -0.25, -1.2246064e-16, 0.25, 1.530758e-16, -0.1144809602681454]
 }
 tracks/25/type = "value"
 tracks/25/imported = false
@@ -1599,7 +1600,7 @@ tracks/26/keys = {
 "times": PackedFloat32Array(0, 1.1354971, 2.7062933, 4.2770896, 5.847886, 7.4186826, 8.989479, 10.560275, 12.131071, 12.566371),
 "transitions": PackedFloat32Array(1, 0.5, 2, 0.5, 2, 0.5, 2, 0.5, 2, 1),
 "update": 0,
-"values": [-0.22668597300818605, -6.123032e-17, 0.25, 9.184547700000001e-17, -0.25, -1.2246064e-16, 0.25, 1.530758e-16, -0.25, -0.2266859730081862]
+"values": [-0.22668597300818605, -6.123032e-17, 0.25, 9.1845477e-17, -0.25, -1.2246064e-16, 0.25, 1.530758e-16, -0.25, -0.2266859730081862]
 }
 tracks/27/type = "value"
 tracks/27/imported = false
@@ -1623,7 +1624,7 @@ tracks/28/keys = {
 "times": PackedFloat32Array(0, 0.3875953, 1.9583917, 3.529188, 5.099984, 6.6707807, 8.241577, 9.812373, 11.383169, 12.566371),
 "transitions": PackedFloat32Array(1, 0.5, 2, 0.5, 2, 0.5, 2, 0.5, 2, 1),
 "update": 0,
-"values": [-0.09449079728473175, -6.123032e-17, 0.25, 9.184547700000001e-17, -0.25, -1.2246064e-16, 0.25, 1.530758e-16, -0.25, -0.09449079728473186]
+"values": [-0.09449079728473175, -6.123032e-17, 0.25, 9.1845477e-17, -0.25, -1.2246064e-16, 0.25, 1.530758e-16, -0.25, -0.09449079728473186]
 }
 tracks/29/type = "value"
 tracks/29/imported = false
@@ -1647,7 +1648,7 @@ tracks/30/keys = {
 "times": PackedFloat32Array(0, 0.5586046, 2.129401, 3.7001972, 5.2709937, 6.8417897, 8.412586, 9.983382, 11.554179, 12.566371),
 "transitions": PackedFloat32Array(1, 2, 0.5, 2, 0.5, 2, 0.5, 2, 0.5, 1),
 "update": 0,
-"values": [-0.21199887953102833, -0.25, -6.123032e-17, 0.25, 9.184547700000001e-17, -0.25, -1.2246064e-16, 0.25, 1.530758e-16, -0.21199887953102817]
+"values": [-0.21199887953102833, -0.25, -6.123032e-17, 0.25, 9.1845477e-17, -0.25, -1.2246064e-16, 0.25, 1.530758e-16, -0.21199887953102817]
 }
 tracks/31/type = "value"
 tracks/31/imported = false
@@ -1671,7 +1672,7 @@ tracks/32/keys = {
 "times": PackedFloat32Array(0, 1.4019011, 2.9726975, 4.5434937, 6.11429, 7.6850863, 9.255883, 10.826679, 12.397475, 12.566371),
 "transitions": PackedFloat32Array(1, 2, 0.5, 2, 0.5, 2, 0.5, 2, 0.5, 1),
 "update": 0,
-"values": [-0.04202333797419517, -0.25, -6.123032e-17, 0.25, 9.184547700000001e-17, -0.25, -1.2246064e-16, 0.25, 1.530758e-16, -0.04202333797419505]
+"values": [-0.04202333797419517, -0.25, -6.123032e-17, 0.25, 9.1845477e-17, -0.25, -1.2246064e-16, 0.25, 1.530758e-16, -0.04202333797419505]
 }
 tracks/33/type = "value"
 tracks/33/imported = false
@@ -1695,7 +1696,7 @@ tracks/34/keys = {
 "times": PackedFloat32Array(0, 1.3610368, 2.931833, 4.5026293, 6.073426, 7.6442223, 9.215018, 10.785815, 12.356611, 12.566371),
 "transitions": PackedFloat32Array(1, 0.5, 2, 0.5, 2, 0.5, 2, 0.5, 2, 1),
 "update": 0,
-"values": [-0.24452025453181916, -6.123032e-17, 0.25, 9.184547700000001e-17, -0.25, -1.2246064e-16, 0.25, 1.530758e-16, -0.25, -0.2445202545318191]
+"values": [-0.24452025453181916, -6.123032e-17, 0.25, 9.1845477e-17, -0.25, -1.2246064e-16, 0.25, 1.530758e-16, -0.25, -0.2445202545318191]
 }
 tracks/35/type = "value"
 tracks/35/imported = false
@@ -1719,7 +1720,7 @@ tracks/36/keys = {
 "times": PackedFloat32Array(0, 0.8329702, 2.4037666, 3.974563, 5.545359, 7.1161556, 8.686952, 10.257749, 11.828545, 12.566371),
 "transitions": PackedFloat32Array(1, 2, 0.5, 2, 0.5, 2, 0.5, 2, 0.5, 1),
 "update": 0,
-"values": [0.1681702457416316, 0.25, 3.061516e-17, -0.25, -6.123032e-17, 0.25, 9.184547700000001e-17, -0.25, -1.2246064e-16, 0.16817024574163164]
+"values": [0.1681702457416316, 0.25, 3.061516e-17, -0.25, -6.123032e-17, 0.25, 9.1845477e-17, -0.25, -1.2246064e-16, 0.16817024574163164]
 }
 tracks/37/type = "value"
 tracks/37/imported = false
@@ -2342,11 +2343,11 @@ texture = ExtResource("11_logo")
 offset_top = 250.0
 offset_right = 640.0
 offset_bottom = 280.0
-theme_override_fonts/font = ExtResource("12_font")
-theme_override_font_sizes/font_size = 20
 theme_override_colors/font_color = Color(0.45, 1, 0.55, 1)
 theme_override_colors/font_outline_color = Color(0.02, 0.1, 0.08, 1)
 theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("12_font")
+theme_override_font_sizes/font_size = 20
 text = "PRESS START"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -2362,18 +2363,16 @@ texture = SubResource("AtlasTexture_1u8u4")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Credit" type="Label" parent="Title" unique_id=1607637156]
-offset_top = 282.0
-offset_right = 640.0
-offset_bottom = 298.0
-theme_override_fonts/font = ExtResource("12_font")
-theme_override_font_sizes/font_size = 12
-theme_override_colors/font_color = Color(0.77, 0.93, 0.95, 1)
-theme_override_colors/font_outline_color = Color(0.02, 0.1, 0.08, 1)
-theme_override_constants/outline_size = 3
-text = "Made by maKate Studios"
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="Credit" type="TextureRect" parent="Title" unique_id=355853608]
+texture_filter = 1
+offset_left = 504.0
+offset_top = 290.0
+offset_right = 630.0
+offset_bottom = 350.0
+mouse_filter = 2
+texture = ExtResource("22_x5qjb")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="SpeedLines" type="CanvasLayer" parent="." unique_id=2066782234]
 layer = 5

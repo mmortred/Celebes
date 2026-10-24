@@ -17,6 +17,10 @@ const BASE_PLAYER = preload("res://Celebes Abyssal Tides/scenes/player/player.ts
 
 var players_spawned := false
 var late_phase := false # after the 5-minute mark: inner wells and spawns, closing border
+# Pearl-carrier barriers: the carrier's own team wall goes up in front of their outer
+# well, so they have to go around their base instead of running straight in.
+@onready var barrier_walls := {0: get_node_or_null("SeaNomadBarrierWall"), 1: get_node_or_null("GarbageBarrierWall")}
+var barrier_team := -2 # team whose wall is up, -1 = none (-2 = not set yet)
 
 func _ready() -> void:
 	print("Arena loaded!")
@@ -39,6 +43,29 @@ func _ready() -> void:
 	if multiplayer.is_server():
 		CharacterSelectManager.everyone_in_arena.connect(spawn_players)
 	CharacterSelectManager.report_arena_ready()
+	_set_barrier(-1) # both walls down (a hidden TileMapLayer would still block)
+
+
+# Reads the pearl every frame, like the clam does, so every peer agrees without rpcs.
+func _process(_delta: float) -> void:
+	var pearl = get_tree().get_first_node_in_group("pearl")
+	var carrier_team := -1
+	if pearl and pearl.carrier_name != "":
+		var carrier = pearl.find_player(pearl.carrier_name)
+		if carrier:
+			carrier_team = carrier.team
+	_set_barrier(carrier_team)
+
+
+func _set_barrier(team: int) -> void:
+	if team == barrier_team:
+		return
+	barrier_team = team
+	for wall_team in barrier_walls:
+		var wall: TileMapLayer = barrier_walls[wall_team]
+		if wall:
+			wall.visible = wall_team == team
+			wall.collision_enabled = wall_team == team
 
 
 # HOST: one player per non-spectator, with their picked character, at their team's spawns.
