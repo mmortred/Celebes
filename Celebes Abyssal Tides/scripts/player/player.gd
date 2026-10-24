@@ -215,9 +215,13 @@ func start_swing(): #+
 
 	# End the swing after the animation's length, instead of waiting for a signal #+ NEW
 	var frames = sprite.sprite_frames #+ NEW
-	var swing_length = frames.get_frame_count(anim_name) / frames.get_animation_speed(anim_name) #+ NEW frames ÷ FPS = seconds
+	var swing_length = 0.0 #+ SWING per-frame durations, at the sprite's playback speed (1.5x),
+	for i in frames.get_frame_count(anim_name): #+ SWING so the swing ends with the animation
+		swing_length += frames.get_frame_duration(anim_name, i) #+ SWING instead of freezing on the last frame
+	swing_length /= frames.get_animation_speed(anim_name) * absf(sprite.speed_scale) #+ SWING
 	await get_tree().create_timer(swing_length).timeout #+ NEW
 	is_swinging = false #+ NEW
+	update_animation() #+ SWING straight back to walking/standing this frame
 
 func get_swing_direction() -> Vector2: #+ SWING same rule as update_animation, so the swing matches the walk direction
 	if abs(facing_direction.x) > abs(facing_direction.y): #+ SWING

@@ -46,34 +46,6 @@ region = Rect2(64, 0, 64, 64)
 atlas = ExtResource("7_8iu1s")
 region = Rect2(192, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_wkwig"]
-atlas = ExtResource("3_xen5l")
-region = Rect2(0, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_170eo"]
-atlas = ExtResource("3_xen5l")
-region = Rect2(64, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_wyrur"]
-atlas = ExtResource("3_xen5l")
-region = Rect2(128, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_pdrvn"]
-atlas = ExtResource("3_xen5l")
-region = Rect2(192, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_r1r6x"]
-atlas = ExtResource("3_xen5l")
-region = Rect2(256, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_igfyj"]
-atlas = ExtResource("3_xen5l")
-region = Rect2(320, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_4mo56"]
-atlas = ExtResource("3_xen5l")
-region = Rect2(384, 0, 64, 64)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_g480l"]
 atlas = ExtResource("4_5s0i6")
 region = Rect2(0, 0, 64, 64)
@@ -279,27 +251,6 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_wkwig")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_170eo")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wyrur")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_pdrvn")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_r1r6x")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_igfyj")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_4mo56")
-}, {
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_g480l")
 }, {
 "duration": 1.0,
@@ -319,7 +270,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"left_swing",
-"speed": 7.0
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -457,7 +408,9 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_1e16l"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_feet"]
+radius = 6.0
+height = 30.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gnugr"]
 size = Vector2(56, 43.5)
@@ -476,8 +429,9 @@ frame_progress = 0.49782184
 
 [node name="CollisionShape2D" parent="." index="1" unique_id=1509811323]
 visible = true
-position = Vector2(0, -16)
-shape = SubResource("CircleShape2D_1e16l")
+position = Vector2(0, -12)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_feet")
 debug_color = Color(0.6327152, 0.5274247, 0.1361036, 0.41960785)
 
 [node name="CollisionShape2D" parent="AttackRange" parent_id_path=PackedInt32Array(1937271004) index="0" unique_id=1703822284]
