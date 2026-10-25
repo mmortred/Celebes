@@ -1415,7 +1415,7 @@ tracks/12/keys = {
 "times": PackedFloat32Array(0, 0.93160385, 2.5024002, 4.0731964, 5.643993, 7.214789, 8.785585, 10.356381, 11.927178, 12.566371),
 "transitions": PackedFloat32Array(1, 0.5, 2, 0.5, 2, 0.5, 2, 0.5, 2, 1),
 "update": 0,
-"values": [0.2006444340913404, 3.061516e-17, -0.25, -6.123032e-17, 0.25, 9.184547700000001e-17, -0.25, -1.2246064e-16, 0.25, 0.2006444340913404]
+"values": [0.2006444340913404, 3.061516e-17, -0.25, -6.123032e-17, 0.25, 9.1845477e-17, -0.25, -1.2246064e-16, 0.25, 0.2006444340913404]
 }
 tracks/13/type = "value"
 tracks/13/imported = false
@@ -1439,7 +1439,7 @@ tracks/14/keys = {
 "times": PackedFloat32Array(0, 1.0902627, 2.6610591, 4.2318554, 5.802652, 7.373448, 8.944244, 10.51504, 12.085837, 12.566371),
 "transitions": PackedFloat32Array(1, 2, 0.5, 2, 0.5, 2, 0.5, 2, 0.5, 1),
 "update": 0,
-"values": [0.11556310687803208, 0.25, 3.061516e-17, -0.25, -6.123032e-17, 0.25, 9.184547700000001e-17, -0.25, -1.2246064e-16, 0.115563106878032]
+"values": [0.11556310687803208, 0.25, 3.061516e-17, -0.25, -6.123032e-17, 0.25, 9.1845477e-17, -0.25, -1.2246064e-16, 0.115563106878032]
 }
 tracks/15/type = "value"
 tracks/15/imported = false
@@ -1463,7 +1463,7 @@ tracks/16/keys = {
 "times": PackedFloat32Array(0, 0.17843574, 1.749232, 3.3200283, 4.890825, 6.4616213, 8.032417, 9.603213, 11.17401, 12.566371),
 "transitions": PackedFloat32Array(1, 0.5, 2, 0.5, 2, 0.5, 2, 0.5, 2, 1),
 "update": 0,
-"values": [-0.04437259343780336, -6.123032e-17, 0.25, 9.184547700000001e-17, -0.25, -1.2246064e-16, 0.25, 1.530758e-16, -0.25, -0.04437259343780305]
+"values": [-0.04437259343780336, -6.123032e-17, 0.25, 9.1845477e-17, -0.25, -1.2246064e-16, 0.25, 1.530758e-16, -0.25, -0.04437259343780305]
 }
 tracks/17/type = "value"
 tracks/17/imported = false
@@ -1487,7 +1487,7 @@ tracks/18/keys = {
 "times": PackedFloat32Array(0, 1.0288322, 2.5996284, 4.170425, 5.7412214, 7.3120174, 8.882813, 10.45361, 12.024406, 12.566371),
 "transitions": PackedFloat32Array(1, 0.5, 2, 0.5, 2, 0.5, 2, 0.5, 2, 1),
 "update": 0,
-"values": [-0.21417430316242209, -6.123032e-17, 0.25, 9.184547700000001e-17, -0.25, -1.2246064e-16, 0.25, 1.530758e-16, -0.25, -0.21417430316242236]
+"values": [-0.21417430316242209, -6.123032e-17, 0.25, 9.1845477e-17, -0.25, -1.2246064e-16, 0.25, 1.530758e-16, -0.25, -0.21417430316242236]
 }
 tracks/19/type = "value"
 tracks/19/imported = false
@@ -1511,7 +1511,7 @@ tracks/20/keys = {
 "times": PackedFloat32Array(0, 0.99486876, 2.565665, 4.1364613, 5.7072577, 7.278054, 8.84885, 10.419646, 11.990443, 12.566371),
 "transitions": PackedFloat32Array(1, 0.5, 2, 0.5, 2, 0.5, 2, 0.5, 2, 1),
 "update": 0,
-"values": [0.20967187258667433, 3.061516e-17, -0.25, -6.123032e-17, 0.25, 9.184547700000001e-17, -0.25, -1.2246064e-16, 0.25, 0.2096718725866744]
+"values": [0.20967187258667433, 3.061516e-17, -0.25, -6.123032e-17, 0.25, 9.1845477e-17, -0.25, -1.2246064e-16, 0.25, 0.2096718725866744]
 }
 tracks/21/type = "value"
 tracks/21/imported = false
@@ -1535,7 +1535,7 @@ tracks/22/keys = {
 "times": PackedFloat32Array(0, 0.57582855, 2.1466248, 3.7174213, 5.2882175, 6.859014, 8.429811, 10.000607, 11.571403, 12.566371),
 "transitions": PackedFloat32Array(1, 0.5, 2, 0.5, 2, 0.5, 2, 0.5, 2, 1),
 "update": 0,
-"values": [0.1361324738214832, 3.061516e-17, -0.25, -6.123032e-17, 0.25, 9.184547700000001e-17, -0.25, -1.2246064e-16, 0.25, 0.1361324738214834]
+"values": [0.1361324738214832, 3.061516e-17, -0.25, -6.123032e-17, 0.25, 9.1845477e-17, -0.25, -1.2246064e-16, 0.25, 0.1361324738214834]
 }
 tracks/23/type = "value"
 tracks/23/imported = false
@@ -1559,7 +1559,7 @@ tracks/24/keys = {
 "times": PackedFloat32Array(0, 1.095138, 2.6659343, 4.2367306, 5.807527, 7.378323, 8.94912, 10.519916, 12.090713, 12.566371),
 "transitions": PackedFloat32Array(1, 2, 0.5, 2, 0.5, 2, 0.5, 2, 0.5, 1),
 "update": 0,
-"values": [-0.11448096026814512, -0.25, -6.123032e-17, 0.25, 9.184547700000001e-17, -0.25, -1.2246064e-16, 0.25, 1.530758e-16, -0.1144809602681454]
+"values": [-0.11448096026814512, -0.25, -6.123032e-17, 0.25, 9.1845477e-17, -0.25, -1.2246064e-16, 0.25, 1.530758e-16, -0.1144809602681454]
 }
 tracks/25/type = "value"
 tracks/25/imported = false
@@ -1583,7 +1583,7 @@ tracks/26/keys = {
 "times": PackedFloat32Array(0, 1.1354971, 2.7062933, 4.2770896, 5.847886, 7.4186826, 8.989479, 10.560275, 12.131071, 12.566371),
 "transitions": PackedFloat32Array(1, 0.5, 2, 0.5, 2, 0.5, 2, 0.5, 2, 1),
 "update": 0,
-"values": [-0.22668597300818605, -6.123032e-17, 0.25, 9.184547700000001e-17, -0.25, -1.2246064e-16, 0.25, 1.530758e-16, -0.25, -0.2266859730081862]
+"values": [-0.22668597300818605, -6.123032e-17, 0.25, 9.1845477e-17, -0.25, -1.2246064e-16, 0.25, 1.530758e-16, -0.25, -0.2266859730081862]
 }
 tracks/27/type = "value"
 tracks/27/imported = false
@@ -1607,7 +1607,7 @@ tracks/28/keys = {
 "times": PackedFloat32Array(0, 0.3875953, 1.9583917, 3.529188, 5.099984, 6.6707807, 8.241577, 9.812373, 11.383169, 12.566371),
 "transitions": PackedFloat32Array(1, 0.5, 2, 0.5, 2, 0.5, 2, 0.5, 2, 1),
 "update": 0,
-"values": [-0.09449079728473175, -6.123032e-17, 0.25, 9.184547700000001e-17, -0.25, -1.2246064e-16, 0.25, 1.530758e-16, -0.25, -0.09449079728473186]
+"values": [-0.09449079728473175, -6.123032e-17, 0.25, 9.1845477e-17, -0.25, -1.2246064e-16, 0.25, 1.530758e-16, -0.25, -0.09449079728473186]
 }
 tracks/29/type = "value"
 tracks/29/imported = false
@@ -1631,7 +1631,7 @@ tracks/30/keys = {
 "times": PackedFloat32Array(0, 0.5586046, 2.129401, 3.7001972, 5.2709937, 6.8417897, 8.412586, 9.983382, 11.554179, 12.566371),
 "transitions": PackedFloat32Array(1, 2, 0.5, 2, 0.5, 2, 0.5, 2, 0.5, 1),
 "update": 0,
-"values": [-0.21199887953102833, -0.25, -6.123032e-17, 0.25, 9.184547700000001e-17, -0.25, -1.2246064e-16, 0.25, 1.530758e-16, -0.21199887953102817]
+"values": [-0.21199887953102833, -0.25, -6.123032e-17, 0.25, 9.1845477e-17, -0.25, -1.2246064e-16, 0.25, 1.530758e-16, -0.21199887953102817]
 }
 tracks/31/type = "value"
 tracks/31/imported = false
@@ -1655,7 +1655,7 @@ tracks/32/keys = {
 "times": PackedFloat32Array(0, 1.4019011, 2.9726975, 4.5434937, 6.11429, 7.6850863, 9.255883, 10.826679, 12.397475, 12.566371),
 "transitions": PackedFloat32Array(1, 2, 0.5, 2, 0.5, 2, 0.5, 2, 0.5, 1),
 "update": 0,
-"values": [-0.04202333797419517, -0.25, -6.123032e-17, 0.25, 9.184547700000001e-17, -0.25, -1.2246064e-16, 0.25, 1.530758e-16, -0.04202333797419505]
+"values": [-0.04202333797419517, -0.25, -6.123032e-17, 0.25, 9.1845477e-17, -0.25, -1.2246064e-16, 0.25, 1.530758e-16, -0.04202333797419505]
 }
 tracks/33/type = "value"
 tracks/33/imported = false
@@ -1679,7 +1679,7 @@ tracks/34/keys = {
 "times": PackedFloat32Array(0, 1.3610368, 2.931833, 4.5026293, 6.073426, 7.6442223, 9.215018, 10.785815, 12.356611, 12.566371),
 "transitions": PackedFloat32Array(1, 0.5, 2, 0.5, 2, 0.5, 2, 0.5, 2, 1),
 "update": 0,
-"values": [-0.24452025453181916, -6.123032e-17, 0.25, 9.184547700000001e-17, -0.25, -1.2246064e-16, 0.25, 1.530758e-16, -0.25, -0.2445202545318191]
+"values": [-0.24452025453181916, -6.123032e-17, 0.25, 9.1845477e-17, -0.25, -1.2246064e-16, 0.25, 1.530758e-16, -0.25, -0.2445202545318191]
 }
 tracks/35/type = "value"
 tracks/35/imported = false
@@ -1703,7 +1703,7 @@ tracks/36/keys = {
 "times": PackedFloat32Array(0, 0.8329702, 2.4037666, 3.974563, 5.545359, 7.1161556, 8.686952, 10.257749, 11.828545, 12.566371),
 "transitions": PackedFloat32Array(1, 2, 0.5, 2, 0.5, 2, 0.5, 2, 0.5, 1),
 "update": 0,
-"values": [0.1681702457416316, 0.25, 3.061516e-17, -0.25, -6.123032e-17, 0.25, 9.184547700000001e-17, -0.25, -1.2246064e-16, 0.16817024574163164]
+"values": [0.1681702457416316, 0.25, 3.061516e-17, -0.25, -6.123032e-17, 0.25, 9.1845477e-17, -0.25, -1.2246064e-16, 0.16817024574163164]
 }
 tracks/37/type = "value"
 tracks/37/imported = false
@@ -1806,6 +1806,7 @@ offset_left = -300.0
 offset_top = -902.0
 offset_right = 940.0
 mouse_filter = 2
+metadata/_edit_lock_ = true
 
 [node name="ShallowRays" type="ColorRect" parent="Surface" unique_id=69316430]
 material = SubResource("ShaderMaterial_shallowrays")
@@ -1826,74 +1827,87 @@ mouse_filter = 2
 [node name="Debris" type="Node2D" parent="Surface" unique_id=1818223804]
 
 [node name="Bag" type="Node2D" parent="Surface/Debris" unique_id=689775407]
-position = Vector2(120, -700)
+position = Vector2(120, -698.11444)
+rotation = 0.20064443
 scale = Vector2(1.6, 1.6)
 script = ExtResource("7_trash")
 
 [node name="Bottle" type="Node2D" parent="Surface/Debris" unique_id=1978750210]
-position = Vector2(480, -560)
+position = Vector2(480, -560.94385)
+rotation = 0.11556311
 scale = Vector2(1.6, 1.6)
 script = ExtResource("7_trash")
 kind = 1
 
 [node name="Bag2" type="Node2D" parent="Surface/Debris" unique_id=1317125176]
-position = Vector2(300, -380)
+position = Vector2(300, -378.05383)
+rotation = -0.044372592
 scale = Vector2(1.6, 1.6)
 script = ExtResource("7_trash")
 
 [node name="Can" type="Node2D" parent="Surface/Debris" unique_id=1419181950]
-position = Vector2(560, -250)
+position = Vector2(560, -248.07297)
+rotation = -0.2141743
 scale = Vector2(1.6, 1.6)
 script = ExtResource("7_trash")
 kind = 2
 
 [node name="Slipper" type="Node2D" parent="Surface/Debris" unique_id=1985100849]
-position = Vector2(60, -160)
+position = Vector2(60, -159.0944)
+rotation = 0.20967187
 scale = Vector2(1.6, 1.6)
 script = ExtResource("7_trash")
 kind = 4
 
 [node name="Bag3" type="Node2D" parent="Surface/Debris" unique_id=1231662854]
-position = Vector2(400, -820)
+position = Vector2(400, -819.87445)
+rotation = 0.13613248
 scale = Vector2(1.6, 1.6)
 script = ExtResource("7_trash")
 
 [node name="SurfaceTrash" type="Node2D" parent="Surface" unique_id=716508285]
 
 [node name="Bag" type="Node2D" parent="Surface/SurfaceTrash" unique_id=1716264915]
-position = Vector2(90, -930)
+position = Vector2(90, -928.9055)
+rotation = -0.11448096
 script = ExtResource("7_trash")
 
 [node name="Bottle" type="Node2D" parent="Surface/SurfaceTrash" unique_id=2126329619]
-position = Vector2(205, -1010)
+position = Vector2(205, -1010.7955)
+rotation = -0.22668597
 scale = Vector2(0.8, 0.8)
 script = ExtResource("7_trash")
 kind = 1
 
 [node name="Slipper" type="Node2D" parent="Surface/SurfaceTrash" unique_id=1279617940]
-position = Vector2(330, -960)
+position = Vector2(330, -958.36633)
+rotation = -0.0944908
 script = ExtResource("7_trash")
 kind = 4
 
 [node name="Can" type="Node2D" parent="Surface/SurfaceTrash" unique_id=1665906770]
-position = Vector2(440, -1045)
+position = Vector2(440, -1043)
+rotation = -0.21199888
 scale = Vector2(0.6, 0.6)
 script = ExtResource("7_trash")
 kind = 2
 
 [node name="Tire" type="Node2D" parent="Surface/SurfaceTrash" unique_id=1392552461]
-position = Vector2(510, -985)
+position = Vector2(510, -983.8861)
+rotation = -0.04202334
 scale = Vector2(0.9, 0.9)
 script = ExtResource("7_trash")
 kind = 3
 
 [node name="Bottle2" type="Node2D" parent="Surface/SurfaceTrash" unique_id=1772813791]
-position = Vector2(590, -935)
+position = Vector2(590, -933.1624)
+rotation = -0.24452026
 script = ExtResource("7_trash")
 kind = 1
 
 [node name="Bag2" type="Node2D" parent="Surface/SurfaceTrash" unique_id=1995819999]
-position = Vector2(150, -1055)
+position = Vector2(150, -1054.7012)
+rotation = 0.16817024
 scale = Vector2(0.55, 0.55)
 script = ExtResource("7_trash")
 
@@ -2198,7 +2212,7 @@ expand_mode = 1
 
 [node name="Bag1" type="Node2D" parent="Trash" unique_id=307576113]
 position = Vector2(18, 141)
-scale = Vector2(1.63, 1.63)
+scale = Vector2(1.63, 1.438258)
 script = ExtResource("7_trash")
 
 [node name="Can3" type="Node2D" parent="Trash" unique_id=712240346]
@@ -2233,7 +2247,7 @@ kind = 2
 
 [node name="Bag9" type="Node2D" parent="Trash" unique_id=830375804]
 position = Vector2(189, 286)
-scale = Vector2(1.75, 1.75)
+scale = Vector2(1.75, 1.6837636)
 script = ExtResource("7_trash")
 
 [node name="Can13" type="Node2D" parent="Trash" unique_id=773471099]
@@ -2244,7 +2258,7 @@ kind = 2
 
 [node name="Bag16" type="Node2D" parent="Trash" unique_id=116991484]
 position = Vector2(328, 283)
-scale = Vector2(1.84, 1.84)
+scale = Vector2(1.84, 1.6192446)
 script = ExtResource("7_trash")
 
 [node name="Can18" type="Node2D" parent="Trash" unique_id=1559113304]
@@ -2273,7 +2287,7 @@ kind = 1
 
 [node name="Bag24" type="Node2D" parent="Trash" unique_id=1736044530]
 position = Vector2(507, 100)
-scale = Vector2(2.04, 2.04)
+scale = Vector2(2.04, 1.9178228)
 script = ExtResource("7_trash")
 
 [node name="Tire25" type="Node2D" parent="Trash" unique_id=70429905]
@@ -2296,7 +2310,7 @@ kind = 2
 
 [node name="Bag29" type="Node2D" parent="Trash" unique_id=1114665507]
 position = Vector2(609, 94)
-scale = Vector2(-1.72, 1.72)
+scale = Vector2(-1.72, 1.8967687)
 script = ExtResource("7_trash")
 
 [node name="Murk" type="CanvasModulate" parent="." unique_id=630185732]
@@ -2307,6 +2321,7 @@ offset_left = -300.0
 offset_right = 940.0
 offset_bottom = 360.0
 mouse_filter = 2
+metadata/_edit_lock_ = true
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=281393804]
 position = Vector2(320, 180)

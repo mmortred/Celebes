@@ -20,10 +20,10 @@ extends CharacterBody2D
 @onready var primary_ability: Node = $PrimaryAbility
 @onready var ultimate_ability: Node = $UltAbility
 @onready var label: Label = $Label
-@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D #+
-@onready var attack_range: Area2D = $AttackRange #+
-@onready var health = $HealthComponent #+
-@onready var death_dust = get_node_or_null("DeathDust") #+ optional particles, null if you didn't add it
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D 
+@onready var attack_range: Area2D = $AttackRange 
+@onready var health = $HealthComponent 
+@onready var death_dust = get_node_or_null("DeathDust") 
 @onready var pearl_indicator: Sprite2D = $PearlIndicator #+ PEARL icon above the head
 @onready var launch_fx = $LaunchFX #+ LAUNCH dash effect, code lives in launch_fx.gd
 
@@ -42,55 +42,55 @@ var dash_cooldown_timer = 0.0
 var slow_timer = 0.0 #+ SLOW time left on the hit slow
 
 #animatioon stuff so others can see the animation
-@export var anim_name = "walk_down" #+ NEW exported so it shows in the synchronizer picker
-@export var anim_frozen = true #+ NEW exported. true = standing still, hold the current frame
-var is_swinging = false #+
-var hit_tween = null #+ so rapid hits restart the flash instead of stacking
-var is_dead = false #+
+@export var anim_name = "walk_down" 
+@export var anim_frozen = true 
+var is_swinging = false 
+var hit_tween = null # glow red when hit
+var is_dead = false 
 var has_pearl = false #+ PEARL set on every peer by the pearl's collected() rpc
-var cutscene_frozen = false #+ CUTSCENE set by the leviathan awakening, stand still until it ends
-@export var net_position = Vector2.ZERO #+ SMOOTH owner's real position; synced instead of position so others can glide to it
-const SMOOTHING = 18.0 #+ SMOOTH higher = catches up faster
-const SNAP_DISTANCE = 200.0 #+ SMOOTH further than this = teleport, don't glide
-var team = 0 #+ SPAWN 0 = Sea Nomads (left spawns), 1 = Garbage Monsters (right). set by the arena when spawning
+var cutscene_frozen = false 
+@export var net_position = Vector2.ZERO #to make the player move smooth in multiplayer
+const SMOOTHING = 18.0 
+const SNAP_DISTANCE = 200.0 #SMOOTH further than this = teleport, don't glide
+var team = 0 # SPAWN 0 = Sea Nomads (left spawns), 1 = Garbage Monsters (right). set by the arena when spawning
 var character = -1 #+ ICON character id picked in character select (0 Bugis, 5 Toxic Sludge). set by the arena when spawning
 
 func _enter_tree():
 	var id = str(name).to_int() #+
-	if id == 0: #+ name isn't a peer id (scene run alone), so use offline id 1
-		id = 1 #+
+	if id == 0: # name isn't a peer id (scene run alone), so use offline id 1
+		id = 1 
 	set_multiplayer_authority(id) #+
 	add_to_group("players")
 
 func _ready():
-	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING #+ NEW top-down: no "floor", so you can't ride other players
+	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING # no "floor", so you can't ride other players
 	net_position = position #+ SMOOTH start where I spawned, not at (0, 0)
-	label.text = LobbyManager.get_player_name(get_multiplayer_authority()) #+ NAME the username from settings
-	label.add_theme_font_override("font", GameManager.PIXEL_FONT) #+ NAME monogram
-	label.add_theme_font_size_override("font_size", 16) #+
-	label.add_theme_constant_override("outline_size", 4) #+
-	label.add_theme_color_override("font_outline_color", Color.BLACK) #+
-	label.add_theme_color_override("font_color", GameManager.TEAM_COLORS.get(team, Color.WHITE)) #+ NAME teal / green by team
+	label.text = LobbyManager.get_player_name(get_multiplayer_authority()) # NAME the username from settings
+	label.add_theme_font_override("font", GameManager.PIXEL_FONT) # NAME monogram
+	label.add_theme_font_size_override("font_size", 16) 
+	label.add_theme_constant_override("outline_size", 4) 
+	label.add_theme_color_override("font_outline_color", Color.BLACK) 
+	label.add_theme_color_override("font_color", GameManager.TEAM_COLORS.get(team, Color.WHITE)) # NAME teal / green by team
 	camera.enabled = is_multiplayer_authority() # only enable camera for the owning client
-	sprite.sprite_frames.set_animation_loop("top_swing", false) #+ swings must play once
-	sprite.sprite_frames.set_animation_loop("bottom_swing", false) #+
-	sprite.sprite_frames.set_animation_loop("right_swing", false) #+ swings must play once
-	sprite.sprite_frames.set_animation_loop("left_swing", false) #+
-	sprite.frame_changed.connect(_on_frame_changed) #+ used to time the hit to a frame
-	health.knocked_out.connect(_on_knocked_out) #+ react when HP hits 0
-	sprite.play(anim_name) #+
-	pearl_indicator.visible = has_pearl #+ PEARL hidden at spawn even if left visible in the editor
-	_add_feet_shadow() #+ SHADOW
-	if is_multiplayer_authority(): #+ only MY player connects to MY screen's HUD
+	sprite.sprite_frames.set_animation_loop("top_swing", false) # swings must play once
+	sprite.sprite_frames.set_animation_loop("bottom_swing", false) 
+	sprite.sprite_frames.set_animation_loop("right_swing", false) # swings must play once
+	sprite.sprite_frames.set_animation_loop("left_swing", false) 
+	sprite.frame_changed.connect(_on_frame_changed) # used to time the hit to a frame
+	health.knocked_out.connect(_on_knocked_out) # react when HP hits 0
+	sprite.play(anim_name) 
+	pearl_indicator.visible = has_pearl # PEARL hidden at spawn even if left visible in the editor
+	_add_feet_shadow() # SHADOW
+	if is_multiplayer_authority(): # only MY player connects to MY screen's HUD
 		var hud = get_tree().get_first_node_in_group("hud") #+
 		if hud: #+
 			hud.set_player(self) #+
 
-func _process(delta): #+ runs on every peer, plays whatever the owner set
-	if is_multiplayer_authority(): #+ SMOOTH publish where I really am
-		net_position = position #+ SMOOTH
+func _process(delta): # runs on every peer, plays whatever the owner set
+	if is_multiplayer_authority(): # SMOOTH publish where I really am
+		net_position = position # SMOOTH
 	elif position.distance_to(net_position) > SNAP_DISTANCE: #+ SMOOTH respawn/teleport: jump straight there
-		position = net_position #+ SMOOTH
+		position = net_position # SMOOTH
 	else: #+ SMOOTH glide toward the owner's position instead of snapping to each network update
 		position = position.lerp(net_position, 1.0 - exp(-SMOOTHING * delta)) #+ SMOOTH
 	if sprite.animation != anim_name: #+
@@ -175,7 +175,7 @@ func _physics_process(delta):
 
 	update_animation() #+
 
-##Shadow #+
+#Shadow #+
 # Soft dark oval right under the feet, sized to the feet collision so it fits each character. #+
 func _add_feet_shadow(): #+ SHADOW
 	var gradient = Gradient.new() #+
