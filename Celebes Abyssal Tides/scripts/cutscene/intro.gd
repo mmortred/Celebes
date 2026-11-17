@@ -6,7 +6,7 @@ extends Node2D
 ##   $AnimationPlayer
 ##     "intro"  0-2s calm push-in, 2-10s the pollution wave rolls in (fish flee,
 ##              trash rides the wave front and sinks), 10-17s rise to the surface
-##     "title"  logo, PRESS START and credits fade in, the leviathan swims past
+##     "title"  logo, PRESS START and credits fade in, the serpent swims past
 ##     "blink"  PRESS START keeps blinking (loops, queued after "title")
 ##   $AmbientPlayer
 ##     "ambient" loops the whole time: floating trash bobs, clouds drift, bags
@@ -71,7 +71,7 @@ func _unhandled_input(event):
 ## the fader lives on the root so it survives the scene change.
 func _finish():
 	set_process_unhandled_input(false)
-	anim.pause() # hold the title and the leviathan still during the fade
+	anim.pause() # hold the title and the serpent still during the fade
 
 	var layer := CanvasLayer.new()
 	layer.layer = 100

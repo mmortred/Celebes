@@ -5,16 +5,16 @@ extends Node
 
 signal state_changed(new_state: int)
 signal time_updated(seconds_remaining: int)
-signal leviathan_rising_started
+signal serpent_rising_started
 signal match_ended
 signal score_changed(scores: Dictionary)
 signal announcement(text: String, team: int) # pearl taken / dropped / captured, shown by the HUD
 signal match_won(winner: int, reason: String) # winner team, -1 = draw; reason "target" or "time". Starts the winner screen
 
-enum MatchState { MENU, LOBBY, CHARACTER_SELECT, LOADING, IN_PROGRESS, LEVIATHAN_RISING, VICTORY }
+enum MatchState { MENU, LOBBY, CHARACTER_SELECT, LOADING, IN_PROGRESS, SERPENT_RISING, VICTORY }
 
 const MATCH_DURATION = 300.0   # 5 minutes, per your design doc
-const LEVIATHAN_RISING_DURATION = 120.0  # adjust to your actual leviathan-rising length
+const SERPENT_RISING_DURATION = 120.0  # adjust to your actual serpent-rising length
 const TARGET_SCORE = 15 # first team to capture this many pearls wins on the spot
 const TEAM_NAMES = {0: "Sea Nomads", 1: "Garbage Monsters"}
 const TEAM_COLORS = {0: Color("2ed3be"), 1: Color("a5e35f"), -1: Color.WHITE} # Sea Nomads teal, Garbage Monsters green, neutral
@@ -23,17 +23,17 @@ const PIXEL_FONT = preload("res://Celebes Abyssal Tides/assets/font/monogram.ttf
 var state: MatchState = MatchState.MENU
 var team_scores: Dictionary = {0: 0, 1: 0}
 var time_remaining: float = MATCH_DURATION
-var match_paused := false # set on every peer by the leviathan cutscene: the timer and the border wait
+var match_paused := false # set on every peer by the serpent cutscene: the timer and the border wait
 
 # Derived from `state` so there is a single source of truth. These keep the
 # names the HUD branch already used, so existing HUD code keeps working.
-var in_leviathan_rising: bool:
+var in_serpent_rising: bool:
 	get:
-		return state == MatchState.LEVIATHAN_RISING
+		return state == MatchState.SERPENT_RISING
 
 var match_active: bool:
 	get:
-		return state == MatchState.IN_PROGRESS or state == MatchState.LEVIATHAN_RISING
+		return state == MatchState.IN_PROGRESS or state == MatchState.SERPENT_RISING
 
 
 func set_state(new_state: MatchState) -> void:
@@ -94,7 +94,7 @@ func _process(delta: float) -> void:
 
 	if time_remaining <= 0.0:
 		if state == MatchState.IN_PROGRESS:
-			_enter_leviathan_rising()
+			_enter_serpent_rising()
 		else:
 			_end_match(_time_up_winner(), "time")
 		return
@@ -104,11 +104,11 @@ func _process(delta: float) -> void:
 		sync_timer_state.rpc(time_remaining, state)
 
 
-func _enter_leviathan_rising() -> void:
-	time_remaining = LEVIATHAN_RISING_DURATION
-	set_state(MatchState.LEVIATHAN_RISING)
+func _enter_serpent_rising() -> void:
+	time_remaining = SERPENT_RISING_DURATION
+	set_state(MatchState.SERPENT_RISING)
 	sync_timer_state.rpc(time_remaining, state)
-	notify_leviathan_rising.rpc()
+	notify_serpent_rising.rpc()
 
 
 func _end_match(winner: int, reason: String) -> void:
@@ -144,8 +144,8 @@ func sync_timer_state(new_time: float, new_state: int) -> void:
 
 
 @rpc("authority", "call_local", "reliable")
-func notify_leviathan_rising() -> void:
-	leviathan_rising_started.emit()
+func notify_serpent_rising() -> void:
+	serpent_rising_started.emit()
 
 
 @rpc("authority", "call_local", "reliable")

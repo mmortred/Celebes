@@ -1,6 +1,6 @@
 @tool
 extends Node2D
-## leviathan for the title: a huge shadow that swims past under the surface once.
+## serpent for the title: a huge shadow that swims past under the surface once.
 ## the head follows `route` from right to left and the body trails along the same
 ## path, so it slithers. drawn as a dark silhouette with soft edges; only a dim
 ## gold eye shows. the pass is keyed in the Intro's AnimationPlayer ("title" moves

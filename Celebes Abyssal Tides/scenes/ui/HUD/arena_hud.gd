@@ -15,7 +15,7 @@ const WINNER_KEY_DELAY = 1.5 #+ WINNER seconds before a key counts, so a last at
 func _ready():
 	add_to_group("hud") #+ player.gd finds the HUD through this group
 	GameManager.time_updated.connect(_on_time_updated)
-	GameManager.leviathan_rising_started.connect(_on_leviathan_rising_started)
+	GameManager.serpent_rising_started.connect(_on_serpent_rising_started)
 	GameManager.match_ended.connect(_on_match_ended)
 	GameManager.score_changed.connect(_on_score_changed) #+ SCORE
 	GameManager.announcement.connect(show_alert) #+ ALERT
@@ -165,7 +165,7 @@ func _on_time_updated(seconds_remaining: int):
 	else:
 		timer_label.modulate = Color.WHITE
 
-func _on_leviathan_rising_started():
+func _on_serpent_rising_started():
 	timer_label.modulate = Color.ORANGE
 	# end game call
 

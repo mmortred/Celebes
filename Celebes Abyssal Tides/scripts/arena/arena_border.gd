@@ -31,7 +31,7 @@ func _ready() -> void:
 	_make_vignette()
 
 
-# Called on every peer at the same moment (GameManager's leviathan rising rpc).
+# Called on every peer at the same moment (GameManager's serpent rising rpc).
 func start() -> void:
 	active = true
 	elapsed = 0.0
@@ -43,7 +43,7 @@ func _process(delta: float) -> void:
 	if not active:
 		return
 	_update_vignette()
-	if GameManager.match_paused: # holds still during the leviathan cutscene
+	if GameManager.match_paused: # holds still during the serpent cutscene
 		return
 	elapsed += delta
 	var progress := clampf(elapsed / shrink_time, 0.0, 1.0)

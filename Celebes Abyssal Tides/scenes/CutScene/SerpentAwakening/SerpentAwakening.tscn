@@ -1,6 +1,6 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" path="res://Celebes Abyssal Tides/scripts/cutscene/leviathan_awakening.gd" id="1_awake"]
+[ext_resource type="Script" path="res://Celebes Abyssal Tides/scripts/cutscene/serpent_awakening.gd" id="1_awake"]
 [ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/sprite/Eye.png" id="2_eye"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_eye"]
@@ -146,7 +146,7 @@ _data = {
 &"awakening": SubResource("Animation_jefws")
 }
 
-[node name="LeviathanAwakening" type="CanvasLayer" unique_id=1964881450]
+[node name="SerpentAwakening" type="CanvasLayer" unique_id=1964881450]
 layer = 100
 script = ExtResource("1_awake")
 

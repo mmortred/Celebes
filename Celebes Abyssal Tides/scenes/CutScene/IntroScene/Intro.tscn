@@ -1229,7 +1229,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Surface/Leviathan/Serpent:visible")
+tracks/3/path = NodePath("Surface/SerpentGroup/Serpent:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -1241,7 +1241,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Surface/Leviathan/Serpent:head_d")
+tracks/4/path = NodePath("Surface/SerpentGroup/Serpent:head_d")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -1732,7 +1732,7 @@ tracks/38/keys = {
 tracks/39/type = "value"
 tracks/39/imported = false
 tracks/39/enabled = true
-tracks/39/path = NodePath("Surface/Leviathan/Serpent:t")
+tracks/39/path = NodePath("Surface/SerpentGroup/Serpent:t")
 tracks/39/interp = 1
 tracks/39/loop_wrap = true
 tracks/39/keys = {
@@ -1760,10 +1760,10 @@ offset_right = 940.0
 offset_bottom = -898.0
 mouse_filter = 2
 
-[node name="Leviathan" type="CanvasGroup" parent="Surface" unique_id=1622381688]
+[node name="SerpentGroup" type="CanvasGroup" parent="Surface" unique_id=1622381688]
 self_modulate = Color(1, 1, 1, 0.72)
 
-[node name="Serpent" type="Node2D" parent="Surface/Leviathan" unique_id=2024952646]
+[node name="Serpent" type="Node2D" parent="Surface/SerpentGroup" unique_id=2024952646]
 position = Vector2(0, -1260)
 script = ExtResource("13_serpent")
 route = PackedVector2Array(830, 360, 640, 325, 420, 290, 200, 312, -40, 345, -400, 320, -900, 350, -1500, 345)

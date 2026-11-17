@@ -1,7 +1,7 @@
 extends Node2D
 
 const SPECTATOR_CAMERA = preload("res://Celebes Abyssal Tides/scripts/arena/spectator_camera.gd")
-const LEVIATHAN_AWAKENING = preload("res://Celebes Abyssal Tides/scenes/CutScene/LeviathanAwakening/LeviathanAwakening.tscn")
+const SERPENT_AWAKENING = preload("res://Celebes Abyssal Tides/scenes/CutScene/SerpentAwakening/SerpentAwakening.tscn")
 
 # Character id (CharacterSelectManager) -> scene. Anything not listed uses the base player.
 const CHARACTER_SCENES := {
@@ -26,8 +26,8 @@ func _ready() -> void:
 	print("Arena loaded!")
 	# every peer builds spawned players the same way from the host's spawn data
 	spawner.spawn_function = _build_player
-	# GameManager announces the 5-minute mark (leviathan rising) on every peer
-	GameManager.leviathan_rising_started.connect(enter_late_phase)
+	# GameManager announces the 5-minute mark (serpent rising) on every peer
+	GameManager.serpent_rising_started.connect(enter_late_phase)
 	GameManager.match_won.connect(_on_match_won) # winner screen: freeze and frame everyone
 	var scoreboard := CanvasLayer.new()
 	scoreboard.set_script(preload("res://Celebes Abyssal Tides/scripts/ui/scoreboard_overlay.gd"))
@@ -121,8 +121,8 @@ func enter_late_phase() -> void:
 	var border := find_child("ArenaBorder")
 	if border:
 		border.start()
-	GameManager.announcement.emit("LEVIATHAN RISING! New wells - the border is closing in!", -1)
-	add_child(LEVIATHAN_AWAKENING.instantiate()) # shake, freeze everyone, the serpent's eye, then play on
+	GameManager.announcement.emit("SERPENT RISING! New wells - the border is closing in!", -1)
+	add_child(SERPENT_AWAKENING.instantiate()) # shake, freeze everyone, the serpent's eye, then play on
 
 
 # Match decided (every peer): everyone stops where they are and the view glides to the
