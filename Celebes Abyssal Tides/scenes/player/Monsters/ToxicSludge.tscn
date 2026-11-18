@@ -420,8 +420,10 @@ radius = 24.0
 height = 64.0
 
 [node name="Player" unique_id=447082359 instance=ExtResource("1_3c0u8")]
+body_center = Vector2(0, -21)
 
 [node name="AnimatedSprite2D" parent="." index="0" unique_id=55903766]
+position = Vector2(0, -24)
 scale = Vector2(1, 1)
 sprite_frames = SubResource("SpriteFrames_iauuq")
 animation = &"walk_up"
@@ -429,20 +431,24 @@ frame_progress = 0.49782184
 
 [node name="CollisionShape2D" parent="." index="1" unique_id=1509811323]
 visible = true
-position = Vector2(0, -12)
+position = Vector2(0, -1)
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_feet")
 debug_color = Color(0.6327152, 0.5274247, 0.1361036, 0.41960785)
 
 [node name="CollisionShape2D" parent="AttackRange" parent_id_path=PackedInt32Array(1937271004) index="0" unique_id=1703822284]
-position = Vector2(-8, -11)
+position = Vector2(-8, 0)
 shape = SubResource("RectangleShape2D_gnugr")
 debug_color = Color(0, 0.6338434, 0.43946248, 0.41960785)
 
 [node name="CollisionShape2D" parent="HurtBox" parent_id_path=PackedInt32Array(857489502) index="0" unique_id=1411050026]
-position = Vector2(0, -11)
+position = Vector2(0, 0)
 shape = SubResource("CapsuleShape2D_n4k3l")
 debug_color = Color(0.9659174, 9.62615e-07, 0.48670137, 0.41960785)
 
 [node name="PearlIndicator" parent="." index="11" unique_id=1928374651]
-position = Vector2(48, -96)
+position = Vector2(48, -85)
+
+[node name="Label" parent="." index="7" unique_id=443958224]
+offset_top = -131.0
+offset_bottom = -108.0

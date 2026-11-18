@@ -1,55 +1,52 @@
 extends Node
-## Match state, scoring, and the server-authoritative match timer.
-## The server owns the timer and pushes it (plus the match state) to every peer
-## roughly once per second. Clients never tick the timer themselves.
 
-signal state_changed(new_state: int)
-signal time_updated(seconds_remaining: int)
+# match state, score and timer (only the host counts the time)
+
+signal state_changed(new_state)
+signal time_updated(seconds_remaining)
 signal serpent_rising_started
 signal match_ended
-signal score_changed(scores: Dictionary)
-signal announcement(text: String, team: int) # pearl taken / dropped / captured, shown by the HUD
-signal match_won(winner: int, reason: String) # winner team, -1 = draw; reason "target" or "time". Starts the winner screen
+signal score_changed(scores)
+signal announcement(text, team) # pearl taken / dropped / captured, the hud shows it
+signal match_won(winner, reason) # winner team (-1 = draw), reason is "target" or "time"
 
 enum MatchState { MENU, LOBBY, CHARACTER_SELECT, LOADING, IN_PROGRESS, SERPENT_RISING, VICTORY }
 
-const MATCH_DURATION = 300.0   # 5 minutes, per your design doc
-const SERPENT_RISING_DURATION = 120.0  # adjust to your actual serpent-rising length
-const TARGET_SCORE = 15 # first team to capture this many pearls wins on the spot
+const MATCH_DURATION = 300.0 # 5 minutes
+const SERPENT_RISING_DURATION = 120.0
+const TARGET_SCORE = 15 # first team to get this many pearls wins
 const TEAM_NAMES = {0: "Sea Nomads", 1: "Garbage Monsters"}
-const TEAM_COLORS = {0: Color("2ed3be"), 1: Color("a5e35f"), -1: Color.WHITE} # Sea Nomads teal, Garbage Monsters green, neutral
-const PIXEL_FONT = preload("res://Celebes Abyssal Tides/assets/font/monogram.ttf") # alerts and name tags
+const TEAM_COLORS = {0: Color("2ed3be"), 1: Color("a5e35f"), -1: Color.WHITE} # teal, green, white
+const PIXEL_FONT = preload("res://Celebes Abyssal Tides/assets/font/monogram.ttf")
 
-var state: MatchState = MatchState.MENU
-var team_scores: Dictionary = {0: 0, 1: 0}
-var time_remaining: float = MATCH_DURATION
-var match_paused := false # set on every peer by the serpent cutscene: the timer and the border wait
-
-# Derived from `state` so there is a single source of truth. These keep the
-# names the HUD branch already used, so existing HUD code keeps working.
-var in_serpent_rising: bool:
-	get:
-		return state == MatchState.SERPENT_RISING
-
-var match_active: bool:
-	get:
-		return state == MatchState.IN_PROGRESS or state == MatchState.SERPENT_RISING
+var state = MatchState.MENU
+var team_scores = {0: 0, 1: 0}
+var time_remaining = MATCH_DURATION
+var match_paused = false # the serpent cutscene pauses the timer and the border
 
 
-func set_state(new_state: MatchState) -> void:
+func set_state(new_state):
 	if state == new_state:
 		return
 	state = new_state
 	state_changed.emit(state)
 
 
-func reset_match() -> void:
+func is_match_active():
+	if state == MatchState.IN_PROGRESS:
+		return true
+	if state == MatchState.SERPENT_RISING:
+		return true
+	return false
+
+
+func reset_match():
 	team_scores = {0: 0, 1: 0}
 	time_remaining = MATCH_DURATION
 	match_paused = false
 
 
-func start_match() -> void:
+func start_match():
 	if not multiplayer.is_server():
 		return
 	reset_match()
@@ -58,9 +55,11 @@ func start_match() -> void:
 	sync_scores.rpc(team_scores)
 
 
-# SCORING (server decides, everyone hears about it)
-func add_score(team: int) -> void:
-	if not multiplayer.is_server() or state == MatchState.VICTORY:
+# host only: a team got a pearl in
+func add_score(team):
+	if not multiplayer.is_server():
+		return
+	if state == MatchState.VICTORY:
 		return
 	team_scores[team] = int(team_scores.get(team, 0)) + 1
 	sync_scores.rpc(team_scores)
@@ -69,25 +68,28 @@ func add_score(team: int) -> void:
 
 
 @rpc("authority", "call_local", "reliable")
-func sync_scores(scores: Dictionary) -> void:
+func sync_scores(scores: Dictionary):
 	team_scores = {0: int(scores.get(0, 0)), 1: int(scores.get(1, 0))}
 	score_changed.emit(team_scores)
 
 
-# team -1 = neutral (white) message
+# team -1 = white text
 @rpc("authority", "call_local", "reliable")
-func announce(text: String, team: int = -1) -> void:
+func announce(text: String, team: int = -1):
 	announcement.emit(text, team)
 
 
-func _process(delta: float) -> void:
-	# also stop once the connection drops (host left): asking a dead peer
-	# is_server() prints "multiplayer instance isn't currently active" every frame
-	var peer := multiplayer.multiplayer_peer
-	if peer == null or peer.get_connection_status() != MultiplayerPeer.CONNECTION_CONNECTED:
+func _process(delta):
+	# stop if theres no connection (host left), or else is_server() spams errors every frame
+	var peer = multiplayer.multiplayer_peer
+	if peer == null:
+		return
+	if peer.get_connection_status() != MultiplayerPeer.CONNECTION_CONNECTED:
 		return
 
-	if not multiplayer.is_server() or not match_active or match_paused:
+	if not multiplayer.is_server():
+		return
+	if not is_match_active() or match_paused:
 		return
 
 	time_remaining -= delta
@@ -99,19 +101,19 @@ func _process(delta: float) -> void:
 			_end_match(_time_up_winner(), "time")
 		return
 
-	# only push updates roughly once a second, not every frame
+	# only send when the seconds number changes, not every frame
 	if int(time_remaining) != int(time_remaining + delta):
 		sync_timer_state.rpc(time_remaining, state)
 
 
-func _enter_serpent_rising() -> void:
+func _enter_serpent_rising():
 	time_remaining = SERPENT_RISING_DURATION
 	set_state(MatchState.SERPENT_RISING)
 	sync_timer_state.rpc(time_remaining, state)
 	notify_serpent_rising.rpc()
 
 
-func _end_match(winner: int, reason: String) -> void:
+func _end_match(winner, reason):
 	time_remaining = 0.0
 	set_state(MatchState.VICTORY)
 	sync_timer_state.rpc(time_remaining, state)
@@ -119,35 +121,37 @@ func _end_match(winner: int, reason: String) -> void:
 	notify_match_won.rpc(winner, reason)
 
 
-# Time ran out before anyone reached TARGET_SCORE: most pearls wins, -1 = draw.
-func _time_up_winner() -> int:
-	var nomads := int(team_scores.get(0, 0))
-	var monsters := int(team_scores.get(1, 0))
+# time is up: the team with more pearls wins, -1 = draw
+func _time_up_winner():
+	var nomads = int(team_scores.get(0, 0))
+	var monsters = int(team_scores.get(1, 0))
 	if nomads == monsters:
 		return -1
-	return 0 if nomads > monsters else 1
+	if nomads > monsters:
+		return 0
+	return 1
 
 
-# Every peer: the arena pans to the players and the HUD shows the winner screen.
+# every peer: the arena moves the camera and the hud shows the winner
 @rpc("authority", "call_local", "reliable")
-func notify_match_won(winner: int, reason: String) -> void:
-	ScoreboardManager.match_running = false # the match is decided; no "no enemies remain" result on top
+func notify_match_won(winner: int, reason: String):
+	ScoreboardManager.match_running = false # so it doesnt also say "no enemies remain"
 	ScoreboardManager.ending = true
 	match_won.emit(winner, reason)
 
 
 @rpc("authority", "call_local", "reliable")
-func sync_timer_state(new_time: float, new_state: int) -> void:
+func sync_timer_state(new_time: float, new_state: int):
 	time_remaining = new_time
-	set_state(new_state as MatchState)
+	set_state(new_state)
 	time_updated.emit(int(ceil(time_remaining)))
 
 
 @rpc("authority", "call_local", "reliable")
-func notify_serpent_rising() -> void:
+func notify_serpent_rising():
 	serpent_rising_started.emit()
 
 
 @rpc("authority", "call_local", "reliable")
-func notify_match_ended() -> void:
+func notify_match_ended():
 	match_ended.emit()

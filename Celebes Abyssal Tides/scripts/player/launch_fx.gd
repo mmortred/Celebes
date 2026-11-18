@@ -1,16 +1,16 @@
 extends Node2D
-## Launch effect with no art needed: squash/stretch, afterimages and a bubble puff, all made in code.
-## The player's play_launch_fx rpc calls play() on every peer.
 
-@export var ghost_count = 5 # afterimages left behind during a dash
-@export var ghost_color = Color(0.6, 0.95, 1.0, 0.6) # watery cyan tint
+# dash effect: squash and stretch, afterimages and bubbles
+
+@export var ghost_count = 5 # afterimages during a dash
+@export var ghost_color = Color(0.6, 0.95, 1.0, 0.6) # light blue
 
 @onready var player = get_parent()
-@onready var sprite: AnimatedSprite2D = get_parent().get_node("AnimatedSprite2D")
+@onready var sprite = get_parent().get_node("AnimatedSprite2D")
 
-var base_sprite_scale = Vector2.ONE # each character's normal scale, squash/stretch returns to this
-var squash_tween = null # so a new dash restarts the squash instead of stacking
-var puff: CPUParticles2D = null # bubble burst, built in code
+var base_sprite_scale = Vector2.ONE # normal scale of the character
+var squash_tween = null # so a new dash restarts it
+var puff = null # the bubbles
 
 
 func _ready():
@@ -18,18 +18,18 @@ func _ready():
 	_build_puff()
 
 
-func play(direction: Vector2, duration: float):
+func play(direction, duration):
 	_squash_and_stretch(direction)
-	puff.direction = -direction # bubbles burst out behind you
+	puff.direction = -direction # bubbles go behind you
 	puff.restart()
 	_spawn_ghosts(duration)
 
 
-func _squash_and_stretch(direction: Vector2):
-	var along = Vector2(abs(direction.x), abs(direction.y)) # which axis we're travelling on
+func _squash_and_stretch(direction):
+	var along = Vector2(abs(direction.x), abs(direction.y)) # the axis we are moving on
 	var across = Vector2(along.y, along.x)
-	var squash = base_sprite_scale * (Vector2.ONE + across * 0.25 - along * 0.2) # wind-up: flatten against the push
-	var stretch = base_sprite_scale * (Vector2.ONE + along * 0.35 - across * 0.15) # launch: long in the travel direction
+	var squash = base_sprite_scale * (Vector2.ONE + across * 0.25 - along * 0.2) # flat first
+	var stretch = base_sprite_scale * (Vector2.ONE + along * 0.35 - across * 0.15) # then long
 	if squash_tween:
 		squash_tween.kill()
 	squash_tween = create_tween()
@@ -38,20 +38,21 @@ func _squash_and_stretch(direction: Vector2):
 	squash_tween.tween_property(sprite, "scale", base_sprite_scale, 0.25).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT) # wobble back
 
 
-func _spawn_ghosts(duration: float):
-	var gap = duration / ghost_count # spread the ghosts across the dash
+func _spawn_ghosts(duration):
+	var gap = duration / ghost_count
 	for i in ghost_count:
 		if player.is_dead or not is_inside_tree():
 			return
-		var ghost = Sprite2D.new() # a frozen copy of the current frame
+		# copy of the current frame that fades out
+		var ghost = Sprite2D.new()
 		ghost.texture = sprite.sprite_frames.get_frame_texture(sprite.animation, sprite.frame)
-		ghost.texture_filter = sprite.texture_filter # keep pixel art crisp
+		ghost.texture_filter = sprite.texture_filter
 		ghost.offset = sprite.offset
 		ghost.global_position = sprite.global_position
 		ghost.scale = sprite.global_scale
 		ghost.modulate = ghost_color
-		ghost.modulate.a *= player.modulate.a # hidden in kelp = hidden ghosts too
-		player.get_parent().add_child(ghost) # add to Players, not the player, so it stays behind
+		ghost.modulate.a *= player.modulate.a # hidden in kelp = hidden ghosts
+		player.get_parent().add_child(ghost) # not on the player so it stays behind
 		var fade = ghost.create_tween()
 		fade.tween_property(ghost, "modulate:a", 0.0, 0.3)
 		fade.tween_callback(ghost.queue_free)
@@ -59,16 +60,16 @@ func _spawn_ghosts(duration: float):
 
 
 func _build_puff():
-	puff = CPUParticles2D.new() # no texture = little squares, fits the pixel art
+	puff = CPUParticles2D.new() # no texture = small squares, looks pixel art
 	puff.emitting = false
 	puff.one_shot = true
 	puff.explosiveness = 1.0 # all at once
 	puff.amount = 14
 	puff.lifetime = 0.45
-	puff.local_coords = false # bubbles stay where they spawned instead of following the player
-	puff.position = Vector2(0, -8) # at the feet
+	puff.local_coords = false # bubbles stay where they spawned
+	puff.position = Vector2(0, -8) # feet
 	puff.spread = 55.0
-	puff.gravity = Vector2(0, -40) # underwater: drift up
+	puff.gravity = Vector2(0, -40) # underwater so they go up
 	puff.initial_velocity_min = 50.0
 	puff.initial_velocity_max = 120.0
 	puff.damping_min = 80.0

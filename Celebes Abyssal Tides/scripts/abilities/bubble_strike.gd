@@ -1,8 +1,7 @@
 extends ability_base
 class_name BubbleStrike
 
-## Just a sample ability
- 
+# just a sample ability for now
 func _init():
 	ability_name = "Bubble Strike"
 	cooldown_time = 8.0

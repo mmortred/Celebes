@@ -1,8 +1,7 @@
 extends ability_base
 class_name SpearThrust
 
-## Just a sample ability
- 
+# just a sample ability for now
 func _init():
 	ability_name = "Spear Thrust"
 	cooldown_time = 1.5

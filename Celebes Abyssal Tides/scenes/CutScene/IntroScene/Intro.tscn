@@ -2,86 +2,60 @@
 
 [ext_resource type="Script" uid="uid://r14k1lb4h6jj" path="res://Celebes Abyssal Tides/scripts/cutscene/intro.gd" id="1_intro"]
 [ext_resource type="Script" uid="uid://kwj8in1xtm6s" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_fish.gd" id="2_fish"]
-[ext_resource type="Script" uid="uid://dcvov3bvw1o0i" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_seaweed.gd" id="3_weed"]
-[ext_resource type="Shader" uid="uid://7vvo6am1w2gg" path="res://Celebes Abyssal Tides/scenes/CutScene/IntroScene/sway.gdshader" id="4_sway"]
-[ext_resource type="Shader" uid="uid://crt6ff4landhb" path="res://Celebes Abyssal Tides/scenes/CutScene/IntroScene/light_rays.gdshader" id="5_rays"]
 [ext_resource type="Shader" uid="uid://b3ssdl33tb0d6" path="res://Celebes Abyssal Tides/scenes/glow_shader.gdshader" id="6_glow"]
-[ext_resource type="Script" uid="uid://dph5nb28pwlnb" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_trash.gd" id="7_trash"]
-[ext_resource type="Shader" uid="uid://ckue87sso773h" path="res://Celebes Abyssal Tides/scenes/CutScene/IntroScene/pollution_wave.gdshader" id="8_wave"]
-[ext_resource type="Shader" uid="uid://ctrafdtdhxm5n" path="res://Celebes Abyssal Tides/scenes/CutScene/IntroScene/surface_waves.gdshader" id="9_surf"]
 [ext_resource type="Texture2D" uid="uid://46k1sy0llpyh" path="res://Celebes Abyssal Tides/assets/ui/celebes_logo.png" id="11_logo"]
 [ext_resource type="FontFile" uid="uid://xlnojau3gqwv" path="res://Celebes Abyssal Tides/assets/fonts/PixelifySans-VariableFont_wght.ttf" id="12_font"]
-[ext_resource type="Script" uid="uid://bewx2n8o7rnml" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_serpent.gd" id="13_serpent"]
-[ext_resource type="Texture2D" uid="uid://bdkle0urapj74" path="res://Celebes Abyssal Tides/assets/cutscene/water_tile.png" id="14_water"]
-[ext_resource type="Shader" uid="uid://cgdnj3exbkfhx" path="res://Celebes Abyssal Tides/scenes/CutScene/IntroScene/water_texture.gdshader" id="15_watertex"]
-[ext_resource type="Shader" uid="uid://cxw5lknijqjgt" path="res://Celebes Abyssal Tides/scenes/CutScene/IntroScene/sky_pixel.gdshader" id="16_sky"]
-[ext_resource type="Shader" uid="uid://dqyfs1w8j50yf" path="res://Celebes Abyssal Tides/scenes/CutScene/IntroScene/sea_surface.gdshader" id="17_sea"]
-[ext_resource type="Shader" uid="uid://282citgcfjt2" path="res://Celebes Abyssal Tides/scenes/CutScene/IntroScene/speed_lines.gdshader" id="18_lines"]
-[ext_resource type="Script" uid="uid://bbsyex2enn65u" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_mountains.gd" id="19_mountains"]
-[ext_resource type="Script" uid="uid://dgmg14cp6efvc" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_clouds.gd" id="20_clouds"]
 [ext_resource type="Script" uid="uid://c6fr3vrkq02ab" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_stars.gd" id="21_stars"]
-[ext_resource type="Script" uid="uid://pdvolq11x3a0" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_coral.gd" id="22_coral"]
 [ext_resource type="Texture2D" uid="uid://chgipisv3w5i2" path="res://Celebes Abyssal Tides/assets/LITLOGOwhite.png" id="22_x5qjb"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_sea"]
-shader = ExtResource("17_sea")
-shader_parameter/water = ExtResource("14_water")
-shader_parameter/rect_size = Vector2(1240, 187)
-shader_parameter/far_color = Color(0.5, 0.28, 0.4, 1)
-shader_parameter/mid_color = Color(0.2, 0.14, 0.3, 1)
-shader_parameter/near_color = Color(0.08, 0.12, 0.24, 1)
-shader_parameter/foam_color = Color(0.88, 0.62, 0.66, 1)
-shader_parameter/texture_amount = 0.45
-shader_parameter/wave_density = 0.3
-shader_parameter/speed = 1.0
-shader_parameter/foam_only = false
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_seafoam"]
-shader = ExtResource("17_sea")
-shader_parameter/water = ExtResource("14_water")
-shader_parameter/rect_size = Vector2(1240, 187)
-shader_parameter/far_color = Color(0.5, 0.28, 0.4, 1)
-shader_parameter/mid_color = Color(0.2, 0.14, 0.3, 1)
-shader_parameter/near_color = Color(0.08, 0.12, 0.24, 1)
-shader_parameter/foam_color = Color(0.88, 0.62, 0.66, 1)
-shader_parameter/texture_amount = 0.45
-shader_parameter/wave_density = 0.3
-shader_parameter/speed = 1.0
-shader_parameter/foam_only = true
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_sky"]
-shader = ExtResource("16_sky")
-shader_parameter/top_color = Color(0.06, 0.05, 0.16, 1)
-shader_parameter/mid_color = Color(0.24, 0.13, 0.36, 1)
-shader_parameter/horizon_color = Color(0.62, 0.32, 0.4, 1)
-shader_parameter/mid_at = 0.6
-shader_parameter/rect_size = Vector2(1240, 315)
-shader_parameter/bands = 12.0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_water"]
-shader = ExtResource("15_watertex")
-shader_parameter/water = ExtResource("14_water")
-shader_parameter/rect_size = Vector2(1240, 902)
-shader_parameter/tile_size = Vector2(64, 64)
-shader_parameter/drift = Vector2(4, 1)
-shader_parameter/wobble = 1.5
-shader_parameter/top_color = Color(0.08, 0.12, 0.24, 1)
-shader_parameter/mid_color = Color(0.1, 0.08, 0.2, 1)
-shader_parameter/deep_color = Color(0.27, 0.1, 0.24, 1)
-shader_parameter/texture_depth = 0.35
-shader_parameter/bands = 18.0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_shallowrays"]
-shader = ExtResource("5_rays")
-shader_parameter/ray_color = Color(0.9, 0.6, 0.75, 0.06)
-shader_parameter/speed = 0.15
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_surf"]
-shader = ExtResource("9_surf")
-shader_parameter/water_color = Color(0.08, 0.12, 0.24, 1)
-shader_parameter/crest_color = Color(0.8, 0.58, 0.64, 1)
-shader_parameter/wave_height = 0.3
-shader_parameter/pixel_grid = Vector2(1240, 22)
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/clouds.png" id="tex_clouds"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/coral_brain.png" id="tex_coral_brain"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/coral_brain_left.png" id="tex_coral_brain_left"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/coral_brain_right.png" id="tex_coral_brain_right"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/coral_branch_back.png" id="tex_coral_branch_back"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/coral_branch_left.png" id="tex_coral_branch_left"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/coral_branch_mid.png" id="tex_coral_branch_mid"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/coral_branch_right.png" id="tex_coral_branch_right"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/coral_fan_left.png" id="tex_coral_fan_left"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/coral_fan_mid.png" id="tex_coral_fan_mid"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/coral_fan_right.png" id="tex_coral_fan_right"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/coral_finger_left.png" id="tex_coral_finger_left"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/coral_finger_mid.png" id="tex_coral_finger_mid"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/coral_finger_right.png" id="tex_coral_finger_right"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/coral_rock_left.png" id="tex_coral_rock_left"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/coral_rock_mid.png" id="tex_coral_rock_mid"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/coral_rock_right.png" id="tex_coral_rock_right"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/fish_big_fish.png" id="tex_fish_big_fish"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/fish_fish.png" id="tex_fish_fish"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/fish_fish_2.png" id="tex_fish_fish_2"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/fish_fish_3.png" id="tex_fish_fish_3"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/fish_small_fish.png" id="tex_fish_small_fish"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/fish_top_fish.png" id="tex_fish_top_fish"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/mountains.png" id="tex_mountains"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/seaweed_back_weed.png" id="tex_seaweed_back_weed"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/seaweed_back_weed_2.png" id="tex_seaweed_back_weed_2"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/seaweed_back_weed_3.png" id="tex_seaweed_back_weed_3"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/seaweed_back_weed_4.png" id="tex_seaweed_back_weed_4"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/seaweed_front_weed.png" id="tex_seaweed_front_weed"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/seaweed_front_weed_2.png" id="tex_seaweed_front_weed_2"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/seaweed_front_weed_3.png" id="tex_seaweed_front_weed_3"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/seaweed_front_weed_4.png" id="tex_seaweed_front_weed_4"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/stars.png" id="tex_stars"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/trash_bag.png" id="tex_trash_bag"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/trash_bottle.png" id="tex_trash_bottle"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/trash_can.png" id="tex_trash_can"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/trash_slipper.png" id="tex_trash_slipper"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/trash_tire.png" id="tex_trash_tire"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/serpent_swim.png" id="tex_serpent"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/sky.png" id="tex_sky"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/light_rays.png" id="tex_light_rays"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/shallow_rays.png" id="tex_shallow_rays"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/water_column.png" id="tex_water_column"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/water_flow.png" id="tex_water_flow"]
+[ext_resource type="SpriteFrames" path="res://Celebes Abyssal Tides/assets/cutscene/intro/waterline_frames.tres" id="frames_waterline"]
+[ext_resource type="SpriteFrames" path="res://Celebes Abyssal Tides/assets/cutscene/intro/sea_frames.tres" id="frames_sea"]
+[ext_resource type="SpriteFrames" path="res://Celebes Abyssal Tides/assets/cutscene/intro/sea_foam_frames.tres" id="frames_sea_foam"]
+[ext_resource type="SpriteFrames" path="res://Celebes Abyssal Tides/assets/cutscene/intro/speed_lines_frames.tres" id="frames_speed_lines"]
+[ext_resource type="SpriteFrames" path="res://Celebes Abyssal Tides/assets/cutscene/intro/pollution_frames.tres" id="frames_pollution"]
 
 [sub_resource type="Gradient" id="Gradient_sea"]
 offsets = PackedFloat32Array(0, 0.55, 1)
@@ -91,25 +65,6 @@ colors = PackedColorArray(0.31, 0.12, 0.5, 1, 0.22, 0.05, 0.4, 1, 0.07, 0.02, 0.
 gradient = SubResource("Gradient_sea")
 width = 16
 fill_to = Vector2(0, 1)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_rays"]
-shader = ExtResource("5_rays")
-shader_parameter/ray_color = Color(0.6, 0.5, 1, 0.08)
-shader_parameter/speed = 0.15
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_sway"]
-shader = ExtResource("4_sway")
-shader_parameter/strength = 5.0
-shader_parameter/speed = 1.2
-shader_parameter/height = 120.0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_wave"]
-shader = ExtResource("8_wave")
-shader_parameter/progress = 0.0
-shader_parameter/murk_color = Color(0.22, 0.07, 0.07, 0.55)
-shader_parameter/edge_color = Color(0.4, 0.1, 0.08, 0.9)
-shader_parameter/edge_width = 0.08
-shader_parameter/pixel_grid = Vector2(620, 180)
 
 [sub_resource type="Gradient" id="Gradient_blend"]
 colors = PackedColorArray(0.27, 0.1, 0.24, 1, 0.27, 0.1, 0.24, 0)
@@ -126,14 +81,6 @@ shader_parameter/wave_strength = 0.003
 shader_parameter/wave_frequency = 9.0
 shader_parameter/tint_color = Color(0.25, 0.1, 0.45, 0.15)
 shader_parameter/tint_strength = 0.6
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_lines"]
-shader = ExtResource("18_lines")
-shader_parameter/intensity = 0.0
-shader_parameter/line_color = Color(1, 1, 1, 0.55)
-shader_parameter/pixel_grid = Vector2(320, 180)
-shader_parameter/count = 72.0
-shader_parameter/flicker = 14.0
 
 [sub_resource type="Animation" id="Animation_pdm73"]
 length = 1.2
@@ -180,14 +127,14 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Pollution:material:shader_parameter/progress")
+tracks/2/path = NodePath("Pollution:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0, 2, 10, 17),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [0.18, 0.18, 0.8, 1.0]
+"values": [Vector2(433.088, 0), Vector2(433.088, 0), Vector2(-458.72, 0), Vector2(-746.4, 0)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -252,14 +199,14 @@ tracks/7/keys = {
 tracks/8/type = "value"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("SpeedLines/Lines:material:shader_parameter/intensity")
+tracks/8/path = NodePath("SpeedLines/Lines:modulate:a")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
 "times": PackedFloat32Array(0, 10.7, 12.1, 14.9, 16.3),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [0.0, 0.0, 1.0, 1.0, 0.0]
+"values": [0, 0, 1, 1, 0]
 }
 tracks/9/type = "value"
 tracks/9/imported = false
@@ -1241,14 +1188,14 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Surface/SerpentGroup/Serpent:head_d")
-tracks/4/interp = 1
+tracks/4/path = NodePath("Surface/SerpentGroup/Serpent:position")
+tracks/4/interp = 2
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 10.9),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0, 0.899061, 1.93687, 2.96699, 4.09587, 5.77622, 8.10763, 10.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "update": 0,
-"values": [0.0, 2342.3005]
+"values": [Vector2(830, -900), Vector2(640, -935), Vector2(420, -970), Vector2(200, -948), Vector2(-40, -915), Vector2(-400, -940), Vector2(-900, -910), Vector2(-1500, -915)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_7yk0f"]
@@ -1732,14 +1679,146 @@ tracks/38/keys = {
 tracks/39/type = "value"
 tracks/39/imported = false
 tracks/39/enabled = true
-tracks/39/path = NodePath("Surface/SerpentGroup/Serpent:t")
-tracks/39/interp = 1
+tracks/39/path = NodePath("Surface/SerpentGroup/Serpent:frame")
+tracks/39/interp = 0
 tracks/39/loop_wrap = true
 tracks/39/keys = {
-"times": PackedFloat32Array(0, 12.566371),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0, 0.2618, 0.5236, 0.7854, 1.0472, 1.309, 1.5708, 1.8326, 2.0944, 2.3562, 2.618, 2.8798, 3.1416, 3.4034, 3.6652, 3.927, 4.1888, 4.4506, 4.7124, 4.9742, 5.236, 5.4978, 5.7596, 6.0214, 6.2832, 6.545, 6.8068, 7.0686, 7.3304, 7.5922, 7.854, 8.1158, 8.3776, 8.6394, 8.9012, 9.163, 9.4248, 9.6866, 9.9484, 10.2102, 10.472, 10.7338, 10.9956, 11.2574, 11.5192, 11.781, 12.0428, 12.3046),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+}
+tracks/40/type = "value"
+tracks/40/imported = false
+tracks/40/enabled = true
+tracks/40/path = NodePath("SeaweedBack/Weed:skew")
+tracks/40/interp = 2
+tracks/40/loop_wrap = true
+tracks/40/keys = {
+"times": PackedFloat32Array(0, 1.0416, 2.6124, 4.1832, 5.754, 7.3248, 8.8956, 10.4664, 12.0372, 12.5664),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 0,
-"values": [0.0, 12.566370614359172]
+"values": [0.0279, 0, -0.0323, 0, 0.0323, 0, -0.0323, 0, 0.0323, 0.0279]
+}
+tracks/41/type = "value"
+tracks/41/imported = false
+tracks/41/enabled = true
+tracks/41/path = NodePath("SeaweedBack/Weed2:skew")
+tracks/41/interp = 2
+tracks/41/loop_wrap = true
+tracks/41/keys = {
+"times": PackedFloat32Array(0, 1.4416, 3.0124, 4.5832, 6.154, 7.7248, 9.2956, 10.8664, 12.4372, 12.5664),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0331, 0, -0.0333, 0, 0.0333, 0, -0.0333, 0, 0.0333, 0.0331]
+}
+tracks/42/type = "value"
+tracks/42/imported = false
+tracks/42/enabled = true
+tracks/42/path = NodePath("SeaweedBack/Weed3:skew")
+tracks/42/interp = 2
+tracks/42/loop_wrap = true
+tracks/42/keys = {
+"times": PackedFloat32Array(0, 1.0416, 2.6124, 4.1832, 5.754, 7.3248, 8.8956, 10.4664, 12.0372, 12.5664),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.03, 0, -0.0347, 0, 0.0347, 0, -0.0347, 0, 0.0347, 0.03]
+}
+tracks/43/type = "value"
+tracks/43/imported = false
+tracks/43/enabled = true
+tracks/43/path = NodePath("SeaweedBack/Weed4:skew")
+tracks/43/interp = 2
+tracks/43/loop_wrap = true
+tracks/43/keys = {
+"times": PackedFloat32Array(0, 1.0416, 2.6124, 4.1832, 5.754, 7.3248, 8.8956, 10.4664, 12.0372, 12.5664),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0279, 0, -0.0323, 0, 0.0323, 0, -0.0323, 0, 0.0323, 0.0279]
+}
+tracks/44/type = "value"
+tracks/44/imported = false
+tracks/44/enabled = true
+tracks/44/path = NodePath("SeaweedFront/Weed:skew")
+tracks/44/interp = 2
+tracks/44/loop_wrap = true
+tracks/44/keys = {
+"times": PackedFloat32Array(0, 1.3916, 2.9624, 4.5332, 6.104, 7.6748, 9.2456, 10.8164, 12.3872, 12.5664),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0338, 0, -0.0344, 0, 0.0344, 0, -0.0344, 0, 0.0344, 0.0338]
+}
+tracks/45/type = "value"
+tracks/45/imported = false
+tracks/45/enabled = true
+tracks/45/path = NodePath("SeaweedFront/Weed2:skew")
+tracks/45/interp = 2
+tracks/45/loop_wrap = true
+tracks/45/keys = {
+"times": PackedFloat32Array(0, 1.1416, 2.7124, 4.2832, 5.854, 7.4248, 8.9956, 10.5664, 12.1372, 12.5664),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.036, 0, -0.0396, 0, 0.0396, 0, -0.0396, 0, 0.0396, 0.036]
+}
+tracks/46/type = "value"
+tracks/46/imported = false
+tracks/46/enabled = true
+tracks/46/path = NodePath("SeaweedFront/Weed3:skew")
+tracks/46/interp = 2
+tracks/46/loop_wrap = true
+tracks/46/keys = {
+"times": PackedFloat32Array(0, 1.0416, 2.6124, 4.1832, 5.754, 7.3248, 8.8956, 10.4664, 12.0372, 12.5664),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0345, 0, -0.04, 0, 0.04, 0, -0.04, 0, 0.04, 0.0345]
+}
+tracks/47/type = "value"
+tracks/47/imported = false
+tracks/47/enabled = true
+tracks/47/path = NodePath("SeaweedFront/Weed4:skew")
+tracks/47/interp = 2
+tracks/47/loop_wrap = true
+tracks/47/keys = {
+"times": PackedFloat32Array(0, 1.1749, 2.7457, 4.3165, 5.8873, 7.4581, 9.0289, 10.5997, 12.1705, 12.5664),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0359, 0, -0.0389, 0, 0.0389, 0, -0.0389, 0, 0.0389, 0.0359]
+}
+tracks/48/type = "value"
+tracks/48/imported = false
+tracks/48/enabled = true
+tracks/48/path = NodePath("Corals/FanLeft:skew")
+tracks/48/interp = 2
+tracks/48/loop_wrap = true
+tracks/48/keys = {
+"times": PackedFloat32Array(0, 0.3375, 1.9083, 3.4791, 5.0499, 6.6206, 8.1914, 9.7622, 11.333, 12.5664),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0223, 0.0236, 0, -0.0236, 0, 0.0236, 0, -0.0236, 0, 0.0223]
+}
+tracks/49/type = "value"
+tracks/49/imported = false
+tracks/49/enabled = true
+tracks/49/path = NodePath("Corals/FanMid:skew")
+tracks/49/interp = 2
+tracks/49/loop_wrap = true
+tracks/49/keys = {
+"times": PackedFloat32Array(0, 0.6208, 2.1916, 3.7624, 5.3332, 6.904, 8.4748, 10.0456, 11.6164, 12.5664),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0144, 0.0177, 0, -0.0177, 0, 0.0177, 0, -0.0177, 0, 0.0144]
+}
+tracks/50/type = "value"
+tracks/50/imported = false
+tracks/50/enabled = true
+tracks/50/path = NodePath("Corals/FanRight:skew")
+tracks/50/interp = 2
+tracks/50/loop_wrap = true
+tracks/50/keys = {
+"times": PackedFloat32Array(0, 0.4375, 2.0083, 3.5791, 5.1499, 6.7206, 8.2914, 9.8622, 11.433, 12.5664),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0195, 0.0215, 0, -0.0215, 0, 0.0215, 0, -0.0215, 0, 0.0195]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_mme5x"]
@@ -1747,169 +1826,215 @@ _data = {
 &"ambient": SubResource("Animation_sigko")
 }
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_add"]
+blend_mode = 1
+
+[sub_resource type="Animation" id="Animation_flow"]
+resource_name = "flow"
+length = 16.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Surface/WaterFlow:region_rect")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 3.25, 3.5, 3.75, 4, 4.25, 4.5, 4.75, 5, 5.25, 5.5, 5.75, 6, 6.25, 6.5, 6.75, 7, 7.25, 7.5, 7.75, 8, 8.25, 8.5, 8.75, 9, 9.25, 9.5, 9.75, 10, 10.25, 10.5, 10.75, 11, 11.25, 11.5, 11.75, 12, 12.25, 12.5, 12.75, 13, 13.25, 13.5, 13.75, 14, 14.25, 14.5, 14.75, 15, 15.25, 15.5, 15.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Rect2(0, 0, 1240, 256), Rect2(0, 256, 1240, 256), Rect2(0, 512, 1240, 256), Rect2(0, 768, 1240, 256), Rect2(0, 1024, 1240, 256), Rect2(0, 1280, 1240, 256), Rect2(0, 1536, 1240, 256), Rect2(0, 1792, 1240, 256), Rect2(0, 2048, 1240, 256), Rect2(0, 2304, 1240, 256), Rect2(0, 2560, 1240, 256), Rect2(0, 2816, 1240, 256), Rect2(0, 3072, 1240, 256), Rect2(0, 3328, 1240, 256), Rect2(0, 3584, 1240, 256), Rect2(0, 3840, 1240, 256), Rect2(0, 4096, 1240, 256), Rect2(0, 4352, 1240, 256), Rect2(0, 4608, 1240, 256), Rect2(0, 4864, 1240, 256), Rect2(0, 5120, 1240, 256), Rect2(0, 5376, 1240, 256), Rect2(0, 5632, 1240, 256), Rect2(0, 5888, 1240, 256), Rect2(0, 6144, 1240, 256), Rect2(0, 6400, 1240, 256), Rect2(0, 6656, 1240, 256), Rect2(0, 6912, 1240, 256), Rect2(0, 7168, 1240, 256), Rect2(0, 7424, 1240, 256), Rect2(0, 7680, 1240, 256), Rect2(0, 7936, 1240, 256), Rect2(0, 8192, 1240, 256), Rect2(0, 8448, 1240, 256), Rect2(0, 8704, 1240, 256), Rect2(0, 8960, 1240, 256), Rect2(0, 9216, 1240, 256), Rect2(0, 9472, 1240, 256), Rect2(0, 9728, 1240, 256), Rect2(0, 9984, 1240, 256), Rect2(0, 10240, 1240, 256), Rect2(0, 10496, 1240, 256), Rect2(0, 10752, 1240, 256), Rect2(0, 11008, 1240, 256), Rect2(0, 11264, 1240, 256), Rect2(0, 11520, 1240, 256), Rect2(0, 11776, 1240, 256), Rect2(0, 12032, 1240, 256), Rect2(0, 12288, 1240, 256), Rect2(0, 12544, 1240, 256), Rect2(0, 12800, 1240, 256), Rect2(0, 13056, 1240, 256), Rect2(0, 13312, 1240, 256), Rect2(0, 13568, 1240, 256), Rect2(0, 13824, 1240, 256), Rect2(0, 14080, 1240, 256), Rect2(0, 14336, 1240, 256), Rect2(0, 14592, 1240, 256), Rect2(0, 14848, 1240, 256), Rect2(0, 15104, 1240, 256), Rect2(0, 15360, 1240, 256), Rect2(0, 15616, 1240, 256), Rect2(0, 15872, 1240, 256), Rect2(0, 16128, 1240, 256)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_flow"]
+_data = {
+&"flow": SubResource("Animation_flow")
+}
+
 [node name="Intro" type="Node2D" unique_id=68001311]
 script = ExtResource("1_intro")
 
 [node name="Surface" type="Node2D" parent="." unique_id=626636699]
 
-[node name="Sea" type="ColorRect" parent="Surface" unique_id=744922856]
-material = SubResource("ShaderMaterial_sea")
-offset_left = -300.0
-offset_top = -1085.0
-offset_right = 940.0
-offset_bottom = -898.0
-mouse_filter = 2
+[node name="Sea" type="AnimatedSprite2D" parent="Surface" unique_id=744922856]
+position = Vector2(-300, -1085)
+sprite_frames = ExtResource("frames_sea")
+autoplay = "default"
+centered = false
 
 [node name="SerpentGroup" type="CanvasGroup" parent="Surface" unique_id=1622381688]
 self_modulate = Color(1, 1, 1, 0.72)
 
-[node name="Serpent" type="Node2D" parent="Surface/SerpentGroup" unique_id=2024952646]
-position = Vector2(0, -1260)
-script = ExtResource("13_serpent")
-route = PackedVector2Array(830, 360, 640, 325, 420, 290, 200, 312, -40, 345, -400, 320, -900, 350, -1500, 345)
+[node name="Serpent" type="Sprite2D" parent="Surface/SerpentGroup" unique_id=2024952646]
+visible = false
+position = Vector2(830, -900)
+texture = ExtResource("tex_serpent")
+centered = false
+offset = Vector2(-145, -111)
+hframes = 4
+vframes = 4
 
-[node name="SeaFoam" type="ColorRect" parent="Surface" unique_id=1527400355]
-material = SubResource("ShaderMaterial_seafoam")
-offset_left = -300.0
-offset_top = -1085.0
-offset_right = 940.0
-offset_bottom = -898.0
-mouse_filter = 2
-
-[node name="Sky" type="ColorRect" parent="Surface" unique_id=1811426951]
-material = SubResource("ShaderMaterial_sky")
-offset_left = -300.0
-offset_top = -1400.0
-offset_right = 940.0
-offset_bottom = -1085.0
-mouse_filter = 2
-
-[node name="Stars" type="Node2D" parent="Surface" unique_id=632727190]
-script = ExtResource("21_stars")
-area = Rect2(-300, -1400, 1240, 170)
-count = 70
-
-[node name="Mountains" type="Node2D" parent="Surface" unique_id=1575922180]
+[node name="SeaFoam" type="AnimatedSprite2D" parent="Surface" unique_id=1527400355]
 position = Vector2(-300, -1085)
-script = ExtResource("19_mountains")
+sprite_frames = ExtResource("frames_sea_foam")
+autoplay = "default"
+centered = false
 
-[node name="Clouds" type="Node2D" parent="Surface" unique_id=281791235]
+[node name="Sky" type="Sprite2D" parent="Surface" unique_id=1811426951]
+position = Vector2(-300, -1400)
+texture = ExtResource("tex_sky")
+centered = false
+
+[node name="Stars" type="Sprite2D" parent="Surface" unique_id=632727190]
+script = ExtResource("21_stars")
+texture = ExtResource("tex_stars")
+centered = false
+offset = Vector2(-298, -1400)
+hframes = 4
+vframes = 4
+
+[node name="Mountains" type="Sprite2D" parent="Surface" unique_id=1575922180]
+position = Vector2(-300, -1085)
+texture = ExtResource("tex_mountains")
+centered = false
+offset = Vector2(0, -54)
+
+[node name="Clouds" type="Sprite2D" parent="Surface" unique_id=281791235]
 position = Vector2(0, -1250)
-script = ExtResource("20_clouds")
-area = Rect2(-300, 0, 1240, 90)
-light = Color(0.78, 0.45, 0.52, 1)
-shade = Color(0.3, 0.17, 0.3, 1)
+texture = ExtResource("tex_clouds")
+centered = false
+offset = Vector2(166, -7)
 
-[node name="WaterColumn" type="ColorRect" parent="Surface" unique_id=803922103]
-material = SubResource("ShaderMaterial_water")
-offset_left = -300.0
-offset_top = -902.0
-offset_right = 940.0
-mouse_filter = 2
+[node name="WaterColumn" type="Sprite2D" parent="Surface" unique_id=803922103]
 metadata/_edit_lock_ = true
+position = Vector2(-300, -902)
+texture = ExtResource("tex_water_column")
+centered = false
 
-[node name="ShallowRays" type="ColorRect" parent="Surface" unique_id=69316430]
-material = SubResource("ShaderMaterial_shallowrays")
-offset_left = -300.0
-offset_top = -900.0
-offset_right = 940.0
-offset_bottom = -450.0
-mouse_filter = 2
+[node name="WaterFlow" type="Sprite2D" parent="Surface"]
+texture_repeat = 2
+position = Vector2(-300, -902)
+texture = ExtResource("tex_water_flow")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 1240, 256)
 
-[node name="Waterline" type="ColorRect" parent="Surface" unique_id=1296507942]
-material = SubResource("ShaderMaterial_surf")
-offset_left = -300.0
-offset_top = -911.0
-offset_right = 940.0
-offset_bottom = -889.0
-mouse_filter = 2
+[node name="ShallowRays" type="Sprite2D" parent="Surface" unique_id=69316430]
+position = Vector2(-300, -900)
+material = SubResource("CanvasItemMaterial_add")
+texture = ExtResource("tex_shallow_rays")
+centered = false
+
+[node name="Waterline" type="AnimatedSprite2D" parent="Surface" unique_id=1296507942]
+position = Vector2(-300, -911)
+sprite_frames = ExtResource("frames_waterline")
+autoplay = "default"
+centered = false
 
 [node name="Debris" type="Node2D" parent="Surface" unique_id=1818223804]
 
-[node name="Bag" type="Node2D" parent="Surface/Debris" unique_id=689775407]
+[node name="Bag" type="Sprite2D" parent="Surface/Debris" unique_id=689775407]
 position = Vector2(120, -698.11444)
 rotation = 0.20064443
 scale = Vector2(1.6, 1.6)
-script = ExtResource("7_trash")
+texture = ExtResource("tex_trash_bag")
+centered = false
+offset = Vector2(-9, -9)
 
-[node name="Bottle" type="Node2D" parent="Surface/Debris" unique_id=1978750210]
+[node name="Bottle" type="Sprite2D" parent="Surface/Debris" unique_id=1978750210]
 position = Vector2(480, -560.94385)
 rotation = 0.11556311
 scale = Vector2(1.6, 1.6)
-script = ExtResource("7_trash")
-kind = 1
+texture = ExtResource("tex_trash_bottle")
+centered = false
+offset = Vector2(-4, -11)
 
-[node name="Bag2" type="Node2D" parent="Surface/Debris" unique_id=1317125176]
+[node name="Bag2" type="Sprite2D" parent="Surface/Debris" unique_id=1317125176]
 position = Vector2(300, -378.05383)
 rotation = -0.044372592
 scale = Vector2(1.6, 1.6)
-script = ExtResource("7_trash")
+texture = ExtResource("tex_trash_bag")
+centered = false
+offset = Vector2(-9, -9)
 
-[node name="Can" type="Node2D" parent="Surface/Debris" unique_id=1419181950]
+[node name="Can" type="Sprite2D" parent="Surface/Debris" unique_id=1419181950]
 position = Vector2(560, -248.07297)
 rotation = -0.2141743
 scale = Vector2(1.6, 1.6)
-script = ExtResource("7_trash")
-kind = 2
+texture = ExtResource("tex_trash_can")
+centered = false
+offset = Vector2(-4, -6)
 
-[node name="Slipper" type="Node2D" parent="Surface/Debris" unique_id=1985100849]
+[node name="Slipper" type="Sprite2D" parent="Surface/Debris" unique_id=1985100849]
 position = Vector2(60, -159.0944)
 rotation = 0.20967187
 scale = Vector2(1.6, 1.6)
-script = ExtResource("7_trash")
-kind = 4
+texture = ExtResource("tex_trash_slipper")
+centered = false
+offset = Vector2(-4, -10)
 
-[node name="Bag3" type="Node2D" parent="Surface/Debris" unique_id=1231662854]
+[node name="Bag3" type="Sprite2D" parent="Surface/Debris" unique_id=1231662854]
 position = Vector2(400, -819.87445)
 rotation = 0.13613248
 scale = Vector2(1.6, 1.6)
-script = ExtResource("7_trash")
+texture = ExtResource("tex_trash_bag")
+centered = false
+offset = Vector2(-9, -9)
 
 [node name="SurfaceTrash" type="Node2D" parent="Surface" unique_id=716508285]
 
-[node name="Bag" type="Node2D" parent="Surface/SurfaceTrash" unique_id=1716264915]
+[node name="Bag" type="Sprite2D" parent="Surface/SurfaceTrash" unique_id=1716264915]
 position = Vector2(90, -928.9055)
 rotation = -0.11448096
-script = ExtResource("7_trash")
+texture = ExtResource("tex_trash_bag")
+centered = false
+offset = Vector2(-9, -9)
 
-[node name="Bottle" type="Node2D" parent="Surface/SurfaceTrash" unique_id=2126329619]
+[node name="Bottle" type="Sprite2D" parent="Surface/SurfaceTrash" unique_id=2126329619]
 position = Vector2(205, -1010.7955)
 rotation = -0.22668597
 scale = Vector2(0.8, 0.8)
-script = ExtResource("7_trash")
-kind = 1
+texture = ExtResource("tex_trash_bottle")
+centered = false
+offset = Vector2(-4, -11)
 
-[node name="Slipper" type="Node2D" parent="Surface/SurfaceTrash" unique_id=1279617940]
+[node name="Slipper" type="Sprite2D" parent="Surface/SurfaceTrash" unique_id=1279617940]
 position = Vector2(330, -958.36633)
 rotation = -0.0944908
-script = ExtResource("7_trash")
-kind = 4
+texture = ExtResource("tex_trash_slipper")
+centered = false
+offset = Vector2(-4, -10)
 
-[node name="Can" type="Node2D" parent="Surface/SurfaceTrash" unique_id=1665906770]
+[node name="Can" type="Sprite2D" parent="Surface/SurfaceTrash" unique_id=1665906770]
 position = Vector2(440, -1043)
 rotation = -0.21199888
 scale = Vector2(0.6, 0.6)
-script = ExtResource("7_trash")
-kind = 2
+texture = ExtResource("tex_trash_can")
+centered = false
+offset = Vector2(-4, -6)
 
-[node name="Tire" type="Node2D" parent="Surface/SurfaceTrash" unique_id=1392552461]
+[node name="Tire" type="Sprite2D" parent="Surface/SurfaceTrash" unique_id=1392552461]
 position = Vector2(510, -983.8861)
 rotation = -0.04202334
 scale = Vector2(0.9, 0.9)
-script = ExtResource("7_trash")
-kind = 3
+texture = ExtResource("tex_trash_tire")
+centered = false
+offset = Vector2(-10, -10)
 
-[node name="Bottle2" type="Node2D" parent="Surface/SurfaceTrash" unique_id=1772813791]
+[node name="Bottle2" type="Sprite2D" parent="Surface/SurfaceTrash" unique_id=1772813791]
 position = Vector2(590, -933.1624)
 rotation = -0.24452026
-script = ExtResource("7_trash")
-kind = 1
+texture = ExtResource("tex_trash_bottle")
+centered = false
+offset = Vector2(-4, -11)
 
-[node name="Bag2" type="Node2D" parent="Surface/SurfaceTrash" unique_id=1995819999]
+[node name="Bag2" type="Sprite2D" parent="Surface/SurfaceTrash" unique_id=1995819999]
 position = Vector2(150, -1054.7012)
 rotation = 0.16817024
 scale = Vector2(0.55, 0.55)
-script = ExtResource("7_trash")
+texture = ExtResource("tex_trash_bag")
+centered = false
+offset = Vector2(-9, -9)
 
 [node name="Background" type="TextureRect" parent="." unique_id=635464794]
 offset_left = -300.0
@@ -1919,235 +2044,224 @@ mouse_filter = 2
 texture = SubResource("GradientTexture2D_sea")
 expand_mode = 1
 
-[node name="LightRays" type="ColorRect" parent="." unique_id=1329532594]
-material = SubResource("ShaderMaterial_rays")
-offset_left = -300.0
-offset_right = 940.0
-offset_bottom = 360.0
-mouse_filter = 2
+[node name="LightRays" type="Sprite2D" parent="." unique_id=1329532594]
+position = Vector2(-300, 0)
+material = SubResource("CanvasItemMaterial_add")
+texture = ExtResource("tex_light_rays")
+centered = false
 
 [node name="FarFish" type="Node2D" parent="." unique_id=1465238108]
 modulate = Color(0.45, 0.35, 0.7, 0.6)
 
-[node name="Fish" type="Node2D" parent="FarFish" unique_id=1097361481]
+[node name="Fish" type="Sprite2D" parent="FarFish" unique_id=1097361481]
 position = Vector2(120, 70)
 scale = Vector2(-1, 1)
 script = ExtResource("2_fish")
 facing_left = false
-body_size = Vector2(12, 5)
+texture = ExtResource("tex_fish_fish")
+centered = false
+offset = Vector2(-6, -4)
+hframes = 8
 
-[node name="Fish2" type="Node2D" parent="FarFish" unique_id=1591599247]
+[node name="Fish2" type="Sprite2D" parent="FarFish" unique_id=1591599247]
 position = Vector2(136, 78)
 scale = Vector2(-1, 1)
 script = ExtResource("2_fish")
 facing_left = false
-body_size = Vector2(10, 4)
+texture = ExtResource("tex_fish_fish_2")
+centered = false
+offset = Vector2(-5, -3)
+hframes = 8
 
-[node name="Fish3" type="Node2D" parent="FarFish" unique_id=1184990431]
+[node name="Fish3" type="Sprite2D" parent="FarFish" unique_id=1184990431]
 position = Vector2(520, 230)
 script = ExtResource("2_fish")
-body_size = Vector2(12, 5)
+texture = ExtResource("tex_fish_fish_3")
+centered = false
+offset = Vector2(-6, -4)
+hframes = 8
 
 [node name="SeaweedBack" type="Node2D" parent="." unique_id=2073694956]
 modulate = Color(0.75, 0.8, 0.85, 1)
 
-[node name="Weed" type="Node2D" parent="SeaweedBack" unique_id=1518595788]
-material = SubResource("ShaderMaterial_sway")
+[node name="Weed" type="Sprite2D" parent="SeaweedBack" unique_id=1518595788]
 position = Vector2(105, 362)
-script = ExtResource("3_weed")
-height = 150.0
-width = 12.0
-color = Color(0.18, 0.43, 0.29, 1)
+texture = ExtResource("tex_seaweed_back_weed")
+centered = false
+offset = Vector2(-32, -155)
 
-[node name="Weed2" type="Node2D" parent="SeaweedBack" unique_id=1311769485]
-material = SubResource("ShaderMaterial_sway")
+[node name="Weed2" type="Sprite2D" parent="SeaweedBack" unique_id=1311769485]
 position = Vector2(190, 362)
-script = ExtResource("3_weed")
-height = 85.0
-width = 14.0
-color = Color(0.18, 0.43, 0.29, 1)
+texture = ExtResource("tex_seaweed_back_weed_2")
+centered = false
+offset = Vector2(-33, -96)
 
-[node name="Weed3" type="Node2D" parent="SeaweedBack" unique_id=758434846]
-material = SubResource("ShaderMaterial_sway")
+[node name="Weed3" type="Sprite2D" parent="SeaweedBack" unique_id=758434846]
 position = Vector2(480, 362)
-script = ExtResource("3_weed")
-height = 140.0
-color = Color(0.18, 0.43, 0.29, 1)
+texture = ExtResource("tex_seaweed_back_weed_3")
+centered = false
+offset = Vector2(-30, -144)
 
-[node name="Weed4" type="Node2D" parent="SeaweedBack" unique_id=324079720]
-material = SubResource("ShaderMaterial_sway")
+[node name="Weed4" type="Sprite2D" parent="SeaweedBack" unique_id=324079720]
 position = Vector2(555, 362)
-script = ExtResource("3_weed")
-height = 150.0
-width = 11.0
-color = Color(0.18, 0.43, 0.29, 1)
+texture = ExtResource("tex_seaweed_back_weed_4")
+centered = false
+offset = Vector2(-31, -155)
 
 [node name="Corals" type="Node2D" parent="." unique_id=613664059]
 
-[node name="RockLeft" type="Node2D" parent="Corals" unique_id=16213140]
+[node name="RockLeft" type="Sprite2D" parent="Corals" unique_id=16213140]
 position = Vector2(90, 366)
-script = ExtResource("22_coral")
-kind = 4
-size = 120.0
+texture = ExtResource("tex_coral_rock_left")
+centered = false
+offset = Vector2(-66, -28)
 
-[node name="RockMid" type="Node2D" parent="Corals" unique_id=114129600]
+[node name="RockMid" type="Sprite2D" parent="Corals" unique_id=114129600]
 position = Vector2(330, 368)
-script = ExtResource("22_coral")
-kind = 4
-size = 170.0
-coral_seed = 2
+texture = ExtResource("tex_coral_rock_mid")
+centered = false
+offset = Vector2(-97, -40)
 
-[node name="RockRight" type="Node2D" parent="Corals" unique_id=1540591973]
+[node name="RockRight" type="Sprite2D" parent="Corals" unique_id=1540591973]
 position = Vector2(560, 366)
-script = ExtResource("22_coral")
-kind = 4
-size = 130.0
-coral_seed = 3
+texture = ExtResource("tex_coral_rock_right")
+centered = false
+offset = Vector2(-73, -31)
 
-[node name="BranchBack" type="Node2D" parent="Corals" unique_id=549858322]
+[node name="BranchBack" type="Sprite2D" parent="Corals" unique_id=549858322]
 position = Vector2(362, 344)
-script = ExtResource("22_coral")
-size = 100.0
-coral_seed = 4
+texture = ExtResource("tex_coral_branch_back")
+centered = false
+offset = Vector2(-79, -106)
 
-[node name="BranchMid" type="Node2D" parent="Corals" unique_id=356411975]
+[node name="BranchMid" type="Sprite2D" parent="Corals" unique_id=356411975]
 position = Vector2(272, 350)
 scale = Vector2(-1, 1)
-script = ExtResource("22_coral")
-size = 66.0
-coral_seed = 9
-flip = true
+texture = ExtResource("tex_coral_branch_mid")
+centered = false
+offset = Vector2(-50, -74)
 
-[node name="BranchLeft" type="Node2D" parent="Corals" unique_id=2048067389]
+[node name="BranchLeft" type="Sprite2D" parent="Corals" unique_id=2048067389]
 position = Vector2(112, 352)
-script = ExtResource("22_coral")
-size = 62.0
-coral_seed = 12
+texture = ExtResource("tex_coral_branch_left")
+centered = false
+offset = Vector2(-38, -63)
 
-[node name="BranchRight" type="Node2D" parent="Corals" unique_id=1825651222]
+[node name="BranchRight" type="Sprite2D" parent="Corals" unique_id=1825651222]
 position = Vector2(586, 350)
 scale = Vector2(-1, 1)
-script = ExtResource("22_coral")
-size = 72.0
-coral_seed = 5
-flip = true
+texture = ExtResource("tex_coral_branch_right")
+centered = false
+offset = Vector2(-45, -75)
 
-[node name="FingerLeft" type="Node2D" parent="Corals" unique_id=791518267]
+[node name="FingerLeft" type="Sprite2D" parent="Corals" unique_id=791518267]
 position = Vector2(64, 360)
-script = ExtResource("22_coral")
-kind = 2
-size = 56.0
-coral_seed = 6
+texture = ExtResource("tex_coral_finger_left")
+centered = false
+offset = Vector2(-22, -46)
 
-[node name="FingerMid" type="Node2D" parent="Corals" unique_id=987571843]
+[node name="FingerMid" type="Sprite2D" parent="Corals" unique_id=987571843]
 position = Vector2(414, 362)
-script = ExtResource("22_coral")
-kind = 2
-size = 86.0
-coral_seed = 2
+texture = ExtResource("tex_coral_finger_mid")
+centered = false
+offset = Vector2(-35, -63)
 
-[node name="FingerRight" type="Node2D" parent="Corals" unique_id=2122273158]
+[node name="FingerRight" type="Sprite2D" parent="Corals" unique_id=2122273158]
 position = Vector2(488, 362)
 scale = Vector2(-1, 1)
-script = ExtResource("22_coral")
-kind = 2
-size = 52.0
-coral_seed = 8
-flip = true
+texture = ExtResource("tex_coral_finger_right")
+centered = false
+offset = Vector2(-26, -42)
 
-[node name="Brain" type="Node2D" parent="Corals" unique_id=264403094]
+[node name="Brain" type="Sprite2D" parent="Corals" unique_id=264403094]
 position = Vector2(322, 364)
-script = ExtResource("22_coral")
-kind = 1
-size = 100.0
+texture = ExtResource("tex_coral_brain")
+centered = false
+offset = Vector2(-50, -55)
 
-[node name="BrainLeft" type="Node2D" parent="Corals" unique_id=109424908]
+[node name="BrainLeft" type="Sprite2D" parent="Corals" unique_id=109424908]
 position = Vector2(156, 364)
-script = ExtResource("22_coral")
-kind = 1
-size = 52.0
+texture = ExtResource("tex_coral_brain_left")
+centered = false
+offset = Vector2(-26, -28)
 
-[node name="BrainRight" type="Node2D" parent="Corals" unique_id=472771147]
+[node name="BrainRight" type="Sprite2D" parent="Corals" unique_id=472771147]
 position = Vector2(528, 366)
-script = ExtResource("22_coral")
-kind = 1
-size = 62.0
+texture = ExtResource("tex_coral_brain_right")
+centered = false
+offset = Vector2(-31, -34)
 
-[node name="FanLeft" type="Node2D" parent="Corals" unique_id=298222671]
-material = SubResource("ShaderMaterial_sway")
+[node name="FanLeft" type="Sprite2D" parent="Corals" unique_id=298222671]
 position = Vector2(18, 364)
-script = ExtResource("22_coral")
-kind = 3
-size = 84.0
-coral_seed = 3
+texture = ExtResource("tex_coral_fan_left")
+centered = false
+offset = Vector2(-72, -68)
 
-[node name="FanMid" type="Node2D" parent="Corals" unique_id=518314216]
-material = SubResource("ShaderMaterial_sway")
+[node name="FanMid" type="Sprite2D" parent="Corals" unique_id=518314216]
 position = Vector2(222, 364)
 scale = Vector2(-1, 1)
-script = ExtResource("22_coral")
-kind = 3
-size = 54.0
-coral_seed = 11
-flip = true
+texture = ExtResource("tex_coral_fan_mid")
+centered = false
+offset = Vector2(-46, -51)
 
-[node name="FanRight" type="Node2D" parent="Corals" unique_id=138361395]
-material = SubResource("ShaderMaterial_sway")
+[node name="FanRight" type="Sprite2D" parent="Corals" unique_id=138361395]
 position = Vector2(628, 364)
 scale = Vector2(-1, 1)
-script = ExtResource("22_coral")
-kind = 3
-size = 74.0
-coral_seed = 7
-flip = true
+texture = ExtResource("tex_coral_fan_right")
+centered = false
+offset = Vector2(-56, -62)
 
 [node name="School" type="Node2D" parent="." unique_id=1235283397]
 
-[node name="BigFish" type="Node2D" parent="School" unique_id=1101331158]
+[node name="BigFish" type="Sprite2D" parent="School" unique_id=1101331158]
 position = Vector2(355, 143)
 script = ExtResource("2_fish")
-body_size = Vector2(48, 20)
+texture = ExtResource("tex_fish_big_fish")
+centered = false
+offset = Vector2(-24, -17)
+hframes = 8
 
-[node name="TopFish" type="Node2D" parent="School" unique_id=1608599326]
+[node name="TopFish" type="Sprite2D" parent="School" unique_id=1608599326]
 position = Vector2(393, 95)
 script = ExtResource("2_fish")
-body_size = Vector2(36, 14)
-body_color = Color(0.96, 0.72, 0.35, 1)
+texture = ExtResource("tex_fish_top_fish")
+centered = false
+offset = Vector2(-18, -12)
+hframes = 8
 
-[node name="SmallFish" type="Node2D" parent="School" unique_id=1989365552]
+[node name="SmallFish" type="Sprite2D" parent="School" unique_id=1989365552]
 position = Vector2(412, 185)
 script = ExtResource("2_fish")
-body_size = Vector2(26, 10)
-body_color = Color(0.98, 0.78, 0.4, 1)
+texture = ExtResource("tex_fish_small_fish")
+centered = false
+offset = Vector2(-13, -9)
+hframes = 8
 
 [node name="SeaweedFront" type="Node2D" parent="." unique_id=242169285]
 
-[node name="Weed" type="Node2D" parent="SeaweedFront" unique_id=1635059818]
-material = SubResource("ShaderMaterial_sway")
+[node name="Weed" type="Sprite2D" parent="SeaweedFront" unique_id=1635059818]
 position = Vector2(140, 362)
-script = ExtResource("3_weed")
-height = 95.0
+texture = ExtResource("tex_seaweed_front_weed")
+centered = false
+offset = Vector2(-32, -99)
 
-[node name="Weed2" type="Node2D" parent="SeaweedFront" unique_id=1510437332]
-material = SubResource("ShaderMaterial_sway")
+[node name="Weed2" type="Sprite2D" parent="SeaweedFront" unique_id=1510437332]
 position = Vector2(225, 362)
-script = ExtResource("3_weed")
-height = 110.0
-width = 9.0
+texture = ExtResource("tex_seaweed_front_weed_2")
+centered = false
+offset = Vector2(-28, -114)
 
-[node name="Weed3" type="Node2D" parent="SeaweedFront" unique_id=667829863]
-material = SubResource("ShaderMaterial_sway")
+[node name="Weed3" type="Sprite2D" parent="SeaweedFront" unique_id=667829863]
 position = Vector2(445, 362)
-script = ExtResource("3_weed")
-height = 120.0
-width = 12.0
+texture = ExtResource("tex_seaweed_front_weed_3")
+centered = false
+offset = Vector2(-35, -125)
 
-[node name="Weed4" type="Node2D" parent="SeaweedFront" unique_id=738233659]
-material = SubResource("ShaderMaterial_sway")
+[node name="Weed4" type="Sprite2D" parent="SeaweedFront" unique_id=738233659]
 position = Vector2(520, 362)
-script = ExtResource("3_weed")
-height = 105.0
-width = 13.0
+texture = ExtResource("tex_seaweed_front_weed_4")
+centered = false
+offset = Vector2(-31, -112)
 
 [node name="Bubbles" type="CPUParticles2D" parent="." unique_id=2078702290]
 position = Vector2(320, 370)
@@ -2178,12 +2292,12 @@ initial_velocity_min = 12.0
 initial_velocity_max = 26.0
 color = Color(0.85, 0.8, 1, 0.35)
 
-[node name="Pollution" type="ColorRect" parent="." unique_id=2044170476]
-material = SubResource("ShaderMaterial_wave")
-offset_left = -300.0
-offset_right = 940.0
-offset_bottom = 360.0
-mouse_filter = 2
+[node name="Pollution" type="AnimatedSprite2D" parent="." unique_id=2044170476]
+position = Vector2(433.088, 0)
+sprite_frames = ExtResource("frames_pollution")
+autoplay = "default"
+centered = false
+scale = Vector2(2, 2)
 
 [node name="Grime" type="CPUParticles2D" parent="." unique_id=931259109]
 position = Vector2(320, 180)
@@ -2210,108 +2324,131 @@ expand_mode = 1
 
 [node name="Trash" type="Node2D" parent="." unique_id=1997576783]
 
-[node name="Bag1" type="Node2D" parent="Trash" unique_id=307576113]
+[node name="Bag1" type="Sprite2D" parent="Trash" unique_id=307576113]
 position = Vector2(18, 141)
 scale = Vector2(1.63, 1.438258)
-script = ExtResource("7_trash")
+texture = ExtResource("tex_trash_bag")
+centered = false
+offset = Vector2(-9, -9)
 
-[node name="Can3" type="Node2D" parent="Trash" unique_id=712240346]
+[node name="Can3" type="Sprite2D" parent="Trash" unique_id=712240346]
 position = Vector2(71, 240)
 scale = Vector2(1.43, 1.43)
-script = ExtResource("7_trash")
-kind = 2
+texture = ExtResource("tex_trash_can")
+centered = false
+offset = Vector2(-4, -6)
 
-[node name="Slipper4" type="Node2D" parent="Trash" unique_id=227565017]
+[node name="Slipper4" type="Sprite2D" parent="Trash" unique_id=227565017]
 position = Vector2(95, 133)
 scale = Vector2(2.01, 2.01)
-script = ExtResource("7_trash")
-kind = 4
+texture = ExtResource("tex_trash_slipper")
+centered = false
+offset = Vector2(-4, -10)
 
-[node name="Bottle6" type="Node2D" parent="Trash" unique_id=691689804]
+[node name="Bottle6" type="Sprite2D" parent="Trash" unique_id=691689804]
 position = Vector2(132, 140)
 scale = Vector2(-1.85, 1.85)
-script = ExtResource("7_trash")
-kind = 1
+texture = ExtResource("tex_trash_bottle")
+centered = false
+offset = Vector2(-4, -11)
 
-[node name="Tire7" type="Node2D" parent="Trash" unique_id=971474746]
+[node name="Tire7" type="Sprite2D" parent="Trash" unique_id=971474746]
 position = Vector2(148, 284)
 scale = Vector2(1.56, 1.56)
-script = ExtResource("7_trash")
-kind = 3
+texture = ExtResource("tex_trash_tire")
+centered = false
+offset = Vector2(-10, -10)
 
-[node name="Can8" type="Node2D" parent="Trash" unique_id=357541145]
+[node name="Can8" type="Sprite2D" parent="Trash" unique_id=357541145]
 position = Vector2(177, 35)
 scale = Vector2(-1.7, 1.7)
-script = ExtResource("7_trash")
-kind = 2
+texture = ExtResource("tex_trash_can")
+centered = false
+offset = Vector2(-4, -6)
 
-[node name="Bag9" type="Node2D" parent="Trash" unique_id=830375804]
+[node name="Bag9" type="Sprite2D" parent="Trash" unique_id=830375804]
 position = Vector2(189, 286)
 scale = Vector2(1.75, 1.6837636)
-script = ExtResource("7_trash")
+texture = ExtResource("tex_trash_bag")
+centered = false
+offset = Vector2(-9, -9)
 
-[node name="Can13" type="Node2D" parent="Trash" unique_id=773471099]
+[node name="Can13" type="Sprite2D" parent="Trash" unique_id=773471099]
 position = Vector2(268, 95)
 scale = Vector2(1.92, 1.92)
-script = ExtResource("7_trash")
-kind = 2
+texture = ExtResource("tex_trash_can")
+centered = false
+offset = Vector2(-4, -6)
 
-[node name="Bag16" type="Node2D" parent="Trash" unique_id=116991484]
+[node name="Bag16" type="Sprite2D" parent="Trash" unique_id=116991484]
 position = Vector2(328, 283)
 scale = Vector2(1.84, 1.6192446)
-script = ExtResource("7_trash")
+texture = ExtResource("tex_trash_bag")
+centered = false
+offset = Vector2(-9, -9)
 
-[node name="Can18" type="Node2D" parent="Trash" unique_id=1559113304]
+[node name="Can18" type="Sprite2D" parent="Trash" unique_id=1559113304]
 position = Vector2(376, 86)
 scale = Vector2(2.21, 2.21)
-script = ExtResource("7_trash")
-kind = 2
+texture = ExtResource("tex_trash_can")
+centered = false
+offset = Vector2(-4, -6)
 
-[node name="Bottle19" type="Node2D" parent="Trash" unique_id=1275787206]
+[node name="Bottle19" type="Sprite2D" parent="Trash" unique_id=1275787206]
 position = Vector2(398, 48)
 scale = Vector2(-2.21, 2.21)
-script = ExtResource("7_trash")
-kind = 1
+texture = ExtResource("tex_trash_bottle")
+centered = false
+offset = Vector2(-4, -11)
 
-[node name="Slipper21" type="Node2D" parent="Trash" unique_id=1223366493]
+[node name="Slipper21" type="Sprite2D" parent="Trash" unique_id=1223366493]
 position = Vector2(437, 120)
 scale = Vector2(1.61, 1.61)
-script = ExtResource("7_trash")
-kind = 4
+texture = ExtResource("tex_trash_slipper")
+centered = false
+offset = Vector2(-4, -10)
 
-[node name="Bottle23" type="Node2D" parent="Trash" unique_id=1016306341]
+[node name="Bottle23" type="Sprite2D" parent="Trash" unique_id=1016306341]
 position = Vector2(477, 198)
 scale = Vector2(-1.51, 1.51)
-script = ExtResource("7_trash")
-kind = 1
+texture = ExtResource("tex_trash_bottle")
+centered = false
+offset = Vector2(-4, -11)
 
-[node name="Bag24" type="Node2D" parent="Trash" unique_id=1736044530]
+[node name="Bag24" type="Sprite2D" parent="Trash" unique_id=1736044530]
 position = Vector2(507, 100)
 scale = Vector2(2.04, 1.9178228)
-script = ExtResource("7_trash")
+texture = ExtResource("tex_trash_bag")
+centered = false
+offset = Vector2(-9, -9)
 
-[node name="Tire25" type="Node2D" parent="Trash" unique_id=70429905]
+[node name="Tire25" type="Sprite2D" parent="Trash" unique_id=70429905]
 position = Vector2(524, 113)
 scale = Vector2(-1.51, 1.51)
-script = ExtResource("7_trash")
-kind = 3
+texture = ExtResource("tex_trash_tire")
+centered = false
+offset = Vector2(-10, -10)
 
-[node name="Slipper26" type="Node2D" parent="Trash" unique_id=1964432378]
+[node name="Slipper26" type="Sprite2D" parent="Trash" unique_id=1964432378]
 position = Vector2(540, 62)
 scale = Vector2(-1.8, 1.8)
-script = ExtResource("7_trash")
-kind = 4
+texture = ExtResource("tex_trash_slipper")
+centered = false
+offset = Vector2(-4, -10)
 
-[node name="Can28" type="Node2D" parent="Trash" unique_id=539369403]
+[node name="Can28" type="Sprite2D" parent="Trash" unique_id=539369403]
 position = Vector2(582, 99)
 scale = Vector2(1.5, 1.5)
-script = ExtResource("7_trash")
-kind = 2
+texture = ExtResource("tex_trash_can")
+centered = false
+offset = Vector2(-4, -6)
 
-[node name="Bag29" type="Node2D" parent="Trash" unique_id=1114665507]
+[node name="Bag29" type="Sprite2D" parent="Trash" unique_id=1114665507]
 position = Vector2(609, 94)
 scale = Vector2(-1.72, 1.8967687)
-script = ExtResource("7_trash")
+texture = ExtResource("tex_trash_bag")
+centered = false
+offset = Vector2(-9, -9)
 
 [node name="Murk" type="CanvasModulate" parent="." unique_id=630185732]
 
@@ -2364,11 +2501,13 @@ stretch_mode = 5
 [node name="SpeedLines" type="CanvasLayer" parent="." unique_id=2066782234]
 layer = 5
 
-[node name="Lines" type="ColorRect" parent="SpeedLines" unique_id=666502482]
-material = SubResource("ShaderMaterial_lines")
-offset_right = 640.0
-offset_bottom = 360.0
-mouse_filter = 2
+[node name="Lines" type="AnimatedSprite2D" parent="SpeedLines" unique_id=666502482]
+position = Vector2(0, 0)
+sprite_frames = ExtResource("frames_speed_lines")
+autoplay = "default"
+centered = false
+modulate = Color(1, 1, 1, 0)
+scale = Vector2(2, 2)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1443001844]
 libraries/ = SubResource("AnimationLibrary_7yk0f")
@@ -2376,3 +2515,7 @@ libraries/ = SubResource("AnimationLibrary_7yk0f")
 [node name="AmbientPlayer" type="AnimationPlayer" parent="." unique_id=1956164477]
 libraries/ = SubResource("AnimationLibrary_mme5x")
 autoplay = &"ambient"
+
+[node name="WaterPlayer" type="AnimationPlayer" parent="."]
+libraries/ = SubResource("AnimationLibrary_flow")
+autoplay = &"flow"

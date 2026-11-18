@@ -1,25 +1,21 @@
 extends Node2D
-## The clam. Shows the pearl inside while the pearl waits at home, closes once
-## someone takes it, and after a capture plays the respawn animation until the
-## pearl comes back (the pearl's RETURN_DELAY matches the animation length).
-## Reads the pearl's state every frame, so it agrees on every peer without rpcs.
-## Works with either an AnimatedSprite2D clam, or two still Sprite2Ds named
-## ClamOpen / ClamClosed (only one of them is shown at a time).
 
-# animation names in the AnimatedSprite2D's SpriteFrames, change in the inspector if yours differ
-@export var with_pearl_anim: StringName = &"pearl_available"
-@export var closed_anim: StringName = &"pearl_taken"
-@export var respawn_anim: StringName = &"clam_respawn" # must not loop, holds its last frame until the pearl is back
+# the clam, open when the pearl is home and closed when someone has it
 
-var clam: AnimatedSprite2D
-var open_sprite: Sprite2D
-var closed_sprite: Sprite2D
-var shown_anim: StringName
+# animation names in the SpriteFrames
+@export var with_pearl_anim = &"pearl_available"
+@export var closed_anim = &"pearl_taken"
+@export var respawn_anim = &"clam_respawn" # should not loop
+
+var clam = null
+var open_sprite = null
+var closed_sprite = null
+var shown_anim = &""
 
 
-func _ready() -> void:
-	open_sprite = get_node_or_null("ClamOpen") as Sprite2D
-	closed_sprite = get_node_or_null("ClamClosed") as Sprite2D
+func _ready():
+	open_sprite = get_node_or_null("ClamOpen")
+	closed_sprite = get_node_or_null("ClamClosed")
 	clam = find_clam_sprite()
 	if clam:
 		for anim in [with_pearl_anim, closed_anim, respawn_anim]:
@@ -28,33 +24,34 @@ func _ready() -> void:
 	show_anim(with_pearl_anim)
 
 
-func _process(_delta: float) -> void:
+func _process(_delta):
 	var pearl = get_tree().get_first_node_in_group("pearl")
 	if pearl == null:
 		return
+
+	var pearl_is_home = pearl.visible and pearl.carrier_name == "" and pearl.global_position.is_equal_approx(pearl.home_position)
 	if pearl.respawning:
 		show_anim(respawn_anim)
-	elif pearl.visible and pearl.carrier_name == "" \
-			and pearl.global_position.is_equal_approx(pearl.home_position):
+	elif pearl_is_home:
 		show_anim(with_pearl_anim)
 	else:
 		show_anim(closed_anim)
 
 
-func show_anim(anim: StringName) -> void:
+func show_anim(anim):
 	if anim == shown_anim:
 		return
 	shown_anim = anim
 	if clam:
 		clam.play(anim)
-	# still pictures: open while the pearl is home, closed otherwise (taken or respawning)
+	# for the still pictures: open when the pearl is home, closed for everything else
 	if open_sprite:
 		open_sprite.visible = anim == with_pearl_anim
 	if closed_sprite:
 		closed_sprite.visible = anim != with_pearl_anim
 
 
-func find_clam_sprite() -> AnimatedSprite2D:
+func find_clam_sprite():
 	for child in get_children():
 		if child is AnimatedSprite2D:
 			return child

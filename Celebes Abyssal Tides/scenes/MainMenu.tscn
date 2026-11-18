@@ -12,7 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://ckooy4w18424o" path="res://Celebes Abyssal Tides/assets/ui/quit_icon.png" id="9_ivm5w"]
 [ext_resource type="Texture2D" uid="uid://cutl8vj7tu62n" path="res://Celebes Abyssal Tides/assets/ui/join_icon.png" id="10_ivm5w"]
 [ext_resource type="Texture2D" uid="uid://dejd3sgxrrh6q" path="res://Celebes Abyssal Tides/assets/ui/back_icon.png" id="11_l1d2i"]
-[ext_resource type="Environment" uid="uid://1kcy00nbgb55" path="res://Celebes Abyssal Tides/scripts/ui/environment_preset.tres" id="12_l1d2i"]
+[ext_resource type="Environment" path="res://Celebes Abyssal Tides/scripts/ui/menu_environment.tres" id="12_l1d2i"]
 [ext_resource type="Texture2D" uid="uid://c6bp23bjg8r87" path="res://Celebes Abyssal Tides/assets/ui/ClutterFile.png" id="13_clutter"]
 [ext_resource type="Texture2D" uid="uid://chgipisv3w5i2" path="res://Celebes Abyssal Tides/assets/LITLOGOwhite.png" id="15_1u8u4"]
 
@@ -274,8 +274,18 @@ offset_bottom = 410.0
 mouse_filter = 2
 texture = SubResource("GradientTexture2D_ylcck")
 
+[node name="ColorRect2" type="ColorRect" parent="." unique_id=807783963]
+texture_filter = 1
+material = SubResource("ShaderMaterial_0j5kp")
+layout_mode = 0
+offset_left = -21.0
+offset_top = -69.0
+offset_right = 663.0
+offset_bottom = 381.0
+mouse_filter = 2
+
 [node name="TextureRect" type="TextureRect" parent="." unique_id=846911785]
-self_modulate = Color(0.9337864, 7.7608867, 7.7608867, 1)
+self_modulate = Color(0.9337864, 2.0, 2.0, 1)
 texture_filter = 1
 layout_mode = 0
 offset_left = 27.0
@@ -306,16 +316,6 @@ offset_bottom = 369.0
 mouse_filter = 2
 texture = SubResource("AtlasTexture_banner_2026")
 expand_mode = 1
-
-[node name="ColorRect2" type="ColorRect" parent="." unique_id=807783963]
-texture_filter = 1
-material = SubResource("ShaderMaterial_0j5kp")
-layout_mode = 0
-offset_left = -21.0
-offset_top = -69.0
-offset_right = 663.0
-offset_bottom = 381.0
-mouse_filter = 2
 
 [node name="PVPButton" type="Button" parent="." unique_id=972503034]
 texture_filter = 1
