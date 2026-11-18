@@ -59,10 +59,12 @@ func set_lid(value):
 	bottom_lid.position.y = lerpf(root.size.y, middle - overlap, value)
 
 
-# called by the animation, everyone respawns on their side (sorted by name so every pc agrees)
+# called by the animation, everyone respawns on the ENEMY side (sorted by name so every pc agrees)
+# so whoever gets the pearl has to fight through the other team to get home
+# only this one respawn is swapped, after this you respawn on your own side again
 func send_players_home():
 	var arena = get_tree().current_scene
-	if not arena.has_method("get_respawn_position"):
+	if not arena.has_method("get_swapped_spawn_position"):
 		return
 	for team in [0, 1]:
 		var teammates = []
@@ -73,7 +75,7 @@ func send_players_home():
 
 		for i in teammates.size():
 			if teammates[i].is_multiplayer_authority():
-				teammates[i].respawn.rpc(arena.get_respawn_position(team, i))
+				teammates[i].respawn.rpc(arena.get_swapped_spawn_position(team, i))
 
 
 func _sort_by_name(a, b):

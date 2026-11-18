@@ -1,12 +1,16 @@
 extends Node2D
 
-# tuna run: a school of tuna swims across the middle, the first one to touch it gets the tuna rush
-# only the host decides when it comes and who caught it, like the pearl
+# tuna run: a school of tuna swims across a random lane, the first one to touch it gets the tuna rush
+# only the host decides when it comes, which lane and who caught it, like the pearl
+# move the markers in Lanes to change where the lanes are
 
 const RUN_TIMES = [210.0, 90.0] # when the timer shows 3:30 and 1:30
+const LANE_NAMES = ["top", "middle", "bottom"] # same order as the markers in Lanes
 
 @onready var anim = $AnimationPlayer
 @onready var touch_area = $School/TouchArea
+@onready var school = $School
+@onready var lanes = $Lanes
 
 var runs_done = 0
 var caught = true # true = nobody can catch it right now
@@ -25,20 +29,21 @@ func _process(_delta):
 	if runs_done >= RUN_TIMES.size():
 		return
 	if GameManager.time_remaining <= RUN_TIMES[runs_done]:
-		start_run.rpc(runs_done)
+		start_run.rpc(runs_done, randi() % lanes.get_child_count())
 		runs_done += 1
 
 
-# host tells everyone the tuna are coming
+# host tells everyone the tuna are coming and in which lane
 @rpc("authority", "call_local", "reliable")
-func start_run(run_number: int):
+func start_run(run_number: int, lane: int):
 	caught = false
+	school.position.y = lanes.get_child(lane).position.y # the animation only moves x
 	# first one goes left to right, the next one right to left so its fair for both teams
 	if run_number % 2 == 0:
 		anim.play("run_right")
 	else:
 		anim.play("run_left")
-	GameManager.announcement.emit("A school of tuna is passing through!", -1)
+	GameManager.announcement.emit("A school of tuna is passing through the %s lane!" % LANE_NAMES[lane], -1)
 
 
 func _on_body_entered(body):

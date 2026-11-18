@@ -1,6 +1,6 @@
-[gd_resource type="SpriteFrames" format=3]
+[gd_resource type="SpriteFrames" format=3 uid="uid://cimwthlckkni7"]
 
-[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/sprite/tuna/tuna_swim.png" id="1_tuna"]
+[ext_resource type="Texture2D" uid="uid://dtsx3uvb00bf" path="res://Celebes Abyssal Tides/assets/sprite/tuna/tuna_swim.png" id="1_tuna"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0"]
 atlas = ExtResource("1_tuna")
@@ -33,7 +33,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_3")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 8.0
 }]

@@ -412,9 +412,15 @@ animations = [{
 radius = 6.0
 height = 24.0
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hurt"]
+size = Vector2(22, 42)
+
 [node name="Player" unique_id=447082359 instance=ExtResource("1_gqejy")]
+body_center = Vector2(0, -20)
 
 [node name="AnimatedSprite2D" parent="." index="0" unique_id=55903766]
+position = Vector2(0, -23)
+scale = Vector2(1.2, 1.2)
 sprite_frames = SubResource("SpriteFrames_hkm68")
 animation = &"walk_right"
 
@@ -425,12 +431,18 @@ rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_feet")
 debug_color = Color(0.62533885, 0.52897364, 0.16805804, 0.41960785)
 
+[node name="Label" parent="." index="7" unique_id=443958224]
+offset_top = -121.0
+offset_bottom = -98.0
+
 [node name="HurtBox" parent="." index="10" unique_id=857489502]
 visible = true
 
 [node name="CollisionShape2D" parent="HurtBox" index="0" unique_id=1411050026]
 visible = false
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_hurt")
 
 [node name="PearlIndicator" parent="." index="11" unique_id=1928374651]
 visible = true
-position = Vector2(32, -88)
+position = Vector2(24, -67)

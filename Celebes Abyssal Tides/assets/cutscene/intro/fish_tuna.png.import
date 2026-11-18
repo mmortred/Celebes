@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dm4fplhvqsx52"
-path="res://.godot/imported/DELETEleftRight.png-b496bf4db7cd64d3ade0d247d6d48bb7.ctex"
+uid="uid://cbaa6fc02m83s"
+path="res://.godot/imported/fish_tuna.png-9fd5650e08e08e76143efc93c6058f68.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Celebes Abyssal Tides/assets/sprite/SeaNomad1/DELETEleftRight.png"
-dest_files=["res://.godot/imported/DELETEleftRight.png-b496bf4db7cd64d3ade0d247d6d48bb7.ctex"]
+source_file="res://Celebes Abyssal Tides/assets/cutscene/intro/fish_tuna.png"
+dest_files=["res://.godot/imported/fish_tuna.png-9fd5650e08e08e76143efc93c6058f68.ctex"]
 
 [params]
 

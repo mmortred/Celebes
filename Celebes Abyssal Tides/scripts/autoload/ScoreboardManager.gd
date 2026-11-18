@@ -4,6 +4,7 @@ extends Node
 
 signal scoreboard_changed
 signal match_result_changed(message)
+signal kill_happened(killer_name, victim_name, killer_team) # the hud kill feed shows it, killer_name "" = no killer
 
 const MAIN_MENU = "res://Celebes Abyssal Tides/scenes/MainMenu.tscn"
 const ASSIST_WINDOW = 10.0 # damage in the last 10 seconds counts as an assist
@@ -61,8 +62,10 @@ func record_death(victim, killer):
 	records[victim]["deaths"] += 1
 
 	var now = Time.get_ticks_msec() / 1000.0
+	var victim_name = str(records[victim]["name"])
 	if killer != victim and records.has(killer) and int(records[killer]["team"]) != int(records[victim]["team"]):
 		records[killer]["kills"] += 1
+		show_kill.rpc(str(records[killer]["name"]), victim_name, int(records[killer]["team"]))
 		# everyone else who hit them recently gets an assist
 		for assist_id in damage_history.get(victim, {}):
 			var aid = int(assist_id)
@@ -70,9 +73,17 @@ func record_death(victim, killer):
 				continue
 			if now - float(damage_history[victim][aid]) <= ASSIST_WINDOW:
 				records[aid]["assists"] += 1
+	else:
+		show_kill.rpc("", victim_name, -1) # nobody killed them (border etc)
 
 	damage_history.erase(victim)
 	_broadcast()
+
+
+# host tells everyone about the kill so the kill feed shows it
+@rpc("authority", "call_local", "reliable")
+func show_kill(killer_name: String, victim_name: String, killer_team: int):
+	kill_happened.emit(killer_name, victim_name, killer_team)
 
 
 func _is_host_active():

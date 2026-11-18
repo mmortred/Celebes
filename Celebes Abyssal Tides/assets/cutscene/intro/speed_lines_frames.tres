@@ -1,6 +1,6 @@
-[gd_resource type="SpriteFrames" format=3]
+[gd_resource type="SpriteFrames" format=3 uid="uid://nmtdiy65dugd"]
 
-[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/speed_lines.png" id="1_sheet"]
+[ext_resource type="Texture2D" uid="uid://c5dly52wty1fo" path="res://Celebes Abyssal Tides/assets/cutscene/intro/speed_lines.png" id="1_sheet"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0"]
 atlas = ExtResource("1_sheet")
@@ -61,7 +61,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_7")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
-"speed": 14
+"speed": 14.0
 }]

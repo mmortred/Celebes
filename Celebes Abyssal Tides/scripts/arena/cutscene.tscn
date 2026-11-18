@@ -9,7 +9,9 @@ offset_right = 640.0
 offset_bottom = 368.0
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=1896082561]
+handle_input_locally = false
 size = Vector2i(640, 360)
+render_target_update_mode = 4
 
 [node name="Arena" parent="SubViewportContainer/SubViewport" unique_id=1139679987 instance=ExtResource("1_u6lr5")]
 position = Vector2(248, 296)

@@ -494,6 +494,49 @@ theme_override_fonts/font = ExtResource("13_guqs1")
 theme_override_font_sizes/font_size = 16
 text = "TUNA RUSH 15"
 
+[node name="KillFeed" type="Control" parent="."]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 76.0
+offset_right = 248.0
+offset_bottom = 128.0
+mouse_filter = 2
+
+[node name="PearlLabel" type="Label" parent="KillFeed"]
+visible = false
+layout_mode = 0
+offset_right = 240.0
+offset_bottom = 16.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("13_guqs1")
+theme_override_font_sizes/font_size = 16
+text = "SEA NOMADS HAVE THE PEARL"
+
+[node name="KillLine1" type="Label" parent="KillFeed"]
+visible = false
+layout_mode = 0
+offset_top = 18.0
+offset_right = 240.0
+offset_bottom = 34.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("13_guqs1")
+theme_override_font_sizes/font_size = 16
+text = "Paolo defeated Ben"
+
+[node name="KillLine2" type="Label" parent="KillFeed"]
+visible = false
+layout_mode = 0
+offset_top = 34.0
+offset_right = 240.0
+offset_bottom = 50.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("13_guqs1")
+theme_override_font_sizes/font_size = 16
+text = "Ben defeated Paolo"
+
 [node name="RespawnLabel" type="Label" parent="."]
 visible = false
 layout_mode = 0

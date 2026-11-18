@@ -1,6 +1,7 @@
 extends Control
 
 const WINNER_KEY_DELAY = 1.5 # wait a bit before a key counts so your last attack click doesnt skip it
+const KILL_SHOW_TIME = 5.0 # how long a kill stays in the kill feed
 
 @onready var timer_label = $ScoreboardNode/Label
 @onready var hp_bar = $PlayerStats/TextureProgressBar
@@ -10,8 +11,11 @@ const WINNER_KEY_DELAY = 1.5 # wait a bit before a key counts so your last attac
 @onready var monsters_score = $ScoreboardNode/MonstersContainer/TeamScoreLabel
 @onready var respawn_label = $RespawnLabel
 @onready var tuna_rush_label = $PlayerStats/TunaRushLabel
+@onready var pearl_label = $KillFeed/PearlLabel
+@onready var kill_lines = [$KillFeed/KillLine1, $KillFeed/KillLine2] # line 1 is the newest
 
 var my_player = null # set in set_player
+var kill_timers = [0.0, 0.0] # time left for each kill line
 var alert_label = null # the pearl taken / dropped / captured text
 var alert_tween = null
 var waiting_for_key = false # winner screen, any key goes back to the lobby
@@ -25,13 +29,17 @@ func _ready():
 	GameManager.score_changed.connect(_on_score_changed)
 	GameManager.announcement.connect(show_alert)
 	GameManager.match_won.connect(show_winner)
+	ScoreboardManager.kill_happened.connect(add_kill)
 	_on_score_changed(GameManager.team_scores) # show the real scores
 	_make_alert_label()
 	initialize_hud()
 
 
-# respawn countdown and tuna rush time, read from my player
-func _process(_delta):
+# kill feed, pearl, respawn countdown and tuna rush time
+func _process(delta):
+	update_kill_feed(delta)
+	update_pearl_label()
+
 	if my_player == null or not is_instance_valid(my_player):
 		respawn_label.visible = false
 		tuna_rush_label.visible = false
@@ -48,6 +56,42 @@ func _process(_delta):
 		tuna_rush_label.text = "TUNA RUSH %d" % ceil(my_player.tuna_rush_timer)
 	else:
 		tuna_rush_label.visible = false
+
+
+# new kill goes on line 1, the old line 1 moves down to line 2
+func add_kill(killer_name, victim_name, killer_team):
+	kill_lines[1].text = kill_lines[0].text
+	kill_lines[1].modulate = kill_lines[0].modulate
+	kill_timers[1] = kill_timers[0]
+
+	if killer_name == "":
+		kill_lines[0].text = "%s was defeated" % victim_name
+	else:
+		kill_lines[0].text = "%s defeated %s" % [killer_name, victim_name]
+	kill_lines[0].modulate = GameManager.TEAM_COLORS.get(killer_team, Color.WHITE)
+	kill_timers[0] = KILL_SHOW_TIME
+
+
+# each line hides by itself after a few seconds
+func update_kill_feed(delta):
+	for i in kill_lines.size():
+		if kill_timers[i] > 0:
+			kill_timers[i] -= delta
+		kill_lines[i].visible = kill_timers[i] > 0
+
+
+# which team has the pearl, on top of the kill feed. hidden if nobody has it
+func update_pearl_label():
+	var pearl = get_tree().get_first_node_in_group("pearl")
+	var carrier = null
+	if pearl and pearl.carrier_name != "":
+		carrier = pearl.find_player(pearl.carrier_name)
+	if carrier == null:
+		pearl_label.visible = false
+		return
+	pearl_label.visible = true
+	pearl_label.text = "%s HAVE THE PEARL" % GameManager.TEAM_NAMES[carrier.team].to_upper()
+	pearl_label.modulate = GameManager.TEAM_COLORS.get(carrier.team, Color.WHITE)
 
 
 func _on_score_changed(scores):
@@ -90,6 +134,7 @@ func show_winner(winner, reason):
 	my_player = null # stop the respawn countdown
 	$PlayerStats.visible = false
 	$PearlIndicator.visible = false
+	$KillFeed.visible = false
 	alert_label.visible = false
 	timer_label.modulate = Color.WHITE # remove the red / orange
 

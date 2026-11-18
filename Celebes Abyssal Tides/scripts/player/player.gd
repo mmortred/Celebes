@@ -6,16 +6,18 @@ extends CharacterBody2D
 @export var dash_duration = 0.15
 @export var dash_cooldown = 10.0
 @export var player_index = 0
-@export var attack_damage = 20.0
+@export var attack_damage = 15.0 # the average hit
+@export var damage_spread = 0.33 # so that the damge is 10 - 20 
 @export var swing_hit_frames = {"top_swing": 2, "bottom_swing": 2, "right_swing": 3, "left_swing": 3} # what frame the hit lands (starts at 0)
 @export var attack_offset = 24.0 # how far the hitbox is in front of the player
 @export var body_center = Vector2(0, -32) # middle of the body
-@export var respawn_time = 10.0
-@export var serpent_respawn_time = 7.0 # shorter in the last 2 minutes so the end stays busy
+@export var respawn_time = 6.0
+@export var serpent_respawn_time = 4.0 # shorter in the last 2 minutes so the end stays busy
 @export var hit_slow_percent = 0.10 # 10% slower when you get hit
 @export var hit_slow_duration = 0.5
 @export var tuna_rush_time = 15.0
 @export var tuna_speed_bonus = 0.2 # 20% faster with the tuna rush
+@export var carrier_slow = 0.15 # 15% slower while carrying the pearl
 
 const DAMAGE_NUMBER = preload("res://Celebes Abyssal Tides/scenes/player/DamageNumber.tscn")
 
@@ -237,6 +239,8 @@ func move_player():
 		speed *= 1.0 - hit_slow_percent
 	if tuna_rush_timer > 0:
 		speed *= 1.0 + tuna_speed_bonus
+	if has_pearl:
+		speed *= 1.0 - carrier_slow
 	velocity = move_direction * speed
 
 
@@ -304,6 +308,12 @@ func get_swing_direction():
 	return Vector2.DOWN
 
 
+func roll_damage() -> int:
+	var low = int(attack_damage * (1.0 - damage_spread))
+	var high = int(attack_damage * (1.0 + damage_spread))
+	return (randi_range(low, high) + randi_range(low, high)) / 2  # int division, stays low..high
+
+
 func _on_frame_changed():
 	if not is_multiplayer_authority():
 		return # only the attacker checks hits
@@ -317,7 +327,7 @@ func _on_frame_changed():
 		if target == self:
 			continue
 		if target.has_method("receive_hit"):
-			target.receive_hit.rpc(attack_damage, str(name)) # send my name so they know who hit them
+			target.receive_hit.rpc(roll_damage(), str(name)) # send my name so they know who hit them
 
 
 @rpc("any_peer", "call_local") # any_peer because the attacker is not the owner
@@ -338,6 +348,10 @@ func receive_hit(amount, attacker_name):
 		ScoreboardManager.record_damage(str(name).to_int(), str(attacker_name).to_int())
 
 	health.take_damage(amount, attacker)
+	# carrying the pearl into the well? the hit starts the channel over
+	if is_host and has_pearl:
+		for well in get_tree().get_nodes_in_group("wells"):
+			well.interrupt_channel(self)
 	if was_alive:
 		show_damage_number(amount)
 	if team == 0:

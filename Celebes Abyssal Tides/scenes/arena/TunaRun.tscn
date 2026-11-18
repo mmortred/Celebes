@@ -9,14 +9,14 @@ length = 12.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("School:position")
+tracks/0/path = NodePath("School:position:x")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 12.0),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(-2000, -40), Vector2(2000, -40)]
+"values": [-2000.0, 2000.0]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -61,14 +61,14 @@ length = 12.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("School:position")
+tracks/0/path = NodePath("School:position:x")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 12.0),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(2000, -40), Vector2(-2000, -40)]
+"values": [2000.0, -2000.0]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -198,6 +198,17 @@ position = Vector2(-30, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="School/TouchArea"]
 shape = SubResource("RectangleShape2D_school")
+
+[node name="Lanes" type="Node2D" parent="."]
+
+[node name="TopLane" type="Marker2D" parent="Lanes"]
+position = Vector2(0, -770)
+
+[node name="MidLane" type="Marker2D" parent="Lanes"]
+position = Vector2(0, -40)
+
+[node name="BottomLane" type="Marker2D" parent="Lanes"]
+position = Vector2(0, 660)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries/ = SubResource("AnimationLibrary_run")

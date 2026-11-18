@@ -127,7 +127,7 @@ func enter_late_phase():
 	var border = find_child("ArenaBorder")
 	if border:
 		border.start()
-	GameManager.announcement.emit("SERPENT RISING! New wells - the border is closing in!", -1)
+	GameManager.announcement.emit("SERPENT RISING! You start on the enemy side - fight your way home!", -1)
 	add_child(SERPENT_AWAKENING.instantiate())
 
 
@@ -188,6 +188,13 @@ func get_respawn_position(team, index = -1):
 	if index < 0:
 		index = randi()
 	return folder.get_child(index % folder.get_child_count()).global_position
+
+
+# the serpent cutscene uses this: you start on the other team's late spawns
+func get_swapped_spawn_position(team, index):
+	if team == 0:
+		return get_respawn_position(1, index)
+	return get_respawn_position(0, index)
 
 
 # team 0 = left spawns, team 1 = right spawns. teammates take turns on the spawn points

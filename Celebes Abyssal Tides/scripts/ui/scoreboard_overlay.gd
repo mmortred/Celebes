@@ -29,7 +29,7 @@ func _ready():
 	panel.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	panel.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	var style = StyleBoxFlat.new()
-	style.bg_color = Color("#061522")
+	style.bg_color = Color(0.02, 0.08, 0.13, 0.55) # see through so you still see the game behind it
 	style.border_color = Color("#49c8dc")
 	style.set_border_width_all(2)
 	style.set_corner_radius_all(5)
