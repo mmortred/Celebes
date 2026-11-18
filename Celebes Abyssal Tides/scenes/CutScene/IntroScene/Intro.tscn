@@ -1,11 +1,9 @@
 [gd_scene format=3 uid="uid://527a8y3ulahb"]
 
 [ext_resource type="Script" uid="uid://r14k1lb4h6jj" path="res://Celebes Abyssal Tides/scripts/cutscene/intro.gd" id="1_intro"]
-[ext_resource type="Script" uid="uid://kwj8in1xtm6s" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_fish.gd" id="2_fish"]
 [ext_resource type="Shader" uid="uid://b3ssdl33tb0d6" path="res://Celebes Abyssal Tides/scenes/glow_shader.gdshader" id="6_glow"]
 [ext_resource type="Texture2D" uid="uid://46k1sy0llpyh" path="res://Celebes Abyssal Tides/assets/ui/celebes_logo.png" id="11_logo"]
 [ext_resource type="FontFile" uid="uid://xlnojau3gqwv" path="res://Celebes Abyssal Tides/assets/fonts/PixelifySans-VariableFont_wght.ttf" id="12_font"]
-[ext_resource type="Script" uid="uid://c6fr3vrkq02ab" path="res://Celebes Abyssal Tides/scripts/cutscene/intro_stars.gd" id="21_stars"]
 [ext_resource type="Texture2D" uid="uid://chgipisv3w5i2" path="res://Celebes Abyssal Tides/assets/LITLOGOwhite.png" id="22_x5qjb"]
 [ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/clouds.png" id="tex_clouds"]
 [ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/coral_brain.png" id="tex_coral_brain"]
@@ -30,6 +28,7 @@
 [ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/fish_fish_3.png" id="tex_fish_fish_3"]
 [ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/fish_small_fish.png" id="tex_fish_small_fish"]
 [ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/fish_top_fish.png" id="tex_fish_top_fish"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/fish_tuna.png" id="tex_fish_tuna"]
 [ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/mountains.png" id="tex_mountains"]
 [ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/seaweed_back_weed.png" id="tex_seaweed_back_weed"]
 [ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/cutscene/intro/seaweed_back_weed_2.png" id="tex_seaweed_back_weed_2"]
@@ -273,14 +272,14 @@ tracks/13/keys = {
 tracks/14/type = "value"
 tracks/14/imported = false
 tracks/14/enabled = true
-tracks/14/path = NodePath("FarFish/Fish:facing_left")
+tracks/14/path = NodePath("FarFish/Fish:scale:x")
 tracks/14/interp = 1
 tracks/14/loop_wrap = true
 tracks/14/keys = {
 "times": PackedFloat32Array(0, 3.6),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [false, true]
+"values": [-1.0, 1.0]
 }
 tracks/15/type = "value"
 tracks/15/imported = false
@@ -321,14 +320,14 @@ tracks/17/keys = {
 tracks/18/type = "value"
 tracks/18/imported = false
 tracks/18/enabled = true
-tracks/18/path = NodePath("FarFish/Fish2:facing_left")
+tracks/18/path = NodePath("FarFish/Fish2:scale:x")
 tracks/18/interp = 1
 tracks/18/loop_wrap = true
 tracks/18/keys = {
 "times": PackedFloat32Array(0, 3.6),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [false, true]
+"values": [-1.0, 1.0]
 }
 tracks/19/type = "value"
 tracks/19/imported = false
@@ -1135,6 +1134,54 @@ tracks/85/keys = {
 "values": [false, true]
 }
 
+tracks/86/type = "value"
+tracks/86/imported = false
+tracks/86/enabled = true
+tracks/86/path = NodePath("Title/Logo:modulate:a")
+tracks/86/interp = 1
+tracks/86/loop_wrap = true
+tracks/86/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/87/type = "value"
+tracks/87/imported = false
+tracks/87/enabled = true
+tracks/87/path = NodePath("Title/PressStart:modulate:a")
+tracks/87/interp = 1
+tracks/87/loop_wrap = true
+tracks/87/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/88/type = "value"
+tracks/88/imported = false
+tracks/88/enabled = true
+tracks/88/path = NodePath("Title/Credit:modulate:a")
+tracks/88/interp = 1
+tracks/88/loop_wrap = true
+tracks/88/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/89/type = "value"
+tracks/89/imported = false
+tracks/89/enabled = true
+tracks/89/path = NodePath("Studio/Logo:modulate:a")
+tracks/89/interp = 1
+tracks/89/loop_wrap = true
+tracks/89/keys = {
+"times": PackedFloat32Array(0, 11.5, 12, 13.4, 13.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 1.0, 1.0, 0.0]
+}
 [sub_resource type="Animation" id="Animation_7e7t7"]
 length = 10.9
 tracks/0/type = "value"
@@ -1198,10 +1245,112 @@ tracks/4/keys = {
 "values": [Vector2(830, -900), Vector2(640, -935), Vector2(420, -970), Vector2(200, -948), Vector2(-40, -915), Vector2(-400, -940), Vector2(-900, -910), Vector2(-1500, -915)]
 }
 
+[sub_resource type="Animation" id="Animation_outro"]
+resource_name = "outro"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FadeLayer/Black:color:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Camera2D:zoom")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(2, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.5, 1.5)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Title:offset")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(2, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-160, -90)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Title:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(2, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.5, 1.5)]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.8),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"_change_scene"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_fade_out"]
+resource_name = "fade_out"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Black:color:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.8),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fade"]
+_data = {
+&"fade_out": SubResource("Animation_fade_out")
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_7yk0f"]
 _data = {
 &"blink": SubResource("Animation_pdm73"),
 &"intro": SubResource("Animation_x5qjb"),
+&"outro": SubResource("Animation_outro"),
 &"title": SubResource("Animation_7e7t7")
 }
 
@@ -1211,74 +1360,74 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("FarFish/Fish:t")
-tracks/0/interp = 1
+tracks/0/path = NodePath("FarFish/Fish:frame")
+tracks/0/interp = 0
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 12.566371),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [4.309194339218071, 16.875564953577243]
+"times": PackedFloat32Array(0, 0.0105, 0.1087, 0.2068, 0.305, 0.4032, 0.5014, 0.5995, 0.6977, 0.7959, 0.8941, 0.9922, 1.0904, 1.1886, 1.2868, 1.3849, 1.4831, 1.5813, 1.6795, 1.7776, 1.8758, 1.974, 2.0722, 2.1703, 2.2685, 2.3667, 2.4649, 2.563, 2.6612, 2.7594, 2.8576, 2.9557, 3.0539, 3.1521, 3.2503, 3.3484, 3.4466, 3.5448, 3.643, 3.7411, 3.8393, 3.9375, 4.0357, 4.1338, 4.232, 4.3302, 4.4284, 4.5265, 4.6247, 4.7229, 4.8211, 4.9192, 5.0174, 5.1156, 5.2138, 5.3119, 5.4101, 5.5083, 5.6065, 5.7046, 5.8028, 5.901, 5.9992, 6.0973, 6.1955, 6.2937, 6.3919, 6.49, 6.5882, 6.6864, 6.7846, 6.8827, 6.9809, 7.0791, 7.1773, 7.2754, 7.3736, 7.4718, 7.57, 7.6681, 7.7663, 7.8645, 7.9627, 8.0608, 8.159, 8.2572, 8.3554, 8.4535, 8.5517, 8.6499, 8.7481, 8.8462, 8.9444, 9.0426, 9.1407, 9.2389, 9.3371, 9.4353, 9.5334, 9.6316, 9.7298, 9.828, 9.9261, 10.0243, 10.1225, 10.2207, 10.3188, 10.417, 10.5152, 10.6134, 10.7115, 10.8097, 10.9079, 11.0061, 11.1042, 11.2024, 11.3006, 11.3988, 11.4969, 11.5951, 11.6933, 11.7915, 11.8896, 11.9878, 12.086, 12.1842, 12.2823, 12.3805, 12.4787),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("FarFish/Fish2:t")
-tracks/1/interp = 1
+tracks/1/path = NodePath("FarFish/Fish2:frame")
+tracks/1/interp = 0
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 12.566371),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [1.5846040264210088, 14.15097464078018]
+"times": PackedFloat32Array(0, 0.0844, 0.1825, 0.2807, 0.3789, 0.4771, 0.5752, 0.6734, 0.7716, 0.8698, 0.9679, 1.0661, 1.1643, 1.2625, 1.3606, 1.4588, 1.557, 1.6552, 1.7533, 1.8515, 1.9497, 2.0479, 2.146, 2.2442, 2.3424, 2.4406, 2.5387, 2.6369, 2.7351, 2.8333, 2.9314, 3.0296, 3.1278, 3.226, 3.3241, 3.4223, 3.5205, 3.6187, 3.7168, 3.815, 3.9132, 4.0114, 4.1095, 4.2077, 4.3059, 4.4041, 4.5022, 4.6004, 4.6986, 4.7968, 4.8949, 4.9931, 5.0913, 5.1895, 5.2876, 5.3858, 5.484, 5.5822, 5.6803, 5.7785, 5.8767, 5.9749, 6.073, 6.1712, 6.2694, 6.3676, 6.4657, 6.5639, 6.6621, 6.7603, 6.8584, 6.9566, 7.0548, 7.153, 7.2511, 7.3493, 7.4475, 7.5456, 7.6438, 7.742, 7.8402, 7.9383, 8.0365, 8.1347, 8.2329, 8.331, 8.4292, 8.5274, 8.6256, 8.7237, 8.8219, 8.9201, 9.0183, 9.1164, 9.2146, 9.3128, 9.411, 9.5091, 9.6073, 9.7055, 9.8037, 9.9018, 10, 10.0982, 10.1964, 10.2945, 10.3927, 10.4909, 10.5891, 10.6872, 10.7854, 10.8836, 10.9818, 11.0799, 11.1781, 11.2763, 11.3745, 11.4726, 11.5708, 11.669, 11.7672, 11.8653, 11.9635, 12.0617, 12.1599, 12.258, 12.3562, 12.4544, 12.5526),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("FarFish/Fish3:t")
-tracks/2/interp = 1
+tracks/2/path = NodePath("FarFish/Fish3:frame")
+tracks/2/interp = 0
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 12.566371),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [3.2634044351051483, 15.82977504946432]
+"times": PackedFloat32Array(0, 0.0745, 0.1727, 0.2709, 0.3691, 0.4672, 0.5654, 0.6636, 0.7618, 0.8599, 0.9581, 1.0563, 1.1545, 1.2526, 1.3508, 1.449, 1.5472, 1.6453, 1.7435, 1.8417, 1.9399, 2.038, 2.1362, 2.2344, 2.3326, 2.4307, 2.5289, 2.6271, 2.7253, 2.8234, 2.9216, 3.0198, 3.118, 3.2161, 3.3143, 3.4125, 3.5107, 3.6088, 3.707, 3.8052, 3.9034, 4.0015, 4.0997, 4.1979, 4.2961, 4.3942, 4.4924, 4.5906, 4.6888, 4.7869, 4.8851, 4.9833, 5.0815, 5.1796, 5.2778, 5.376, 5.4742, 5.5723, 5.6705, 5.7687, 5.8668, 5.965, 6.0632, 6.1614, 6.2595, 6.3577, 6.4559, 6.5541, 6.6522, 6.7504, 6.8486, 6.9468, 7.0449, 7.1431, 7.2413, 7.3395, 7.4376, 7.5358, 7.634, 7.7322, 7.8303, 7.9285, 8.0267, 8.1249, 8.223, 8.3212, 8.4194, 8.5176, 8.6157, 8.7139, 8.8121, 8.9103, 9.0084, 9.1066, 9.2048, 9.303, 9.4011, 9.4993, 9.5975, 9.6957, 9.7938, 9.892, 9.9902, 10.0884, 10.1865, 10.2847, 10.3829, 10.4811, 10.5792, 10.6774, 10.7756, 10.8738, 10.9719, 11.0701, 11.1683, 11.2665, 11.3646, 11.4628, 11.561, 11.6592, 11.7573, 11.8555, 11.9537, 12.0519, 12.15, 12.2482, 12.3464, 12.4446, 12.5427),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("School/BigFish:t")
-tracks/3/interp = 1
+tracks/3/path = NodePath("School/BigFish:frame")
+tracks/3/interp = 0
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0, 12.566371),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0.2553356851733237, 12.821706299532496]
+"times": PackedFloat32Array(0, 0.0392, 0.1374, 0.2355, 0.3337, 0.4319, 0.5301, 0.6282, 0.7264, 0.8246, 0.9228, 1.0209, 1.1191, 1.2173, 1.3155, 1.4136, 1.5118, 1.61, 1.7082, 1.8063, 1.9045, 2.0027, 2.1009, 2.199, 2.2972, 2.3954, 2.4936, 2.5917, 2.6899, 2.7881, 2.8863, 2.9844, 3.0826, 3.1808, 3.279, 3.3771, 3.4753, 3.5735, 3.6717, 3.7698, 3.868, 3.9662, 4.0644, 4.1625, 4.2607, 4.3589, 4.4571, 4.5552, 4.6534, 4.7516, 4.8498, 4.9479, 5.0461, 5.1443, 5.2425, 5.3406, 5.4388, 5.537, 5.6352, 5.7333, 5.8315, 5.9297, 6.0278, 6.126, 6.2242, 6.3224, 6.4205, 6.5187, 6.6169, 6.7151, 6.8132, 6.9114, 7.0096, 7.1078, 7.2059, 7.3041, 7.4023, 7.5005, 7.5986, 7.6968, 7.795, 7.8932, 7.9913, 8.0895, 8.1877, 8.2859, 8.384, 8.4822, 8.5804, 8.6786, 8.7767, 8.8749, 8.9731, 9.0713, 9.1694, 9.2676, 9.3658, 9.464, 9.5621, 9.6603, 9.7585, 9.8567, 9.9548, 10.053, 10.1512, 10.2494, 10.3475, 10.4457, 10.5439, 10.6421, 10.7402, 10.8384, 10.9366, 11.0348, 11.1329, 11.2311, 11.3293, 11.4275, 11.5256, 11.6238, 11.722, 11.8202, 11.9183, 12.0165, 12.1147, 12.2129, 12.311, 12.4092, 12.5074),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("School/TopFish:t")
-tracks/4/interp = 1
+tracks/4/path = NodePath("School/TopFish:frame")
+tracks/4/interp = 0
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 12.566371),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [1.2104452896649278, 13.7768159040241]
+"times": PackedFloat32Array(0, 0.0658, 0.164, 0.2622, 0.3604, 0.4585, 0.5567, 0.6549, 0.7531, 0.8512, 0.9494, 1.0476, 1.1457, 1.2439, 1.3421, 1.4403, 1.5384, 1.6366, 1.7348, 1.833, 1.9311, 2.0293, 2.1275, 2.2257, 2.3238, 2.422, 2.5202, 2.6184, 2.7165, 2.8147, 2.9129, 3.0111, 3.1092, 3.2074, 3.3056, 3.4038, 3.5019, 3.6001, 3.6983, 3.7965, 3.8946, 3.9928, 4.091, 4.1892, 4.2873, 4.3855, 4.4837, 4.5819, 4.68, 4.7782, 4.8764, 4.9746, 5.0727, 5.1709, 5.2691, 5.3673, 5.4654, 5.5636, 5.6618, 5.76, 5.8581, 5.9563, 6.0545, 6.1527, 6.2508, 6.349, 6.4472, 6.5454, 6.6435, 6.7417, 6.8399, 6.9381, 7.0362, 7.1344, 7.2326, 7.3308, 7.4289, 7.5271, 7.6253, 7.7235, 7.8216, 7.9198, 8.018, 8.1162, 8.2143, 8.3125, 8.4107, 8.5089, 8.607, 8.7052, 8.8034, 8.9016, 8.9997, 9.0979, 9.1961, 9.2943, 9.3924, 9.4906, 9.5888, 9.687, 9.7851, 9.8833, 9.9815, 10.0797, 10.1778, 10.276, 10.3742, 10.4724, 10.5705, 10.6687, 10.7669, 10.8651, 10.9632, 11.0614, 11.1596, 11.2578, 11.3559, 11.4541, 11.5523, 11.6504, 11.7486, 11.8468, 11.945, 12.0431, 12.1413, 12.2395, 12.3377, 12.4358, 12.534),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [28, 29, 30, 31, 24, 25, 26, 27, 28, 29, 30, 31, 24, 25, 26, 27, 28, 29, 30, 31, 24, 25, 26, 27, 28, 29, 30, 31, 24, 25, 26, 27, 28, 29, 30, 31, 24, 25, 26, 27, 28, 29, 30, 31, 24, 25, 26, 27, 28, 29, 30, 31, 24, 25, 26, 27, 28, 29, 30, 31, 24, 25, 26, 27, 28, 29, 30, 31, 24, 25, 26, 27, 28, 29, 30, 31, 24, 25, 26, 27, 28, 29, 30, 31, 24, 25, 26, 27, 28, 29, 30, 31, 24, 25, 26, 27, 28, 29, 30, 31, 24, 25, 26, 27, 28, 29, 30, 31, 24, 25, 26, 27, 28, 29, 30, 31, 24, 25, 26, 27, 28, 29, 30, 31, 24, 25, 26, 27, 28]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("School/SmallFish:t")
-tracks/5/interp = 1
+tracks/5/path = NodePath("School/SmallFish:frame")
+tracks/5/interp = 0
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(0, 12.566371),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [3.3981277209279126, 15.964498335287086]
+"times": PackedFloat32Array(0, 0.038, 0.1362, 0.2343, 0.3325, 0.4307, 0.5289, 0.627, 0.7252, 0.8234, 0.9216, 1.0197, 1.1179, 1.2161, 1.3143, 1.4124, 1.5106, 1.6088, 1.707, 1.8051, 1.9033, 2.0015, 2.0997, 2.1978, 2.296, 2.3942, 2.4924, 2.5905, 2.6887, 2.7869, 2.8851, 2.9832, 3.0814, 3.1796, 3.2778, 3.3759, 3.4741, 3.5723, 3.6705, 3.7686, 3.8668, 3.965, 4.0632, 4.1613, 4.2595, 4.3577, 4.4559, 4.554, 4.6522, 4.7504, 4.8486, 4.9467, 5.0449, 5.1431, 5.2413, 5.3394, 5.4376, 5.5358, 5.634, 5.7321, 5.8303, 5.9285, 6.0267, 6.1248, 6.223, 6.3212, 6.4193, 6.5175, 6.6157, 6.7139, 6.812, 6.9102, 7.0084, 7.1066, 7.2047, 7.3029, 7.4011, 7.4993, 7.5974, 7.6956, 7.7938, 7.892, 7.9901, 8.0883, 8.1865, 8.2847, 8.3828, 8.481, 8.5792, 8.6774, 8.7755, 8.8737, 8.9719, 9.0701, 9.1682, 9.2664, 9.3646, 9.4628, 9.5609, 9.6591, 9.7573, 9.8555, 9.9536, 10.0518, 10.15, 10.2482, 10.3463, 10.4445, 10.5427, 10.6409, 10.739, 10.8372, 10.9354, 11.0336, 11.1317, 11.2299, 11.3281, 11.4263, 11.5244, 11.6226, 11.7208, 11.819, 11.9171, 12.0153, 12.1135, 12.2117, 12.3098, 12.408, 12.5062),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [42, 43, 44, 45, 46, 47, 40, 41, 42, 43, 44, 45, 46, 47, 40, 41, 42, 43, 44, 45, 46, 47, 40, 41, 42, 43, 44, 45, 46, 47, 40, 41, 42, 43, 44, 45, 46, 47, 40, 41, 42, 43, 44, 45, 46, 47, 40, 41, 42, 43, 44, 45, 46, 47, 40, 41, 42, 43, 44, 45, 46, 47, 40, 41, 42, 43, 44, 45, 46, 47, 40, 41, 42, 43, 44, 45, 46, 47, 40, 41, 42, 43, 44, 45, 46, 47, 40, 41, 42, 43, 44, 45, 46, 47, 40, 41, 42, 43, 44, 45, 46, 47, 40, 41, 42, 43, 44, 45, 46, 47, 40, 41, 42, 43, 44, 45, 46, 47, 40, 41, 42, 43, 44, 45, 46, 47, 40, 41, 42]
 }
 tracks/6/type = "value"
 tracks/6/imported = false
@@ -1667,14 +1816,14 @@ tracks/37/keys = {
 tracks/38/type = "value"
 tracks/38/imported = false
 tracks/38/enabled = true
-tracks/38/path = NodePath("Surface/Stars:t")
-tracks/38/interp = 1
+tracks/38/path = NodePath("Surface/Stars:frame")
+tracks/38/interp = 0
 tracks/38/loop_wrap = true
 tracks/38/keys = {
-"times": PackedFloat32Array(0, 12.566371),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0.0, 12.566370614359172]
+"times": PackedFloat32Array(0, 0.1963, 0.3927, 0.589, 0.7854, 0.9817, 1.1781, 1.3744, 1.5708, 1.7671, 1.9635, 2.1598, 2.3562, 2.5525, 2.7489, 2.9452, 3.1416, 3.3379, 3.5343, 3.7306, 3.927, 4.1233, 4.3197, 4.516, 4.7124, 4.9087, 5.1051, 5.3014, 5.4978, 5.6941, 5.8905, 6.0868, 6.2832, 6.4795, 6.6759, 6.8722, 7.0686, 7.2649, 7.4613, 7.6576, 7.854, 8.0503, 8.2467, 8.443, 8.6394, 8.8357, 9.0321, 9.2284, 9.4248, 9.6211, 9.8175, 10.0138, 10.2102, 10.4065, 10.6029, 10.7992, 10.9956, 11.1919, 11.3883, 11.5846, 11.781, 11.9773, 12.1737, 12.37),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
 }
 tracks/39/type = "value"
 tracks/39/imported = false
@@ -1886,7 +2035,6 @@ texture = ExtResource("tex_sky")
 centered = false
 
 [node name="Stars" type="Sprite2D" parent="Surface" unique_id=632727190]
-script = ExtResource("21_stars")
 texture = ExtResource("tex_stars")
 centered = false
 offset = Vector2(-298, -1400)
@@ -2056,8 +2204,6 @@ modulate = Color(0.45, 0.35, 0.7, 0.6)
 [node name="Fish" type="Sprite2D" parent="FarFish" unique_id=1097361481]
 position = Vector2(120, 70)
 scale = Vector2(-1, 1)
-script = ExtResource("2_fish")
-facing_left = false
 texture = ExtResource("tex_fish_fish")
 centered = false
 offset = Vector2(-6, -4)
@@ -2066,8 +2212,6 @@ hframes = 8
 [node name="Fish2" type="Sprite2D" parent="FarFish" unique_id=1591599247]
 position = Vector2(136, 78)
 scale = Vector2(-1, 1)
-script = ExtResource("2_fish")
-facing_left = false
 texture = ExtResource("tex_fish_fish_2")
 centered = false
 offset = Vector2(-5, -3)
@@ -2075,7 +2219,6 @@ hframes = 8
 
 [node name="Fish3" type="Sprite2D" parent="FarFish" unique_id=1184990431]
 position = Vector2(520, 230)
-script = ExtResource("2_fish")
 texture = ExtResource("tex_fish_fish_3")
 centered = false
 offset = Vector2(-6, -4)
@@ -2215,27 +2358,29 @@ offset = Vector2(-56, -62)
 
 [node name="BigFish" type="Sprite2D" parent="School" unique_id=1101331158]
 position = Vector2(355, 143)
-script = ExtResource("2_fish")
-texture = ExtResource("tex_fish_big_fish")
+texture = ExtResource("tex_fish_tuna")
 centered = false
 offset = Vector2(-24, -17)
 hframes = 8
+vframes = 6
 
 [node name="TopFish" type="Sprite2D" parent="School" unique_id=1608599326]
 position = Vector2(393, 95)
-script = ExtResource("2_fish")
-texture = ExtResource("tex_fish_top_fish")
+scale = Vector2(0.76, 0.76)
+texture = ExtResource("tex_fish_tuna")
 centered = false
-offset = Vector2(-18, -12)
+offset = Vector2(-24, -17)
 hframes = 8
+vframes = 6
 
 [node name="SmallFish" type="Sprite2D" parent="School" unique_id=1989365552]
 position = Vector2(412, 185)
-script = ExtResource("2_fish")
-texture = ExtResource("tex_fish_small_fish")
+scale = Vector2(0.55, 0.55)
+texture = ExtResource("tex_fish_tuna")
 centered = false
-offset = Vector2(-13, -9)
+offset = Vector2(-24, -17)
 hframes = 8
+vframes = 6
 
 [node name="SeaweedFront" type="Node2D" parent="." unique_id=242169285]
 
@@ -2508,6 +2653,34 @@ autoplay = "default"
 centered = false
 modulate = Color(1, 1, 1, 0)
 scale = Vector2(2, 2)
+
+[node name="Studio" type="CanvasLayer" parent="."]
+layer = 6
+
+[node name="Logo" type="TextureRect" parent="Studio"]
+offset_left = 170.0
+offset_top = 137.0
+offset_right = 470.0
+offset_bottom = 222.0
+mouse_filter = 2
+texture = ExtResource("22_x5qjb")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="FadeLayer" type="CanvasLayer" parent="."]
+layer = 100
+
+[node name="Black" type="ColorRect" parent="FadeLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="FadePlayer" type="AnimationPlayer" parent="FadeLayer"]
+libraries/ = SubResource("AnimationLibrary_fade")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1443001844]
 libraries/ = SubResource("AnimationLibrary_7yk0f")
