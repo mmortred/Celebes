@@ -10,9 +10,14 @@ extends CharacterBody2D
 @export var swing_hit_frames = {"top_swing": 2, "bottom_swing": 2, "right_swing": 3, "left_swing": 3} # what frame the hit lands (starts at 0)
 @export var attack_offset = 24.0 # how far the hitbox is in front of the player
 @export var body_center = Vector2(0, -32) # middle of the body
-@export var respawn_time = 3.0
+@export var respawn_time = 10.0
+@export var serpent_respawn_time = 7.0 # shorter in the last 2 minutes so the end stays busy
 @export var hit_slow_percent = 0.10 # 10% slower when you get hit
 @export var hit_slow_duration = 0.5
+@export var tuna_rush_time = 15.0
+@export var tuna_speed_bonus = 0.2 # 20% faster with the tuna rush
+
+const DAMAGE_NUMBER = preload("res://Celebes Abyssal Tides/scenes/player/DamageNumber.tscn")
 
 @onready var camera = $Camera2D
 @onready var primary_ability = $PrimaryAbility
@@ -38,6 +43,8 @@ var dash_timer = 0.0
 var dash_direction = Vector2.DOWN
 var dash_cooldown_timer = 0.0
 var slow_timer = 0.0
+var respawn_timer = 0.0 # counts down while dead, the hud shows it
+var tuna_rush_timer = 0.0 # faster and shorter dash cooldown while this is more than 0
 
 # exported so the other players can see my animation
 @export var anim_name = "walk_down"
@@ -101,6 +108,10 @@ func _process(delta):
 	else:
 		position = position.lerp(net_position, 1.0 - exp(-SMOOTHING * delta)) # glide there
 
+	# here and not in _physics_process so every pc counts it (the hud and the other players)
+	if tuna_rush_timer > 0:
+		tuna_rush_timer -= delta
+
 	if sprite.animation != anim_name:
 		sprite.play(anim_name)
 	if anim_frozen:
@@ -113,6 +124,7 @@ func _physics_process(delta):
 	if not is_multiplayer_authority():
 		return # other players positions come from the sync
 	if is_dead:
+		count_respawn(delta)
 		return
 	if cutscene_frozen:
 		velocity = Vector2.ZERO
@@ -223,6 +235,8 @@ func move_player():
 	var speed = move_speed
 	if slow_timer > 0:
 		speed *= 1.0 - hit_slow_percent
+	if tuna_rush_timer > 0:
+		speed *= 1.0 + tuna_speed_bonus
 	velocity = move_direction * speed
 
 
@@ -324,6 +338,8 @@ func receive_hit(amount, attacker_name):
 		ScoreboardManager.record_damage(str(name).to_int(), str(attacker_name).to_int())
 
 	health.take_damage(amount, attacker)
+	if was_alive:
+		show_damage_number(amount)
 	if team == 0:
 		SFXManager.play_at("hurt_sea", global_position)
 	else:
@@ -335,6 +351,16 @@ func receive_hit(amount, attacker_name):
 	if not is_dead:
 		flash_hit()
 		slow_timer = hit_slow_duration # resets, doesnt stack
+
+
+# every pc makes its own number, it only changes how it looks so no rpc
+func show_damage_number(amount):
+	if modulate.a == 0.0:
+		return # hiding in kelp, dont give them away
+	var number = DAMAGE_NUMBER.instantiate()
+	get_tree().current_scene.add_child(number)
+	number.global_position = global_position + body_center + Vector2(randf_range(-8, 8), -16) # random so the numbers dont stack
+	number.show_damage(amount)
 
 
 func flash_hit():
@@ -373,9 +399,25 @@ func _on_knocked_out():
 		if pearl:
 			pearl.dropped.rpc(global_position)
 
-	# only the owner respawns
+	tuna_rush_timer = 0.0 # you lose the tuna rush when you die
+
+	# only the owner respawns, _physics_process counts it down
 	if is_multiplayer_authority():
-		await get_tree().create_timer(respawn_time).timeout
+		respawn_timer = get_respawn_time()
+
+
+func get_respawn_time():
+	if GameManager.state == GameManager.MatchState.SERPENT_RISING:
+		return serpent_respawn_time
+	return respawn_time
+
+
+# not an await timer, because the serpent cutscene can respawn you first and then you would respawn twice
+func count_respawn(delta):
+	if respawn_timer <= 0:
+		return # already respawned or waiting for the rpc
+	respawn_timer -= delta
+	if respawn_timer <= 0:
 		respawn.rpc(pick_spawn_point())
 
 
@@ -405,14 +447,22 @@ func respawn(spawn_position: Vector2):
 	label.visible = true
 	$FeetShadow.visible = true
 	slow_timer = 0.0
+	respawn_timer = 0.0
 	is_dead = false
 	SFXManager.play_at("respawn", global_position)
+
+
+# everyone calls this when the tuna run says who caught it
+func start_tuna_rush():
+	tuna_rush_timer = tuna_rush_time
 
 
 func start_dash():
 	is_dashing = true
 	dash_timer = dash_duration
 	dash_cooldown_timer = dash_cooldown
+	if tuna_rush_timer > 0:
+		dash_cooldown_timer = dash_cooldown / 2.0 # tuna rush = half the cooldown
 	dash_direction = facing_direction.normalized() # save it so the dash goes straight
 	reveal_from_attack()
 	play_launch_fx.rpc(dash_direction)

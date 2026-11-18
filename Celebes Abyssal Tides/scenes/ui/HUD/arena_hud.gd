@@ -8,7 +8,10 @@ const WINNER_KEY_DELAY = 1.5 # wait a bit before a key counts so your last attac
 @onready var player_name_label = $PlayerStats/PlayerPortrait/PlayerNameLabel
 @onready var nomads_score = $ScoreboardNode/NomadsContainer/TeamScoreLabel
 @onready var monsters_score = $ScoreboardNode/MonstersContainer/TeamScoreLabel
+@onready var respawn_label = $RespawnLabel
+@onready var tuna_rush_label = $PlayerStats/TunaRushLabel
 
+var my_player = null # set in set_player
 var alert_label = null # the pearl taken / dropped / captured text
 var alert_tween = null
 var waiting_for_key = false # winner screen, any key goes back to the lobby
@@ -25,6 +28,26 @@ func _ready():
 	_on_score_changed(GameManager.team_scores) # show the real scores
 	_make_alert_label()
 	initialize_hud()
+
+
+# respawn countdown and tuna rush time, read from my player
+func _process(_delta):
+	if my_player == null or not is_instance_valid(my_player):
+		respawn_label.visible = false
+		tuna_rush_label.visible = false
+		return
+
+	if my_player.is_dead and my_player.respawn_timer > 0:
+		respawn_label.visible = true
+		respawn_label.text = "RESPAWN IN %d" % ceil(my_player.respawn_timer)
+	else:
+		respawn_label.visible = false
+
+	if my_player.tuna_rush_timer > 0:
+		tuna_rush_label.visible = true
+		tuna_rush_label.text = "TUNA RUSH %d" % ceil(my_player.tuna_rush_timer)
+	else:
+		tuna_rush_label.visible = false
 
 
 func _on_score_changed(scores):
@@ -64,6 +87,7 @@ func show_alert(text, team = -1):
 
 # winner screen (winner -1 = draw)
 func show_winner(winner, reason):
+	my_player = null # stop the respawn countdown
 	$PlayerStats.visible = false
 	$PearlIndicator.visible = false
 	alert_label.visible = false
@@ -175,6 +199,7 @@ func show_character_icon(character_id):
 
 # only MY player calls this (see player.gd _ready)
 func set_player(player):
+	my_player = player
 	show_character_icon(CharacterSelectManager.play_as(player.character))
 	player_name_label.text = LobbyManager.get_player_name(player.get_multiplayer_authority())
 	player_name_label.label_settings = player_name_label.label_settings.duplicate() # own copy so the color doesnt change the shared one

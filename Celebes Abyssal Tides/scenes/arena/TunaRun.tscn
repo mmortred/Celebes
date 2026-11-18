@@ -1,0 +1,203 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Celebes Abyssal Tides/scripts/arena/tuna_run.gd" id="1_script"]
+[ext_resource type="SpriteFrames" path="res://Celebes Abyssal Tides/assets/sprite/tuna/tuna_frames.tres" id="2_frames"]
+
+[sub_resource type="Animation" id="Animation_right"]
+resource_name = "run_right"
+length = 12.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("School:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 12.0),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-2000, -40), Vector2(2000, -40)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("School:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("School:modulate:a")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("School:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 12.0),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_left"]
+resource_name = "run_left"
+length = 12.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("School:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 12.0),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(2000, -40), Vector2(-2000, -40)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("School:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(-1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("School:modulate:a")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("School:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 12.0),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_scatter"]
+resource_name = "scatter"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("School:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("School:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_run"]
+_data = {
+&"run_left": SubResource("Animation_left"),
+&"run_right": SubResource("Animation_right"),
+&"scatter": SubResource("Animation_scatter")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_school"]
+size = Vector2(220, 120)
+
+[node name="TunaRun" type="Node2D"]
+z_index = 6
+script = ExtResource("1_script")
+
+[node name="School" type="Node2D" parent="."]
+visible = false
+position = Vector2(-2000, -40)
+
+[node name="Tuna1" type="AnimatedSprite2D" parent="School"]
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(2, 2)
+sprite_frames = ExtResource("2_frames")
+autoplay = "default"
+frame = 0
+
+[node name="Tuna2" type="AnimatedSprite2D" parent="School"]
+texture_filter = 1
+position = Vector2(-60, -30)
+scale = Vector2(2, 2)
+sprite_frames = ExtResource("2_frames")
+autoplay = "default"
+frame = 1
+
+[node name="Tuna3" type="AnimatedSprite2D" parent="School"]
+texture_filter = 1
+position = Vector2(-55, 32)
+scale = Vector2(2, 2)
+sprite_frames = ExtResource("2_frames")
+autoplay = "default"
+frame = 2
+
+[node name="Tuna4" type="AnimatedSprite2D" parent="School"]
+texture_filter = 1
+position = Vector2(-120, -5)
+scale = Vector2(2, 2)
+sprite_frames = ExtResource("2_frames")
+autoplay = "default"
+frame = 3
+
+[node name="Tuna5" type="AnimatedSprite2D" parent="School"]
+texture_filter = 1
+position = Vector2(40, 28)
+scale = Vector2(2, 2)
+sprite_frames = ExtResource("2_frames")
+autoplay = "default"
+frame = 0
+
+[node name="TouchArea" type="Area2D" parent="School"]
+position = Vector2(-30, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="School/TouchArea"]
+shape = SubResource("RectangleShape2D_school")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries/ = SubResource("AnimationLibrary_run")

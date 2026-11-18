@@ -1,0 +1,118 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Celebes Abyssal Tides/scripts/arena/sea_tuna.gd" id="1_script"]
+[ext_resource type="SpriteFrames" path="res://Celebes Abyssal Tides/assets/sprite/tuna/tuna_frames.tres" id="2_frames"]
+
+[sub_resource type="Animation" id="Animation_swim"]
+resource_name = "swim"
+length = 45.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("School:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 15, 30, 45),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-2800, -420), Vector2(-900, -300), Vector2(900, -380), Vector2(2800, -300)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_swim"]
+_data = {
+&"swim": SubResource("Animation_swim")
+}
+
+[node name="SeaTuna" type="Node2D"]
+z_index = 7
+script = ExtResource("1_script")
+
+[node name="School" type="Node2D" parent="."]
+modulate = Color(0.05, 0.12, 0.18, 0.3)
+position = Vector2(-2800, -420)
+
+[node name="Tuna1" type="AnimatedSprite2D" parent="School"]
+texture_filter = 1
+position = Vector2(0, 0)
+scale = Vector2(3, 3)
+sprite_frames = ExtResource("2_frames")
+autoplay = "default"
+frame = 0
+
+[node name="Tuna2" type="AnimatedSprite2D" parent="School"]
+texture_filter = 1
+position = Vector2(80, -45)
+scale = Vector2(3, 3)
+sprite_frames = ExtResource("2_frames")
+autoplay = "default"
+frame = 3
+
+[node name="Tuna3" type="AnimatedSprite2D" parent="School"]
+texture_filter = 1
+position = Vector2(70, 50)
+scale = Vector2(3, 3)
+sprite_frames = ExtResource("2_frames")
+autoplay = "default"
+frame = 2
+
+[node name="Tuna4" type="AnimatedSprite2D" parent="School"]
+texture_filter = 1
+position = Vector2(160, -10)
+scale = Vector2(3, 3)
+sprite_frames = ExtResource("2_frames")
+autoplay = "default"
+frame = 1
+
+[node name="Tuna5" type="AnimatedSprite2D" parent="School"]
+texture_filter = 1
+position = Vector2(-80, -40)
+scale = Vector2(3, 3)
+sprite_frames = ExtResource("2_frames")
+autoplay = "default"
+frame = 0
+
+[node name="Tuna6" type="AnimatedSprite2D" parent="School"]
+texture_filter = 1
+position = Vector2(-75, 45)
+scale = Vector2(3, 3)
+sprite_frames = ExtResource("2_frames")
+autoplay = "default"
+frame = 3
+
+[node name="Tuna7" type="AnimatedSprite2D" parent="School"]
+texture_filter = 1
+position = Vector2(150, 80)
+scale = Vector2(3, 3)
+sprite_frames = ExtResource("2_frames")
+autoplay = "default"
+frame = 2
+
+[node name="Tuna8" type="AnimatedSprite2D" parent="School"]
+texture_filter = 1
+position = Vector2(240, 25)
+scale = Vector2(3, 3)
+sprite_frames = ExtResource("2_frames")
+autoplay = "default"
+frame = 1
+
+[node name="Tuna9" type="AnimatedSprite2D" parent="School"]
+texture_filter = 1
+position = Vector2(-160, 5)
+scale = Vector2(3, 3)
+sprite_frames = ExtResource("2_frames")
+autoplay = "default"
+frame = 0
+
+[node name="Tuna10" type="AnimatedSprite2D" parent="School"]
+texture_filter = 1
+position = Vector2(230, -70)
+scale = Vector2(3, 3)
+sprite_frames = ExtResource("2_frames")
+autoplay = "default"
+frame = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries/ = SubResource("AnimationLibrary_swim")
+autoplay = &"swim"

@@ -480,6 +480,37 @@ offset_top = 32.0
 offset_right = 192.0
 offset_bottom = 72.0
 
+[node name="TunaRushLabel" type="Label" parent="PlayerStats"]
+visible = false
+layout_mode = 0
+offset_left = 86.0
+offset_top = 26.0
+offset_right = 266.0
+offset_bottom = 42.0
+theme_override_colors/font_color = Color(1, 0.82, 0.25, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("13_guqs1")
+theme_override_font_sizes/font_size = 16
+text = "TUNA RUSH 15"
+
+[node name="RespawnLabel" type="Label" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 120.0
+offset_top = 196.0
+offset_right = 520.0
+offset_bottom = 232.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("13_guqs1")
+theme_override_font_sizes/font_size = 32
+text = "RESPAWN IN 10"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="MapNode" type="Control" parent="." unique_id=673293035]
 anchors_preset = 0
 offset_left = 560.0

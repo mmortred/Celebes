@@ -21,6 +21,9 @@
 [ext_resource type="PackedScene" uid="uid://drpci78bgmsgy" path="res://Celebes Abyssal Tides/scenes/arena/Pearl/Pearl.tscn" id="91_pearl"]
 [ext_resource type="Script" uid="uid://brc24kuwo1obq" path="res://Celebes Abyssal Tides/scripts/arena/arena_border.gd" id="92_border"]
 
+[ext_resource type="PackedScene" path="res://Celebes Abyssal Tides/scenes/arena/TunaRun.tscn" id="93_tunarun"]
+[ext_resource type="PackedScene" path="res://Celebes Abyssal Tides/scenes/arena/SeaTuna.tscn" id="94_seatuna"]
+
 [sub_resource type="Gradient" id="Gradient_sfihq"]
 offsets = PackedFloat32Array(0, 0.11904762, 0.51785713, 0.8630952, 1)
 colors = PackedColorArray(1, 1, 1, 0.043137256, 1, 1, 1, 0.9254902, 1, 1, 1, 1, 1, 1, 1, 0.88554215, 1, 1, 1, 0)
@@ -3772,3 +3775,10 @@ position = Vector2(1500, 0)
 [node name="MonsterInnerWell" parent="." unique_id=2018426430 instance=ExtResource("19_xkno4")]
 position = Vector2(1000, -384)
 late = true
+
+[node name="TunaRun" parent="." instance=ExtResource("93_tunarun")]
+
+[node name="TunaParallax" type="Parallax2D" parent="."]
+scroll_scale = Vector2(1.25, 1.25)
+
+[node name="SeaTuna" parent="TunaParallax" instance=ExtResource("94_seatuna")]
