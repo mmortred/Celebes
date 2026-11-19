@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://djgqv3e6r7654"]
 
-[ext_resource type="Script" uid="uid://dk3886hq7ubp6" path="res://Celebes Abyssal Tides/scenes/ui/HUD/arena_hud.gd" id="1_5aeom"]
+[ext_resource type="Script" uid="uid://dk3886hq7ubp6" path="res://Celebes Abyssal Tides/scripts/ui/arena_hud.gd" id="1_5aeom"]
 [ext_resource type="LabelSettings" uid="uid://b8dgfckqrnto1" path="res://Celebes Abyssal Tides/scripts/ui/jersey_10_a.tres" id="2_6rlgc"]
 [ext_resource type="Texture2D" uid="uid://cyq1kvxc80fpo" path="res://Celebes Abyssal Tides/assets/ui/nomads_team_card.png" id="3_kkcta"]
 [ext_resource type="Texture2D" uid="uid://b2sak558v2pws" path="res://Celebes Abyssal Tides/assets/ui/monsters_team_card.png" id="4_6rlgc"]
@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://bmh3gkr67epjp" path="res://Celebes Abyssal Tides/assets/ui/HPBar/HPBarFill.PNG" id="12_ysuro"]
 [ext_resource type="FontFile" uid="uid://c13xubmjd3yfi" path="res://Celebes Abyssal Tides/assets/font/monogram.ttf" id="13_guqs1"]
 [ext_resource type="PackedScene" uid="uid://l1edhq5tltwr" path="res://Celebes Abyssal Tides/scenes/arena/Pearl/PearlIndicator.tscn" id="14_pind"]
+[ext_resource type="PackedScene" path="res://Celebes Abyssal Tides/scenes/ui/HUD/AbilitySlot.tscn" id="15_slot"]
 
 [sub_resource type="Animation" id="Animation_0xm5c"]
 length = 0.001
@@ -479,14 +480,23 @@ offset_left = 84.0
 offset_top = 32.0
 offset_right = 192.0
 offset_bottom = 72.0
+theme_override_constants/separation = 6
+
+[node name="PrimarySlot" parent="PlayerStats/AbilityContainerHBox" instance=ExtResource("15_slot")]
+visible = false
+layout_mode = 2
+
+[node name="UltimateSlot" parent="PlayerStats/AbilityContainerHBox" instance=ExtResource("15_slot")]
+visible = false
+layout_mode = 2
 
 [node name="TunaRushLabel" type="Label" parent="PlayerStats"]
 visible = false
 layout_mode = 0
-offset_left = 86.0
-offset_top = 26.0
-offset_right = 266.0
-offset_bottom = 42.0
+offset_left = 164.0
+offset_top = 40.0
+offset_right = 344.0
+offset_bottom = 56.0
 theme_override_colors/font_color = Color(1, 0.82, 0.25, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
@@ -496,10 +506,10 @@ text = "TUNA RUSH 15"
 
 [node name="KillFeed" type="Control" parent="."]
 layout_mode = 0
-offset_left = 8.0
-offset_top = 76.0
-offset_right = 248.0
-offset_bottom = 128.0
+offset_left = 392.0
+offset_top = 86.0
+offset_right = 632.0
+offset_bottom = 138.0
 mouse_filter = 2
 
 [node name="PearlLabel" type="Label" parent="KillFeed"]
@@ -512,6 +522,7 @@ theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("13_guqs1")
 theme_override_font_sizes/font_size = 16
 text = "SEA NOMADS HAVE THE PEARL"
+horizontal_alignment = 2
 
 [node name="KillLine1" type="Label" parent="KillFeed"]
 visible = false
@@ -524,6 +535,7 @@ theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("13_guqs1")
 theme_override_font_sizes/font_size = 16
 text = "Paolo defeated Ben"
+horizontal_alignment = 2
 
 [node name="KillLine2" type="Label" parent="KillFeed"]
 visible = false
@@ -536,6 +548,7 @@ theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("13_guqs1")
 theme_override_font_sizes/font_size = 16
 text = "Ben defeated Paolo"
+horizontal_alignment = 2
 
 [node name="RespawnLabel" type="Label" parent="."]
 visible = false

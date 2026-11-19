@@ -6,6 +6,10 @@ const SERPENT_AWAKENING = preload("res://Celebes Abyssal Tides/scenes/CutScene/S
 # character id -> scene. if its not here it uses the base player
 const CHARACTER_SCENES = {
 	0: preload("res://Celebes Abyssal Tides/scenes/player/SeaNomad/Bugis.tscn"),
+	1: preload("res://Celebes Abyssal Tides/scenes/player/SeaNomad/Bajau.tscn"),
+	2: preload("res://Celebes Abyssal Tides/scenes/player/SeaNomad/Minahasan.tscn"),
+	3: preload("res://Celebes Abyssal Tides/scenes/player/Monsters/PlasticHoard.tscn"),
+	4: preload("res://Celebes Abyssal Tides/scenes/player/Monsters/RustyLeviathan.tscn"),
 	5: preload("res://Celebes Abyssal Tides/scenes/player/Monsters/ToxicSludge.tscn"),
 }
 const BASE_PLAYER = preload("res://Celebes Abyssal Tides/scenes/player/player.tscn")

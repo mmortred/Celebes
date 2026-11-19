@@ -21,6 +21,10 @@ var connect_ok = false
 func _ready():
 	if has_node("OptionsButton"):
 		$OptionsButton.pressed.connect(_open_settings)
+	# sent back by the host (lobby full, kicked), show why
+	if NetworkManager.join_error != "":
+		_set_status(NetworkManager.join_error)
+		NetworkManager.join_error = ""
 
 
 func _on_pvp_button_pressed():

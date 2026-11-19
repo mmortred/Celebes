@@ -14,7 +14,7 @@ enum MatchState { MENU, LOBBY, CHARACTER_SELECT, LOADING, IN_PROGRESS, SERPENT_R
 
 const MATCH_DURATION = 300.0 # 5 minutes
 const SERPENT_RISING_DURATION = 120.0
-const TARGET_SCORE = 15 # first team to get this many pearls wins
+const PEARLS_TO_WIN = 12 # <-- pearls a team needs to win the match (change this number)
 const TEAM_NAMES = {0: "Sea Nomads", 1: "Garbage Monsters"}
 const TEAM_COLORS = {0: Color("2ed3be"), 1: Color("a5e35f"), -1: Color.WHITE} # teal, green, white
 const PIXEL_FONT = preload("res://Celebes Abyssal Tides/assets/font/monogram.ttf")
@@ -63,7 +63,7 @@ func add_score(team):
 		return
 	team_scores[team] = int(team_scores.get(team, 0)) + 1
 	sync_scores.rpc(team_scores)
-	if team_scores[team] >= TARGET_SCORE:
+	if team_scores[team] >= PEARLS_TO_WIN:
 		_end_match(team, "target")
 
 

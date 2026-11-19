@@ -7,16 +7,20 @@ signal selection_rejected(reason)
 signal match_loading_requested
 signal everyone_in_arena # host only
 
-# characters you can pick. Bajau and Minahasan are still "?"
-const PLAYABLE = [0, 3, 4, 5] # Bugis, Plastic Hoard, Rusty Leviathan, Toxic Sludge
+# characters you can pick
+const PLAYABLE = [0, 1, 2, 3, 4, 5] # Bugis, Bajau, Minahasan, Plastic Hoard, Rusty Leviathan, Toxic Sludge
 
-# characters without art yet use Toxic Sludge in the arena for now
-const STAND_INS = {3: 5, 4: 5} # Plastic Hoard, Rusty Leviathan -> Toxic Sludge
+# characters without art yet can use another one in the arena (all 6 have art now)
+const STAND_INS = {}
 
 # face icons for character select and the hud (not here = no art yet)
 const ICONS = {
 	0: {"sheet": "res://Celebes Abyssal Tides/assets/sprite/SeaNomad1/walk down_spear.png", "face": Rect2(20, 12, 24, 24)},
-	5: {"sheet": "res://Celebes Abyssal Tides/assets/sprite/GMonster3/monster/sludge walk_down.png", "face": Rect2(10, 2, 44, 44)},
+	1: {"sheet": "res://Celebes Abyssal Tides/assets/sprite/Bajau/walk_down.png", "face": Rect2(20, 9, 24, 24)},
+	2: {"sheet": "res://Celebes Abyssal Tides/assets/sprite/Minahasan/walk_down.png", "face": Rect2(20, 11, 24, 24)},
+	3: {"sheet": "res://Celebes Abyssal Tides/assets/sprite/PlasticHoard/walk_down.png", "face": Rect2(15, 11, 34, 34)},
+	4: {"sheet": "res://Celebes Abyssal Tides/assets/sprite/RustyLeviathan/walk_down.png", "face": Rect2(17, 9, 30, 30)},
+	5: {"sheet": "res://Celebes Abyssal Tides/assets/sprite/ToxicSludge/walk_down.png", "face": Rect2(13, 12, 38, 38)},
 }
 
 const ARENA_SCENE = "res://Celebes Abyssal Tides/scenes/arena/MainArena.tscn"

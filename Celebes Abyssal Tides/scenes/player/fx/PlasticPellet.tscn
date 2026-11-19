@@ -1,0 +1,49 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Celebes Abyssal Tides/scripts/player/projectile.gd" id="script"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/sprite/PlasticHoard/plastic_pellet.png" id="tex"]
+
+[sub_resource type="AtlasTexture" id="Atlas_0"]
+atlas = ExtResource("tex")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="Atlas_1"]
+atlas = ExtResource("tex")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="Atlas_2"]
+atlas = ExtResource("tex")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="Atlas_3"]
+atlas = ExtResource("tex")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_3")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12.0
+}]
+
+[node name="PlasticPellet" type="Node2D"]
+script = ExtResource("script")
+hit_radius = 12.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(1.3, 1.3)
+sprite_frames = SubResource("SpriteFrames_fx")

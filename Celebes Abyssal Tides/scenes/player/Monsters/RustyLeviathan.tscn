@@ -1,0 +1,823 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" uid="uid://b15bynslw4646" path="res://Celebes Abyssal Tides/scenes/player/player.tscn" id="player"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/sprite/RustyLeviathan/walk_down.png" id="tex_0"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/sprite/RustyLeviathan/walk_up.png" id="tex_1"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/sprite/RustyLeviathan/walk_left.png" id="tex_2"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/sprite/RustyLeviathan/walk_right.png" id="tex_3"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/sprite/RustyLeviathan/atk_down.png" id="tex_4"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/sprite/RustyLeviathan/atk_up.png" id="tex_5"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/sprite/RustyLeviathan/atk_right.png" id="tex_6"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/sprite/RustyLeviathan/atk_left.png" id="tex_7"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/sprite/RustyLeviathan/crushing_slam_down.png" id="tex_8"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/sprite/RustyLeviathan/crushing_slam_up.png" id="tex_9"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/sprite/RustyLeviathan/crushing_slam_left.png" id="tex_10"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/sprite/RustyLeviathan/crushing_slam_right.png" id="tex_11"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/sprite/RustyLeviathan/corroded_armor_down.png" id="tex_12"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/sprite/RustyLeviathan/corroded_armor_up.png" id="tex_13"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/sprite/RustyLeviathan/corroded_armor_left.png" id="tex_14"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/sprite/RustyLeviathan/corroded_armor_right.png" id="tex_15"]
+[ext_resource type="Script" path="res://Celebes Abyssal Tides/scripts/abilities/faction_monsters/crushing_slam.gd" id="script_crushing_slam"]
+[ext_resource type="Script" path="res://Celebes Abyssal Tides/scripts/abilities/faction_monsters/corroded_armor.gd" id="script_corroded_armor"]
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_down_0"]
+atlas = ExtResource("tex_0")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_down_1"]
+atlas = ExtResource("tex_0")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_down_2"]
+atlas = ExtResource("tex_0")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_down_3"]
+atlas = ExtResource("tex_0")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_down_4"]
+atlas = ExtResource("tex_0")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_down_5"]
+atlas = ExtResource("tex_0")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_up_0"]
+atlas = ExtResource("tex_1")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_up_1"]
+atlas = ExtResource("tex_1")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_up_2"]
+atlas = ExtResource("tex_1")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_up_3"]
+atlas = ExtResource("tex_1")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_up_4"]
+atlas = ExtResource("tex_1")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_up_5"]
+atlas = ExtResource("tex_1")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_left_0"]
+atlas = ExtResource("tex_2")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_left_1"]
+atlas = ExtResource("tex_2")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_left_2"]
+atlas = ExtResource("tex_2")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_left_3"]
+atlas = ExtResource("tex_2")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_left_4"]
+atlas = ExtResource("tex_2")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_left_5"]
+atlas = ExtResource("tex_2")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_right_0"]
+atlas = ExtResource("tex_3")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_right_1"]
+atlas = ExtResource("tex_3")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_right_2"]
+atlas = ExtResource("tex_3")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_right_3"]
+atlas = ExtResource("tex_3")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_right_4"]
+atlas = ExtResource("tex_3")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_walk_right_5"]
+atlas = ExtResource("tex_3")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_atk_down_0"]
+atlas = ExtResource("tex_4")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_atk_down_1"]
+atlas = ExtResource("tex_4")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_atk_down_2"]
+atlas = ExtResource("tex_4")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_atk_down_3"]
+atlas = ExtResource("tex_4")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_atk_down_4"]
+atlas = ExtResource("tex_4")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_atk_up_0"]
+atlas = ExtResource("tex_5")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_atk_up_1"]
+atlas = ExtResource("tex_5")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_atk_up_2"]
+atlas = ExtResource("tex_5")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_atk_up_3"]
+atlas = ExtResource("tex_5")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_atk_up_4"]
+atlas = ExtResource("tex_5")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_atk_right_0"]
+atlas = ExtResource("tex_6")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_atk_right_1"]
+atlas = ExtResource("tex_6")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_atk_right_2"]
+atlas = ExtResource("tex_6")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_atk_right_3"]
+atlas = ExtResource("tex_6")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_atk_right_4"]
+atlas = ExtResource("tex_6")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_atk_left_0"]
+atlas = ExtResource("tex_7")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_atk_left_1"]
+atlas = ExtResource("tex_7")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_atk_left_2"]
+atlas = ExtResource("tex_7")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_atk_left_3"]
+atlas = ExtResource("tex_7")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_atk_left_4"]
+atlas = ExtResource("tex_7")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_crushing_slam_down_0"]
+atlas = ExtResource("tex_8")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_crushing_slam_down_1"]
+atlas = ExtResource("tex_8")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_crushing_slam_down_2"]
+atlas = ExtResource("tex_8")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_crushing_slam_down_3"]
+atlas = ExtResource("tex_8")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_crushing_slam_down_4"]
+atlas = ExtResource("tex_8")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_crushing_slam_down_5"]
+atlas = ExtResource("tex_8")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_crushing_slam_up_0"]
+atlas = ExtResource("tex_9")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_crushing_slam_up_1"]
+atlas = ExtResource("tex_9")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_crushing_slam_up_2"]
+atlas = ExtResource("tex_9")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_crushing_slam_up_3"]
+atlas = ExtResource("tex_9")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_crushing_slam_up_4"]
+atlas = ExtResource("tex_9")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_crushing_slam_up_5"]
+atlas = ExtResource("tex_9")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_crushing_slam_left_0"]
+atlas = ExtResource("tex_10")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_crushing_slam_left_1"]
+atlas = ExtResource("tex_10")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_crushing_slam_left_2"]
+atlas = ExtResource("tex_10")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_crushing_slam_left_3"]
+atlas = ExtResource("tex_10")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_crushing_slam_left_4"]
+atlas = ExtResource("tex_10")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_crushing_slam_left_5"]
+atlas = ExtResource("tex_10")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_crushing_slam_right_0"]
+atlas = ExtResource("tex_11")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_crushing_slam_right_1"]
+atlas = ExtResource("tex_11")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_crushing_slam_right_2"]
+atlas = ExtResource("tex_11")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_crushing_slam_right_3"]
+atlas = ExtResource("tex_11")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_crushing_slam_right_4"]
+atlas = ExtResource("tex_11")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_crushing_slam_right_5"]
+atlas = ExtResource("tex_11")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_corroded_armor_down_0"]
+atlas = ExtResource("tex_12")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_corroded_armor_down_1"]
+atlas = ExtResource("tex_12")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_corroded_armor_down_2"]
+atlas = ExtResource("tex_12")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_corroded_armor_down_3"]
+atlas = ExtResource("tex_12")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_corroded_armor_down_4"]
+atlas = ExtResource("tex_12")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_corroded_armor_down_5"]
+atlas = ExtResource("tex_12")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_corroded_armor_up_0"]
+atlas = ExtResource("tex_13")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_corroded_armor_up_1"]
+atlas = ExtResource("tex_13")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_corroded_armor_up_2"]
+atlas = ExtResource("tex_13")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_corroded_armor_up_3"]
+atlas = ExtResource("tex_13")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_corroded_armor_up_4"]
+atlas = ExtResource("tex_13")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_corroded_armor_up_5"]
+atlas = ExtResource("tex_13")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_corroded_armor_left_0"]
+atlas = ExtResource("tex_14")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_corroded_armor_left_1"]
+atlas = ExtResource("tex_14")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_corroded_armor_left_2"]
+atlas = ExtResource("tex_14")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_corroded_armor_left_3"]
+atlas = ExtResource("tex_14")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_corroded_armor_left_4"]
+atlas = ExtResource("tex_14")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_corroded_armor_left_5"]
+atlas = ExtResource("tex_14")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_corroded_armor_right_0"]
+atlas = ExtResource("tex_15")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_corroded_armor_right_1"]
+atlas = ExtResource("tex_15")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_corroded_armor_right_2"]
+atlas = ExtResource("tex_15")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_corroded_armor_right_3"]
+atlas = ExtResource("tex_15")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_corroded_armor_right_4"]
+atlas = ExtResource("tex_15")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_corroded_armor_right_5"]
+atlas = ExtResource("tex_15")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_walk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_down_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_down_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_down_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_down_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_down_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_down_5")
+}],
+"loop": true,
+"name": &"walk_down",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_up_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_up_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_up_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_up_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_up_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_up_5")
+}],
+"loop": true,
+"name": &"walk_up",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_left_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_left_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_left_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_left_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_left_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_left_5")
+}],
+"loop": true,
+"name": &"walk_left",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_right_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_right_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_right_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_right_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_right_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_walk_right_5")
+}],
+"loop": true,
+"name": &"walk_right",
+"speed": 6.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_attacks"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_atk_down_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_atk_down_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_atk_down_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_atk_down_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_atk_down_4")
+}],
+"loop": false,
+"name": &"bottom_swing",
+"speed": 3.5
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_atk_up_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_atk_up_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_atk_up_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_atk_up_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_atk_up_4")
+}],
+"loop": false,
+"name": &"top_swing",
+"speed": 3.5
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_atk_right_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_atk_right_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_atk_right_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_atk_right_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_atk_right_4")
+}],
+"loop": false,
+"name": &"right_swing",
+"speed": 3.5
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_atk_left_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_atk_left_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_atk_left_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_atk_left_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_atk_left_4")
+}],
+"loop": false,
+"name": &"left_swing",
+"speed": 3.5
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ability"]
+animations = [{
+"frames": [],
+"loop": false,
+"name": &"primary",
+"speed": 10.0
+}, {
+"frames": [],
+"loop": false,
+"name": &"ultimate",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_crushing_slam_down_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_crushing_slam_down_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_crushing_slam_down_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_crushing_slam_down_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_crushing_slam_down_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_crushing_slam_down_5")
+}],
+"loop": false,
+"name": &"crushing_slam_down",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_crushing_slam_up_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_crushing_slam_up_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_crushing_slam_up_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_crushing_slam_up_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_crushing_slam_up_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_crushing_slam_up_5")
+}],
+"loop": false,
+"name": &"crushing_slam_up",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_crushing_slam_left_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_crushing_slam_left_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_crushing_slam_left_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_crushing_slam_left_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_crushing_slam_left_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_crushing_slam_left_5")
+}],
+"loop": false,
+"name": &"crushing_slam_left",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_crushing_slam_right_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_crushing_slam_right_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_crushing_slam_right_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_crushing_slam_right_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_crushing_slam_right_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_crushing_slam_right_5")
+}],
+"loop": false,
+"name": &"crushing_slam_right",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_corroded_armor_down_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_corroded_armor_down_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_corroded_armor_down_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_corroded_armor_down_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_corroded_armor_down_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_corroded_armor_down_5")
+}],
+"loop": false,
+"name": &"corroded_armor_down",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_corroded_armor_up_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_corroded_armor_up_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_corroded_armor_up_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_corroded_armor_up_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_corroded_armor_up_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_corroded_armor_up_5")
+}],
+"loop": false,
+"name": &"corroded_armor_up",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_corroded_armor_left_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_corroded_armor_left_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_corroded_armor_left_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_corroded_armor_left_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_corroded_armor_left_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_corroded_armor_left_5")
+}],
+"loop": false,
+"name": &"corroded_armor_left",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_corroded_armor_right_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_corroded_armor_right_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_corroded_armor_right_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_corroded_armor_right_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_corroded_armor_right_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_corroded_armor_right_5")
+}],
+"loop": false,
+"name": &"corroded_armor_right",
+"speed": 8.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_feet"]
+radius = 6.0
+height = 26
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hurt"]
+size = Vector2(26, 46)
+
+[node name="Player" unique_id=447082359 instance=ExtResource("player")]
+body_center = Vector2(0, -22)
+swing_hit_frames = {"top_swing": 2, "bottom_swing": 2, "right_swing": 2, "left_swing": 2}
+attack_offset = 28.0
+attack_cooldown = 1.43
+reflect_percent = 0.5
+
+[node name="AnimatedSpriteWalk" parent="." index="0" unique_id=55903766]
+position = Vector2(0, -23)
+scale = Vector2(1.3, 1.3)
+sprite_frames = SubResource("SpriteFrames_walk")
+animation = &"walk_down"
+
+[node name="CollisionShape2D" parent="." index="1" unique_id=1509811323]
+position = Vector2(0, -1)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_feet")
+
+[node name="HealthComponent" parent="." index="3" unique_id=1331527619]
+max_health = 120.0
+
+[node name="PrimaryAbility" parent="." index="4" unique_id=1242958706]
+script = ExtResource("script_crushing_slam")
+ability_name = "Crushing Slam"
+effect_animation = &"crushing_slam"
+
+[node name="UltAbility" parent="." index="5" unique_id=1288726131]
+script = ExtResource("script_corroded_armor")
+ability_name = "Corroded Armor"
+effect_animation = &"corroded_armor"
+
+[node name="Label" parent="." index="7" unique_id=443958224]
+offset_top = -131.0
+offset_bottom = -106.0
+
+[node name="CollisionShape2D" parent="HurtBox" index="0" unique_id=1411050026]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_hurt")
+
+[node name="PearlIndicator" parent="." index="11" unique_id=1928374651]
+position = Vector2(26, -73)
+
+[node name="AnimatedAttacks" parent="." index="13" unique_id=1700000001]
+position = Vector2(0, -23)
+scale = Vector2(1.3, 1.3)
+sprite_frames = SubResource("SpriteFrames_attacks")
+
+[node name="AnimatedAbility" parent="." index="14" unique_id=1700000002]
+position = Vector2(0, -23)
+scale = Vector2(1.3, 1.3)
+sprite_frames = SubResource("SpriteFrames_ability")

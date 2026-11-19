@@ -8,8 +8,12 @@ const PORT = 7777
 const DISCOVERY_PORT = 7778
 const DISCOVERY_ASK = "CELEBES_LOBBY?"
 
+const MAIN_MENU = "res://Celebes Abyssal Tides/scenes/MainMenu.tscn"
+const LOBBY = "res://Celebes Abyssal Tides/scenes/ui/lobby/PvPLobby.tscn"
+
 var discovery_responder = null # host only, while the lobby is open
 var lobby_id = "" # random number for each lobby so the joiner doesnt list it twice
+var join_error = "" # why i got sent back to the main menu (lobby full, kicked), the main menu shows it
 
 
 func _ready():
@@ -36,11 +40,68 @@ func _on_server_disconnected():
 		return
 	print("Host disconnected, back to main menu")
 	close_connection()
-	get_tree().change_scene_to_file("res://Celebes Abyssal Tides/scenes/MainMenu.tscn")
+	get_tree().change_scene_to_file(MAIN_MENU)
 
 
 func _on_peer_connected(id):
 	print("Peer connected: ", id)
+	if multiplayer.multiplayer_peer == null or not multiplayer.is_server():
+		return
+	# host: nobody can come in if the lobby is full or the match already started
+	var scene = get_tree().current_scene
+	if scene == null or scene.name != "PvPLobby":
+		send_away(id, "The match already started.")
+	elif multiplayer.get_peers().size() > LobbyManager.MAX_PLAYERS - 1: # -1 because the host has a slot too
+		send_away(id, "The lobby is full.")
+
+
+# host: tell them why, then disconnect them (lobby full, match started, kicked)
+func send_away(id, reason):
+	print("Sending away peer ", id, ": ", reason)
+	leave_with_message.rpc_id(id, reason)
+	await get_tree().create_timer(0.5).timeout # so the message gets there first
+	if multiplayer.multiplayer_peer != null and id in multiplayer.get_peers():
+		multiplayer.multiplayer_peer.disconnect_peer(id)
+
+
+# host -> one client: you have to leave, back to the main menu with the reason
+@rpc("authority", "call_remote", "reliable")
+func leave_with_message(reason: String):
+	join_error = reason
+	close_connection()
+	get_tree().change_scene_to_file(MAIN_MENU)
+
+
+# the new host after a host transfer (see pvp_lobby.gd move_host)
+func become_host_after(delay):
+	await get_tree().create_timer(delay).timeout
+	LobbyManager.reset_lobby() # the old slots are from the old host
+	if host_game():
+		get_tree().change_scene_to_file(LOBBY)
+	else:
+		join_error = "Could not become the host (port %d busy)." % PORT
+		get_tree().change_scene_to_file(MAIN_MENU)
+
+
+# everyone else after a host transfer: wait for the new host to open the lobby, then join it
+func rejoin_after(ip, delay):
+	await get_tree().create_timer(delay).timeout
+	if not join_game(ip):
+		join_error = "Could not join the new host."
+		get_tree().change_scene_to_file(MAIN_MENU)
+		return
+	var waited = 0.0
+	while waited < 8.0:
+		if multiplayer.multiplayer_peer == null:
+			break
+		if multiplayer.multiplayer_peer.get_connection_status() == MultiplayerPeer.CONNECTION_CONNECTED:
+			get_tree().change_scene_to_file(LOBBY)
+			return
+		await get_tree().create_timer(0.25).timeout
+		waited += 0.25
+	close_connection()
+	join_error = "Could not join the new host."
+	get_tree().change_scene_to_file(MAIN_MENU)
 
 
 func _on_peer_disconnected(id):

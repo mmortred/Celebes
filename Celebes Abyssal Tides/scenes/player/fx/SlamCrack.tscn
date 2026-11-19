@@ -1,0 +1,60 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Celebes Abyssal Tides/scripts/player/ability_fx.gd" id="script"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/sprite/RustyLeviathan/slam_crack.png" id="tex"]
+
+[sub_resource type="AtlasTexture" id="Atlas_0"]
+atlas = ExtResource("tex")
+region = Rect2(0, 0, 96, 48)
+
+[sub_resource type="AtlasTexture" id="Atlas_1"]
+atlas = ExtResource("tex")
+region = Rect2(96, 0, 96, 48)
+
+[sub_resource type="AtlasTexture" id="Atlas_2"]
+atlas = ExtResource("tex")
+region = Rect2(192, 0, 96, 48)
+
+[sub_resource type="AtlasTexture" id="Atlas_3"]
+atlas = ExtResource("tex")
+region = Rect2(288, 0, 96, 48)
+
+[sub_resource type="AtlasTexture" id="Atlas_4"]
+atlas = ExtResource("tex")
+region = Rect2(384, 0, 96, 48)
+
+[sub_resource type="AtlasTexture" id="Atlas_5"]
+atlas = ExtResource("tex")
+region = Rect2(480, 0, 96, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_5")
+}],
+"loop": false,
+"name": &"default",
+"speed": 12.0
+}]
+
+[node name="SlamCrack" type="AnimatedSprite2D"]
+texture_filter = 1
+scale = Vector2(2.0, 2.0)
+sprite_frames = SubResource("SpriteFrames_fx")
+script = ExtResource("script")

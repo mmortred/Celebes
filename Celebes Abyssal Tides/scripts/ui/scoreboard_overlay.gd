@@ -119,8 +119,8 @@ func _unhandled_input(event):
 
 # remake all the rows
 func _refresh():
-	if rows == null:
-		return
+	if rows == null or not is_inside_tree():
+		return # can happen when a player leaves while the arena is closing
 	for child in rows.get_children():
 		rows.remove_child(child)
 		child.queue_free()

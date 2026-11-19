@@ -6,7 +6,8 @@ extends Node2D
 @export var ghost_color = Color(0.6, 0.95, 1.0, 0.6) # light blue
 
 @onready var player = get_parent()
-@onready var sprite = get_parent().get_node("AnimatedSprite2D")
+@onready var sprite = get_parent().get_node("AnimatedSpriteWalk")
+@onready var attack_sprite = get_parent().get_node("AnimatedAttacks")
 
 var base_sprite_scale = Vector2.ONE # normal scale of the character
 var squash_tween = null # so a new dash restarts it
@@ -33,9 +34,13 @@ func _squash_and_stretch(direction):
 	if squash_tween:
 		squash_tween.kill()
 	squash_tween = create_tween()
+	# the walk and the attack sprite change size together
 	squash_tween.tween_property(sprite, "scale", squash, 0.04)
+	squash_tween.parallel().tween_property(attack_sprite, "scale", squash, 0.04)
 	squash_tween.tween_property(sprite, "scale", stretch, 0.06)
+	squash_tween.parallel().tween_property(attack_sprite, "scale", stretch, 0.06)
 	squash_tween.tween_property(sprite, "scale", base_sprite_scale, 0.25).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT) # wobble back
+	squash_tween.parallel().tween_property(attack_sprite, "scale", base_sprite_scale, 0.25).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
 
 
 func _spawn_ghosts(duration):
@@ -44,12 +49,15 @@ func _spawn_ghosts(duration):
 		if player.is_dead or not is_inside_tree():
 			return
 		# copy of the current frame that fades out
+		var shown_sprite = sprite # the swing sprite shows while swinging
+		if attack_sprite.visible:
+			shown_sprite = attack_sprite
 		var ghost = Sprite2D.new()
-		ghost.texture = sprite.sprite_frames.get_frame_texture(sprite.animation, sprite.frame)
-		ghost.texture_filter = sprite.texture_filter
-		ghost.offset = sprite.offset
-		ghost.global_position = sprite.global_position
-		ghost.scale = sprite.global_scale
+		ghost.texture = shown_sprite.sprite_frames.get_frame_texture(shown_sprite.animation, shown_sprite.frame)
+		ghost.texture_filter = shown_sprite.texture_filter
+		ghost.offset = shown_sprite.offset
+		ghost.global_position = shown_sprite.global_position
+		ghost.scale = shown_sprite.global_scale
 		ghost.modulate = ghost_color
 		ghost.modulate.a *= player.modulate.a # hidden in kelp = hidden ghosts
 		player.get_parent().add_child(ghost) # not on the player so it stays behind

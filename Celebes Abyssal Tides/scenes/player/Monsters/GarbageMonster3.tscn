@@ -4,5 +4,5 @@
 
 [node name="Player" unique_id=447082359 instance=ExtResource("1_7wpj7")]
 
-[node name="AnimatedSprite2D" parent="." index="0" unique_id=55903766]
+[node name="AnimatedSpriteWalk" parent="." index="0" unique_id=55903766]
 animation = &""

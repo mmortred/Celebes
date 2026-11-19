@@ -15,9 +15,17 @@ extends CharacterBody2D
 @export var serpent_respawn_time = 4.0 # shorter in the last 2 minutes so the end stays busy
 @export var hit_slow_percent = 0.10 # 10% slower when you get hit
 @export var hit_slow_duration = 0.5
+@export var attack_slow_percent = 0.10 # 10% slower while swinging (change this number)
 @export var tuna_rush_time = 15.0
 @export var tuna_speed_bonus = 0.2 # 20% faster with the tuna rush
 @export var carrier_slow = 0.15 # 15% slower while carrying the pearl
+@export var tide_speed_bonus = 0.4 # 40% faster with the bajau tide shift
+@export var reflect_percent = 0.5 # retaliate and corroded armor send back half the damage
+@export var knockback_time = 0.15 # how long a shield bash push lasts
+@export var attack_cooldown = 1.0 # seconds between basic attacks (1.5 = slower, 0.77 = faster)
+@export_file("*.tscn") var projectile_path = "" # ranged characters shoot this instead of a melee hit (empty = melee)
+@export var projectile_speed = 420.0
+@export var projectile_range = 300.0
 
 const DAMAGE_NUMBER = preload("res://Celebes Abyssal Tides/scenes/player/DamageNumber.tscn")
 
@@ -25,7 +33,9 @@ const DAMAGE_NUMBER = preload("res://Celebes Abyssal Tides/scenes/player/DamageN
 @onready var primary_ability = $PrimaryAbility
 @onready var ultimate_ability = $UltAbility
 @onready var label = $Label
-@onready var sprite = $AnimatedSprite2D
+@onready var sprite_walk = $AnimatedSpriteWalk # walk and idle
+@onready var sprite_attacks = $AnimatedAttacks # the 4 swings
+@onready var sprite_ability = $AnimatedAbility # ability 1 (primary) and 2 (ultimate)
 @onready var attack_range = $AttackRange
 @onready var health = $HealthComponent
 @onready var death_dust = get_node_or_null("DeathDust")
@@ -47,11 +57,24 @@ var dash_cooldown_timer = 0.0
 var slow_timer = 0.0
 var respawn_timer = 0.0 # counts down while dead, the hud shows it
 var tuna_rush_timer = 0.0 # faster and shorter dash cooldown while this is more than 0
+var tide_timer = 0.0 # tide shift speed buff
+var retaliate_timer = 0.0 # hits get sent back while this is more than 0
+var knockback_timer = 0.0 # pushed by a shield bash, cant move by yourself
+var knockback_velocity = Vector2.ZERO
+var stun_timer = 0.0 # cant move, attack or use abilities
+var debuff_slow_timer = 0.0 # scatter debris slow
+var debuff_slow_percent = 0.0
+var armor_timer = 0.0 # corroded armor, take less damage
+var armor_percent = 0.0
+var weaken_timer = 0.0 # contaminate, my hits do less damage
+var weaken_percent = 0.0
+var attack_cooldown_timer = 0.0
 
 # exported so the other players can see my animation
 @export var anim_name = "walk_down"
 @export var anim_frozen = true
 var is_swinging = false
+var ability_playing = false # a full body ability animation is showing instead of the walk sprite
 var hit_tween = null # red flash when hit
 var is_dead = false
 var has_pearl = false
@@ -60,7 +83,7 @@ var cutscene_frozen = false
 const SMOOTHING = 18.0
 const SNAP_DISTANCE = 200.0 # if further than this just teleport
 var team = 0 # 0 = Sea Nomads (left), 1 = Garbage Monsters (right). the arena sets this
-var character = -1 # character id from character select (0 Bugis, 5 Toxic Sludge). the arena sets this
+var character = -1 # character id from character select (0 Bugis, 1 Bajau, 2 Minahasan, 3 Plastic Hoard, 4 Rusty Leviathan, 5 Toxic Sludge). the arena sets this
 
 
 func _enter_tree():
@@ -86,11 +109,13 @@ func _ready():
 
 	# swings only play once
 	for swing in ["top_swing", "bottom_swing", "right_swing", "left_swing"]:
-		sprite.sprite_frames.set_animation_loop(swing, false)
+		sprite_attacks.sprite_frames.set_animation_loop(swing, false)
 
-	sprite.frame_changed.connect(_on_frame_changed)
+	match_attack_sprite_to_walk()
+	sprite_attacks.frame_changed.connect(_on_frame_changed)
+	sprite_ability.animation_finished.connect(_on_ability_effect_finished)
 	health.knocked_out.connect(_on_knocked_out)
-	sprite.play(anim_name)
+	update_sprites()
 	pearl_indicator.visible = has_pearl
 	_add_feet_shadow()
 
@@ -113,13 +138,114 @@ func _process(delta):
 	# here and not in _physics_process so every pc counts it (the hud and the other players)
 	if tuna_rush_timer > 0:
 		tuna_rush_timer -= delta
+	if tide_timer > 0:
+		tide_timer -= delta
+	if retaliate_timer > 0:
+		retaliate_timer -= delta
+	if armor_timer > 0:
+		armor_timer -= delta
+	if weaken_timer > 0:
+		weaken_timer -= delta
+	if stun_timer > 0:
+		stun_timer -= delta
+	if debuff_slow_timer > 0:
+		debuff_slow_timer -= delta
 
-	if sprite.animation != anim_name:
-		sprite.play(anim_name)
+	update_sprites()
+
+
+# swings play on AnimatedAttacks, everything else on AnimatedSpriteWalk
+func update_sprites():
+	if ability_playing:
+		if anim_name.ends_with("_swing"):
+			stop_ability_effect() # attacking cancels the ability pose
+		else:
+			return # let the ability animation finish
+
+	if anim_name.ends_with("_swing"):
+		if not sprite_attacks.visible:
+			sprite_walk.visible = false
+			sprite_attacks.visible = true
+			sprite_attacks.play(anim_name)
+			sprite_attacks.set_frame_and_progress(0, 0.0) # always start the swing from the first frame
+		elif sprite_attacks.animation != anim_name:
+			sprite_attacks.play(anim_name)
+		return
+
+	if sprite_attacks.visible:
+		sprite_attacks.visible = false
+		sprite_walk.visible = true
+	if sprite_walk.animation != anim_name:
+		sprite_walk.play(anim_name)
 	if anim_frozen:
-		sprite.pause() # standing still
-	elif not sprite.is_playing() and sprite.sprite_frames.get_animation_loop(anim_name):
-		sprite.play() # walking again
+		sprite_walk.pause() # standing still
+	elif not sprite_walk.is_playing() and sprite_walk.sprite_frames.get_animation_loop(anim_name):
+		sprite_walk.play() # walking again
+
+
+# the attack sprite always sits exactly where the walk sprite is (walk is the one you move in the editor)
+func match_attack_sprite_to_walk():
+	sprite_attacks.position = sprite_walk.position
+	sprite_attacks.scale = sprite_walk.scale
+	sprite_attacks.offset = sprite_walk.offset
+	sprite_attacks.centered = sprite_walk.centered
+	sprite_attacks.texture_filter = sprite_walk.texture_filter
+	sprite_attacks.speed_scale = sprite_walk.speed_scale
+
+
+# the ability calls this with its effect_animation. Does nothing until that animation has frames
+func play_ability_effect(effect_name):
+	if effect_name == "":
+		return
+	var frames = sprite_ability.sprite_frames
+
+	# characters with a pose for every direction (like tide_shift_down) play that instead of the body sprites
+	var directional = str(effect_name) + "_" + get_facing_name()
+	if frames.has_animation(directional) and frames.get_frame_count(directional) > 0:
+		if anim_name.ends_with("_swing"):
+			return # mid swing, the swing wins
+		ability_playing = true
+		sprite_walk.visible = false
+		sprite_attacks.visible = false
+		sprite_ability.visible = true
+		sprite_ability.play(directional)
+		sprite_ability.set_frame_and_progress(0, 0.0)
+		return
+
+	# one effect on top of the body (like "primary" and "ultimate")
+	if not frames.has_animation(effect_name):
+		return
+	if frames.get_frame_count(effect_name) == 0:
+		return # no art yet
+	sprite_ability.visible = true
+	sprite_ability.play(effect_name)
+
+
+# which way i face, from anim_name because thats synced (the other players dont know facing_direction)
+func get_facing_name():
+	if anim_name.begins_with("top") or anim_name.ends_with("_up"):
+		return "up"
+	if anim_name.begins_with("left") or anim_name.ends_with("_left"):
+		return "left"
+	if anim_name.begins_with("right") or anim_name.ends_with("_right"):
+		return "right"
+	return "down"
+
+
+func _on_ability_effect_finished():
+	stop_ability_effect()
+
+
+# hide the ability sprite and show the body again
+func stop_ability_effect():
+	sprite_ability.visible = false
+	sprite_ability.stop()
+	if ability_playing:
+		ability_playing = false
+		sprite_walk.visible = true
+		sprite_attacks.visible = false
+		if sprite_walk.sprite_frames.has_animation(anim_name):
+			sprite_walk.play(anim_name)
 
 
 func _physics_process(delta):
@@ -137,6 +263,22 @@ func _physics_process(delta):
 		dash_cooldown_timer -= delta
 	if slow_timer > 0:
 		slow_timer -= delta
+	if attack_cooldown_timer > 0:
+		attack_cooldown_timer -= delta
+
+	# pushed by a shield bash, you slide back and cant do anything for a moment
+	if knockback_timer > 0:
+		knockback_timer -= delta
+		velocity = knockback_velocity
+		move_and_slide()
+		return
+
+	# stunned, stand still until it runs out (stun_timer counts down in _process)
+	if stun_timer > 0:
+		velocity = Vector2.ZERO
+		is_dashing = false
+		anim_frozen = true
+		return
 
 	move_direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 
@@ -211,9 +353,9 @@ func _add_feet_shadow():
 # finds the lowest pixel of the first walk_down frame (where the feet are)
 func _feet_ground_y():
 	var fallback = $CollisionShape2D.position.y
-	if not sprite.sprite_frames.has_animation("walk_down"):
+	if not sprite_walk.sprite_frames.has_animation("walk_down"):
 		return fallback
-	var frame = sprite.sprite_frames.get_frame_texture("walk_down", 0)
+	var frame = sprite_walk.sprite_frames.get_frame_texture("walk_down", 0)
 	if frame == null:
 		return fallback
 	var image = frame.get_image()
@@ -226,9 +368,9 @@ func _feet_ground_y():
 		for x in image.get_width():
 			if image.get_pixel(x, y).a > 0.15:
 				var top = 0.0
-				if sprite.centered:
+				if sprite_walk.centered:
 					top = -image.get_height() / 2.0
-				return sprite.position.y + (sprite.offset.y + top + y - 1.0) * sprite.scale.y # 1px up so its under the feet
+				return sprite_walk.position.y + (sprite_walk.offset.y + top + y - 1.0) * sprite_walk.scale.y # 1px up so its under the feet
 		y -= 1
 	return fallback
 
@@ -237,10 +379,16 @@ func move_player():
 	var speed = move_speed
 	if slow_timer > 0:
 		speed *= 1.0 - hit_slow_percent
+	if is_swinging:
+		speed *= 1.0 - attack_slow_percent
 	if tuna_rush_timer > 0:
 		speed *= 1.0 + tuna_speed_bonus
+	if tide_timer > 0:
+		speed *= 1.0 + tide_speed_bonus
 	if has_pearl:
 		speed *= 1.0 - carrier_slow
+	if debuff_slow_timer > 0:
+		speed *= 1.0 - debuff_slow_percent
 	velocity = move_direction * speed
 
 
@@ -265,6 +413,9 @@ func update_animation():
 func start_swing():
 	if is_swinging:
 		return
+	if attack_cooldown_timer > 0:
+		return # attack speed, too soon
+	attack_cooldown_timer = attack_cooldown
 	is_swinging = true
 	_play_attack_sound.rpc()
 	anim_frozen = false # swing plays even if standing still
@@ -287,11 +438,11 @@ func start_swing():
 		anim_name = "left_swing"
 
 	# wait for the whole swing animation to finish
-	var frames = sprite.sprite_frames
+	var frames = sprite_attacks.sprite_frames
 	var swing_length = 0.0
 	for i in frames.get_frame_count(anim_name):
 		swing_length += frames.get_frame_duration(anim_name, i)
-	swing_length /= frames.get_animation_speed(anim_name) * absf(sprite.speed_scale)
+	swing_length /= frames.get_animation_speed(anim_name) * absf(sprite_attacks.speed_scale)
 	await get_tree().create_timer(swing_length).timeout
 	is_swinging = false
 	update_animation() # back to walking right away
@@ -314,20 +465,51 @@ func roll_damage() -> int:
 	return (randi_range(low, high) + randi_range(low, high)) / 2  # int division, stays low..high
 
 
+# contaminate makes all my damage smaller, every hit (attacks and abilities) goes through here
+func get_damage(amount):
+	if weaken_timer > 0:
+		return max(1, int(round(amount * (1.0 - weaken_percent))))
+	return int(amount)
+
+
+# hit someone with my name on it so the scoreboard knows who did it
+func deal_damage(target, amount):
+	target.receive_hit.rpc(get_damage(amount), str(name))
+
+
 func _on_frame_changed():
 	if not is_multiplayer_authority():
 		return # only the attacker checks hits
 	if is_dead or not is_swinging:
 		return
-	if sprite.frame != swing_hit_frames.get(str(sprite.animation), 2):
+	if sprite_attacks.frame != swing_hit_frames.get(str(sprite_attacks.animation), 2):
 		return # not the hit frame yet
+
+	# ranged: shoot instead of hitting what is in front
+	if projectile_path != "":
+		fire_projectile.rpc(projectile_path, get_swing_direction(), get_damage(roll_damage()), projectile_speed, projectile_range)
+		return
 
 	for area in attack_range.get_overlapping_areas(): # only hurtboxes (layer 3)
 		var target = area.get_parent()
 		if target == self:
 			continue
 		if target.has_method("receive_hit"):
-			target.receive_hit.rpc(roll_damage(), str(name)) # send my name so they know who hit them
+			deal_damage(target, roll_damage())
+
+
+# every pc makes the projectile so everyone sees it, only my own copy can hit (see projectile.gd)
+@rpc("authority", "call_local", "reliable")
+func fire_projectile(path: String, direction: Vector2, damage: int, speed: float, max_range: float):
+	var shot = load(path).instantiate()
+	shot.shooter = self
+	shot.direction = direction
+	shot.damage = damage
+	shot.speed = speed
+	shot.max_range = max_range
+	get_tree().current_scene.add_child(shot)
+	shot.global_position = global_position + body_center + direction * 14.0
+	shot.z_index = 1 # over the floor tiles (the arena sorts by y)
 
 
 @rpc("any_peer", "call_local") # any_peer because the attacker is not the owner
@@ -347,6 +529,10 @@ func receive_hit(amount, attacker_name):
 	if is_host and was_alive:
 		ScoreboardManager.record_damage(str(name).to_int(), str(attacker_name).to_int())
 
+	# corroded armor takes some of it
+	if armor_timer > 0:
+		amount = max(1, int(round(amount * (1.0 - armor_percent))))
+
 	health.take_damage(amount, attacker)
 	# carrying the pearl into the well? the hit starts the channel over
 	if is_host and has_pearl:
@@ -362,9 +548,79 @@ func receive_hit(amount, attacker_name):
 	if is_host and was_alive and health.current_health <= 0.0:
 		ScoreboardManager.record_death(str(name).to_int(), str(attacker_name).to_int())
 
+	# retaliate / corroded armor: send half of it back to the enemy. only my own pc sends it so it happens once
+	if (retaliate_timer > 0 or armor_timer > 0) and was_alive and is_multiplayer_authority():
+		var back = int(amount * reflect_percent)
+		if attacker != null and attacker != self and attacker.team != team and back >= 2:
+			attacker.receive_hit.rpc(back, str(name)) # 2 retaliates hitting each other get smaller each time
 	if not is_dead:
 		flash_hit()
 		slow_timer = hit_slow_duration # resets, doesnt stack
+
+
+# bajau heal, the caster sends this to each ally so everyone heals the same amount
+@rpc("any_peer", "call_local", "reliable")
+func receive_heal(amount: int):
+	if is_dead:
+		return
+	health.heal(amount)
+	if modulate.a == 0.0:
+		return # hiding in kelp
+	var number = DAMAGE_NUMBER.instantiate()
+	get_tree().current_scene.add_child(number)
+	number.global_position = global_position + body_center + Vector2(randf_range(-8, 8), -16)
+	number.show_damage(amount)
+	number.get_node("Label").text = "+" + str(amount)
+	number.modulate = Color(0.45, 1.0, 0.6) # green instead of red
+
+
+# minahasan shield bash, only the pushed players own pc moves them
+@rpc("any_peer", "call_local", "reliable")
+func knock_back(push: Vector2):
+	if is_dead or not is_multiplayer_authority():
+		return
+	is_dashing = false
+	knockback_velocity = push / knockback_time
+	knockback_timer = knockback_time
+
+
+# shield bash and crushing slam, cant do anything for a moment. runs on every pc
+@rpc("any_peer", "call_local", "reliable")
+func stun(time: float):
+	if is_dead:
+		return
+	stun_timer = max(stun_timer, time)
+	is_dashing = false
+	show_status_text("STUN", Color(1.0, 0.9, 0.3))
+
+
+# scatter debris, slower for a few seconds. runs on every pc
+@rpc("any_peer", "call_local", "reliable")
+func apply_slow(percent: float, time: float):
+	if is_dead:
+		return
+	debuff_slow_percent = percent
+	debuff_slow_timer = max(debuff_slow_timer, time)
+	show_status_text("SLOW", Color(0.75, 0.75, 0.85))
+
+
+# contaminate, my hits do less damage for a few seconds. runs on every pc
+@rpc("any_peer", "call_local", "reliable")
+func apply_weaken(percent: float, time: float):
+	if is_dead:
+		return
+	weaken_percent = percent
+	weaken_timer = time
+	show_status_text("WEAK", Color(0.85, 0.45, 0.95))
+	var old = get_node_or_null("ContaminateMark")
+	if old:
+		old.name = "OldMark" # so the new one can use the name
+		old.queue_free()
+	var mark = load("res://Celebes Abyssal Tides/scenes/player/fx/ContaminateMark.tscn").instantiate()
+	mark.name = "ContaminateMark"
+	mark.life = time
+	add_child(mark)
+	mark.position = Vector2(0, label.offset_bottom + 18) # just under the name
 
 
 # every pc makes its own number, it only changes how it looks so no rpc
@@ -377,12 +633,33 @@ func show_damage_number(amount):
 	number.show_damage(amount)
 
 
+# small word over the head (STUN, SLOW, WEAK), uses the damage number scene
+func show_status_text(text, color):
+	if modulate.a == 0.0:
+		return
+	var number = DAMAGE_NUMBER.instantiate()
+	get_tree().current_scene.add_child(number)
+	number.global_position = global_position + body_center + Vector2(0, -30)
+	number.show_damage(0)
+	number.get_node("Label").text = text
+	number.modulate = color
+
+
 func flash_hit():
 	if hit_tween:
 		hit_tween.kill() # stop the old flash
-	sprite.self_modulate = Color(1, 0.3, 0.3) # red
+	set_body_color(Color(1, 0.3, 0.3)) # red
 	hit_tween = create_tween()
-	hit_tween.tween_property(sprite, "self_modulate", Color.WHITE, 0.2)
+	hit_tween.tween_property(sprite_walk, "self_modulate", Color.WHITE, 0.2)
+	hit_tween.parallel().tween_property(sprite_attacks, "self_modulate", Color.WHITE, 0.2)
+	hit_tween.parallel().tween_property(sprite_ability, "self_modulate", Color.WHITE, 0.2)
+
+
+# walk, attack and ability sprite always have the same color
+func set_body_color(color):
+	sprite_walk.self_modulate = color
+	sprite_attacks.self_modulate = color
+	sprite_ability.self_modulate = color
 
 
 # called on every peer so everyone sees the pearl icon
@@ -396,14 +673,16 @@ func _on_knocked_out():
 	is_dead = true
 	is_swinging = false
 	is_dashing = false
+	stop_ability_effect() # so the body sprite is the one that fades out
 	velocity = Vector2.ZERO
 	label.visible = false
 	$FeetShadow.visible = false
 	if hit_tween:
 		hit_tween.kill()
-	sprite.self_modulate = Color.WHITE
+	set_body_color(Color.WHITE)
 	var fade = create_tween()
-	fade.tween_property(sprite, "self_modulate:a", 0.0, 0.6)
+	fade.tween_property(sprite_walk, "self_modulate:a", 0.0, 0.6)
+	fade.parallel().tween_property(sprite_attacks, "self_modulate:a", 0.0, 0.6)
 	if death_dust:
 		death_dust.restart()
 
@@ -414,6 +693,18 @@ func _on_knocked_out():
 			pearl.dropped.rpc(global_position)
 
 	tuna_rush_timer = 0.0 # you lose the tuna rush when you die
+	tide_timer = 0.0
+	retaliate_timer = 0.0
+	knockback_timer = 0.0
+	stun_timer = 0.0
+	debuff_slow_timer = 0.0
+	armor_timer = 0.0
+	weaken_timer = 0.0
+	# remove the buff and debuff effects stuck on me
+	for fx_name in ["RetaliateAura", "CorrodedAura", "HealAura", "HealGround", "ContaminateMark"]:
+		var fx = get_node_or_null(fx_name)
+		if fx:
+			fx.queue_free()
 
 	# only the owner respawns, _physics_process counts it down
 	if is_multiplayer_authority():
@@ -457,7 +748,7 @@ func pick_spawn_point():
 func respawn(spawn_position: Vector2):
 	global_position = spawn_position
 	health.reset_full()
-	sprite.self_modulate = Color.WHITE
+	set_body_color(Color.WHITE)
 	label.visible = true
 	$FeetShadow.visible = true
 	slow_timer = 0.0

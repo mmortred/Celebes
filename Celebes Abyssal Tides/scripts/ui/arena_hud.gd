@@ -13,6 +13,8 @@ const KILL_SHOW_TIME = 5.0 # how long a kill stays in the kill feed
 @onready var tuna_rush_label = $PlayerStats/TunaRushLabel
 @onready var pearl_label = $KillFeed/PearlLabel
 @onready var kill_lines = [$KillFeed/KillLine1, $KillFeed/KillLine2] # line 1 is the newest
+@onready var primary_slot = $PlayerStats/AbilityContainerHBox/PrimarySlot # E
+@onready var ultimate_slot = $PlayerStats/AbilityContainerHBox/UltimateSlot # R
 
 var my_player = null # set in set_player
 var kill_timers = [0.0, 0.0] # time left for each kill line
@@ -181,7 +183,7 @@ func show_winner(winner, reason):
 	var detail = _winner_label(16, Color(0.85, 0.9, 0.95), 4)
 	var why = "Time's up"
 	if reason == "target":
-		why = "First to %d pearls" % GameManager.TARGET_SCORE
+		why = "First to %d pearls" % GameManager.PEARLS_TO_WIN
 	detail.text = "%s  -  %d : %d" % [why, scores.get(0, 0), scores.get(1, 0)]
 	detail.position.y = size.y * 0.5 + 72.0
 	detail.modulate.a = 0.0
@@ -251,6 +253,19 @@ func set_player(player):
 	player_name_label.label_settings.font_color = GameManager.TEAM_COLORS.get(player.team, Color.WHITE)
 	player.health.health_changed.connect(_on_health_changed)
 	_on_health_changed(player.health.current_health, player.health.max_health) # show full hp right away
+	primary_slot.set_ability(player.primary_ability, key_name("primary"))
+	ultimate_slot.set_ability(player.ultimate_ability, key_name("ultimate"))
+
+
+# the key that is set for an action, like "E"
+func key_name(action):
+	for event in InputMap.action_get_events(action):
+		if event is InputEventKey:
+			var code = event.physical_keycode
+			if code == 0:
+				code = event.keycode
+			return OS.get_keycode_string(code)
+	return ""
 
 
 func _on_health_changed(new_health, max_health):

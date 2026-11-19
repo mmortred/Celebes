@@ -1,0 +1,47 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Celebes Abyssal Tides/scripts/player/ability_fx.gd" id="script"]
+[ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/sprite/ToxicSludge/toxic_mist_cloud.png" id="tex"]
+
+[sub_resource type="AtlasTexture" id="Atlas_0"]
+atlas = ExtResource("tex")
+region = Rect2(0, 0, 96, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_1"]
+atlas = ExtResource("tex")
+region = Rect2(96, 0, 96, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_2"]
+atlas = ExtResource("tex")
+region = Rect2(192, 0, 96, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_3"]
+atlas = ExtResource("tex")
+region = Rect2(288, 0, 96, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_3")
+}],
+"loop": true,
+"name": &"default",
+"speed": 6.0
+}]
+
+[node name="ToxicMistCloud" type="AnimatedSprite2D"]
+texture_filter = 1
+modulate = Color(1, 1, 1, 0.8)
+scale = Vector2(2.0, 2.0)
+sprite_frames = SubResource("SpriteFrames_fx")
+script = ExtResource("script")

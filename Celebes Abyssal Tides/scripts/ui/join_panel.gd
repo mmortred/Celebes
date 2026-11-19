@@ -201,6 +201,8 @@ func _rebuild_list():
 		button.text = "%s's lobby   %d/%d   %s" % [lobby.name, lobby.players, lobby.max, lobby.ip]
 		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		button.disabled = int(lobby.players) >= int(lobby.max) # full
+		if button.disabled:
+			button.text += "   FULL"
 		button.pressed.connect(_on_lobby_pressed.bind(str(lobby.ip)))
 		list_box.add_child(button)
 

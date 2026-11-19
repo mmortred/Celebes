@@ -106,6 +106,9 @@ func connect_slot_clicks():
 		var border_frame = all_slots[i].get_node(BORDER_FRAME_PATH)
 		border_frame.mouse_filter = Control.MOUSE_FILTER_STOP
 		border_frame.gui_input.connect(_on_slot_gui_input.bind(i))
+		# host only buttons on the other players slots
+		all_slots[i].get_node("KickButton").pressed.connect(_on_kick_pressed.bind(i))
+		all_slots[i].get_node("HostButton").pressed.connect(_on_make_host_pressed.bind(i))
 
 
 func setup_role_ui():
@@ -114,13 +117,14 @@ func setup_role_ui():
 		back_button.show()
 		ready_button.hide()
 		unready_button.hide()
-		host_ip_label.text = "IP: " + get_local_ipv4()
+		host_ip_label.text = "IP: " + " / ".join(get_all_ipv4())
 		# the lobby is 1280x720 scaled to half so the numbers are big
 		start_status = Label.new()
 		start_status.position = Vector2(340, 612)
 		start_status.size = Vector2(600, 28)
 		start_status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		start_status.add_theme_font_size_override("font_size", 20)
+		start_status.add_theme_font_override("font", GameManager.PIXEL_FONT) # same pixel font as the rest of the lobby
+		start_status.add_theme_font_size_override("font_size", 32)
 		start_status.add_theme_constant_override("outline_size", 6)
 		start_status.add_theme_color_override("font_outline_color", Color.BLACK)
 		start_status.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -136,6 +140,13 @@ func setup_role_ui():
 
 # get the ip of this pc like 192.168.1.15
 func get_local_ipv4():
+	return get_all_ipv4()[0]
+
+
+# every ip this pc has (wifi, cable, and vpns like radmin or tailscale). the normal home ones go first
+func get_all_ipv4():
+	var home = []
+	var other = []
 	for address in IP.get_local_addresses():
 		if not address.contains("."):
 			continue # ipv6
@@ -143,8 +154,14 @@ func get_local_ipv4():
 			continue # this pc only
 		if address.begins_with("169.254."):
 			continue # no real network
-		return address
-	return "127.0.0.1"
+		if address.begins_with("192.168.") or address.begins_with("10."):
+			home.append(address)
+		else:
+			other.append(address)
+	var all = home + other
+	if all.is_empty():
+		all.append("127.0.0.1")
+	return all
 
 
 # returns the slot of the peer or -1
@@ -190,6 +207,11 @@ func update_slot_labels():
 		var name_label = slot_node.get_node(NAME_LABEL_PATH)
 		var frame = slot_node.get_node(BORDER_FRAME_PATH)
 		var icon = slot_node.get_node_or_null(ICON_PATH)
+
+		# kick and host buttons, only the host sees them and only on the other players
+		var can_manage = multiplayer.multiplayer_peer != null and multiplayer.is_server() and slots.has(slot_number) and slots[slot_number] != HOST_PEER_ID
+		slot_node.get_node("KickButton").visible = can_manage
+		slot_node.get_node("HostButton").visible = can_manage
 
 		if not slots.has(slot_number):
 			name_label.text = "Empty"
@@ -392,6 +414,46 @@ func _on_slot_gui_input(event, slot_number):
 		host_move_peer_to_slot(HOST_PEER_ID, slot_number)
 	else:
 		request_slot_change.rpc_id(HOST_PEER_ID, slot_number) # ask the host
+
+
+# host: kick the player in this slot
+func _on_kick_pressed(slot_number):
+	if not multiplayer.is_server() or not slots.has(slot_number):
+		return
+	var peer_id = slots[slot_number]
+	if peer_id == HOST_PEER_ID:
+		return
+	NetworkManager.send_away(peer_id, "You were kicked by the host.")
+
+
+# host: give the host to the player in this slot. on LAN the host is the server,
+# so everyone leaves and joins the new host (the slots start over)
+func _on_make_host_pressed(slot_number):
+	if not multiplayer.is_server() or not slots.has(slot_number):
+		return
+	var new_host = slots[slot_number]
+	if new_host == HOST_PEER_ID:
+		return
+	var ip = multiplayer.multiplayer_peer.get_peer(new_host).get_remote_address()
+	if ip.begins_with("127.") or ip == "::1":
+		ip = get_local_ipv4() # the new host is on my pc, the others reach it with my lan ip
+	move_host.rpc(new_host, ip)
+	host_ip_label.text = "MOVING TO THE NEW HOST..."
+	await get_tree().create_timer(0.5).timeout # so the message gets out before i close
+	disconnect_from_network()
+	NetworkManager.rejoin_after(ip, 2.5)
+
+
+# old host -> everyone: this player is the new host, the rest join them
+@rpc("authority", "call_remote", "reliable")
+func move_host(new_host_id: int, new_host_ip: String):
+	var me = multiplayer.get_unique_id()
+	host_ip_label.text = "MOVING TO THE NEW HOST..."
+	disconnect_from_network()
+	if me == new_host_id:
+		NetworkManager.become_host_after(1.0)
+	else:
+		NetworkManager.rejoin_after(new_host_ip, 2.5) # wait for the new host to open the lobby
 
 
 func _on_start_button_pressed():

@@ -55,3 +55,28 @@ offset_transform_enabled = true
 text = "SPEAR FISHER"
 horizontal_alignment = 1
 text_overrun_behavior = 5
+
+[node name="HostButton" type="Button" parent="." unique_id=1825958101]
+visible = false
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 58.0
+offset_bottom = 28.0
+tooltip_text = "Make this player the host"
+focus_mode = 0
+theme_override_font_sizes/font_size = 16
+text = "HOST"
+
+[node name="KickButton" type="Button" parent="." unique_id=1825958102]
+visible = false
+layout_mode = 0
+offset_left = 70.0
+offset_top = 2.0
+offset_right = 126.0
+offset_bottom = 28.0
+tooltip_text = "Kick this player"
+focus_mode = 0
+theme_override_colors/font_color = Color(1, 0.55, 0.45, 1)
+theme_override_font_sizes/font_size = 16
+text = "KICK"

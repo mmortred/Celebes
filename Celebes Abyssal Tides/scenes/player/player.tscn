@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://bv4bqssapcd8f" path="res://Celebes Abyssal Tides/scripts/abilities/bubble_strike.gd" id="5_p47bc"]
 [ext_resource type="Texture2D" uid="uid://b1yc0rg23tuye" path="res://Celebes Abyssal Tides/assets/sprite/PearlClaimTileset.png" id="6_pearl"]
 [ext_resource type="Script" uid="uid://bwyv0275vuwsd" path="res://Celebes Abyssal Tides/scripts/player/launch_fx.gd" id="7_launch"]
+[ext_resource type="SpriteFrames" path="res://Celebes Abyssal Tides/scenes/player/base_attacks.tres" id="8_attacks"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cmd4b"]
 radius = 16.0
@@ -23,6 +24,19 @@ properties/2/path = NodePath(".:anim_frozen")
 properties/2/spawn = true
 properties/2/replication_mode = 2
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_ability"]
+animations = [{
+"frames": [],
+"loop": false,
+"name": &"primary",
+"speed": 10.0
+}, {
+"frames": [],
+"loop": false,
+"name": &"ultimate",
+"speed": 10.0
+}]
+
 [sub_resource type="Animation" id="Animation_g5n5p"]
 resource_name = "test"
 
@@ -38,7 +52,7 @@ size = Vector2(32, 61)
 input_pickable = true
 script = ExtResource("1_8afob")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=55903766]
+[node name="AnimatedSpriteWalk" type="AnimatedSprite2D" parent="." unique_id=55903766]
 texture_filter = 1
 position = Vector2(0, -35)
 scale = Vector2(1.5, 1.5)
@@ -65,9 +79,11 @@ script = ExtResource("3_gmlin")
 
 [node name="PrimaryAbility" type="Node" parent="." unique_id=1242958706]
 script = ExtResource("5_p47bc")
+effect_animation = &"primary"
 
 [node name="UltAbility" type="Node" parent="." unique_id=1288726131]
 script = ExtResource("4_lvxji")
+effect_animation = &"ultimate"
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=809591080]
 replication_config = SubResource("SceneReplicationConfig_lvxji")
@@ -119,3 +135,20 @@ region_rect = Rect2(32, 0, 32, 32)
 
 [node name="LaunchFX" type="Node2D" parent="." unique_id=1564738291]
 script = ExtResource("7_launch")
+
+[node name="AnimatedAttacks" type="AnimatedSprite2D" parent="." unique_id=1700000001]
+visible = false
+texture_filter = 1
+position = Vector2(0, -35)
+scale = Vector2(1.5, 1.5)
+sprite_frames = ExtResource("8_attacks")
+animation = &"bottom_swing"
+speed_scale = 1.5
+
+[node name="AnimatedAbility" type="AnimatedSprite2D" parent="." unique_id=1700000002]
+visible = false
+texture_filter = 1
+position = Vector2(0, -35)
+scale = Vector2(1.5, 1.5)
+sprite_frames = SubResource("SpriteFrames_ability")
+animation = &"primary"
