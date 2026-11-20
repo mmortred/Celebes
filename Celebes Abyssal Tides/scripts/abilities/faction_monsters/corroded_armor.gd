@@ -6,7 +6,7 @@ extends ability_base
 const DAMAGE_REDUCTION = 0.5 # takes 50% less damage
 const BUFF_TIME = 4.0
 const COOLDOWN = 12.0
-const REFLECT_PERCENT = 0.5 # half of the damage he takes goes back to the attacker
+const REFLECT_PERCENT = 0.5 # how much of the damage goes back
 const AURA = preload("res://Celebes Abyssal Tides/scenes/player/fx/Monsters/RustyLeviathan/CorrodedAura.tscn")
 
 

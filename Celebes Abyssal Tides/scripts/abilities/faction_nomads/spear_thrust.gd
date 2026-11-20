@@ -8,7 +8,7 @@ const RANGE = 90.0 # 1.5x melee range
 const COOLDOWN = 7.0
 const HIT_DELAY = 0.3 # wait for the lunge frame
 const TRAIL_OFFSET = 44.0 # the trail starts at his spear, this is half of its length
-const TRAIL_Y = 10.0 # the spear is held lower than the middle of the body (left and right only)
+const TRAIL_Y = 10.0 # the spear is held lower than the middle of the body
 const TRAIL = preload("res://Celebes Abyssal Tides/scenes/player/fx/SeaNomad/Bugis/SpearThrustTrail.tscn")
 
 

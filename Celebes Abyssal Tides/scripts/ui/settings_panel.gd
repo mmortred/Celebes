@@ -230,10 +230,10 @@ func _on_test_sound_pressed():
 	SFXManager.play_ui("ui_click")
 
 
-# closes the game (the exe and the godot test window)
+# closes the game
 func _quit_game():
 	if multiplayer.multiplayer_peer != null:
-		multiplayer.multiplayer_peer.close() # leave the lobby or match first
+		multiplayer.multiplayer_peer.close()
 	get_tree().quit()
 
 

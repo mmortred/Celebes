@@ -29,7 +29,7 @@ func _ready():
 		NetworkManager.join_error = ""
 
 
-# closes the game (the button had nothing connected to it)
+# closes the game
 func _on_quit_button_pressed():
 	get_tree().quit()
 

@@ -178,7 +178,7 @@ func _show_details():
 		skill_texts[i].text = info.texts[i]
 
 
-# everything in the text comes from the numbers in the scenes and ability scripts, so it never needs changing by hand
+# the text comes from the character scene and the ability scripts
 func _get_details(index):
 	if details.has(index):
 		return details[index]
@@ -187,9 +187,9 @@ func _get_details(index):
 	var keys = ["[E] ", "[R] "]
 	var abilities = [player.get_node("PrimaryAbility"), player.get_node("UltAbility")]
 	for i in 2:
-		abilities[i]._ready() # _ready is where the abilities set their name and cooldown (it does not run outside the game)
+		abilities[i]._ready() # thats where the abilities set their name and cooldown
 		info.icons.append(abilities[i].get_icon())
-		info.texts.append(keys[i] + abilities[i].get_info().replace("\r", "")) # the text files can have windows line ends
+		info.texts.append(keys[i] + abilities[i].get_info().replace("\r", ""))
 	player.free()
 	details[index] = info
 	return info

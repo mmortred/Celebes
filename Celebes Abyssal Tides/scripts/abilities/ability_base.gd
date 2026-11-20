@@ -137,7 +137,7 @@ func find_closest_enemy(caster, center, radius, direction = Vector2.ZERO):
 	return best
 
 
-# makes an effect as big as the area it hurts. art_radius = how far the drawing reaches from its middle (in pixels of the png)
+# makes an effect as big as the area it hurts, art_radius = how far the png reaches from its middle
 func fit_fx(fx, radius, art_radius):
 	fx.scale = Vector2.ONE * radius / art_radius
 

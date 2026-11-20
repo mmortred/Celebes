@@ -24,8 +24,8 @@ extends CharacterBody2D
 @export_file("*.tscn") var projectile_path = "" # ranged characters shoot this instead of a melee hit (empty = melee)
 @export var projectile_speed = 420.0
 @export var projectile_range = 300.0
-@export var projectile_forward = 14.0 # x: how far in front of the body the shot appears (move it to the gun or hand)
-@export var projectile_y = 0.0 # y: how high or low the shot appears, 0 = middle of the body, more = lower
+@export var projectile_forward = 14.0 # how far in front of the body the shot comes out
+@export var projectile_y = 0.0 # up or down from the middle of the body
 @export var cast_lock_time = 0.5 # after an ability you cant start the other one for at least this long
 @export var combat_time = 4.0 # you stay in combat this long after you hit or get hit
 @export var kelp_regen = 8.0 # hp per second in the kelp when not in combat
@@ -52,7 +52,7 @@ var kelp_tile_count = 0
 var is_hidden_in_kelp = false
 var is_revealed_from_attack = false
 
-var reveal_timer = 0.0 # counts down the kelp reveal after an attack
+var reveal_timer = 0.0 # the kelp reveal after an attack
 var move_direction = Vector2.ZERO
 var facing_direction = Vector2.DOWN
 var is_dashing = false
@@ -63,8 +63,8 @@ var slow_timer = 0.0
 var respawn_timer = 0.0 # counts down while dead, the hud shows it
 var tuna_rush_timer = 0.0 # faster and shorter dash cooldown while this is more than 0
 var tide_timer = 0.0 # tide shift speed buff
-var tide_speed_bonus = 0.0 # how much faster, tide_shift.gd sets it when she casts
-var reflect_percent = 0.0 # how much damage goes back, retaliate.gd and corroded_armor.gd set it when they are cast
+var tide_speed_bonus = 0.0 # tide_shift.gd sets it
+var reflect_percent = 0.0 # retaliate.gd and corroded_armor.gd set it
 var retaliate_timer = 0.0 # hits get sent back while this is more than 0
 var knockback_timer = 0.0 # pushed by a shield bash, cant move by yourself
 var knockback_velocity = Vector2.ZERO
@@ -316,7 +316,6 @@ func _physics_process(delta):
 	if move_direction != Vector2.ZERO and not is_dashing and not is_swinging:
 		facing_direction = move_direction # remember last direction (not while dashing or swinging)
 
-	# the kelp reveal from my last attack
 	if reveal_timer > 0:
 		reveal_timer -= delta
 		if reveal_timer <= 0:
@@ -531,7 +530,7 @@ func start_swing():
 	update_animation() # back to walking right away
 
 
-# the basic stats for the character select, they come from the numbers in the scene so the text never needs changing
+# the stats in the character select, from the numbers in this scene
 func get_basic_stats():
 	var text = ""
 	var hp = get_node_or_null("HealthComponent")
@@ -652,7 +651,7 @@ func receive_hit(amount, attacker_name):
 		if team == 0:
 			SFXManager.play_at("hurt_sea", global_position)
 		else:
-			SFXManager.play_at("hurt_garbage", global_position) # only hurt while alive, dead bodies were still screaming
+			SFXManager.play_at("hurt_garbage", global_position)
 
 	if is_host and was_alive and health.current_health <= 0.0:
 		ScoreboardManager.record_death(str(name).to_int(), str(attacker_name).to_int())
@@ -976,8 +975,7 @@ func _get_local_player():
 	return null
 
 
-# attacking takes you out of the kelp for a moment, attacking again starts the time over
-# _physics_process counts it down, before it was an await so a second attack ended the first one early
+# attacking takes you out of the kelp for a moment
 func reveal_from_attack():
 	reveal_timer = reveal_time
 	if is_revealed_from_attack:

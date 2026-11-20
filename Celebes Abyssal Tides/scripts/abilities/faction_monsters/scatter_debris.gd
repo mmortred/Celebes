@@ -44,7 +44,7 @@ func _execute(caster):
 		var from = start + direction * (step * i)
 		var to = from + direction * step
 		var fx = spawn_fx(caster, DEBRIS, (from + to) * 0.5) # every pc
-		fit_fx(fx, WIDTH, PILE_ART_WIDTH) # same call, the width is used like a radius here
+		fit_fx(fx, WIDTH, PILE_ART_WIDTH)
 		if caster.is_multiplayer_authority() and not caster.is_dead:
 			for target in _enemies_near(caster, from, to):
 				if already_hit.has(target):

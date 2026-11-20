@@ -249,7 +249,7 @@ func players_not_ready():
 	return waiting
 
 
-# slots 0-2 are the Sea Nomads, 3-5 the Garbage Monsters, 6-7 are spectators
+# slots 0-2 are the Sea Nomads, 3-5 the Garbage Monsters
 func both_teams_have_a_player():
 	var sea = false
 	var garbage = false
@@ -265,7 +265,7 @@ func can_start_game():
 	if slots.size() < 2:
 		return false
 	if not both_teams_have_a_player():
-		return false # one team alone ended the match the second the arena opened
+		return false
 	if not players_not_ready().is_empty():
 		return false
 	return true

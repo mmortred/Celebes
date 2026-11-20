@@ -1,7 +1,7 @@
 class_name HealthComponent
 extends Node
 
-# the hp of one player. player.gd listens to the two signals
+# the hp of one player
 
 signal health_changed(new_health, max_health)
 signal knocked_out
@@ -16,7 +16,7 @@ func _ready():
 
 func take_damage(amount, _source_player = null):
 	if current_health <= 0:
-		return # already knocked out
+		return
 
 	current_health = max(0.0, current_health - amount) # dont go below 0
 	health_changed.emit(current_health, max_health) # update the hud
