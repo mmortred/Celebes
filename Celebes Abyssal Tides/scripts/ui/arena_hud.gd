@@ -1,6 +1,6 @@
 extends Control
 
-const WINNER_KEY_DELAY = 1.5 # wait a bit before a key counts so your last attack click doesnt skip it
+const WINNER_BUTTON_DELAY = 1.5 # the back button shows a bit later so your last attack click doesnt hit it
 const KILL_SHOW_TIME = 5.0 # how long a kill stays in the kill feed
 
 @onready var timer_label = $ScoreboardNode/Label
@@ -11,6 +11,7 @@ const KILL_SHOW_TIME = 5.0 # how long a kill stays in the kill feed
 @onready var monsters_score = $ScoreboardNode/MonstersContainer/TeamScoreLabel
 @onready var respawn_label = $RespawnLabel
 @onready var tuna_rush_label = $PlayerStats/TunaRushLabel
+@onready var in_combat_label = $PlayerStats/InCombatLabel
 @onready var pearl_label = $KillFeed/PearlLabel
 @onready var kill_lines = [$KillFeed/KillLine1, $KillFeed/KillLine2] # line 1 is the newest
 @onready var primary_slot = $PlayerStats/AbilityContainerHBox/PrimarySlot # E
@@ -20,7 +21,6 @@ var my_player = null # set in set_player
 var kill_timers = [0.0, 0.0] # time left for each kill line
 var alert_label = null # the pearl taken / dropped / captured text
 var alert_tween = null
-var waiting_for_key = false # winner screen, any key goes back to the lobby
 
 
 func _ready():
@@ -45,6 +45,7 @@ func _process(delta):
 	if my_player == null or not is_instance_valid(my_player):
 		respawn_label.visible = false
 		tuna_rush_label.visible = false
+		in_combat_label.visible = false
 		return
 
 	if my_player.is_dead and my_player.respawn_timer > 0:
@@ -58,6 +59,13 @@ func _process(delta):
 		tuna_rush_label.text = "TUNA RUSH %d" % ceil(my_player.tuna_rush_timer)
 	else:
 		tuna_rush_label.visible = false
+
+	# in combat for 4 seconds after you hit or get hit, fades out at the end (no kelp regen while it shows)
+	if my_player.combat_timer > 0 and not my_player.is_dead:
+		in_combat_label.visible = true
+		in_combat_label.modulate.a = clampf(my_player.combat_timer / 0.6, 0.0, 1.0)
+	else:
+		in_combat_label.visible = false
 
 
 # new kill goes on line 1, the old line 1 moves down to line 2
@@ -189,15 +197,29 @@ func show_winner(winner, reason):
 	detail.modulate.a = 0.0
 	tween.tween_property(detail, "modulate:a", 1.0, 0.4).set_delay(0.9)
 
-	var prompt = _winner_label(16, Color.WHITE, 4)
-	prompt.text = "Press any key to return to the lobby"
-	prompt.position.y = size.y * 0.5 + 96.0
-	prompt.modulate.a = 0.0
-	await get_tree().create_timer(WINNER_KEY_DELAY).timeout
-	waiting_for_key = true
+	# click this text to go back (each player on their own)
+	var back = Button.new()
+	back.text = "BACK TO LOBBY"
+	back.flat = true
+	back.focus_mode = Control.FOCUS_NONE
+	back.add_theme_font_override("font", GameManager.PIXEL_FONT)
+	back.add_theme_font_size_override("font_size", 16)
+	back.add_theme_constant_override("outline_size", 4)
+	back.add_theme_color_override("font_outline_color", Color.BLACK)
+	back.add_theme_color_override("font_color", Color.WHITE)
+	back.add_theme_color_override("font_hover_color", Color(1, 0.88, 0.45))
+	back.add_theme_color_override("font_pressed_color", Color(1, 0.7, 0.3))
+	back.size = Vector2(160, 22)
+	back.position = Vector2(size.x * 0.5 - 80.0, size.y * 0.5 + 94.0)
+	back.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	back.visible = false
+	add_child(back)
+	back.pressed.connect(_on_back_to_lobby_pressed.bind(back))
+	await get_tree().create_timer(WINNER_BUTTON_DELAY).timeout
+	back.visible = true
 	var blink = create_tween().set_loops()
-	blink.tween_property(prompt, "modulate:a", 1.0, 0.5)
-	blink.tween_property(prompt, "modulate:a", 0.25, 0.5)
+	blink.tween_property(back, "modulate:a", 1.0, 0.5)
+	blink.tween_property(back, "modulate:a", 0.5, 0.5)
 
 
 # full width centered text for the winner screen
@@ -215,15 +237,9 @@ func _winner_label(font_size, color, outline):
 	return label
 
 
-# any key or mouse button goes back to the lobby (each player on their own)
-func _input(event):
-	if not waiting_for_key or event.is_echo():
-		return
-	var is_button = event is InputEventKey or event is InputEventMouseButton or event is InputEventJoypadButton
-	if is_button and event.pressed:
-		waiting_for_key = false
-		get_viewport().set_input_as_handled()
-		CharacterSelectManager.leave_match_to_lobby()
+func _on_back_to_lobby_pressed(button):
+	button.disabled = true # only once
+	CharacterSelectManager.leave_match_to_lobby()
 
 
 # character face inside the portrait frame (same as character select)

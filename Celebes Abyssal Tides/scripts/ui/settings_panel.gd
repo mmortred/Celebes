@@ -82,12 +82,25 @@ func _ready():
 	_build_audio_page(right)
 	_build_profile_page(right)
 
+	var bottom = HBoxContainer.new()
+	bottom.add_theme_constant_override("separation", 9)
+	layout.add_child(bottom)
+
 	var close = Button.new()
 	close.text = "CLOSE"
 	close.custom_minimum_size.y = 30
+	close.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_style_button(close)
 	close.pressed.connect(queue_free)
-	layout.add_child(close)
+	bottom.add_child(close)
+
+	var quit = Button.new()
+	quit.text = "QUIT GAME"
+	quit.custom_minimum_size.y = 30
+	quit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_style_button(quit)
+	quit.pressed.connect(_quit_game)
+	bottom.add_child(quit)
 
 	_tab("controls")
 	_refresh()
@@ -141,7 +154,7 @@ func _build_audio_page(right):
 	page_audio.add_theme_constant_override("separation", 15)
 	right.add_child(page_audio)
 
-	page_audio.add_child(_label("LOBBY MUSIC", 17))
+	page_audio.add_child(_label("MUSIC (KULINTANG)", 17))
 	var volume_row = HBoxContainer.new()
 	page_audio.add_child(volume_row)
 	volume_row.add_child(_label("Music volume"))
@@ -215,6 +228,13 @@ func _on_sfx_slider_changed(value):
 
 func _on_test_sound_pressed():
 	SFXManager.play_ui("ui_click")
+
+
+# closes the game (the exe and the godot test window)
+func _quit_game():
+	if multiplayer.multiplayer_peer != null:
+		multiplayer.multiplayer_peer.close() # leave the lobby or match first
+	get_tree().quit()
 
 
 func _on_name_submitted(_value):

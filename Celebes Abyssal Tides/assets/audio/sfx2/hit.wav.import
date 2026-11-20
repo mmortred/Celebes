@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dr4w8fd01j6fe"
+path="res://.godot/imported/hit.wav-ee1b0ba23dba8462b04abf8a92668889.sample"
+
+[deps]
+
+source_file="res://Celebes Abyssal Tides/assets/audio/sfx2/hit.wav"
+dest_files=["res://.godot/imported/hit.wav-ee1b0ba23dba8462b04abf8a92668889.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

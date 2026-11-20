@@ -6,8 +6,8 @@ extends ability_base
 const DAMAGE_REDUCTION = 0.5 # takes 50% less damage
 const BUFF_TIME = 4.0
 const COOLDOWN = 12.0
-# how much gets sent back is reflect_percent in his scene (player.gd)
-const AURA = preload("res://Celebes Abyssal Tides/scenes/player/fx/CorrodedAura.tscn")
+const REFLECT_PERCENT = 0.5 # half of the damage he takes goes back to the attacker
+const AURA = preload("res://Celebes Abyssal Tides/scenes/player/fx/Monsters/RustyLeviathan/CorrodedAura.tscn")
 
 
 # in _ready so these win over the numbers saved in the character scene
@@ -16,11 +16,19 @@ func _ready():
 	cooldown_time = COOLDOWN
 
 
+func get_stats():
+	return "Takes less damage and sends some of it back
+Less damage: %d%%
+Sent back: %d%%
+Time: %ss" % [DAMAGE_REDUCTION * 100, REFLECT_PERCENT * 100, BUFF_TIME]
+
+
 func _execute(caster):
 	if not is_instance_valid(caster):
 		return
 	SFXManager.play_at("spear_thrust", caster.global_position)
 	caster.armor_percent = DAMAGE_REDUCTION
+	caster.reflect_percent = REFLECT_PERCENT
 	caster.armor_timer = BUFF_TIME
 
 	var old = caster.get_node_or_null("CorrodedAura")

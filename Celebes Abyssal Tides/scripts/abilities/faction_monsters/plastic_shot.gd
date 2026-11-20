@@ -8,13 +8,20 @@ const RANGE = 600.0 # 2x attack range
 const SPEED = 520.0
 const COOLDOWN = 10.0
 const FIRE_DELAY = 0.35 # wait for the blast frame
-const SHOT = "res://Celebes Abyssal Tides/scenes/player/fx/PlasticShotBolt.tscn"
+const SHOT = "res://Celebes Abyssal Tides/scenes/player/fx/Monsters/PlasticHoard/PlasticShotBolt.tscn"
 
 
 # in _ready so these win over the numbers saved in the character scene
 func _ready():
 	ability_name = "Plastic Shot"
 	cooldown_time = COOLDOWN
+	aim_with_mouse = true
+
+
+func get_stats():
+	return "Big bottle that hits the first enemy, aim with the mouse
+Damage: %d
+Range: %d" % [DAMAGE, RANGE]
 
 
 func _execute(caster):
@@ -24,7 +31,7 @@ func _execute(caster):
 	if not caster.is_multiplayer_authority():
 		return
 
-	var direction = caster.get_swing_direction()
+	var direction = aim_direction
 	await get_tree().create_timer(FIRE_DELAY).timeout
 	if not is_instance_valid(caster) or caster.is_dead:
 		return

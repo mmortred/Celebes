@@ -37,8 +37,7 @@ func begin_match():
 			records[peer_id] = {"name": player_name, "team": team_id, "kills": 0, "deaths": 0, "assists": 0}
 
 	match_running = true
-	_broadcast()
-	_check_winner()
+	_broadcast() # no _check_winner here, at the start one team being empty is not a win
 
 
 func record_damage(victim, attacker):

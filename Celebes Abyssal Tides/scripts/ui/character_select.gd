@@ -7,11 +7,18 @@ const SEA = Color("56dce8")
 const GARBAGE = Color("a5e35f")
 const GOLD = Color("d8b76a")
 const TAKEN = Color(0.9, 0.35, 0.3)
+const CHARACTER_SCENES = preload("res://Celebes Abyssal Tides/scripts/arena/arena.gd").CHARACTER_SCENES # the same scenes the arena uses
 
 @onready var ui_layer = $ScaledCharacterUI
 @onready var status_label = $ScaledCharacterUI/StatusLabel
 @onready var hint_title = $ScaledCharacterUI/HintTitle
 @onready var hint = $ScaledCharacterUI/Hint
+@onready var hint_panel = $ScaledCharacterUI/HintPanel
+@onready var details_panel = $ScaledCharacterUI/DetailsPanel
+@onready var detail_name = $ScaledCharacterUI/DetailName
+@onready var detail_stats = $ScaledCharacterUI/DetailStats
+@onready var skill_icons = [$ScaledCharacterUI/Skill1Icon, $ScaledCharacterUI/Skill2Icon]
+@onready var skill_texts = [$ScaledCharacterUI/Skill1Text, $ScaledCharacterUI/Skill2Text]
 @onready var ready_button = $ScaledCharacterUI/ReadyButton
 @onready var back_button = $ScaledCharacterUI/BackButton
 @onready var cards = [
@@ -22,6 +29,8 @@ const TAKEN = Color(0.9, 0.35, 0.3)
 var selected_index = -1
 var confirmed = false
 var player_team = "all"
+var hovered_index = -1
+var details = {} # character id -> its stats and skills (read once from the character scene)
 var local_peer_id = 1
 
 
@@ -37,6 +46,7 @@ func _ready():
 
 	for card in cards:
 		card.picked.connect(_select_character)
+		card.hovered.connect(_on_card_hovered)
 	ready_button.pressed.connect(_on_ready_pressed)
 	back_button.pressed.connect(_on_back_pressed)
 
@@ -128,6 +138,7 @@ func _refresh_multiplayer_state():
 		else:
 			card.set_border(GOLD, 2)
 
+	_show_details()
 	ready_button.disabled = selected_index < 0
 	if confirmed:
 		status_label.text = "READY — " + _card_name(selected_index) + " locked in"
@@ -137,8 +148,55 @@ func _refresh_multiplayer_state():
 		status_label.text = _initial_status()
 
 
+func _on_card_hovered(index):
+	hovered_index = index
+	_show_details()
+
+
+# hover a card = its details, otherwise the one you picked, otherwise the normal hint
+func _show_details():
+	var index = hovered_index
+	if index < 0:
+		index = selected_index
+	var has_details = index >= 0 and CHARACTER_SCENES.has(index)
+	hint_panel.visible = not has_details
+	hint_title.visible = not has_details
+	hint.visible = not has_details
+	details_panel.visible = has_details
+	detail_name.visible = has_details
+	detail_stats.visible = has_details
+	for i in 2:
+		skill_icons[i].visible = has_details
+		skill_texts[i].visible = has_details
+	if not has_details:
+		return
+	var info = _get_details(index)
+	detail_name.text = _card_name(index)
+	detail_stats.text = info.stats
+	for i in 2:
+		skill_icons[i].texture = info.icons[i]
+		skill_texts[i].text = info.texts[i]
+
+
+# everything in the text comes from the numbers in the scenes and ability scripts, so it never needs changing by hand
+func _get_details(index):
+	if details.has(index):
+		return details[index]
+	var player = CHARACTER_SCENES[index].instantiate() # not added to the game, we only read it
+	var info = {"stats": player.get_basic_stats(), "icons": [], "texts": []}
+	var keys = ["[E] ", "[R] "]
+	var abilities = [player.get_node("PrimaryAbility"), player.get_node("UltAbility")]
+	for i in 2:
+		abilities[i]._ready() # _ready is where the abilities set their name and cooldown (it does not run outside the game)
+		info.icons.append(abilities[i].get_icon())
+		info.texts.append(keys[i] + abilities[i].get_info().replace("\r", "")) # the text files can have windows line ends
+	player.free()
+	details[index] = info
+	return info
+
+
 func _card_name(index):
-	return str(cards[index].character_name).replace("\n", " ")
+	return str(cards[index].character_name).replace("\r", "").replace("\n", " ")
 
 
 func _pickable(index):

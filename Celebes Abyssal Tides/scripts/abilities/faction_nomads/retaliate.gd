@@ -4,7 +4,8 @@ extends ability_base
 # player.gd receive_hit does the sending back, this just starts the timer and the glow on every pc
 
 const BUFF_TIME = 3.0
-const AURA = preload("res://Celebes Abyssal Tides/scenes/player/fx/RetaliateAura.tscn")
+const REFLECT_PERCENT = 0.5 # half of the damage goes back
+const AURA = preload("res://Celebes Abyssal Tides/scenes/player/fx/SeaNomad/Minahasan/RetaliateAura.tscn")
 const COOLDOWN = 10.0
 
 
@@ -14,10 +15,16 @@ func _ready():
 	cooldown_time = COOLDOWN
 
 
+func get_stats():
+	return "Sends back %d%% of the damage he takes
+Time: %ss" % [REFLECT_PERCENT * 100, BUFF_TIME]
+
+
 func _execute(caster):
 	if not is_instance_valid(caster):
 		return
 	SFXManager.play_at("spear_thrust", caster.global_position)
+	caster.reflect_percent = REFLECT_PERCENT
 	caster.retaliate_timer = BUFF_TIME
 
 	var old = caster.get_node_or_null("RetaliateAura")

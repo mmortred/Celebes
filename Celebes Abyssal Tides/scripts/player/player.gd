@@ -18,14 +18,19 @@ extends CharacterBody2D
 @export var attack_slow_percent = 0.10 # 10% slower while swinging (change this number)
 @export var tuna_rush_time = 15.0
 @export var tuna_speed_bonus = 0.2 # 20% faster with the tuna rush
-@export var carrier_slow = 0.15 # 15% slower while carrying the pearl
-@export var tide_speed_bonus = 0.4 # 40% faster with the bajau tide shift
-@export var reflect_percent = 0.5 # retaliate and corroded armor send back half the damage
+@export var carrier_slow = 0.2 # 20% slower while carrying the pearl
 @export var knockback_time = 0.15 # how long a shield bash push lasts
-@export var attack_cooldown = 1.0 # seconds between basic attacks (1.5 = slower, 0.77 = faster)
+@export var attack_speed = 1.0 # seconds between basic attacks (1.5 = slower, 0.77 = faster)
 @export_file("*.tscn") var projectile_path = "" # ranged characters shoot this instead of a melee hit (empty = melee)
 @export var projectile_speed = 420.0
 @export var projectile_range = 300.0
+@export var projectile_forward = 14.0 # x: how far in front of the body the shot appears (move it to the gun or hand)
+@export var projectile_y = 0.0 # y: how high or low the shot appears, 0 = middle of the body, more = lower
+@export var cast_lock_time = 0.5 # after an ability you cant start the other one for at least this long
+@export var combat_time = 4.0 # you stay in combat this long after you hit or get hit
+@export var kelp_regen = 8.0 # hp per second in the kelp when not in combat
+@export var low_health_percent = 0.25 # the low health warning sound plays under this much hp (0.25 = 25%)
+@export var reveal_time = 1.5 # how long attacking takes you out of the kelp
 
 const DAMAGE_NUMBER = preload("res://Celebes Abyssal Tides/scenes/player/DamageNumber.tscn")
 
@@ -47,7 +52,7 @@ var kelp_tile_count = 0
 var is_hidden_in_kelp = false
 var is_revealed_from_attack = false
 
-var print_timer = 0.0 # so the console doesnt get spammed
+var reveal_timer = 0.0 # counts down the kelp reveal after an attack
 var move_direction = Vector2.ZERO
 var facing_direction = Vector2.DOWN
 var is_dashing = false
@@ -58,6 +63,8 @@ var slow_timer = 0.0
 var respawn_timer = 0.0 # counts down while dead, the hud shows it
 var tuna_rush_timer = 0.0 # faster and shorter dash cooldown while this is more than 0
 var tide_timer = 0.0 # tide shift speed buff
+var tide_speed_bonus = 0.0 # how much faster, tide_shift.gd sets it when she casts
+var reflect_percent = 0.0 # how much damage goes back, retaliate.gd and corroded_armor.gd set it when they are cast
 var retaliate_timer = 0.0 # hits get sent back while this is more than 0
 var knockback_timer = 0.0 # pushed by a shield bash, cant move by yourself
 var knockback_velocity = Vector2.ZERO
@@ -69,6 +76,11 @@ var armor_percent = 0.0
 var weaken_timer = 0.0 # contaminate, my hits do less damage
 var weaken_percent = 0.0
 var attack_cooldown_timer = 0.0
+var cast_timer = 0.0 # an ability is playing, the other one has to wait
+var combat_timer = 0.0 # more than 0 = in combat (no kelp regen)
+var regen_timer = 1.0 # kelp regen heals once every second
+var shot_direction = Vector2.RIGHT # ranged attacks keep the mouse direction from when the swing started
+var stun_label = null # "STUNNED" over the head
 
 # exported so the other players can see my animation
 @export var anim_name = "walk_down"
@@ -77,6 +89,7 @@ var is_swinging = false
 var ability_playing = false # a full body ability animation is showing instead of the walk sprite
 var hit_tween = null # red flash when hit
 var is_dead = false
+var low_health_warned = false # so the warning plays once per low health
 var has_pearl = false
 var cutscene_frozen = false
 @export var net_position = Vector2.ZERO # for smooth movement in multiplayer
@@ -115,9 +128,17 @@ func _ready():
 	sprite_attacks.frame_changed.connect(_on_frame_changed)
 	sprite_ability.animation_finished.connect(_on_ability_effect_finished)
 	health.knocked_out.connect(_on_knocked_out)
+	health.health_changed.connect(_on_health_changed)
 	update_sprites()
 	pearl_indicator.visible = has_pearl
 	_add_feet_shadow()
+	_add_stun_label()
+
+	# players walk through each other, bumping into each other made them shoot off really fast
+	for other in get_tree().get_nodes_in_group("players"):
+		if other != self:
+			add_collision_exception_with(other)
+			other.add_collision_exception_with(self)
 
 	# connect my player to my hud
 	if is_multiplayer_authority():
@@ -150,6 +171,17 @@ func _process(delta):
 		stun_timer -= delta
 	if debuff_slow_timer > 0:
 		debuff_slow_timer -= delta
+	if cast_timer > 0:
+		cast_timer -= delta
+	if combat_timer > 0:
+		combat_timer -= delta
+
+	# contaminate is over, take the mark off
+	if weaken_timer <= 0:
+		var mark = get_node_or_null("ContaminateMark")
+		if mark:
+			mark.queue_free()
+	stun_label.visible = stun_timer > 0 and not is_dead and modulate.a > 0.0
 
 	update_sprites()
 
@@ -281,40 +313,28 @@ func _physics_process(delta):
 		return
 
 	move_direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	if move_direction != Vector2.ZERO and not is_dashing and not is_swinging:
+		facing_direction = move_direction # remember last direction (not while dashing or swinging)
 
-	print_timer -= delta
-	if move_direction != Vector2.ZERO:
-		if not is_dashing:
-			facing_direction = move_direction # remember last direction (not while dashing)
-		if print_timer <= 0:
-			if move_direction.y < 0:
-				print("up")
-			elif move_direction.y > 0:
-				print("DOWN")
-			elif move_direction.x < 0:
-				print("LEFT")
-			elif move_direction.x > 0:
-				print("RIGHT")
-			print_timer = 1.0 # 1 sec delay
-	else:
-		print_timer = 0.0
+	# the kelp reveal from my last attack
+	if reveal_timer > 0:
+		reveal_timer -= delta
+		if reveal_timer <= 0:
+			is_revealed_from_attack = false
+			_update_kelp_state()
 
 	if Input.is_action_just_pressed("basic_attack"):
 		start_swing()
 		reveal_from_attack()
 
 	if Input.is_action_just_pressed("primary"):
-		primary_ability.request_use.rpc()
-		reveal_from_attack()
+		try_cast(primary_ability)
 	if Input.is_action_just_pressed("ultimate"):
-		ultimate_ability.request_use.rpc()
-		reveal_from_attack()
+		try_cast(ultimate_ability)
 
 	if Input.is_action_just_pressed("dash"):
 		if dash_cooldown_timer <= 0 and is_dashing == false:
 			start_dash()
-		else:
-			print("Dash is still cooling down.")
 
 	if is_dashing:
 		dash_player(delta)
@@ -323,6 +343,64 @@ func _physics_process(delta):
 
 	move_and_slide()
 	update_animation()
+	kelp_regen_tick(delta)
+
+
+# one ability at a time, pressing E and R together only does the first one
+func try_cast(ability):
+	if cast_timer > 0:
+		return
+	if not ability.can_use() or stun_timer > 0:
+		return
+	cast_timer = max(cast_lock_time, get_cast_time(ability))
+	ability.request_use.rpc(ability.pick_aim(self))
+	reveal_from_attack()
+
+
+# how long the ability pose plays
+func get_cast_time(ability):
+	var anim = str(ability.effect_animation) + "_" + get_facing_name()
+	var frames = sprite_ability.sprite_frames
+	if not frames.has_animation(anim) or frames.get_frame_count(anim) == 0:
+		return 0.0
+	var length = 0.0
+	for i in frames.get_frame_count(anim):
+		length += frames.get_frame_duration(anim, i)
+	return length / (frames.get_animation_speed(anim) * absf(sprite_ability.speed_scale))
+
+
+# in the kelp and nobody hit you for a while = heal a bit every second
+func kelp_regen_tick(delta):
+	if kelp_tile_count <= 0 or combat_timer > 0 or health.current_health >= health.max_health:
+		regen_timer = 1.0
+		return
+	regen_timer -= delta
+	if regen_timer <= 0:
+		regen_timer = 1.0
+		receive_heal.rpc(int(kelp_regen))
+
+
+# from the middle of my body to the mouse, only my own pc can use this
+func get_mouse_offset():
+	var offset = get_global_mouse_position() - (global_position + body_center)
+	if offset.length() < 1.0:
+		return get_swing_direction()
+	return offset
+
+
+func get_mouse_direction():
+	return get_mouse_offset().normalized()
+
+
+# turn to look that way (ranged attacks and aimed abilities)
+func face_toward(direction):
+	if direction == Vector2.ZERO:
+		return
+	facing_direction = direction
+	if not is_swinging:
+		var frozen = anim_frozen
+		update_animation() # picks the walk_ name for the new direction
+		anim_frozen = frozen
 
 
 # dark oval under the feet, same width as the feet collision
@@ -415,10 +493,15 @@ func start_swing():
 		return
 	if attack_cooldown_timer > 0:
 		return # attack speed, too soon
-	attack_cooldown_timer = attack_cooldown
+	attack_cooldown_timer = attack_speed
 	is_swinging = true
 	_play_attack_sound.rpc()
 	anim_frozen = false # swing plays even if standing still
+
+	# every attack goes toward the mouse and faces that way for the whole swing
+	# melee picks the closest of the 4 swings, ranged shoots exactly at the mouse
+	shot_direction = get_mouse_direction()
+	facing_direction = shot_direction
 
 	# put the hitbox in front
 	var swing_dir = get_swing_direction()
@@ -448,13 +531,33 @@ func start_swing():
 	update_animation() # back to walking right away
 
 
+# the basic stats for the character select, they come from the numbers in the scene so the text never needs changing
+func get_basic_stats():
+	var text = ""
+	var hp = get_node_or_null("HealthComponent")
+	if hp:
+		text += "Health: %d\n" % hp.max_health
+	text += "Speed: %d\n" % move_speed
+	if projectile_path != "":
+		text += "Shoots: %d damage, range %d\n" % [attack_damage, projectile_range]
+	else:
+		text += "Melee: %d damage\n" % attack_damage
+	text += "One attack every %ss" % snappedf(attack_speed, 0.01)
+	return text
+
+
 # same rule as update_animation so the swing matches where you face
 func get_swing_direction():
-	if abs(facing_direction.x) > abs(facing_direction.y):
-		if facing_direction.x > 0:
+	return snap_direction(facing_direction)
+
+
+# closest of up, down, left, right
+func snap_direction(direction):
+	if abs(direction.x) > abs(direction.y):
+		if direction.x > 0:
 			return Vector2.RIGHT
 		return Vector2.LEFT
-	if facing_direction.y < 0:
+	if direction.y < 0:
 		return Vector2.UP
 	return Vector2.DOWN
 
@@ -487,7 +590,7 @@ func _on_frame_changed():
 
 	# ranged: shoot instead of hitting what is in front
 	if projectile_path != "":
-		fire_projectile.rpc(projectile_path, get_swing_direction(), get_damage(roll_damage()), projectile_speed, projectile_range)
+		fire_projectile.rpc(projectile_path, shot_direction, get_damage(roll_damage()), projectile_speed, projectile_range)
 		return
 
 	for area in attack_range.get_overlapping_areas(): # only hurtboxes (layer 3)
@@ -508,7 +611,7 @@ func fire_projectile(path: String, direction: Vector2, damage: int, speed: float
 	shot.speed = speed
 	shot.max_range = max_range
 	get_tree().current_scene.add_child(shot)
-	shot.global_position = global_position + body_center + direction * 14.0
+	shot.global_position = global_position + body_center + direction * projectile_forward + Vector2(0, projectile_y)
 	shot.z_index = 1 # over the floor tiles (the arena sorts by y)
 
 
@@ -529,6 +632,11 @@ func receive_hit(amount, attacker_name):
 	if is_host and was_alive:
 		ScoreboardManager.record_damage(str(name).to_int(), str(attacker_name).to_int())
 
+	# both of us are in combat now (no kelp regen for a few seconds)
+	combat_timer = combat_time
+	if attacker != null:
+		attacker.combat_timer = attacker.combat_time
+
 	# corroded armor takes some of it
 	if armor_timer > 0:
 		amount = max(1, int(round(amount * (1.0 - armor_percent))))
@@ -540,10 +648,11 @@ func receive_hit(amount, attacker_name):
 			well.interrupt_channel(self)
 	if was_alive:
 		show_damage_number(amount)
-	if team == 0:
-		SFXManager.play_at("hurt_sea", global_position)
-	else:
-		SFXManager.play_at("hurt_garbage", global_position)
+		SFXManager.play_at("hit", global_position)
+		if team == 0:
+			SFXManager.play_at("hurt_sea", global_position)
+		else:
+			SFXManager.play_at("hurt_garbage", global_position) # only hurt while alive, dead bodies were still screaming
 
 	if is_host and was_alive and health.current_health <= 0.0:
 		ScoreboardManager.record_death(str(name).to_int(), str(attacker_name).to_int())
@@ -590,8 +699,7 @@ func stun(time: float):
 	if is_dead:
 		return
 	stun_timer = max(stun_timer, time)
-	is_dashing = false
-	show_status_text("STUN", Color(1.0, 0.9, 0.3))
+	is_dashing = false # the STUNNED text over the head shows while stun_timer runs
 
 
 # scatter debris, slower for a few seconds. runs on every pc
@@ -610,15 +718,12 @@ func apply_weaken(percent: float, time: float):
 	if is_dead:
 		return
 	weaken_percent = percent
-	weaken_timer = time
+	weaken_timer = max(weaken_timer, time)
+	if get_node_or_null("ContaminateMark"):
+		return # already weak, the time just got longer (still standing in the goo)
 	show_status_text("WEAK", Color(0.85, 0.45, 0.95))
-	var old = get_node_or_null("ContaminateMark")
-	if old:
-		old.name = "OldMark" # so the new one can use the name
-		old.queue_free()
-	var mark = load("res://Celebes Abyssal Tides/scenes/player/fx/ContaminateMark.tscn").instantiate()
-	mark.name = "ContaminateMark"
-	mark.life = time
+	var mark = load("res://Celebes Abyssal Tides/scenes/player/fx/Monsters/ToxicSludge/ContaminateMark.tscn").instantiate()
+	mark.name = "ContaminateMark" # _process takes it off when weaken_timer runs out
 	add_child(mark)
 	mark.position = Vector2(0, label.offset_bottom + 18) # just under the name
 
@@ -633,7 +738,25 @@ func show_damage_number(amount):
 	number.show_damage(amount)
 
 
-# small word over the head (STUN, SLOW, WEAK), uses the damage number scene
+# "STUNNED" over the name, shows while stun_timer is more than 0 (see _process)
+func _add_stun_label():
+	stun_label = Label.new()
+	stun_label.name = "StunLabel"
+	stun_label.text = "STUNNED"
+	stun_label.add_theme_font_override("font", GameManager.PIXEL_FONT)
+	stun_label.add_theme_font_size_override("font_size", 16)
+	stun_label.add_theme_constant_override("outline_size", 4)
+	stun_label.add_theme_color_override("font_outline_color", Color.BLACK)
+	stun_label.add_theme_color_override("font_color", Color(1.0, 0.9, 0.3))
+	stun_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	stun_label.size = Vector2(80, 16)
+	stun_label.position = Vector2(-40, label.offset_top - 14) # just over the name
+	stun_label.z_index = 2
+	stun_label.visible = false
+	add_child(stun_label)
+
+
+# small word over the head (SLOW, WEAK), uses the damage number scene
 func show_status_text(text, color):
 	if modulate.a == 0.0:
 		return
@@ -668,9 +791,20 @@ func set_has_pearl(value):
 	pearl_indicator.visible = value
 
 
+# only my own pc hears the warning
+func _on_health_changed(current_health, max_health):
+	if not is_multiplayer_authority():
+		return
+	var is_low = current_health > 0.0 and current_health <= max_health * low_health_percent
+	if is_low and not low_health_warned:
+		SFXManager.play_ui("low_health_warning")
+	low_health_warned = is_low
+
+
 # runs on every peer
 func _on_knocked_out():
 	is_dead = true
+	SFXManager.play_at("player_death", global_position)
 	is_swinging = false
 	is_dashing = false
 	stop_ability_effect() # so the body sprite is the one that fades out
@@ -700,6 +834,8 @@ func _on_knocked_out():
 	debuff_slow_timer = 0.0
 	armor_timer = 0.0
 	weaken_timer = 0.0
+	cast_timer = 0.0
+	combat_timer = 0.0
 	# remove the buff and debuff effects stuck on me
 	for fx_name in ["RetaliateAura", "CorrodedAura", "HealAura", "HealGround", "ContaminateMark"]:
 		var fx = get_node_or_null(fx_name)
@@ -737,7 +873,6 @@ func pick_spawn_point():
 	else:
 		spawns = arena.find_child("TeamRightSpawns")
 	if spawns == null or spawns.get_child_count() == 0:
-		print("No team spawns found, respawning in place")
 		return global_position
 
 	var spawn = spawns.get_child(randi() % spawns.get_child_count()) # random one
@@ -772,7 +907,6 @@ func start_dash():
 	reveal_from_attack()
 	play_launch_fx.rpc(dash_direction)
 	_play_dash_sound.rpc()
-	print("Dash started!")
 
 
 func dash_player(delta):
@@ -780,7 +914,6 @@ func dash_player(delta):
 	dash_timer -= delta
 	if dash_timer <= 0:
 		is_dashing = false
-		print("Dash ended.")
 
 
 @rpc("authority", "call_local")
@@ -820,7 +953,6 @@ func set_kelp_state(is_concealed: bool):
 
 
 func _apply_visibility():
-	print(name, " - authority: ", is_multiplayer_authority(), " - hidden: ", is_hidden_in_kelp)
 	if not is_hidden_in_kelp:
 		modulate.a = 1.0
 		return
@@ -844,20 +976,14 @@ func _get_local_player():
 	return null
 
 
+# attacking takes you out of the kelp for a moment, attacking again starts the time over
+# _physics_process counts it down, before it was an await so a second attack ended the first one early
 func reveal_from_attack():
+	reveal_timer = reveal_time
+	if is_revealed_from_attack:
+		return
 	is_revealed_from_attack = true
 	_update_kelp_state()
-	await get_tree().create_timer(1.5).timeout
-	is_revealed_from_attack = false
-	_update_kelp_state()
-
-
-@rpc("any_peer", "call_local")
-func set_kelp_visibility(is_concealed: bool):
-	if is_concealed:
-		modulate.a = 0.2
-	else:
-		modulate.a = 1.0
 
 
 @rpc("authority", "call_local", "unreliable")

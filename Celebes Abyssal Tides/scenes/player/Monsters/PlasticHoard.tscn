@@ -774,10 +774,14 @@ size = Vector2(26, 46)
 body_center = Vector2(0, -22)
 swing_hit_frames = {"top_swing": 2, "bottom_swing": 2, "right_swing": 2, "left_swing": 2}
 attack_offset = 30.0
-attack_cooldown = 0.77
-projectile_path = "res://Celebes Abyssal Tides/scenes/player/fx/PlasticPellet.tscn"
+move_speed = 150.0
+attack_damage = 15.0
+attack_speed = 1.4
+projectile_path = "res://Celebes Abyssal Tides/scenes/player/fx/Monsters/PlasticHoard/PlasticPellet.tscn"
 projectile_speed = 460.0
 projectile_range = 300.0
+projectile_forward = 30.0
+projectile_y = 5.0
 
 [node name="AnimatedSpriteWalk" parent="." index="0" unique_id=55903766]
 position = Vector2(0, -23)

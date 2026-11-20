@@ -9,6 +9,7 @@ const PUSH = 60.0 # how far they get pushed
 const STUN_TIME = 0.5 # stunned after the push
 const COOLDOWN = 10.0
 const HIT_DELAY = 0.15 # wait for the frame where the shield hits
+const IMPACT = preload("res://Celebes Abyssal Tides/scenes/player/fx/SeaNomad/Minahasan/ShieldBashImpact.tscn")
 
 
 # in _ready so these win over the numbers saved in the character scene
@@ -17,16 +18,26 @@ func _ready():
 	cooldown_time = COOLDOWN
 
 
+func get_stats():
+	return "Hits the enemies in front, pushes them back and stuns
+Damage: %d
+Stun: %ss
+Range: %d" % [DAMAGE, STUN_TIME, RANGE]
+
+
 func _execute(caster):
 	if not is_instance_valid(caster):
 		return
 	SFXManager.play_at("spear_thrust", caster.global_position)
-	if not caster.is_multiplayer_authority():
-		return
-
-	var direction = caster.get_swing_direction()
+	var direction = aim_direction
 	await get_tree().create_timer(HIT_DELAY).timeout
 	if not is_instance_valid(caster) or caster.is_dead:
+		return
+	# burst in front of the shield (every pc)
+	var impact = spawn_fx(caster, IMPACT, center_of(caster) + direction * RANGE * 0.5)
+	impact.rotation = direction.angle()
+
+	if not caster.is_multiplayer_authority():
 		return
 
 	for target in find_enemies(caster, center_of(caster), RANGE, direction):

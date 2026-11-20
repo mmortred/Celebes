@@ -4,6 +4,7 @@ extends Control
 # character_select.gd changes the border, the text on top and if you can click it
 
 signal picked(character_id)
+signal hovered(character_id) # -1 when the mouse leaves
 
 @export var character_id = 0
 @export var character_name = "BUGIS"
@@ -24,6 +25,8 @@ func _ready():
 	portrait.visible = icon != null
 	missing.visible = icon == null # "?" if theres no art yet
 	button.pressed.connect(_on_button_pressed)
+	button.mouse_entered.connect(hovered.emit.bind(character_id))
+	button.mouse_exited.connect(hovered.emit.bind(-1))
 
 
 func _on_button_pressed():

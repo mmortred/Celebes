@@ -8,9 +8,10 @@ const TICKS = 4
 const HEAL_PER_TICK = 4 # 4 ticks x 4 HP = 16 HP
 const TICK_TIME = 0.5 # 4 ticks x 0.5 = 2 seconds
 const COOLDOWN = 13.0
-const PULSE = preload("res://Celebes Abyssal Tides/scenes/player/fx/HealPulse.tscn")
-const AURA = preload("res://Celebes Abyssal Tides/scenes/player/fx/HealAura.tscn")
-const GROUND = preload("res://Celebes Abyssal Tides/scenes/player/fx/HealGround.tscn")
+const PULSE_ART_RADIUS = 48.0 # how far the ring png reaches, so the ring is as big as RANGE
+const PULSE = preload("res://Celebes Abyssal Tides/scenes/player/fx/SeaNomad/Bajau/HealPulse.tscn")
+const AURA = preload("res://Celebes Abyssal Tides/scenes/player/fx/SeaNomad/Bajau/HealAura.tscn")
+const GROUND = preload("res://Celebes Abyssal Tides/scenes/player/fx/SeaNomad/Bajau/HealGround.tscn")
 
 
 # in _ready so these win over the numbers saved in the character scene
@@ -19,11 +20,18 @@ func _ready():
 	cooldown_time = COOLDOWN
 
 
+func get_stats():
+	return "Heals her and the allies close to her
+Heal: %d HP over %ss
+Range: %d" % [TICKS * HEAL_PER_TICK, TICKS * TICK_TIME, RANGE]
+
+
 func _execute(caster):
 	if not is_instance_valid(caster):
 		return
 	SFXManager.play_at("bubble_strike", caster.global_position)
-	spawn_fx(caster, PULSE, caster.global_position)
+	var pulse = spawn_fx(caster, PULSE, caster.global_position)
+	fit_fx(pulse, RANGE, PULSE_ART_RADIUS)
 	# green glow on the floor under her and plus signs around her for the whole heal
 	for scene in [GROUND, AURA]:
 		var fx = scene.instantiate()

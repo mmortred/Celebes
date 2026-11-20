@@ -21,10 +21,17 @@ var connect_ok = false
 func _ready():
 	if has_node("OptionsButton"):
 		$OptionsButton.pressed.connect(_open_settings)
+	if has_node("QuitButton"):
+		$QuitButton.pressed.connect(_on_quit_button_pressed)
 	# sent back by the host (lobby full, kicked), show why
 	if NetworkManager.join_error != "":
 		_set_status(NetworkManager.join_error)
 		NetworkManager.join_error = ""
+
+
+# closes the game (the button had nothing connected to it)
+func _on_quit_button_pressed():
+	get_tree().quit()
 
 
 func _on_pvp_button_pressed():
@@ -42,7 +49,6 @@ func _on_back_button_pressed():
 
 # opens the join popup (lobbies on the network + ip box)
 func _on_join_button_pressed():
-	print("JOIN button pressed")
 	if connecting or is_instance_valid(join_panel):
 		return
 	ip_input.visible = false
@@ -53,7 +59,6 @@ func _on_join_button_pressed():
 
 
 func _on_ip_input_text_submitted(new_text):
-	print("JOIN submitted: [", new_text, "]")
 	if connecting:
 		return
 	var ip = new_text.strip_edges()
@@ -116,7 +121,6 @@ func _on_connect_failed():
 
 
 func _on_host_button_pressed():
-	print("HOST button pressed")
 	if NetworkManager.host_game():
 		_set_status("Hosting on UDP 7777")
 		var err = get_tree().change_scene_to_file(LOBBY_PATH)
@@ -127,7 +131,6 @@ func _on_host_button_pressed():
 
 
 func _set_status(message):
-	print("MENU: ", message)
 	var status = get_node_or_null("ConnectionStatus")
 	if status != null:
 		status.text = message

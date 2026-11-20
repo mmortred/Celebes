@@ -4,13 +4,25 @@
 [ext_resource type="Texture2D" path="res://Celebes Abyssal Tides/assets/ui/abilities/cooldown_cover.png" id="2_cover"]
 [ext_resource type="FontFile" path="res://Celebes Abyssal Tides/assets/font/monogram.ttf" id="3_font"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBox_tip"]
+content_margin_left = 5.0
+content_margin_top = 3.0
+content_margin_right = 5.0
+content_margin_bottom = 4.0
+bg_color = Color(0.05, 0.07, 0.11, 0.92)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.88, 0.45, 1)
+
 [node name="AbilitySlot" type="Control"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 3
 anchors_preset = 0
 offset_right = 32.0
 offset_bottom = 32.0
-mouse_filter = 2
+mouse_filter = 1
 script = ExtResource("1_slot")
 
 [node name="Icon" type="TextureRect" parent="."]
@@ -57,3 +69,23 @@ theme_override_fonts/font = ExtResource("3_font")
 theme_override_font_sizes/font_size = 16
 text = "E"
 horizontal_alignment = 1
+
+[node name="Tooltip" type="PanelContainer" parent="."]
+visible = false
+z_index = 10
+layout_mode = 0
+offset_top = -60.0
+offset_right = 160.0
+offset_bottom = -4.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBox_tip")
+
+[node name="Label" type="Label" parent="Tooltip"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.94, 1, 1)
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 16
+theme_override_constants/line_spacing = -4
+text = "Ability"
+autowrap_mode = 2

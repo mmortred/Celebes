@@ -798,6 +798,11 @@ animations = [{
 
 [node name="Player" unique_id=447082359 instance=ExtResource("1_gqejy")]
 body_center = Vector2(0, -20)
+swing_hit_frames = {"top_swing": 2, "bottom_swing": 2, "right_swing": 3, "left_swing": 3}
+attack_offset = 24.0
+move_speed = 170.0
+attack_damage = 15.0
+attack_speed = 1.0
 
 [node name="AnimatedSpriteWalk" parent="." index="0" unique_id=55903766]
 position = Vector2(0, -23)
@@ -847,3 +852,6 @@ effect_animation = &"spear_thrust"
 script = ExtResource("script_riptide_sweep")
 ability_name = "Riptide Sweep"
 effect_animation = &"riptide_sweep"
+
+[node name="HealthComponent" parent="." index="3" unique_id=1331527619]
+max_health = 100.0

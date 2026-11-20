@@ -341,3 +341,88 @@ texture_normal = SubResource("AtlasTexture_ready")
 texture_pressed = SubResource("AtlasTexture_ready_pressed")
 texture_hover = SubResource("AtlasTexture_ready_hover")
 stretch_mode = 5
+
+[node name="DetailsPanel" type="PanelContainer" parent="ScaledCharacterUI"]
+visible = false
+layout_mode = 0
+offset_left = 335.0
+offset_top = 495.0
+offset_right = 950.0
+offset_bottom = 712.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hint")
+
+[node name="DetailName" type="Label" parent="ScaledCharacterUI"]
+visible = false
+layout_mode = 0
+offset_left = 350.0
+offset_top = 502.0
+offset_right = 515.0
+offset_bottom = 534.0
+theme_override_colors/font_color = Color(0.337, 0.863, 0.91, 1)
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 20
+text = "BUGIS"
+
+[node name="DetailStats" type="Label" parent="ScaledCharacterUI"]
+visible = false
+layout_mode = 0
+offset_left = 350.0
+offset_top = 538.0
+offset_right = 510.0
+offset_bottom = 705.0
+theme_override_colors/font_color = Color(0.85, 0.91, 0.94, 1)
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 16
+text = "Health:"
+autowrap_mode = 3
+
+[node name="Skill1Icon" type="TextureRect" parent="ScaledCharacterUI"]
+visible = false
+texture_filter = 1
+layout_mode = 0
+offset_left = 520.0
+offset_top = 505.0
+offset_right = 568.0
+offset_bottom = 553.0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Skill1Text" type="Label" parent="ScaledCharacterUI"]
+visible = false
+layout_mode = 0
+offset_left = 577.0
+offset_top = 502.0
+offset_right = 942.0
+offset_bottom = 600.0
+theme_override_colors/font_color = Color(0.85, 0.91, 0.94, 1)
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 16
+text = "[E]"
+autowrap_mode = 3
+
+[node name="Skill2Icon" type="TextureRect" parent="ScaledCharacterUI"]
+visible = false
+texture_filter = 1
+layout_mode = 0
+offset_left = 520.0
+offset_top = 605.0
+offset_right = 568.0
+offset_bottom = 653.0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Skill2Text" type="Label" parent="ScaledCharacterUI"]
+visible = false
+layout_mode = 0
+offset_left = 577.0
+offset_top = 602.0
+offset_right = 942.0
+offset_bottom = 708.0
+theme_override_colors/font_color = Color(0.85, 0.91, 0.94, 1)
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 16
+text = "[R]"
+autowrap_mode = 3
