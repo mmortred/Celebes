@@ -798,6 +798,7 @@ animations = [{
 
 [node name="Player" unique_id=447082359 instance=ExtResource("1_gqejy")]
 body_center = Vector2(0, -20)
+attack_speed = 1.0
 
 [node name="AnimatedSpriteWalk" parent="." index="0" unique_id=55903766]
 position = Vector2(0, -23)

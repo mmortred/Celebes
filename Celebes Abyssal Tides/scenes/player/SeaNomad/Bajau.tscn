@@ -776,8 +776,8 @@ swing_hit_frames = {"top_swing": 2, "bottom_swing": 2, "right_swing": 2, "left_s
 attack_offset = 30.0
 move_speed = 153.0
 attack_damage = 10.0
-attack_cooldown = 1.5
-projectile_path = "res://Celebes Abyssal Tides/scenes/player/fx/WaterBolt.tscn"
+attack_speed = 1.5
+projectile_path = "res://Celebes Abyssal Tides/scenes/player/fx/SeaNomad/Bajau/WaterBolt.tscn"
 projectile_speed = 380.0
 projectile_range = 260.0
 

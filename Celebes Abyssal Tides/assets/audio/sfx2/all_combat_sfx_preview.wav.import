@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cut5mhg2u3gje"
+path="res://.godot/imported/all_combat_sfx_preview.wav-482976a3a38d6fee3642c01fe7a3fa60.sample"
+
+[deps]
+
+source_file="res://Celebes Abyssal Tides/assets/audio/sfx2/all_combat_sfx_preview.wav"
+dest_files=["res://.godot/imported/all_combat_sfx_preview.wav-482976a3a38d6fee3642c01fe7a3fa60.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

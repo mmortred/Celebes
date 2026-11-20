@@ -15,7 +15,15 @@ const SOUNDS = {
 	"dash": preload("res://Celebes Abyssal Tides/assets/audio/sfx/dash.wav"),
 	"step_sea": preload("res://Celebes Abyssal Tides/assets/audio/sfx/step_sea.wav"),
 	"step_garbage": preload("res://Celebes Abyssal Tides/assets/audio/sfx/step_garbage.wav"),
-	"ui_click": preload("res://Celebes Abyssal Tides/assets/audio/sfx/ui_click.wav")
+	"ui_click": preload("res://Celebes Abyssal Tides/assets/audio/sfx/ui_click.wav"),
+	"hit": preload("res://Celebes Abyssal Tides/assets/audio/sfx2/hit.wav"),
+	"player_death": preload("res://Celebes Abyssal Tides/assets/audio/sfx2/player_death.wav"),
+	"heavy_attack": preload("res://Celebes Abyssal Tides/assets/audio/sfx2/heavy_attack.wav"),
+	"ability_ready": preload("res://Celebes Abyssal Tides/assets/audio/sfx2/ability_ready.wav"),
+	"low_health_warning": preload("res://Celebes Abyssal Tides/assets/audio/sfx2/low_health_warning.wav"),
+	"pearl_drop": preload("res://Celebes Abyssal Tides/assets/audio/sfx2/pearl_drop.wav"),
+	"pearl_spawn": preload("res://Celebes Abyssal Tides/assets/audio/sfx2/pearl_spawn.wav"),
+	"serpent_growl": preload("res://Celebes Abyssal Tides/assets/audio/sfx2/five_minute_sea_dragon_growl.wav")
 }
 const SAVE_PATH = "user://sfx_settings.cfg"
 

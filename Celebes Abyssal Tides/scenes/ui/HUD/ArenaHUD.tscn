@@ -504,6 +504,20 @@ theme_override_fonts/font = ExtResource("13_guqs1")
 theme_override_font_sizes/font_size = 16
 text = "TUNA RUSH 15"
 
+[node name="InCombatLabel" type="Label" parent="PlayerStats"]
+visible = false
+layout_mode = 0
+offset_left = 164.0
+offset_top = 56.0
+offset_right = 344.0
+offset_bottom = 72.0
+theme_override_colors/font_color = Color(1, 0.45, 0.4, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("13_guqs1")
+theme_override_font_sizes/font_size = 16
+text = "IN COMBAT"
+
 [node name="KillFeed" type="Control" parent="."]
 layout_mode = 0
 offset_left = 392.0

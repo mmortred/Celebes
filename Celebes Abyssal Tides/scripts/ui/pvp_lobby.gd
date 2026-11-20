@@ -15,13 +15,13 @@ const NAME_READY = Color(0.55, 1.0, 0.55) # green name when ready
 const HOST_PEER_ID = 1 # host is always id 1 in godot
 
 @onready var host_ip_label = $HostIpLabel
+@onready var start_status = $StartStatusLabel # host only, the waiting text under START (move it in the scene)
 @onready var start_button = $StartButton
 @onready var ready_button = $ReadyButton
 @onready var unready_button = $UnreadyButton
 @onready var back_button = $BackButton
 
 var all_slots = [] # all slot nodes, all_slots[0] is slot 0
-var start_status = null # host only, text under START
 
 # slot number -> peer id, empty slots are not in here
 var slots = {}
@@ -118,17 +118,7 @@ func setup_role_ui():
 		ready_button.hide()
 		unready_button.hide()
 		host_ip_label.text = "IP: " + " / ".join(get_all_ipv4())
-		# the lobby is 1280x720 scaled to half so the numbers are big
-		start_status = Label.new()
-		start_status.position = Vector2(340, 612)
-		start_status.size = Vector2(600, 28)
-		start_status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		start_status.add_theme_font_override("font", GameManager.PIXEL_FONT) # same pixel font as the rest of the lobby
-		start_status.add_theme_font_size_override("font_size", 32)
-		start_status.add_theme_constant_override("outline_size", 6)
-		start_status.add_theme_color_override("font_outline_color", Color.BLACK)
-		start_status.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		add_child(start_status)
+		start_status.show()
 	else:
 		start_button.hide()
 		back_button.show()
@@ -270,8 +260,8 @@ func can_start_game():
 
 # host only: START is faded until everyone is ready
 func update_start_state():
-	if start_status == null:
-		return
+	if not start_status.visible:
+		return # only the host sees it
 	if multiplayer.multiplayer_peer == null or not multiplayer.is_server():
 		return
 

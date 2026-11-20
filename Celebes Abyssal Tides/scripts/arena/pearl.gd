@@ -73,6 +73,7 @@ func dropped(drop_position: Vector2):
 	global_position = drop_position
 	visible = true
 	collect_area.set_deferred("monitoring", true)
+	SFXManager.play_at("pearl_drop", drop_position)
 	GameManager.announcement.emit("PEARL DROPPED!", -1)
 
 
@@ -113,4 +114,5 @@ func back_home():
 	global_position = home_position
 	visible = true
 	collect_area.set_deferred("monitoring", true)
+	SFXManager.play_at("pearl_spawn", home_position)
 	GameManager.announcement.emit("The pearl is back in the clam", -1)

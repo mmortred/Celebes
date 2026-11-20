@@ -15,6 +15,12 @@ func _ready():
 	cooldown_time = COOLDOWN
 
 
+func get_stats():
+	return "Long stab at the closest enemy in front
+Damage: %d
+Range: %d" % [DAMAGE, RANGE]
+
+
 func _execute(caster):
 	if not is_instance_valid(caster):
 		return
@@ -22,7 +28,7 @@ func _execute(caster):
 	if not caster.is_multiplayer_authority():
 		return
 
-	var direction = caster.get_swing_direction()
+	var direction = aim_direction
 	await get_tree().create_timer(HIT_DELAY).timeout
 	if not is_instance_valid(caster) or caster.is_dead:
 		return

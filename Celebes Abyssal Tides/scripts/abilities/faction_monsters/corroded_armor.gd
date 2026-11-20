@@ -7,13 +7,19 @@ const DAMAGE_REDUCTION = 0.5 # takes 50% less damage
 const BUFF_TIME = 4.0
 const COOLDOWN = 12.0
 # how much gets sent back is reflect_percent in his scene (player.gd)
-const AURA = preload("res://Celebes Abyssal Tides/scenes/player/fx/CorrodedAura.tscn")
+const AURA = preload("res://Celebes Abyssal Tides/scenes/player/fx/Monsters/RustyLeviathan/CorrodedAura.tscn")
 
 
 # in _ready so these win over the numbers saved in the character scene
 func _ready():
 	ability_name = "Corroded Armor"
 	cooldown_time = COOLDOWN
+
+
+func get_stats():
+	return "Takes less damage and sends some of it back
+Less damage: %d%%
+Time: %ss" % [DAMAGE_REDUCTION * 100, BUFF_TIME]
 
 
 func _execute(caster):
