@@ -14,13 +14,6 @@ func _ready():
 	cooldown_time = COOLDOWN
 
 
-func get_stats():
-	return "She and the allies close to her move faster
-Speed: +40%%
-Time: %ss
-Range: %d" % [BUFF_TIME, RANGE]
-
-
 func _execute(caster):
 	if not is_instance_valid(caster):
 		return

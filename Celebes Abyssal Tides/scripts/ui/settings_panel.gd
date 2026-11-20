@@ -141,7 +141,7 @@ func _build_audio_page(right):
 	page_audio.add_theme_constant_override("separation", 15)
 	right.add_child(page_audio)
 
-	page_audio.add_child(_label("MUSIC (KULINTANG)", 17))
+	page_audio.add_child(_label("LOBBY MUSIC", 17))
 	var volume_row = HBoxContainer.new()
 	page_audio.add_child(volume_row)
 	volume_row.add_child(_label("Music volume"))

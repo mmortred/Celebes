@@ -12,7 +12,6 @@ const CHARACTER_SCENES = {
 	4: preload("res://Celebes Abyssal Tides/scenes/player/Monsters/RustyLeviathan.tscn"),
 	5: preload("res://Celebes Abyssal Tides/scenes/player/Monsters/ToxicSludge.tscn"),
 }
-const SETTINGS_SCENE = preload("res://Celebes Abyssal Tides/scenes/ui/menus/SettingsPanel.tscn")
 const BASE_PLAYER = preload("res://Celebes Abyssal Tides/scenes/player/player.tscn")
 
 # find_child because in MainArena they are inside ArenaUtil
@@ -24,7 +23,6 @@ const BASE_PLAYER = preload("res://Celebes Abyssal Tides/scenes/player/player.ts
 @onready var barrier_walls = {0: get_node_or_null("SeaNomadBarrierWall"), 1: get_node_or_null("GarbageBarrierWall")}
 
 var players_spawned = false
-var settings_panel = null # Esc opens the settings (music and sfx volume) in the arena
 var late_phase = false # after 5 minutes: inner wells and spawns, border closes
 var barrier_team = -2 # team whose wall is up, -1 = none, -2 = not set yet
 
@@ -49,23 +47,6 @@ func _ready():
 		CharacterSelectManager.everyone_in_arena.connect(spawn_players)
 	CharacterSelectManager.report_arena_ready()
 	_set_barrier(-1) # both walls down
-
-
-# Esc opens and closes the settings, the match keeps going behind it
-func _unhandled_input(event):
-	if not event is InputEventKey:
-		return
-	if not event.pressed or event.echo or event.keycode != KEY_ESCAPE:
-		return
-	if is_instance_valid(settings_panel):
-		settings_panel.queue_free()
-		return
-	var layer = CanvasLayer.new()
-	layer.layer = 100 # over the hud
-	add_child(layer)
-	settings_panel = SETTINGS_SCENE.instantiate()
-	layer.add_child(settings_panel)
-	settings_panel.tree_exited.connect(layer.queue_free)
 
 
 # check the pearl every frame so all peers agree without rpcs

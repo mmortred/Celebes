@@ -32,7 +32,6 @@ func _ready():
 		camera_offset = camera.offset
 	GameManager.match_paused = true # timer and border stop during the cutscene
 	anim.animation_finished.connect(_on_animation_finished)
-	SFXManager.play_ui("serpent_growl")
 	anim.play("awakening")
 
 

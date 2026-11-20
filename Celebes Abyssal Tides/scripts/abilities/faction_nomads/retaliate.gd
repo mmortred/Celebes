@@ -4,7 +4,7 @@ extends ability_base
 # player.gd receive_hit does the sending back, this just starts the timer and the glow on every pc
 
 const BUFF_TIME = 3.0
-const AURA = preload("res://Celebes Abyssal Tides/scenes/player/fx/SeaNomad/Minahasan/RetaliateAura.tscn")
+const AURA = preload("res://Celebes Abyssal Tides/scenes/player/fx/RetaliateAura.tscn")
 const COOLDOWN = 10.0
 
 
@@ -12,11 +12,6 @@ const COOLDOWN = 10.0
 func _ready():
 	ability_name = "Retaliate"
 	cooldown_time = COOLDOWN
-
-
-func get_stats():
-	return "Sends back half of the damage he takes
-Time: %ss" % BUFF_TIME
 
 
 func _execute(caster):

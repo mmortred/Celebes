@@ -7,14 +7,11 @@ The Garbage Monsters stole the Abyssal Pearls that keep the sea cool, and now th
 ## Controls
 
 - **WASD** - move
-- **Left click**, right click or **Q** - attack toward the mouse (melee swings the closest of the 4 ways, ranged shoots exactly at it)
-- **Mouse** - aims attacks and abilities, Plastic Shot, Scatter Debris and Contaminate go exactly where it is
+- **Left click**, right click or **Q** - attack
 - **Space** - dash (10 second cooldown)
-- **E** and **R** - ability 1 and ability 2, the icons at the bottom show the cooldown, hover them to see the stats
-- Only one ability at a time, pressing E and R together only does the first one
+- **E** and **R** - ability 1 and ability 2, the icons at the bottom show the cooldown
 - **Tab** - scoreboard
 - **V** - hide the HUD when spectating
-- **F11** - fullscreen or window (the game starts fullscreen and fits any screen size)
 
 ## How to play
 
@@ -24,7 +21,7 @@ Grab the pearl from the clam in the middle and bring it to your team's well.
 
 - Stand in your well for 2.5 seconds to score, a yellow bar fills up over the well
 - If you get hit while channeling, the bar starts over
-- Carrying the pearl makes you 20% slower
+- Carrying the pearl makes you 15% slower
 - If you die with the pearl, you drop it where you died
 - First team to 12 pearls wins (PEARLS_TO_WIN in GameManager.gd)
 
@@ -65,28 +62,23 @@ Tanks have 120 HP, the ranged striker has 90 and everyone else has 100.
 **Garbage Monsters**
 
 - **Plastic Hoard** (ranged striker, 90 HP, shoots a bottle cap every 0.77 seconds)
-- **Plastic Shot (E)** - big bottle shot at the mouse, 25 damage to the first enemy it hits, 600 range (10s cooldown)
-- **Scatter Debris (R)** - junk rains down in a straight line toward the mouse, 360 long, piles land one after another, 10 damage and 30% slower for 2 seconds (8s cooldown)
+- **Plastic Shot (E)** - big bottle shot, 25 damage to the first enemy it hits, 600 range (10s cooldown)
+- **Scatter Debris (R)** - junk rains down in front of him up to 360 away, 10 damage and 30% slower for 2 seconds (8s cooldown)
 - **Rusty Leviathan** (tank, 120 HP, 0.7x attack speed)
 - **Crushing Slam (E)** - anchor smash in front, 35 damage, pushes back and stuns for 0.5 seconds, 78 range (8s cooldown)
 - **Corroded Armor (R)** - takes 50% less damage for 4 seconds and sends half of it back (12s cooldown)
 - **Toxic Sludge** (melee support, 100 HP, attacks every second)
 - **Toxic Mist (E)** - poison cloud around him for 2 seconds, 8 damage per second within 90 (9s cooldown)
-- **Contaminate (R)** - throws a big glob of poison goo where the mouse is (up to 150 away), it splats into one big puddle for 3 seconds, enemies in it take 6 damage per second and their damage goes down 30% (9s cooldown)
+- **Contaminate (R)** - poison goo on the closest enemy in front within 78, their damage goes down 30% for 3 seconds (9s cooldown)
 
 Every number is a const at the top of the ability script (like **DAMAGE** and **COOLDOWN** in **spear_thrust.gd**). HP, attack speed and move speed are in each character's scene.
 
 ### Other stuff
 
 - Hiding in kelp makes you invisible to enemies, attacking or dashing shows you for a bit
-- Kelp heals 8 HP every second when you are out of combat
-- Hitting someone or getting hit puts you IN COMBAT for 4 seconds (shows under your HP)
-- Shots stop at walls, players walk through each other
-- STUNNED shows over a player for as long as the stun lasts
 - The right side of the screen, under the map, shows which team has the pearl and the last 2 kills
 - All 6 characters are playable
-- SLOW and WEAK pop up over a player when they get hit by one
-- After the match click BACK TO LOBBY
+- STUN, SLOW and WEAK pop up over a player when they get hit by one
 
 ## Playing with friends
 
@@ -272,7 +264,7 @@ All 6 characters have their art and both abilities now.
 - **faction_monsters** - **plastic_shot.gd**, **scatter_debris.gd**, **crushing_slam.gd**, **corroded_armor.gd**, **toxic_mist.gd** and **contaminate.gd**
 - **ability_base.gd** - **find_enemies**, **find_closest_enemy** and **spawn_fx** that every ability uses, and the icon for the HUD
 - each ability sets its name and cooldown in **_ready**, so the const in the script is the only place to change it
-- **player.gd** - **stun**, **apply_slow** and **apply_weaken** rpcs, corroded armor damage reduction, **attack_speed** (seconds between basic attacks, it shows in every player scene), and **projectile_path** for ranged basic attacks
+- **player.gd** - **stun**, **apply_slow** and **apply_weaken** rpcs, corroded armor damage reduction, **attack_cooldown** for attack speed, and **projectile_path** for ranged basic attacks
 - **projectile.gd** and **WaterBolt.tscn**, **PlasticPellet.tscn**, **PlasticShotBolt.tscn** - shots every pc sees, only the shooters own pc deals the damage
 - **scenes/player/fx** - SlamCrack, CorrodedAura, ToxicMistCloud, ContaminateMark, ScatterDebrisFx, HealAura and HealGround
 - **PlasticHoard.tscn**, **RustyLeviathan.tscn** and **ToxicSludge.tscn** - scale 1.3, a bit bigger than the Sea Nomads
@@ -282,38 +274,3 @@ All 6 characters have their art and both abilities now.
 - clicking your own character again does nothing
 - **NetworkManager.gd** - sends players away with a message when the lobby is full or the match started, and moves everyone to the new host
 - **PlayerSlot.tscn** and **pvp_lobby.gd** - KICK and HOST buttons for the host
-
-### 21: Bug Fixes, Mouse Aim and Kelp Regen
-
-- **menu_buttons.gd** - the QUIT button closes the game now (nothing was connected to it)
-- **ability_base.gd** - **spawn_fx** takes the life before the effect is added, the toxic mist cloud stayed forever before
-- **ability_base.gd** - **request_use** sends the aim direction so every pc uses the same one, **aim_with_mouse** for the aimed abilities, **get_info** for the hover box
-- **player.gd** - attacks and abilities turn you to the mouse and keep that direction for the whole swing, so the shot never comes out the back while kiting
-- **player.gd** - **try_cast** stops 2 abilities at the same time, **combat_timer** (4 seconds), kelp regen (**kelp_regen**), STUNNED label and the pearl carrier is 20% slower
-- **player.gd** - players dont collide with each other anymore, bumping into someone made you fly off
-- **projectile.gd** - shots hit when their path touches the HurtBox (same box as melee) and stop at walls (checked at the feet, every pc)
-- **contaminate.gd** - a big glob falls where the mouse is and turns into one big puddle (**ContaminateDrop.tscn** and **ContaminateBigPool.tscn**)
-- **scatter_debris.gd** - the junk lands in a straight line toward the mouse, one pile after another
-- **AbilitySlot.tscn** - hover box with the ability stats
-- **ArenaHUD.tscn** - IN COMBAT label, and a BACK TO LOBBY button after the match instead of any key
-- **WallTileSet.tres** - the round pillars sort at their base, you looked like you were standing on top of them before
-
-### 19: Music and Sound Effects
-
-- **LobbyAudio.gd** - the kulintang starts at the intro and never restarts, it fades to ARENA_VOLUME (low, like a floater) in the arena and back up in the menus
-- **settings_panel.gd** - music and SFX sliders, press Esc in the arena to open them
-- **SFXManager.gd** - the sfx2 sounds are in: hit, player_death, heavy_attack, ability_ready, low_health_warning, pearl_drop, pearl_spawn, serpent_growl
-- **player.gd** - low_health_percent is when the low health warning plays (only for you)
-- **ability_base.gd** - the ready ping plays for abilities with 3+ seconds cooldown, ultimates play heavy_attack
-- **serpent_awakening.gd** - the sea dragon growl plays with the cutscene
-
-### 20: Lobby Text and Attack Speed
-
-- **PvPLobby.tscn** - **StartStatusLabel** is a node now (the waiting text under START), move it in the 2D view
-- **pvp_lobby.gd** - only changes the text, the host shows the label
-- **player.gd** - **attack_cooldown** is renamed **attack_speed**, every player scene has it
-
-### 21: FX Folders
-
-- **scenes/player/fx** - every effect is in its team and character folder, like **fx/SeaNomad/Bajau/HealPulse.tscn** and **fx/Monsters/ToxicSludge/ToxicMistCloud.tscn**
-- put new effects in the folder of the character that uses them

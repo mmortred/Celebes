@@ -21,17 +21,10 @@ var connect_ok = false
 func _ready():
 	if has_node("OptionsButton"):
 		$OptionsButton.pressed.connect(_open_settings)
-	if has_node("QuitButton"):
-		$QuitButton.pressed.connect(_on_quit_button_pressed)
 	# sent back by the host (lobby full, kicked), show why
 	if NetworkManager.join_error != "":
 		_set_status(NetworkManager.join_error)
 		NetworkManager.join_error = ""
-
-
-# closes the game (the button had nothing connected to it)
-func _on_quit_button_pressed():
-	get_tree().quit()
 
 
 func _on_pvp_button_pressed():

@@ -155,19 +155,3 @@ func notify_serpent_rising():
 @rpc("authority", "call_local", "reliable")
 func notify_match_ended():
 	match_ended.emit()
-
-
-# F11 switches between fullscreen and a window you can resize (works on every screen)
-func _unhandled_input(event):
-	if not event is InputEventKey:
-		return
-	if not event.pressed or event.echo or event.keycode != KEY_F11:
-		return
-	if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN:
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-		DisplayServer.window_set_size(Vector2i(1280, 720))
-		var screen = DisplayServer.window_get_current_screen()
-		var middle = DisplayServer.screen_get_position(screen) + (DisplayServer.screen_get_size(screen) - Vector2i(1280, 720)) / 2
-		DisplayServer.window_set_position(middle)
-	else:
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)

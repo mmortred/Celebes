@@ -9,7 +9,7 @@ const PUSH = 60.0 # how far they get pushed
 const STUN_TIME = 0.5
 const COOLDOWN = 8.0
 const HIT_DELAY = 0.4 # wait for the anchor to hit the ground
-const CRACK = preload("res://Celebes Abyssal Tides/scenes/player/fx/Monsters/RustyLeviathan/SlamCrack.tscn")
+const CRACK = preload("res://Celebes Abyssal Tides/scenes/player/fx/SlamCrack.tscn")
 
 
 # in _ready so these win over the numbers saved in the character scene
@@ -18,17 +18,10 @@ func _ready():
 	cooldown_time = COOLDOWN
 
 
-func get_stats():
-	return "Smashes the anchor in front, pushes back and stuns
-Damage: %d
-Stun: %ss
-Range: %d" % [DAMAGE, STUN_TIME, RANGE]
-
-
 func _execute(caster):
 	if not is_instance_valid(caster):
 		return
-	var direction = aim_direction
+	var direction = caster.get_swing_direction()
 	await get_tree().create_timer(HIT_DELAY).timeout
 	if not is_instance_valid(caster) or caster.is_dead:
 		return

@@ -15,12 +15,6 @@ func _ready():
 	cooldown_time = COOLDOWN
 
 
-func get_stats():
-	return "Spins the spear and hits everyone around him
-Damage: %d
-Radius: %d" % [DAMAGE, RADIUS]
-
-
 func _execute(caster):
 	if not is_instance_valid(caster):
 		return

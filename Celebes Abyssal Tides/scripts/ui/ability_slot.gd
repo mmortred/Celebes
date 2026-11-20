@@ -6,29 +6,8 @@ extends Control
 @onready var cover = $Cooldown
 @onready var time_label = $TimeLabel
 @onready var key_label = $KeyLabel
-@onready var tooltip = $Tooltip
-@onready var tooltip_label = $Tooltip/Label
 
 var ability = null # the ability node on my player
-
-
-func _ready():
-	mouse_entered.connect(_show_tooltip)
-	mouse_exited.connect(_hide_tooltip)
-
-
-# hover the icon = the stats of the ability (from the numbers at the top of its script)
-func _show_tooltip():
-	if ability == null or not is_instance_valid(ability):
-		return
-	tooltip_label.text = ability.get_info()
-	tooltip.visible = true
-	tooltip.reset_size()
-	tooltip.position = Vector2(0, -tooltip.size.y - 4) # just over the icon
-
-
-func _hide_tooltip():
-	tooltip.visible = false
 
 
 func set_ability(new_ability, key_text):

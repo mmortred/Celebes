@@ -51,7 +51,6 @@ size = Vector2(32, 61)
 [node name="Player2" type="CharacterBody2D" unique_id=447082359]
 input_pickable = true
 script = ExtResource("1_8afob")
-attack_speed = 1.0
 
 [node name="AnimatedSpriteWalk" type="AnimatedSprite2D" parent="." unique_id=55903766]
 texture_filter = 1

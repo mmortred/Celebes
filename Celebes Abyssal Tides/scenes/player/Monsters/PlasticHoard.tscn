@@ -774,8 +774,8 @@ size = Vector2(26, 46)
 body_center = Vector2(0, -22)
 swing_hit_frames = {"top_swing": 2, "bottom_swing": 2, "right_swing": 2, "left_swing": 2}
 attack_offset = 30.0
-attack_speed = 0.77
-projectile_path = "res://Celebes Abyssal Tides/scenes/player/fx/Monsters/PlasticHoard/PlasticPellet.tscn"
+attack_cooldown = 0.77
+projectile_path = "res://Celebes Abyssal Tides/scenes/player/fx/PlasticPellet.tscn"
 projectile_speed = 460.0
 projectile_range = 300.0
 

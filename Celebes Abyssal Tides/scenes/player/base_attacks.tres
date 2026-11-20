@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" format=3 uid="uid://bjuinedkt0heo"]
+[gd_resource type="SpriteFrames" format=3]
 
 [ext_resource type="Texture2D" uid="uid://bmecr3amonxb1" path="res://Celebes Abyssal Tides/assets/sprite/SeaNomad1/down atk_spear.png" id="1_nkp1b"]
 [ext_resource type="Texture2D" uid="uid://c8w8taj2x4c87" path="res://Celebes Abyssal Tides/assets/sprite/SeaNomad1/atk left_spear.png" id="2_xl8lp"]

@@ -8,21 +8,15 @@ const TICKS = 4
 const HEAL_PER_TICK = 4 # 4 ticks x 4 HP = 16 HP
 const TICK_TIME = 0.5 # 4 ticks x 0.5 = 2 seconds
 const COOLDOWN = 13.0
-const PULSE = preload("res://Celebes Abyssal Tides/scenes/player/fx/SeaNomad/Bajau/HealPulse.tscn")
-const AURA = preload("res://Celebes Abyssal Tides/scenes/player/fx/SeaNomad/Bajau/HealAura.tscn")
-const GROUND = preload("res://Celebes Abyssal Tides/scenes/player/fx/SeaNomad/Bajau/HealGround.tscn")
+const PULSE = preload("res://Celebes Abyssal Tides/scenes/player/fx/HealPulse.tscn")
+const AURA = preload("res://Celebes Abyssal Tides/scenes/player/fx/HealAura.tscn")
+const GROUND = preload("res://Celebes Abyssal Tides/scenes/player/fx/HealGround.tscn")
 
 
 # in _ready so these win over the numbers saved in the character scene
 func _ready():
 	ability_name = "Heal"
 	cooldown_time = COOLDOWN
-
-
-func get_stats():
-	return "Heals her and the allies close to her
-Heal: %d HP over %ss
-Range: %d" % [TICKS * HEAL_PER_TICK, TICKS * TICK_TIME, RANGE]
 
 
 func _execute(caster):

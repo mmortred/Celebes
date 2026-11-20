@@ -1755,21 +1755,6 @@ text = "IP:
 label_settings = SubResource("LabelSettings_0y71p")
 horizontal_alignment = 1
 
-[node name="StartStatusLabel" type="Label" parent="." unique_id=1700000010]
-visible = false
-layout_mode = 0
-offset_left = 340.0
-offset_top = 612.0
-offset_right = 940.0
-offset_bottom = 640.0
-mouse_filter = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 6
-theme_override_fonts/font = ExtResource("8_3oaqy")
-theme_override_font_sizes/font_size = 32
-text = "Waiting for another player to join"
-horizontal_alignment = 1
-
 [node name="ReadyButton" type="TextureButton" parent="." unique_id=204549604]
 texture_filter = 1
 layout_mode = 1

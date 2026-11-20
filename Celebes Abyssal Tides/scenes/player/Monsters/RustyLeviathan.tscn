@@ -774,7 +774,7 @@ size = Vector2(26, 46)
 body_center = Vector2(0, -22)
 swing_hit_frames = {"top_swing": 2, "bottom_swing": 2, "right_swing": 2, "left_swing": 2}
 attack_offset = 28.0
-attack_speed = 1.43
+attack_cooldown = 1.43
 reflect_percent = 0.5
 
 [node name="AnimatedSpriteWalk" parent="." index="0" unique_id=55903766]
